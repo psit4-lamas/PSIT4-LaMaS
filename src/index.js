@@ -4,6 +4,10 @@ import './index.css';
 import App from './main/App';
 import * as serviceWorker from './serviceWorker';
 
+import firebase from './firebase';
+
+console.log(firebase.fire);
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

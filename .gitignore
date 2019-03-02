@@ -2,12 +2,12 @@
 # Created by https://www.gitignore.io/api/node,macos,windows,firebase,jetbrains+all
 # Edit at https://www.gitignore.io/?templates=node,macos,windows,firebase,jetbrains+all
 
-### Firebase ###
+### Index ###
 .idea
 **/node_modules/*
 **/.firebaserc
 
-### Firebase Patch ###
+### Index Patch ###
 .runtimeconfig.json
 .firebase/
 
@@ -232,4 +232,6 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/node,macos,windows,firebase,jetbrains+all
 build/
+
+firebase-config.dev.js
 
