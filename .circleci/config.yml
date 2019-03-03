@@ -16,6 +16,10 @@ jobs:
       - checkout
 
       - run:
+          name: Install JRE for Sonar scanner
+          command: sudo apt install openjdk-8-jre
+
+      - run:
           name: Print node, npm and yarn versions
           command: node -v && npm -v && yarn -v
 
