@@ -39,14 +39,18 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run:
-          name: Build application
-          command: yarn build
-
       # run tests!
       - run:
           name: Run tests
           command: yarn test
+
+      - run:
+          name: Analyze with Sonar scanner
+          command: ./node_modules/sonar-scanner/bin/sonar-scanner -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.host.url=$SONARQUBE_URL
+
+      - run:
+          name: Build application
+          command: yarn build
 
       - run:
           name: Deploy Master to Firebase
