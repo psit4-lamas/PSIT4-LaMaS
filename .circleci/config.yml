@@ -46,7 +46,7 @@ jobs:
 
       - run:
           name: Analyze with Sonar scanner
-          command: ./node_modules/sonar-scanner/bin/sonar-scanner -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.host.url=$SONARQUBE_URL
+          command: sh ./node_modules/sonar-scanner/bin/sonar-scanner -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.host.url=$SONARQUBE_URL
 
       - run:
           name: Build application
