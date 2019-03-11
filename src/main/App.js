@@ -43,7 +43,7 @@ class App extends Component {
                         target='_blank'
                         rel='noopener noreferrer'
                     >
-                        {t('Welcome.message')}
+                        {t('welcome.message')}
                     </a>
                 </header>
 
