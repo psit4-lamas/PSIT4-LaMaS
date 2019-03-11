@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import logo from '../logo.svg';
 import './App.css';
 import Comment from './Comment/Comment';
-
+import i18n from '../i18n';
+import { withNamespaces } from 'react-i18next';
 
 class App extends Component {
 
@@ -24,6 +25,11 @@ class App extends Component {
     render() {
         const { messages } = this.state;
 
+        const { t } = this.props;
+        const changeLanguage = (lng) => {
+            i18n.changeLanguage(lng);
+        };
+
         return (
             <div className='App'>
                 <header className='App-header'>
@@ -37,7 +43,7 @@ class App extends Component {
                         target='_blank'
                         rel='noopener noreferrer'
                     >
-                        Learn React
+                        {t('Welcome.message')}
                     </a>
                 </header>
 
@@ -52,6 +58,11 @@ class App extends Component {
                     </div>
                 </div>
 
+                <div>
+                    <button onClick={() => changeLanguage('de')}>de</button>
+                    <button onClick={() => changeLanguage('en')}>en</button>
+                </div>
+
                 <footer className='App-footer'>
                     <p>Product from PSIT4 ZHAW course</p>
                     <p>&copy;LaMaS2019</p>
@@ -61,4 +72,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withNamespaces()(App);

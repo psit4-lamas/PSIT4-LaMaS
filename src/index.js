@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './main/App';
+import './i18n';
 import * as serviceWorker from './serviceWorker';
 
 import firebase from './firebase';
