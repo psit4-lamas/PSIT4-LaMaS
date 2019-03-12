@@ -9,11 +9,11 @@ class LoginPage extends Component {
     render() {
 
         return (
-            <div>
+            <React.Fragment>
                 <p>You are not logged in!</p>
 
                 <UserLoginForm/>
-            </div>
+            </React.Fragment>
         );
     }
 }
