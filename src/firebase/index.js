@@ -1,11 +1,27 @@
-import firebase from 'firebase';
-import config from './configLoader';
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/storage";
+import "firebase/functions";
+import "firebase/firestore";
+import config from "./configLoader";
+
+
+const provider = new firebase.auth.EmailAuthProvider();
 
 
 class Firebase {
+    static instance;
 
     constructor() {
-        this.fire = firebase.initializeApp(config);
+        if (Firebase.instance) {
+            return Firebase.instance;
+        }
+
+        console.log(config.default);
+        this.fire = firebase.initializeApp(config.default);
+        this.provider = provider;
+
+        Firebase.instance = this;
     }
 
     auth() {
