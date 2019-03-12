@@ -4,7 +4,7 @@ import LoginGuard from './LoginGuard';
 import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
 import LandingPage from '../pages/LandingPage';
-import TopMenu from '../ComponentMenu/TopMenu';
+// import TopMenu from '../ComponentMenu/TopMenu';
 import LecturesContainer from '../LectureComponents/LecturesContainer';
 
 
@@ -31,7 +31,8 @@ const AppNavigation = () => (
                         {/*<TopMenu/>*/}
                         {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
                         <Route path={ '/lectures' } render={ () => <LecturesContainer base={ '/lectures' }/> }/>
-                        <Route exact path={ '/' } render={ () => <LandingPage base={ '/' }/> }/>
+                        <Route exact path={ '/home' } render={ () => <LandingPage base={ '/home' }/> }/>
+                        <Route exact path={ '/' } render={ () => <LandingPage base={ '/home' }/> }/>
                     </SecureGuard>
                 ) }
             />
