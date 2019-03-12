@@ -4,8 +4,8 @@ import LoginGuard from './LoginGuard';
 import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
 import LandingPage from '../pages/LandingPage';
+import LecturePage from '../pages/LecturePage';
 // import TopMenu from '../ComponentMenu/TopMenu';
-import LecturesContainer from '../LectureComponents/LecturesContainer';
 
 
 const AppNavigation = () => (
@@ -30,7 +30,7 @@ const AppNavigation = () => (
                         {/*       based on the child Component content (Sprint 2) */ }
                         {/*<TopMenu/>*/}
                         {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
-                        <Route path={ '/lectures' } render={ () => <LecturesContainer base={ '/lectures' }/> }/>
+                        <Route path={ '/lectures' } render={ () => <LecturePage base={ '/lectures' }/> }/>
                         <Route exact path={ '/home' } render={ () => <LandingPage base={ '/' }/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage base={ '/' }/> }/>
                     </SecureGuard>
