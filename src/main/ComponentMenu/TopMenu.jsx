@@ -38,7 +38,7 @@ class TopMenu extends Component {
                 </Menu>
 
                 <Segment>
-                    <p>paragraph</p>
+                    <p>some other sub menu (see moqups)</p>
                 </Segment>
             </div>
         );

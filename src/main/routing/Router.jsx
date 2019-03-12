@@ -5,7 +5,7 @@ import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
 import LandingPage from '../pages/LandingPage';
 import TopMenu from '../ComponentMenu/TopMenu';
-import LecturesContainer from '../LecturePage/LecturesContainer';
+import LecturesContainer from '../LectureComponents/LecturesContainer';
 
 
 const AppNavigation = () => (
@@ -28,7 +28,7 @@ const AppNavigation = () => (
                         {/*     where TopMenu Component can be placed as parent Component */ }
                         {/* TODO: make TopMenu to add a tab with the corresponding subject name */ }
                         {/*       based on the child Component content (Sprint 2) */ }
-                        <TopMenu/>
+                        {/*<TopMenu/>*/}
                         {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
                         <Route path={ '/lectures' } render={ () => <LecturesContainer base={ '/lectures' }/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage base={ '/' }/> }/>
