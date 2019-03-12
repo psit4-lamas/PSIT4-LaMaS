@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './UploadMediaPage.css';
-import TopMenu from '../ComponentMenu/TopMenu';
 
 
 class UploadMediaPagePage extends Component {
@@ -10,7 +9,7 @@ class UploadMediaPagePage extends Component {
 
         return (
             <React.Fragment>
-                <header><TopMenu/></header>
+                <header>Head</header>
 
                 <main>Llamacorn!</main>
 

@@ -13,6 +13,7 @@ class LandingPage extends Component {
         return (
             <React.Fragment>
                 <header>
+                    {/* TODO: fix this TopMenu as well as in LectureContainer.jsx */}
                     <TopMenu/>
                 </header>
 
