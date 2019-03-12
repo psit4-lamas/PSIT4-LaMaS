@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './main/reducers';
 import { subscribeToAuthStateChanged } from './main/actions';
 import * as serviceWorker from './serviceWorker';
+import './i18n';
 import App from './main/App';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
