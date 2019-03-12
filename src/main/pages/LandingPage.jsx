@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TopMenu from '../ComponentMenu/TopMenu';
-import LectureBodyContent from '../LectureComponents/LecturesContainer';
+import LectureBodyContent from '../LectureComponents/LectureBodyContent';
 import { Route } from 'react-router-dom';
 
 
