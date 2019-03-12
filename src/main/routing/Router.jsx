@@ -31,8 +31,8 @@ const AppNavigation = () => (
                         {/*<TopMenu/>*/}
                         {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
                         <Route path={ '/lectures' } render={ () => <LecturesContainer base={ '/lectures' }/> }/>
-                        <Route exact path={ '/home' } render={ () => <LandingPage base={ '/home' }/> }/>
-                        <Route exact path={ '/' } render={ () => <LandingPage base={ '/home' }/> }/>
+                        <Route exact path={ '/home' } render={ () => <LandingPage base={ '/' }/> }/>
+                        <Route exact path={ '/' } render={ () => <LandingPage base={ '/' }/> }/>
                     </SecureGuard>
                 ) }
             />
