@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import VideoUpload from '../VideoUploadComponent/VideoUpload';
 import './UploadMediaPage.css';
 
 
-class UploadMediaPagePage extends Component {
+class UploadMediaPage extends Component {
 
     // TODO: improve upload media page UI
     render() {
@@ -11,7 +12,7 @@ class UploadMediaPagePage extends Component {
             <React.Fragment>
                 <header>Head</header>
 
-                <main>Llamacorn!</main>
+                <main>On the upload page!<VideoUpload /></main>
 
                 <footer>Feet</footer>
             </React.Fragment>
@@ -20,4 +21,4 @@ class UploadMediaPagePage extends Component {
 }
 
 
-export default UploadMediaPagePage;
+export default UploadMediaPage;

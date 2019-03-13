@@ -5,6 +5,7 @@ import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
 import LandingPage from '../pages/LandingPage';
 import LecturePage from '../pages/LecturePage';
+import UploadMediaPage from '../pages/UploadMediaPage';
 // import TopMenu from '../ComponentMenu/TopMenu';
 
 
@@ -31,6 +32,7 @@ const AppNavigation = () => (
                         {/*<TopMenu/>*/}
                         {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
                         <Route path={ '/lectures' } render={ () => <LecturePage base={ '/lectures' }/> }/>
+                        <Route path={'/upload'} render={() => <UploadMediaPage base={'/upload'} />} />
                         <Route exact path={ '/home' } render={ () => <LandingPage base={ '/' }/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage base={ '/' }/> }/>
                     </SecureGuard>
