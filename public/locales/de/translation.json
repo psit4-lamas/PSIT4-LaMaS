@@ -1,5 +1,8 @@
 {
-  "welcome": {
-    "message": "Willkommen, das ist eine Übersetzung"
+  "footer": {
+    "message": "Produkt aus PSIT4 ZHAW Vorlesung"
+  },
+  "menu": {
+    "language": "Sprache"
   }
 }

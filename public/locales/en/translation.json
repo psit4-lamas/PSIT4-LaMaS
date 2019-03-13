@@ -1,5 +1,8 @@
 {
-  "welcome": {
-    "message": "Welcome to React and react-i18next"
+  "footer": {
+    "message": "Product from PSIT4 ZHAW lecture"
+  },
+  "menu": {
+    "language": "Language"
   }
 }
