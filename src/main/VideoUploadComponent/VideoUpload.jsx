@@ -23,7 +23,7 @@ class VideoUpload extends Component {
             filename: filename,
             lecture: 'abc'
         }
-        fire.database().ref('videos').push( videoElem );
+        fire.firestore().collection('videos').add( videoElem );
     }
 
     handleProgress = progress => this.setState({progress});
@@ -36,8 +36,11 @@ class VideoUpload extends Component {
                 { this.state.isUploading ? ( this.state.isUploading && <p>Progress: { this.state.progress }</p> ) : (
                     <label style={ {backgroundColor: 'steelblue', color: 'white', padding: 40, borderRadius: 4, borderColor: 'black', pointer: 'cursor'} }>
                         Select file to upload ...
+
                         <FileUploader hidden name="video" randomizeFilename storageRef={ fire.storage().ref('videos') }
                                       onUploadStart={ this.handleUploadStart }
+                                      metadata={{customMetadata: {'lecture': 'abc'}
+                                      }}
                                       onUploadError={ this.handleUploadError }
                                       onUploadSuccess={ this.handleUploadSuccess }
                                       onProgress={ this.handleProgress }/>

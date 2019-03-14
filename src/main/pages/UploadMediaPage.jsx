@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import fire from '../../firebase';
 import VideoUpload from '../VideoUploadComponent/VideoUpload';
+import FileList from '../FileListComponent/FileList';
 import './UploadMediaPage.css';
 
 
@@ -12,8 +14,10 @@ class UploadMediaPage extends Component {
             <React.Fragment>
                 <header>Head</header>
 
-                <main>On the upload page!<VideoUpload /></main>
-
+                <main>On the upload page!<VideoUpload/></main>
+                <br/>
+                <br/>
+                <FileList firebase={ fire }/>
                 <footer>Feet</footer>
             </React.Fragment>
         );
