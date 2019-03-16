@@ -1,8 +1,14 @@
 {
-  "footer": {
-    "message": "Produkt aus PSIT4 ZHAW Vorlesung"
-  },
-  "menu": {
-    "language": "Sprache"
-  }
+    "footer": {
+        "message": "Produkt aus PSIT4 ZHAW Vorlesung"
+    },
+    "menu": {
+        "language": "Sprache"
+    },
+    "login": {
+        "message": "Auf LaMaS anmelden",
+        "password": "Passwort",
+        "email": "E-Mail Adresse",
+        "login": "Anmelden"
+    }
 }

@@ -2,6 +2,7 @@ import React, {Component, useState} from 'react';
 import {connect} from 'react-redux';
 import {logIn} from '../actions';
 import {Button, Form, Input, Segment} from 'semantic-ui-react';
+import {withNamespaces} from 'react-i18next';
 
 const FormField = Form.Field;
 
@@ -14,7 +15,7 @@ class UserLoginForm extends Component {
     render() {
         return (
             <div>
-                <LoginFormComponent onSubmit={this.onSubmit}/>
+                <LoginFormComponent onSubmit={ this.onSubmit }/>
             </div>
         );
     }
@@ -22,25 +23,26 @@ class UserLoginForm extends Component {
 
 
 const LoginFormComponent = ({onSubmit}) => {
-    const [ email, setEmail ] = useState('');
-    const [ password, setPassword ] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const {t} = this.props;
 
     return (
-        <Form size="large" onSubmit={() => onSubmit(email, password)}>
+        <Form size="large" onSubmit={ () => onSubmit(email, password) }>
             <Segment stacked>
                 <FormField>
-                    <Input fluid icon="user" iconPosition="left" name={'email'} placeholder="e-mail address" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <Input fluid icon="user" iconPosition="left" name={ 'email' } placeholder={ t('login.email') } value={ email } onChange={ (e) => setEmail(e.target.value) }/>
                 </FormField>
                 <FormField>
                     <Input
                         fluid
                         icon="lock"
                         iconPosition="left"
-                        name={'password'}
-                        placeholder="password"
+                        name={ 'password' }
+                        placeholder={ t('password') }
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={ password }
+                        onChange={ (e) => setPassword(e.target.value) }
                     />
                 </FormField>
 
@@ -58,7 +60,9 @@ const mapDispatchToProps = {
     logIn,
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(UserLoginForm);
+export default withNamespaces()(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(UserLoginForm),
+);
