@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import fire from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
+import {Progress} from 'semantic-ui-react';
 
 
 class VideoUpload extends Component {
@@ -17,31 +18,23 @@ class VideoUpload extends Component {
         this.setState({isUploading: false, errorOccurred: true, error: error});
     };
 
-    handleUploadSuccess = (filename) => {
+    handleUploadSuccess = () => {
         this.setState({progress: 100, isUploading: false});
-        let videoElem = {
-            filename: filename,
-            lecture: 'abc',
-        };
-        fire.firestore()
-            .collection('videos')
-            .add(videoElem);
     };
 
     handleProgress = (progress) => this.setState({progress});
 
-    // TODO: stuff
     render() {
         return (
             <div>
                 { this.state.isUploading ? (
-                    this.state.isUploading && <p>Progress: { this.state.progress }</p>
+                    <Progress percent={ this.state.progress } indicating progress label="uploading"/>
                 ) : (
-                    <label style={ {backgroundColor: 'steelblue', color: 'white', padding: 40, borderRadius: 4, borderColor: 'black', pointer: 'cursor'} }>
-                        Select file to upload ...
+                    <label style={ {backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, pointer: 'cursor', fontWeight: 'bold'} }>
+                        select file to upload
                         <FileUploader
                             hidden
-                            name="video"
+                            name="file"
                             randomizeFilename
                             storageRef={ fire.storage().ref('files') }
                             onUploadStart={ this.handleUploadStart }
