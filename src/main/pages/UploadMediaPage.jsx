@@ -6,18 +6,21 @@ import './UploadMediaPage.css';
 
 
 class UploadMediaPage extends Component {
-
     // TODO: improve upload media page UI
     render() {
-
         return (
             <React.Fragment>
                 <header>Head</header>
 
-                <main>On the upload page!<VideoUpload/></main>
+                <main>
+                    On the upload page!
+                    <VideoUpload/>
+                </main>
                 <br/>
                 <br/>
-                <FileList firebase={ fire }/>
+                <FileList firebase={ fire } type={ 'V' }/>
+                <FileList firebase={ fire } type={ 'L' }/>
+                <FileList firebase={ fire } type={ 'E' }/>
                 <footer>Feet</footer>
             </React.Fragment>
         );
