@@ -13,41 +13,47 @@ class VideoUpload extends Component {
     };
     handleUploadStart = () => this.setState({isUploading: true, progress: 0});
 
-    handleUploadError = error => {
+    handleUploadError = (error) => {
         this.setState({isUploading: false, errorOccurred: true, error: error});
     };
 
-    handleUploadSuccess = filename => {
+    handleUploadSuccess = (filename) => {
         this.setState({progress: 100, isUploading: false});
         let videoElem = {
             filename: filename,
-            lecture: 'abc'
-        }
-        fire.firestore().collection('videos').add( videoElem );
-    }
+            lecture: 'abc',
+        };
+        fire.firestore()
+            .collection('videos')
+            .add(videoElem);
+    };
 
-    handleProgress = progress => this.setState({progress});
+    handleProgress = (progress) => this.setState({progress});
 
     // TODO: stuff
     render() {
-
         return (
             <div>
-                { this.state.isUploading ? ( this.state.isUploading && <p>Progress: { this.state.progress }</p> ) : (
+                { this.state.isUploading ? (
+                    this.state.isUploading && <p>Progress: { this.state.progress }</p>
+                ) : (
                     <label style={ {backgroundColor: 'steelblue', color: 'white', padding: 40, borderRadius: 4, borderColor: 'black', pointer: 'cursor'} }>
                         Select file to upload ...
-
-                        <FileUploader hidden name="video" randomizeFilename storageRef={ fire.storage().ref('videos') }
-                                      onUploadStart={ this.handleUploadStart }
-                                      metadata={{customMetadata: {'lecture': 'abc'}
-                                      }}
-                                      onUploadError={ this.handleUploadError }
-                                      onUploadSuccess={ this.handleUploadSuccess }
-                                      onProgress={ this.handleProgress }/>
-                    </label> ) }
+                        <FileUploader
+                            hidden
+                            name="video"
+                            randomizeFilename
+                            storageRef={ fire.storage().ref('files') }
+                            onUploadStart={ this.handleUploadStart }
+                            metadata={ {customMetadata: {subject: 'KI', lecture: 1, type: 'V', originalName: 'myFile'}} }
+                            onUploadError={ this.handleUploadError }
+                            onUploadSuccess={ this.handleUploadSuccess }
+                            onProgress={ this.handleProgress }
+                        />
+                    </label>
+                ) }
                 { this.state.errorOccurred ? 'Error happened' : '' }
             </div>
-
         );
     }
 }

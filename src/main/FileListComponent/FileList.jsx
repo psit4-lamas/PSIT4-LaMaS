@@ -15,13 +15,14 @@ class FileList extends Component {
     componentDidMount() {
         this.setState({loading: true});
 
-        this.unsubscribe = fire.database().collection('videos')
-            .onSnapshot(snapshot => {
+        this.unsubscribe = fire
+            .database()
+            .collection('files')
+            .where('subject', '==', 'KI')
+            .onSnapshot((snapshot) => {
                 let files = [];
 
-                snapshot.forEach(doc =>
-                    files.push({...doc.data(), uid: doc.id}),
-                );
+                snapshot.forEach((doc) => files.push({...doc.data(), uid: doc.id}));
 
                 this.setState({
                     files,
@@ -34,15 +35,22 @@ class FileList extends Component {
         this.unsubscribe();
     }
 
-
     render() {
-        var namesList = this.state.files.map(function (name) {
-            return <li>{ name.filename } for lecture { name.lecture }</li>;
-        })
-        return (
-            <ul>
-                { namesList }
-            </ul> );
+        var fileList = this.state.files.map(function (dbEntry) {
+            return (
+                <li>
+                    <a
+                        href={ fire
+                            .storage()
+                            .ref(dbEntry.nameOnStorage)
+                            .getDownloadURL() }
+                    >
+                        { dbEntry.nameOnStorage } for subject { dbEntry.subject } and lecture { dbEntry.lecture }
+                    </a>
+                </li>
+            );
+        });
+        return <ul>{ fileList }</ul>;
     }
 }
 
