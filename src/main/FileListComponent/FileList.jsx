@@ -15,11 +15,11 @@ class FileList extends Component {
     }
 
     nameForStructure(type) {
-        if (type == 'V') {
+        if (type === 'V') {
             return 'Video';
-        } else if (type == 'E') {
+        } else if (type === 'E') {
             return 'Exercise materials';
-        } else if (type == 'L') {
+        } else if (type === 'L') {
             return 'Lecture Materials';
         } else {
             return 'other';
@@ -27,11 +27,11 @@ class FileList extends Component {
     }
 
     colorForStructure(type) {
-        if (type == 'V') {
+        if (type === 'V') {
             return 'teal';
-        } else if (type == 'E') {
+        } else if (type === 'E') {
             return 'purple';
-        } else if (type == 'L') {
+        } else if (type === 'L') {
             return 'blue';
         } else {
             return 'other';
