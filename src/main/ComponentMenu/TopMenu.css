@@ -1,1 +1,18 @@
 /* TODO: add CSS rules for TopMenu.jsx */
+
+#top-menu {
+    height: 50px;
+}
+
+#top-menu-dropdown-language {
+    margin-left: 10px !important;
+    margin-right: 100px;
+}
+
+#top-menu-dropdown-language-unauthenticated {
+    margin-right: 100px;
+}
+
+#dropdown-language > div.text {
+    vertical-align: -webkit-baseline-middle;
+}
