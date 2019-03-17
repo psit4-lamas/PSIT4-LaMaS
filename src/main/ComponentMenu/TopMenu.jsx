@@ -21,11 +21,7 @@ class TopMenu extends Component {
         this.props.history.push(name);
     };
 
-    //doLogOut = () => {
 
-      //  this.props.dispatch({logOut});
-        //TODO
-    //};
 
     render() {
         const {activeItem} = this.state;
@@ -82,8 +78,9 @@ const mapStateToProps = (state) => ( {
     tabs: state.tabs,
 } );
 
-const mapDispatchToProps = dispatch => ({
-    logout: () => dispatch(logOut())
-});
+const mapDispatchToProps = {
+
+    // TODO: do logout in redux
+};
 
 export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withRouter(TopMenu)));
