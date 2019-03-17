@@ -19,6 +19,13 @@ const userReducer = (state = initialState.user, action) => {
                 ...action.payload,
                 isAuthenticated: !!action.payload,
             };
+
+        case Actions.LOG_OUT:
+            //Todo logout in redux
+            return {
+                state
+                //Todo logout in redux
+            };
         default:
             return { ...state };
     }

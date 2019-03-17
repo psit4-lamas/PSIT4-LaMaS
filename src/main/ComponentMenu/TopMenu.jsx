@@ -3,8 +3,9 @@ import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import i18n from '../../i18n';
 import {withNamespaces} from 'react-i18next';
-import {Dropdown, Input, Menu, Segment, Button} from 'semantic-ui-react';
+import {Button, Dropdown, Input, Menu, Segment} from 'semantic-ui-react';
 import './TopMenu.css';
+import {logOut} from '../actions';
 
 
 class TopMenu extends Component {
@@ -19,6 +20,12 @@ class TopMenu extends Component {
         this.setState({activeItem: name});
         this.props.history.push(name);
     };
+
+    //doLogOut = () => {
+
+      //  this.props.dispatch({logOut});
+        //TODO
+    //};
 
     render() {
         const {activeItem} = this.state;
@@ -55,7 +62,7 @@ class TopMenu extends Component {
 
                     <Menu.Menu position="right">
                         <Menu.Item>
-                            <Button>
+                            <Button color="red" /*onClick = {this.doLogOut()}*/ >
                                 Logout
                             </Button>
                         </Menu.Item>
@@ -75,6 +82,8 @@ const mapStateToProps = (state) => ( {
     tabs: state.tabs,
 } );
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(logOut())
+});
 
 export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withRouter(TopMenu)));
