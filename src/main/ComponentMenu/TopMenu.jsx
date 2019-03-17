@@ -5,8 +5,8 @@ import i18n from '../../i18n';
 import {withNamespaces} from 'react-i18next';
 import {Button, Dropdown, Input, Menu, Segment} from 'semantic-ui-react';
 import './TopMenu.css';
-import {logOut} from '../actions';
-
+//import {logOut} from '../actions'; TODO: do logout in redux
+import Firebase from '../../firebase';
 
 class TopMenu extends Component {
 
@@ -20,6 +20,12 @@ class TopMenu extends Component {
         this.setState({activeItem: name});
         this.props.history.push(name);
     };
+
+    handleLogout =  () => {
+
+        Firebase.auth().signOut(); //TODO: move to redux
+    };
+
 
 
 
@@ -58,7 +64,7 @@ class TopMenu extends Component {
 
                     <Menu.Menu position="right">
                         <Menu.Item>
-                            <Button color="red" /*onClick = {this.doLogOut()}*/ >
+                            <Button color="red" onClick = { this.handleLogout } >
                                 Logout
                             </Button>
                         </Menu.Item>

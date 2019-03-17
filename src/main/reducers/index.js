@@ -21,10 +21,10 @@ const userReducer = (state = initialState.user, action) => {
             };
 
         case Actions.LOG_OUT:
-            //Todo logout in redux
+            //TODO: logout in redux
             return {
                 state
-                //Todo logout in redux
+                //TODO: logout in redux
             };
         default:
             return { ...state };
