@@ -30,7 +30,7 @@ class VideoUpload extends Component {
                 { this.state.isUploading ? (
                     <Progress percent={ this.state.progress } indicating progress label="uploading"/>
                 ) : (
-                    <label style={ {backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, pointer: 'cursor', fontWeight: 'bold'} }>
+                    <label style={ {backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, cursor: 'pointer', fontWeight: 'bold'} }>
                         select file to upload
                         <FileUploader
                             hidden
