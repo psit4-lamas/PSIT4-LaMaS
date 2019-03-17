@@ -8,6 +8,7 @@ import './TopMenu.css';
 //import {logOut} from '../actions'; TODO: do logout in redux
 import Firebase from '../../firebase';
 
+
 class TopMenu extends Component {
 
     state = {activeItem: 'home'};
@@ -24,6 +25,9 @@ class TopMenu extends Component {
     handleLogout =  () => {
 
         Firebase.auth().signOut(); //TODO: move to redux
+        // trigger loading loginpage
+        // TODO: trigger this with a state change in redux
+        window.location.reload();
     };
 
 
