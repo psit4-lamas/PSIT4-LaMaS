@@ -69,7 +69,7 @@ class TopMenu extends Component {
                     <Menu.Menu position="right">
                         <Menu.Item>
                             <Button color="red" onClick = { this.handleLogout } >
-                                Logout
+                                {t('menu.logout')}
                             </Button>
                         </Menu.Item>
                     </Menu.Menu>

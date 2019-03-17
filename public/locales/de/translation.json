@@ -3,6 +3,9 @@
     "message": "Produkt aus PSIT4 ZHAW Vorlesung"
   },
   "menu": {
-    "language": "Sprache"
+    "language": "Sprache",
+    "logout": "Ausloggen"
   }
+
+  
 }
