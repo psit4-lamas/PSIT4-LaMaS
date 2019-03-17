@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {logIn} from '../actions';
 import {Button, Form, Input, Segment} from 'semantic-ui-react';
@@ -45,7 +45,7 @@ class UserLoginForm extends Component {
 }
 
 
-const mapStateToProps = (state) => ( {} );
+//const mapStateToProps = (state) => ( {} );
 
 const mapDispatchToProps = {
     logIn,
