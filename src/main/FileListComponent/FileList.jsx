@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import fire from '../../firebase';
 import {Table} from 'semantic-ui-react';
+import {withNamespaces} from 'react-i18next';
 
 
 class FileList extends Component {
@@ -14,19 +15,7 @@ class FileList extends Component {
         };
     }
 
-    nameForStructure(type) {
-        if (type === 'V') {
-            return 'Video';
-        } else if (type === 'E') {
-            return 'Exercise materials';
-        } else if (type === 'L') {
-            return 'Lecture Materials';
-        } else {
-            return 'other';
-        }
-    }
-
-    colorForStructure(type) {
+    static colorForStructure(type) {
         if (type === 'V') {
             return 'teal';
         } else if (type === 'E') {
@@ -34,7 +23,7 @@ class FileList extends Component {
         } else if (type === 'L') {
             return 'blue';
         } else {
-            return 'other';
+            return 'orange';
         }
     }
 
@@ -76,6 +65,7 @@ class FileList extends Component {
     }
 
     render() {
+        const {t} = this.props;
         const fileList = this.state.files.map(function (dbEntry) {
             return (
                 <Table.Row>
@@ -89,11 +79,11 @@ class FileList extends Component {
             );
         });
         return (
-            <Table color={ this.colorForStructure(this.state.type) } key={ this.colorForStructure(this.state.type) }>
+            <Table color={ FileList.colorForStructure(this.state.type) } key={ FileList.colorForStructure(this.state.type) }>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>{ this.nameForStructure(this.state.type) }</Table.HeaderCell>
-                        <Table.HeaderCell>Action</Table.HeaderCell>
+                        <Table.HeaderCell>{ t('fileList.' + this.state.type) }</Table.HeaderCell>
+                        <Table.HeaderCell>{ t('fileList.action') }</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>{ fileList }</Table.Body>
@@ -103,4 +93,4 @@ class FileList extends Component {
 }
 
 
-export default FileList;
+export default withNamespaces()(FileList);
