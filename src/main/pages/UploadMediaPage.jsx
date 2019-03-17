@@ -3,7 +3,6 @@ import fire from '../../firebase';
 import VideoUpload from '../VideoUploadComponent/VideoUpload';
 import FileList from '../FileListComponent/FileList';
 import './UploadMediaPage.css';
-import TopMenu from '../ComponentMenu/TopMenu';
 
 
 class UploadMediaPage extends Component {
@@ -11,7 +10,6 @@ class UploadMediaPage extends Component {
     render() {
         return (
             <React.Fragment>
-                <header><TopMenu/></header>
 
                 <main>
                     On the upload page!
@@ -22,7 +20,6 @@ class UploadMediaPage extends Component {
                 <FileList firebase={ fire } type={ 'V' }/>
                 <FileList firebase={ fire } type={ 'L' }/>
                 <FileList firebase={ fire } type={ 'E' }/>
-                <footer>Feet</footer>
             </React.Fragment>
         );
     }
