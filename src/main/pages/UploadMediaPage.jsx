@@ -11,7 +11,9 @@ class UploadMediaPage extends Component {
     render() {
         return (
             <React.Fragment>
-                <header><TopMenu/></header>
+                <header>
+                    <TopMenu/>
+                </header>
 
                 <main>
                     On the upload page!

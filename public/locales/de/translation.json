@@ -4,5 +4,14 @@
   },
   "menu": {
     "language": "Sprache"
+  },
+  "videoUpload": {
+    "selectFile": "Datei zum hochladen auswählen"
+  },
+  "fileList": {
+    "V": "Video",
+    "E": "Übungsaufgaben",
+    "L": "zusätzliche Unterlagen",
+    "action": "Aktion"
   }
 }

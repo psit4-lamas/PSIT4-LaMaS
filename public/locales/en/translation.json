@@ -4,5 +4,14 @@
   },
   "menu": {
     "language": "Language"
+  },
+  "videoUpload": {
+    "selectFile": "select file for upload"
+  },
+  "fileList": {
+    "V": "Video",
+    "E": "Exercise materials",
+    "L": "Lecture Materials",
+    "action": "action"
   }
 }

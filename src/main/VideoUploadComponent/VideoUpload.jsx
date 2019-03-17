@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import fire from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import {Progress} from 'semantic-ui-react';
+import {withNamespaces} from 'react-i18next';
 
 
 class VideoUpload extends Component {
@@ -25,13 +26,14 @@ class VideoUpload extends Component {
     handleProgress = (progress) => this.setState({progress});
 
     render() {
+        const {t} = this.props;
         return (
             <div>
                 { this.state.isUploading ? (
                     <Progress percent={ this.state.progress } indicating progress label="uploading"/>
                 ) : (
                     <label style={ {backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, pointer: 'cursor', fontWeight: 'bold'} }>
-                        select file to upload
+                        { t('videoUpload.selectFile') }
                         <FileUploader
                             hidden
                             name="file"
@@ -52,4 +54,4 @@ class VideoUpload extends Component {
 }
 
 
-export default VideoUpload;
+export default withNamespaces()(VideoUpload);
