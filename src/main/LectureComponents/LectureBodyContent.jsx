@@ -7,12 +7,11 @@ class LectureBodyContent extends Component {
 
     // TODO: improve lecture body content UI (Sprint 2)
     render() {
-        console.log('Lecture page');
-        const { subj } = this.props.match.params;
+        const { pathname } = this.props;
 
         return (
             <div>
-                <h1>{ subj }</h1>
+                <h1>{ pathname }</h1>
 
                 <Placeholder>
                     <Placeholder.Header image>
