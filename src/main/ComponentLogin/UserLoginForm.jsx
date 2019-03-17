@@ -13,46 +13,37 @@ class UserLoginForm extends Component {
     };
 
     render() {
+        const {t} = this.props;
         return (
             <div>
-                <LoginFormComponent onSubmit={ this.onSubmit }/>
+                <Form size="large" onSubmit={ () => this.onSubmit(this.state.email, this.state.password) }>
+                    <Segment stacked>
+                        <FormField>
+                            <Input fluid icon="user" iconPosition="left" name={ 'email' } placeholder={ t('login.email') }
+                                   onChange={ (e) => this.setState({email: e.target.value}) }/>
+                        </FormField>
+                        <FormField>
+                            <Input
+                                fluid
+                                icon="lock"
+                                iconPosition="left"
+                                name={ 'password' }
+                                placeholder={ t('login.password') }
+                                type="password"
+                                onChange={ (e) => this.setState({password: e.target.value}) }
+                            />
+                        </FormField>
+
+                        <Button type="submit" color="pink" fluid size="large">
+                            Login
+                        </Button>
+                    </Segment>
+                </Form>
             </div>
         );
     }
 }
 
-
-const LoginFormComponent = ({onSubmit}) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const {t} = this.props;
-
-    return (
-        <Form size="large" onSubmit={ () => onSubmit(email, password) }>
-            <Segment stacked>
-                <FormField>
-                    <Input fluid icon="user" iconPosition="left" name={ 'email' } placeholder={ t('login.email') } value={ email } onChange={ (e) => setEmail(e.target.value) }/>
-                </FormField>
-                <FormField>
-                    <Input
-                        fluid
-                        icon="lock"
-                        iconPosition="left"
-                        name={ 'password' }
-                        placeholder={ t('password') }
-                        type="password"
-                        value={ password }
-                        onChange={ (e) => setPassword(e.target.value) }
-                    />
-                </FormField>
-
-                <Button type="submit" color="pink" fluid size="large">
-                    Login
-                </Button>
-            </Segment>
-        </Form>
-    );
-};
 
 const mapStateToProps = (state) => ( {} );
 
