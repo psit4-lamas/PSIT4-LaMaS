@@ -12,7 +12,7 @@ it('renders without crashing', () => {
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<VideoUpload />, div);
+  ReactDOM.render(<VideoUpload t={ (key) => key }/>, div);
 
   ReactDOM.unmountComponentAtNode(div);
 });
