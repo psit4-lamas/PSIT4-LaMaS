@@ -21,10 +21,9 @@ const userReducer = (state = initialState.user, action) => {
             };
 
         case Actions.LOG_OUT:
-            //TODO: logout in redux
             return {
-                state
-                //TODO: logout in redux
+                ...state,
+                isAuthenticated: false,
             };
         default:
             return { ...state };

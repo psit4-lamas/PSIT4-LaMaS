@@ -69,9 +69,16 @@ const logOut = () => {
 
     return (dispatch) => {
 
-        dispatch ({type: Actions.LOG_OUT});
 
             // TODO: auth logout in redux
+        firebase.auth().signOut()
+            .then((res) => {
+
+                dispatch ({type: Actions.LOG_OUT});
+            })
+            .catch((err) => {
+                console.log('ERROR ON LOGOUT ', err);
+            });
 
 
     };
