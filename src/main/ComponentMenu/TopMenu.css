@@ -4,9 +4,13 @@
     height: 50px;
 }
 
-#top-menu-dropdown-language {
-    margin-left: 10px !important;
-    margin-right: 100px;
+#top-menu-dropdown-language, #top-menu-logout {
+    margin-left: 0 !important;
+    margin-right: 10px;
+}
+
+#top-menu-logout {
+    margin-right: 0;
 }
 
 #top-menu-dropdown-language-unauthenticated {

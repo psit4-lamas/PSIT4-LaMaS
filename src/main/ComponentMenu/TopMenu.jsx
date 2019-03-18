@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { withRouterAndRedux } from '../../utils';
 import { logOut } from '../actions';
-// import { withNamespaces } from 'react-i18next';
-// import i18n from '../../i18n';
 import { Button, Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
 import './TopMenu.css';
 
@@ -67,7 +64,10 @@ class TopMenu extends Component {
                         </Dropdown>
                     </Menu.Menu>
 
-                    <Menu.Menu position="right">
+                    <Menu.Menu
+                        id='top-menu-logout'
+                        position="right"
+                    >
                         <Menu.Item>
                             <Button color="red" onClick={ this.handleLogout }>
                                 { t('menu.logout') }
@@ -97,5 +97,4 @@ const mapDispatchToProps = {
 };
 
 export { TopMenu };
-// export default withRouter(TopMenu);
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withRouter(TopMenu)));
+export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, TopMenu);
