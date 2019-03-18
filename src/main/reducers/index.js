@@ -54,6 +54,7 @@ const userReducer = (state = initialState.user, action) => {
                 return {
                     isAuthenticated: false,
                     isLoadingUser: false,
+                    userAccessedPathname: '',
                 };
             }
         default:

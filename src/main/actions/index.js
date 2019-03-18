@@ -83,4 +83,18 @@ const logIn = (email, password) => {
     };
 };
 
-export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn };
+
+const logOut = () => {
+    return (dispatch) => {
+        firebase.auth().signOut()
+            .then((res) => {
+                dispatch({ type: Actions.LOG_OUT_SUCCESS });
+            })
+            .catch((err) => {
+                console.log('ERROR ON LOGOUT ', err);
+            });
+    };
+
+};
+
+export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut };

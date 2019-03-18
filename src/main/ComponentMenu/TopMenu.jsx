@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { logOut } from '../actions';
+// import { withNamespaces } from 'react-i18next';
+// import i18n from '../../i18n';
+import { Button, Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
 import './TopMenu.css';
 
 
@@ -12,6 +16,10 @@ class TopMenu extends Component {
         this.setState({ activeItem: name });
         const pathname = name === '/home' || name === '/upload' ? `${ name }` : `/courses/${ name }`;
         this.props.history.push(pathname);
+    };
+
+    handleLogout = () => {
+        this.props.logOut();
     };
 
     render() {
@@ -58,6 +66,14 @@ class TopMenu extends Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     </Menu.Menu>
+
+                    <Menu.Menu position="right">
+                        <Menu.Item>
+                            <Button color="red" onClick={ this.handleLogout }>
+                                { t('menu.logout') }
+                            </Button>
+                        </Menu.Item>
+                    </Menu.Menu>
                 </Menu>
 
                 { (window.location.pathname === '/home') || (window.location.pathname === '/')
@@ -74,5 +90,12 @@ class TopMenu extends Component {
 }
 
 
+const mapStateToProps = (state) => ( {} );
+
+const mapDispatchToProps = {
+    logOut,
+};
+
 export { TopMenu };
-export default withRouter(TopMenu);
+// export default withRouter(TopMenu);
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withRouter(TopMenu)));
