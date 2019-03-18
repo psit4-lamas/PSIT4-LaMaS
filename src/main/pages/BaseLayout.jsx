@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { withNameSpacesAndRouterAndRedux } from '../../utils';
 import i18n from '../../i18n';
 import { Grid } from 'semantic-ui-react';
 import TopMenuUnauthenticated from '../ComponentMenu/TopMenuUnauthenticated';
@@ -63,4 +62,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {};
 
 export { BaseLayout };
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(BaseLayout));
+export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, BaseLayout);

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { userRedirectedToAccessedPath } from '../actions';
+import { withRouterAndRedux } from '../../utils';
+
 
 const LoginGuard = (props) => {
 
@@ -35,4 +36,4 @@ const mapDispatchToProps = {
     userRedirectedToAccessedPath,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginGuard);
+export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, LoginGuard);

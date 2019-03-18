@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { withNameSpacesAndRouterAndRedux } from '../../utils';
 import './LandingPage.css';
+
 
 class LandingPage extends Component {
 
@@ -44,4 +44,4 @@ const mapStateToProps = (state) => ( {
 
 const mapDispatchToProps = {};
 
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withRouter(LandingPage)));
+export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, LandingPage);
