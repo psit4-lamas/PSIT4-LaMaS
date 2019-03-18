@@ -65,9 +65,9 @@
   flex: 1 100%;
 }
 
-.header {
-  background: tomato;
-}
+/*.header {*/
+/*background: tomato;*/
+/*}*/
 
 .footer {
   background: lightgreen;

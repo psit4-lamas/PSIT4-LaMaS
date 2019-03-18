@@ -1,8 +1,14 @@
 {
-  "footer": {
-    "message": "Product from PSIT4 ZHAW lecture"
-  },
-  "menu": {
-    "language": "Language"
-  }
+    "footer": {
+        "message": "Product from PSIT4 ZHAW lecture"
+    },
+    "menu": {
+        "language": "Language"
+    },
+    "login": {
+        "message": "Log-in to LaMaS",
+        "password": "password",
+        "email": "e-mail address",
+        "login": "Login"
+    }
 }

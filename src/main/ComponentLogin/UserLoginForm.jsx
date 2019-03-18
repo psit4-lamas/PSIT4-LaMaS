@@ -1,8 +1,8 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logIn } from '../actions';
-import { Button, Checkbox, Form, Input } from 'semantic-ui-react';
-
+import { withNamespaces } from 'react-i18next';
+import { Button, Form, Input, Segment } from 'semantic-ui-react';
 
 const FormField = Form.Field;
 
@@ -14,36 +14,37 @@ class UserLoginForm extends Component {
     };
 
     render() {
+        const { t } = this.props;
         return (
             <div>
-                <LoginFormComponent onSubmit={ this.onSubmit }/>
+                <Form size="large" onSubmit={ () => this.onSubmit(this.state.email, this.state.password) }>
+                    <Segment stacked>
+                        <FormField>
+                            <Input fluid icon="user" iconPosition="left" name={ 'email' } placeholder={ t('login.email') }
+                                   onChange={ (e) => this.setState({ email: e.target.value }) }/>
+                        </FormField>
+                        <FormField>
+                            <Input
+                                fluid
+                                icon="lock"
+                                iconPosition="left"
+                                name={ 'password' }
+                                placeholder={ t('login.password') }
+                                type="password"
+                                onChange={ (e) => this.setState({ password: e.target.value }) }
+                            />
+                        </FormField>
+
+                        <Button type="submit" color="pink" fluid size="large">
+                            Login
+                        </Button>
+                    </Segment>
+                </Form>
             </div>
         );
     }
 }
 
-
-const LoginFormComponent = ({ onSubmit }) => {
-    const [ email, setEmail ] = useState('');
-    const [ password, setPassword ] = useState('');
-
-    return (
-        <Form onSubmit={ () => onSubmit(email, password) }>
-            <FormField>
-                <label>Email</label>
-                <Input name={ 'email' } placeholder="test@zhaw.ch" value={ email } onChange={ (e) => setEmail(e.target.value) }/>
-            </FormField>
-            <FormField>
-                <label>Password</label>
-                <Input name={ 'password' } type={ 'password' } value={ password } onChange={ (e) => setPassword(e.target.value) }/>
-            </FormField>
-            <FormField>
-                <Checkbox label="I agree to the Terms and Conditions"/>
-            </FormField>
-            <Button type="submit">Submit</Button>
-        </Form>
-    );
-};
 
 const mapStateToProps = (state) => ( {} );
 
@@ -51,4 +52,5 @@ const mapDispatchToProps = {
     logIn,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserLoginForm);
+export { UserLoginForm }
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(UserLoginForm));
