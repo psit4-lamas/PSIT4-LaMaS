@@ -4,5 +4,8 @@
   },
   "menu": {
     "language": "Language"
+  },
+  "landingPage": {
+    "title": "Bookmark"
   }
 }
