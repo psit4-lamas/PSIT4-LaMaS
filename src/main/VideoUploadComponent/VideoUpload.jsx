@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import fire from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
-import {Progress} from 'semantic-ui-react';
+import { Progress } from 'semantic-ui-react';
 
 
 class VideoUpload extends Component {
+
     state = {
         progress: 0,
         isUploading: false,
@@ -12,40 +13,45 @@ class VideoUpload extends Component {
         errorOccurred: false,
         error: '',
     };
-    handleUploadStart = () => this.setState({isUploading: true, progress: 0});
+
+    handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
 
     handleUploadError = (error) => {
-        this.setState({isUploading: false, errorOccurred: true, error: error});
+        this.setState({ isUploading: false, errorOccurred: true, error: error });
     };
 
     handleUploadSuccess = () => {
-        this.setState({progress: 100, isUploading: false});
+        this.setState({ progress: 100, isUploading: false });
     };
 
-    handleProgress = (progress) => this.setState({progress});
+    handleProgress = (progress) => this.setState({ progress });
 
     render() {
+        const { isUploading, progress, errorOccurred } = this.state;
+        const { t } = this.props;
+
         return (
             <div>
-                { this.state.isUploading ? (
-                    <Progress percent={ this.state.progress } indicating progress label="uploading"/>
+                { isUploading ? (
+                    <Progress percent={ progress } indicating progress label="uploading"/>
                 ) : (
-                    <label style={ {backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, cursor: 'pointer', fontWeight: 'bold'} }>
-                        select file to upload
+                    <label style={ { backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, cursor: 'pointer', fontWeight: 'bold' } }>
+                        { t('videoUpload.selectFile') }
                         <FileUploader
                             hidden
                             name="file"
                             randomizeFilename
                             storageRef={ fire.storage().ref('files') }
                             onUploadStart={ this.handleUploadStart }
-                            metadata={ {customMetadata: {subject: 'KI', lecture: 1, type: 'V', originalName: 'myFile'}} }
+                            metadata={ { customMetadata: { subject: 'KI', lecture: 1, type: 'V', originalName: 'myFile' } } }
                             onUploadError={ this.handleUploadError }
                             onUploadSuccess={ this.handleUploadSuccess }
                             onProgress={ this.handleProgress }
                         />
                     </label>
                 ) }
-                { this.state.errorOccurred ? 'Error happened' : '' }
+
+                { errorOccurred ? 'Error happened' : '' }
             </div>
         );
     }

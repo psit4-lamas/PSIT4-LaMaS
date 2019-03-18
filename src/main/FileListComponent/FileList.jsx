@@ -10,21 +10,9 @@ class FileList extends Component {
         this.state = {
             loading: false,
             files: [],
-            type: props.type,
+            type: 'V',
         };
     }
-
-    nameForStructure = (type) => {
-        if (type === 'V') {
-            return 'Video';
-        } else if (type === 'E') {
-            return 'Exercise Materials';
-        } else if (type === 'L') {
-            return 'Lecture Materials';
-        } else {
-            return 'other';
-        }
-    };
 
     colorForStructure = (type) => {
         if (type === 'V') {
@@ -34,19 +22,19 @@ class FileList extends Component {
         } else if (type === 'L') {
             return 'blue';
         } else {
-            return 'other';
+            return 'orange';
         }
     };
 
     componentDidMount() {
         this.setState({ loading: true });
-        const { firebase: fire } = this.props;
+        const { type, firebase: fire } = this.props;
 
         this.unsubscribe = fire
             .database()
             .collection('files')
             .where('subject', '==', 'KI')
-            .where('type', '==', this.state.type)
+            .where('type', '==', type)
             .onSnapshot((snapshot) => {
                 let files = [];
 
@@ -80,6 +68,7 @@ class FileList extends Component {
     }
 
     render() {
+        const { t, type } = this.props;
         const fileList = this.state.files.map((dbEntry) => {
             return (
                 <Table.Row key={ dbEntry.nameOnStorage }>
@@ -94,11 +83,11 @@ class FileList extends Component {
         });
 
         return (
-            <Table color={ this.colorForStructure(this.state.type) } key={ this.colorForStructure(this.state.type) }>
+            <Table color={ this.colorForStructure(type) } key={ this.colorForStructure(type) }>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell width={ 12 }>{ this.nameForStructure(this.state.type) }</Table.HeaderCell>
-                        <Table.HeaderCell width={ 12 }>Action</Table.HeaderCell>
+                        <Table.HeaderCell width={ 12 }>{ t('fileList.' + type) }</Table.HeaderCell>
+                        <Table.HeaderCell width={ 12 }>{ t('fileList.action') }</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>{ fileList }</Table.Body>

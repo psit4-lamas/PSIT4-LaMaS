@@ -7,5 +7,14 @@
   },
   "landingPage": {
     "title": "Bookmark"
+  },
+  "videoUpload": {
+    "selectFile": "Datei zum hochladen auswählen"
+  },
+  "fileList": {
+    "V": "Videos",
+    "E": "Übungsaufgaben",
+    "L": "Zusätzliche Unterlagen",
+    "action": "Aktion"
   }
 }
