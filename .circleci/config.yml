@@ -57,5 +57,9 @@ jobs:
           command: yarn build
 
       - run:
+          name: Run acceptance tests
+          command: bash -e ./src/test/acceptance.sh
+
+      - run:
           name: Deploy Master to Firebase
           command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --project=lamas-85831
