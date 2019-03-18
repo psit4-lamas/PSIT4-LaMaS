@@ -42,4 +42,5 @@ class Firebase {
 }
 
 const fb = new Firebase();
+
 export default fb;

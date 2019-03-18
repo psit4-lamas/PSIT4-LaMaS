@@ -3,7 +3,8 @@
         "message": "Produkt aus PSIT4 ZHAW Vorlesung"
     },
     "menu": {
-        "language": "Sprache"
+        "language": "Sprache",
+        "logout": "Ausloggen"
     },
     "login": {
         "message": "Auf LaMaS anmelden",

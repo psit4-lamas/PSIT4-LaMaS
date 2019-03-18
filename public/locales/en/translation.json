@@ -3,7 +3,8 @@
         "message": "Product from PSIT4 ZHAW lecture"
     },
     "menu": {
-        "language": "Language"
+        "language": "Language",
+        "logout": "Logout"
     },
     "login": {
         "message": "Log-in to LaMaS",

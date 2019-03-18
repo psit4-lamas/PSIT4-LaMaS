@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import i18n from '../../i18n';
+import { logOut } from '../actions';
 import { withNamespaces } from 'react-i18next';
-import { Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
+import i18n from '../../i18n';
+import { Button, Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
 import './TopMenu.css';
 
 
@@ -18,6 +19,10 @@ class TopMenu extends Component {
     handleItemClick = (e, { name }) => {
         this.setState({ activeItem: name });
         this.props.history.push(name);
+    };
+
+    handleLogout = () => {
+        this.props.logOut();
     };
 
     render() {
@@ -52,6 +57,14 @@ class TopMenu extends Component {
                             <Input icon="search" placeholder="Search..."/>
                         </Menu.Item>
                     </Menu.Menu>
+
+                    <Menu.Menu position="right">
+                        <Menu.Item>
+                            <Button color="red" onClick={ this.handleLogout }>
+                                { t('menu.logout') }
+                            </Button>
+                        </Menu.Item>
+                    </Menu.Menu>
                 </Menu>
 
                 <Segment>
@@ -67,6 +80,8 @@ const mapStateToProps = (state) => ( {
     tabs: state.tabs,
 } );
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    logOut,
+};
 
 export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withRouter(TopMenu)));

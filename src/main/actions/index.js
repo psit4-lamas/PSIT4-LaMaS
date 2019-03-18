@@ -5,6 +5,7 @@ import config, { isDevelopment } from '../../firebase/configLoader';
 const Actions = {
     LOG_IN: 'LOG_IN',
     LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
+    LOG_OUT: 'LOG_OUT',
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
 };
@@ -58,6 +59,30 @@ const logIn = (email, password) => {
             })
             .catch((err) => console.log(err));
     };
+
+
+
 };
 
-export { Actions, subscribeToAuthStateChanged, logIn };
+
+const logOut = () => {
+
+    return (dispatch) => {
+
+
+            // TODO: auth logout in redux
+        firebase.auth().signOut()
+            .then((res) => {
+
+                dispatch ({type: Actions.LOG_OUT});
+            })
+            .catch((err) => {
+                console.log('ERROR ON LOGOUT ', err);
+            });
+
+
+    };
+
+};
+
+export { Actions, subscribeToAuthStateChanged, logIn, logOut };
