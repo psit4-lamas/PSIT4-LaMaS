@@ -9,6 +9,7 @@
     "i18next-xhr-backend": "^2.0.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-firebase-file-uploader": "^2.4.2",
     "react-i18next": "^9.0.10",
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "firebase-tools": "^6.4.0",
     "prettier": "^1.16.4",
+    "react-test-renderer": "^16.8.4",
     "redux-devtools-extension": "^2.13.8",
     "sonar-scanner": "^3.1.0"
   }

@@ -3,13 +3,33 @@ import config, { isDevelopment } from '../../firebase/configLoader';
 
 
 const Actions = {
-    LOG_IN: 'LOG_IN',
+    LOAD_USER: 'LOAD_USER',
+    USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
+
     LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
-    LOG_OUT: 'LOG_OUT',
+    LOG_OUT_SUCCESS: 'LOG_OUT_SUCCESS',
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
 };
 
+// When fetching the current user, keep track of which pathname she/he tried to access,
+// in order to redirect her/him to that page after authentication
+const loadUser = (userAccessedPathname) => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.LOAD_USER,
+            payload: userAccessedPathname,
+        });
+    };
+};
+
+const userRedirectedToAccessedPath = () => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.USER_REDIRECT_SUCCESS,
+        });
+    };
+};
 
 const subscribeToAuthStateChanged = () => {
 
@@ -35,14 +55,16 @@ const subscribeToAuthStateChanged = () => {
                 });
             } else {
                 console.log('User logged out!');
+
+                dispatch({
+                    type: Actions.LOG_OUT_SUCCESS,
+                });
             }
         });
     };
 };
 
 const logIn = (email, password) => {
-    console.table({ email, password });
-
     return (dispatch) => {
 
         // Connect to Firebase to perform a user login
@@ -59,30 +81,20 @@ const logIn = (email, password) => {
             })
             .catch((err) => console.log(err));
     };
-
-
-
 };
 
 
 const logOut = () => {
-
     return (dispatch) => {
-
-
-            // TODO: auth logout in redux
         firebase.auth().signOut()
             .then((res) => {
-
-                dispatch ({type: Actions.LOG_OUT});
+                dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
             .catch((err) => {
                 console.log('ERROR ON LOGOUT ', err);
             });
-
-
     };
 
 };
 
-export { Actions, subscribeToAuthStateChanged, logIn, logOut };
+export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut };

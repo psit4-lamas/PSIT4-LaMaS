@@ -11,5 +11,17 @@
         "password": "Passwort",
         "email": "E-Mail Adresse",
         "login": "Anmelden"
+    },
+    "landingPage": {
+        "title": "Bookmark"
+    },
+    "videoUpload": {
+        "selectFile": "Datei zum hochladen auswählen"
+    },
+    "fileList": {
+        "V": "Videos",
+        "E": "Übungsaufgaben",
+        "L": "Zusätzliche Unterlagen",
+        "action": "Aktion"
     }
 }
