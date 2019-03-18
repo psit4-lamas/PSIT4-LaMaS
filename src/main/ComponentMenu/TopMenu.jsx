@@ -25,11 +25,11 @@ class TopMenu extends Component {
         return (
             <div>
                 <Menu pointing id='top-menu'>
-                    <Menu.Item name="/home" active={ currentName === 'home' } onClick={ this.handleItemClick }/>
-                    <Menu.Item name="/upload" active={ currentName === '/upload' } onClick={ this.handleItemClick }/>
+                    <Menu.Item name="/home" active={ currentName === 'home' } onClick={ this.handleItemClick }>Home</Menu.Item>
+                    <Menu.Item name="/upload" active={ currentName === '/upload' } onClick={ this.handleItemClick }>Upload</Menu.Item>
 
                     { activeTabs.map((activeTab, index) => (
-                        <Menu.Item key={ activeTab } name={ activeTab } active={ currentName === activeTab } onClick={ this.handleItemClick }/>
+                        <Menu.Item key={ activeTab } name={ activeTab } active={ currentName === activeTab } onClick={ this.handleItemClick }>{ activeTab }</Menu.Item>
                     )) }
 
                     <Menu.Menu position="right">
