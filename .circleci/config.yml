@@ -58,11 +58,11 @@ jobs:
 
       - run:
           name: Run acceptance tests on Firefox
-          command: nightwatch
+          command: yarn start && ./node_modules/.bin/nightwatch
 
       - run:
           name: Run acceptance tests on Chrome
-          command: yarn start && nightwatch --env chrome
+          command: yarn start && ./node_modules/.bin/nightwatch --env chrome
 
       - run:
           name: Deploy Master to Firebase
