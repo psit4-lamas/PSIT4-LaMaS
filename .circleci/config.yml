@@ -44,9 +44,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-#      - run:
-#          name: Run tests
-#          command: yarn test
+      - run:
+          name: Run tests
+          command: yarn test
 
       - run:
           name: Analyze with Sonar scanner
@@ -57,8 +57,12 @@ jobs:
           command: yarn build
 
       - run:
-          name: Run acceptance tests
-          command: bash -e ./src/test/acceptance.sh
+          name: Run acceptance tests on Firefox
+          command: nightwatch
+
+      - run:
+          name: Run acceptance tests on Chrome
+          command: yarn start && nightwatch --env chrome
 
       - run:
           name: Deploy Master to Firebase

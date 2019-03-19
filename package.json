@@ -22,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --no-watch",
-    "test:acceptance": "react-scripts test test/acceptance --detectOpenHandles",
+    "test:acceptance:firefox": "nightwatch",
+    "test:acceptance:chrome": "nightwatch --env chrome",
     "eject": "react-scripts eject",
     "deploy": "npm run build && firebase deploy"
   },
@@ -37,12 +38,13 @@
   ],
   "devDependencies": {
     "@types/jest": "^24.0.11",
+    "chromedriver": "^2.46.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "firebase-tools": "^6.4.0",
-    "nightmare": "^3.0.1",
+    "geckodriver": "^1.16.0",
+    "nightwatch": "^1.0.19",
     "prettier": "^1.16.4",
-    "pushstate-server": "^3.1.0",
     "react-test-renderer": "^16.8.4",
     "redux-devtools-extension": "^2.13.8",
     "sonar-scanner": "^3.1.0"
