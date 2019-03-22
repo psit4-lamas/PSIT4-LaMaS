@@ -21,7 +21,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
+    "test": "react-scripts test --no-watch",
+    "test:coverage": "react-scripts test --coverage --no-watch",
+    "test:resnapshot": "react-scripts test -u --no-watch",
     "eject": "react-scripts eject",
     "deploy": "npm run build && firebase deploy"
   },
@@ -35,6 +37,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
     "firebase-tools": "^6.4.0",
     "prettier": "^1.16.4",
     "redux-devtools-extension": "^2.13.8",

@@ -8,6 +8,13 @@ const FormField = Form.Field;
 
 
 class UserLoginForm extends Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            email: '',
+            password: '',
+        };
+    }
 
     onSubmit = (email, password) => {
         this.props.logIn(email, password);
@@ -20,8 +27,13 @@ class UserLoginForm extends Component {
                 <Form size="large" onSubmit={ () => this.onSubmit(this.state.email, this.state.password) }>
                     <Segment stacked>
                         <FormField>
-                            <Input fluid icon="user" iconPosition="left" name={ 'email' } placeholder={ t('login.email') }
-                                   onChange={ (e) => this.setState({ email: e.target.value }) }/>
+                            <Input fluid
+                                   icon="user"
+                                   iconPosition="left"
+                                   name={ 'email' }
+                                   placeholder={ t('login.email') }
+                                   onChange={ (e) => this.setState({ email: e.target.value }) }
+                            />
                         </FormField>
                         <FormField>
                             <Input
