@@ -1,33 +1,47 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import TopMenu from '../ComponentMenu/TopMenu';
-import LectureBodyContent from '../LectureComponents/LectureBodyContent';
+import { Link } from 'react-router-dom';
+import { withNameSpacesAndRouterAndRedux } from '../../utils';
 import './LandingPage.css';
 
 
 class LandingPage extends Component {
 
+    onBookmarkedLinkClick = (pathname) => {
+        this.props.history.push(pathname);
+    };
+
     // TODO: improve landing page UI (Sprint 2)
     render() {
-        console.log('LandingPage ', this.props.base);
+        const { t } = this.props;
+        const { activeTabs } = this.props.tabs;
+
         return (
             <React.Fragment>
-                <header>
-                    {/* TODO: fix this TopMenu as well as in LecturePage.jsx */}
-                    <TopMenu/>
-                </header>
+                <h1>{ t('landingPage.title') }</h1>
 
-                {/* TODO: fix matching TopMenu clicked items with Route content shown (below) */}
-                <main>
-                    Llamacorn
-                    <Route exact path={ `${ this.props.base }/:subj` } render={ ({ match }) => <LectureBodyContent match={ match }/> }/>
-                </main>
+                <ul>
+                    { activeTabs.map((activeTab, index) => (
+                        <li key={ activeTab }>
+                            <Link
+                                to={ `/courses/${ activeTab.replace(' ', '%20') }` }
+                                onClick={ () => this.onBookmarkedLinkClick(`/courses/${ activeTab.replace(' ', '%20') }`) }
+                            >
+                                { activeTab }
+                            </Link>
+                        </li>
+                    )) }
+                </ul>
 
-                <footer>Feet</footer>
             </React.Fragment>
         );
     }
 }
 
 
-export default LandingPage;
+const mapStateToProps = (state) => ( {
+    tabs: state.tabs,
+} );
+
+const mapDispatchToProps = {};
+
+export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, LandingPage);

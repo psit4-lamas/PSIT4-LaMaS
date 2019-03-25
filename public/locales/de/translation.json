@@ -1,8 +1,27 @@
 {
-  "footer": {
-    "message": "Produkt aus PSIT4 ZHAW Vorlesung"
-  },
-  "menu": {
-    "language": "Sprache"
-  }
+    "footer": {
+        "message": "Produkt aus PSIT4 ZHAW Vorlesung"
+    },
+    "menu": {
+        "language": "Sprache",
+        "logout": "Ausloggen"
+    },
+    "login": {
+        "message": "Auf LaMaS anmelden",
+        "password": "Passwort",
+        "email": "E-Mail Adresse",
+        "login": "Anmelden"
+    },
+    "landingPage": {
+        "title": "Bookmark"
+    },
+    "videoUpload": {
+        "selectFile": "Datei zum hochladen auswählen"
+    },
+    "fileList": {
+        "V": "Videos",
+        "E": "Übungsaufgaben",
+        "L": "Zusätzliche Unterlagen",
+        "action": "Aktion"
+    }
 }
