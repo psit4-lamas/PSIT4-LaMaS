@@ -33,40 +33,45 @@ exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMe
 });
 
 //example for data:
-//  {
-//    "subject": "KI",
-//    "assignedTutor": "userid"
-//  }
+//  {subjectName: subjectName, assignedTutor: ["tutor_1","tutor_2"]}
+
 exports.addSubject = functions.https.onCall((data: any, context: CallableContext) => {
     if (!context.auth) {
         // Throwing an HttpsError so that the client gets the error details.
         throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
     }
-    let grades = {};
-    let videos = {};
-    let lecture_materials = {};
-    let exercises = {};
-    let comments = {};
 
+    if (
+        typeof data === 'undefined' ||
+        typeof data.subjectName === 'undefined' ||
+        typeof data.assignedTutor === 'undefined' ||
+        !Array.isArray(data.assignedTutor) ||
+        data.assignedTutor.length === 0
+    ) {
+        throw new functions.https.HttpsError('failed-precondition', 'Please provide a subjectName and a assignedTutor array with at least length 1.');
+    }
+    const grades = {};
+    const videos = {};
+    const lecture_materials = {};
+    const exercises = {};
+    const comments = {};
 
-    let lectures = {};
+    const lectures = {};
     for (let i = 1; i <= 14; i++) {
-
-        let lectureName = "lecture_"+("0" + i).slice(-2);
+        let lectureName = 'lecture_' + ('0' + i).slice(-2);
         Object.assign(lectures, {
             [lectureName]: {
                 is_public: false,
-                name: 'this is lecture '+i,
+                name: 'this is lecture ' + i,
                 videos,
                 lecture_materials,
                 exercises,
                 comments,
-            }});
+            },
+        });
+    }
 
-        }
-
-
-    let savable = {
+    const savable = {
         subject_name: data.subjectName,
         assigned_tutor: data.assignedTutor,
         lectures,
@@ -74,20 +79,15 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
         subject_rates: [],
     };
 
-    return (
-        admin
-            .firestore()
-            .collection('subjects')
-            .add(savable)
-            .then(() => {
-                console.log('New Message written');
-                // Returning the sanitized message to the client.
-                return {text: data.assignedTutor};
-            })
-            // [END returnMessageAsync]
-            .catch((error: any) => {
-                // Re-throwing the error as an HttpsError so that the client gets the error details.
-                throw new functions.https.HttpsError('unknown', error.message, error);
-            })
-    );
+    return admin
+        .firestore()
+        .collection('subjects')
+        .add(savable)
+        .then((docRef: any) => {
+            return {subjectId: docRef.id};
+        })
+        .catch((error: any) => {
+            // Re-throwing the error as an HttpsError so that the client gets the error details.
+            throw new functions.https.HttpsError('unknown', error.message, error);
+        });
 });
