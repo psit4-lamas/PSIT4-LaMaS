@@ -25,15 +25,10 @@ class UserLoginForm extends Component {
         return (
             <div>
                 <Form size="large" onSubmit={ () => this.onSubmit(this.state.email, this.state.password) }>
-                    <Segment stacked>
+                    <Segment>
                         <FormField>
-                            <Input fluid
-                                   icon="user"
-                                   iconPosition="left"
-                                   name={ 'email' }
-                                   placeholder={ t('login.email') }
-                                   onChange={ (e) => this.setState({ email: e.target.value }) }
-                            />
+                            <Input fluid icon="user" iconPosition="left" name={ 'email' } placeholder={ t('login.email') }
+                                   onChange={ (e) => this.setState({ email: e.target.value }) }/>
                         </FormField>
                         <FormField>
                             <Input
@@ -58,11 +53,16 @@ class UserLoginForm extends Component {
 }
 
 
-const mapStateToProps = (state) => ( {} );
+const mapStateToProps = () => ( {} );
 
 const mapDispatchToProps = {
     logIn,
 };
 
-export { UserLoginForm }
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(UserLoginForm));
+export { UserLoginForm };
+export default withNamespaces()(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(UserLoginForm),
+);

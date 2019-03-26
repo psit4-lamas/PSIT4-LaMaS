@@ -21,8 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --no-watch",
-    "test:coverage": "react-scripts test --coverage --no-watch",
+    "test": "react-scripts test --coverage --no-watch",
     "test:resnapshot": "react-scripts test -u --no-watch",
     "eject": "react-scripts eject",
     "deploy": "npm run build && firebase deploy"
