@@ -18,18 +18,37 @@ exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMe
     const bucket = storage.bucket(object.bucket);
 
     const [metadataFromFile] = await bucket.file(filePath).getMetadata();
-    let metadata = {
-        lecture: metadataFromFile.metadata.lecture,
-        name: metadataFromFile.metadata.originalName,
-        nameOnStorage: metadataFromFile.name,
-        subject: metadataFromFile.metadata.subject,
-        type: metadataFromFile.metadata.type,
-    };
-    console.log(metadata);
-    await admin
+
+    //console.log(metadataFromFile);
+    let dbSubject: any = {};
+    let subjectRef = await admin
         .firestore()
-        .collection('files')
-        .add(metadata);
+        .collection('subjects')
+        .doc(metadataFromFile.metadata.subjectId);
+    await subjectRef.get().then(function (doc: any) {
+        dbSubject = doc.data();
+    });
+    //console.log(dbSubject);
+    let lectureName = 'lecture_' + ('0' + metadataFromFile.metadata.lecture).slice(-2);
+    let type = metadataFromFile.metadata.type;
+    const lectures = dbSubject['lectures'];
+    //console.log(lectures);
+    const attachmentNumber = Object.keys(lectures[lectureName][type]).length;
+
+    let attachmentName = metadataFromFile.metadata.type + '_' + ('0' + attachmentNumber).slice(-2);
+    let newAttachment = {
+        [attachmentName]: {
+            name: metadataFromFile.metadata.originalName,
+            nameOnStorage: metadataFromFile.name,
+        },
+    };
+
+    const existingAttachments = dbSubject.lectures[lectureName][type];
+    const updatePath = 'lectures.' + lectureName + '.' + type;
+    const attachments = Object.assign(existingAttachments, newAttachment);
+    await subjectRef.update({
+        [updatePath]: attachments,
+    });
 });
 
 //example for data:
