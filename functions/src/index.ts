@@ -34,7 +34,6 @@ exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMe
 
 //example for data:
 //  {subjectName: subjectName, assignedTutor: ["tutor_1","tutor_2"]}
-
 exports.addSubject = functions.https.onCall((data: any, context: CallableContext) => {
     if (!context.auth) {
         // Throwing an HttpsError so that the client gets the error details.
