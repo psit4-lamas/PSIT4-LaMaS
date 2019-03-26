@@ -3,12 +3,25 @@
         "message": "Product from PSIT4 ZHAW lecture"
     },
     "menu": {
-        "language": "Language"
+        "language": "Language",
+        "logout": "Logout"
     },
     "login": {
         "message": "Log-in to LaMaS",
         "password": "password",
         "email": "e-mail address",
         "login": "Login"
+    },
+    "landingPage": {
+        "title": "Bookmark"
+    },
+    "videoUpload": {
+        "selectFile": "Select file for upload"
+    },
+    "fileList": {
+        "V": "Videos",
+        "E": "Exercises",
+        "L": "Lecture Materials",
+        "action": "Action"
     }
 }

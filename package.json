@@ -9,6 +9,7 @@
     "i18next-xhr-backend": "^2.0.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-firebase-file-uploader": "^2.4.2",
     "react-i18next": "^9.0.10",
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
@@ -22,6 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --no-watch",
+    "test:acceptance:firefox": "nightwatch",
+    "test:acceptance:chrome": "nightwatch --env chrome",
     "test:resnapshot": "react-scripts test -u --no-watch",
     "eject": "react-scripts eject",
     "deploy": "npm run build && firebase deploy"
@@ -36,10 +39,15 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "chromedriver": "^2.46.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "firebase-tools": "^6.4.0",
+    "geckodriver": "^1.16.0",
+    "nightwatch": "^1.0.19",
     "prettier": "^1.16.4",
+    "react-test-renderer": "^16.8.4",
     "redux-devtools-extension": "^2.13.8",
     "sonar-scanner": "^3.1.0"
   }
