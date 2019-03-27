@@ -12,6 +12,18 @@ const storage = admin.storage();
  * When a file is uploaded in the Storage bucket the information and metadata of that file is saved in the Firestore Database.
  */
 
+const nodeNameForType = (type:String) => {
+    if (type === 'V') {
+        return 'videos';
+    } else if (type === 'E') {
+        return 'exercises';
+    } else if (type === 'L') {
+        return 'lecture_materials';
+    } else {
+        return 'lecture_materials';
+    }
+};
+
 exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMetadata) => {
     const filePath = object.name;
 
@@ -19,37 +31,35 @@ exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMe
 
     const [metadataFromFile] = await bucket.file(filePath).getMetadata();
 
-    //console.log(metadataFromFile);
     let dbSubject: any = {};
-    let subjectRef = await admin
+    const subjectRef = await admin
         .firestore()
         .collection('subjects')
         .doc(metadataFromFile.metadata.subjectId);
     await subjectRef.get().then(function (doc: any) {
         dbSubject = doc.data();
     });
-    //console.log(dbSubject);
-    let lectureName = 'lecture_' + ('0' + metadataFromFile.metadata.lecture).slice(-2);
-    let type = metadataFromFile.metadata.type;
+    const lectureName = 'lecture_' + ('0' + metadataFromFile.metadata.lecture).slice(-2);
+    const attachmentSection = nodeNameForType(metadataFromFile.metadata.type);
     const lectures = dbSubject['lectures'];
-    //console.log(lectures);
-    const attachmentNumber = Object.keys(lectures[lectureName][type]).length;
+    const attachmentNumber = Object.keys(lectures[lectureName][attachmentSection]).length;
 
-    let attachmentName = metadataFromFile.metadata.type + '_' + ('0' + attachmentNumber).slice(-2);
-    let newAttachment = {
+    const attachmentName = attachmentSection + '_' + ('0' + attachmentNumber).slice(-2);
+    const newAttachment = {
         [attachmentName]: {
             name: metadataFromFile.metadata.originalName,
             nameOnStorage: metadataFromFile.name,
         },
     };
 
-    const existingAttachments = dbSubject.lectures[lectureName][type];
-    const updatePath = 'lectures.' + lectureName + '.' + type;
+    const existingAttachments = dbSubject.lectures[lectureName][attachmentSection];
+    const updatePath = 'lectures.' + lectureName + '.' + attachmentSection;
     const attachments = Object.assign(existingAttachments, newAttachment);
     await subjectRef.update({
         [updatePath]: attachments,
     });
 });
+
 
 //example for data:
 //  {subjectName: subjectName, assignedTutor: ["tutor_1","tutor_2"]}
