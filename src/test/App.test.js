@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../main/App';
-import VideoUpload from '../main/UploadComponent/VideoUpload';
+import UploadComponent from '../main/UploadComponent/UploadComponent';
 
 
 it('renders without crashing', () => {
@@ -13,7 +13,7 @@ it('renders without crashing', () => {
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<VideoUpload t={ (key) => key }/>, div);
+  ReactDOM.render(<UploadComponent buttonLabel={ 'Add video' } fileType={ 'V' }/>, div);
 
   ReactDOM.unmountComponentAtNode(div);
 });

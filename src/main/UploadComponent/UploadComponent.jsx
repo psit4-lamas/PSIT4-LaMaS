@@ -4,7 +4,7 @@ import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
 
 
-class ExerciseUpload extends Component {
+class UploadComponent extends Component {
 
     state = {
         progress: 0,
@@ -28,7 +28,7 @@ class ExerciseUpload extends Component {
 
     render() {
         const { isUploading, progress, errorOccurred } = this.state;
-        const { t } = this.props;
+        const { buttonLabel, fileType } = this.props;
 
         return (
             <div>
@@ -36,14 +36,14 @@ class ExerciseUpload extends Component {
                     <Progress percent={ progress } indicating progress label="uploading"/>
                 ) : (
                     <label style={ { backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, cursor: 'pointer', fontWeight: 'bold' } }>
-                        { t('uploadComponent.selectExercise') }
+                        { buttonLabel }
                         <FileUploader
                             hidden
                             name="file"
                             randomizeFilename
                             storageRef={ fire.storage().ref('files') }
                             onUploadStart={ this.handleUploadStart }
-                            metadata={ { customMetadata: { subject: 'KI', lecture: 1, type: 'E', originalName: 'myFile' } } }
+                            metadata={ { customMetadata: { subject: 'KI', lecture: 1, type: fileType, originalName: 'myFile' } } }
                             onUploadError={ this.handleUploadError }
                             onUploadSuccess={ this.handleUploadSuccess }
                             onProgress={ this.handleProgress }
@@ -58,4 +58,4 @@ class ExerciseUpload extends Component {
 }
 
 
-export default ExerciseUpload;
+export default UploadComponent;
