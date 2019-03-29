@@ -24,11 +24,23 @@ class UploadComponent extends Component {
         this.setState({ progress: 100, isUploading: false });
     };
 
+    getAcceptedFileType = () => {
+        const { fileType } = this.props;
+
+        if ( fileType === 'V' ) {
+            return 'video/*';
+        } else {
+            return '*';
+        }
+    };
+
     handleProgress = (progress) => this.setState({ progress });
 
     render() {
         const { isUploading, progress, errorOccurred } = this.state;
         const { buttonLabel, fileType } = this.props;
+
+        const acceptedFileTypes = this.getAcceptedFileType();
 
         return (
             <div>
@@ -39,6 +51,7 @@ class UploadComponent extends Component {
                         { buttonLabel }
                         <FileUploader
                             hidden
+                            accept={ acceptedFileTypes }
                             name="file"
                             randomizeFilename
                             storageRef={ fire.storage().ref('files') }
