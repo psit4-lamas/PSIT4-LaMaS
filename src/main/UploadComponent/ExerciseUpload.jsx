@@ -4,7 +4,7 @@ import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
 
 
-class VideoUpload extends Component {
+class ExerciseUpload extends Component {
 
     state = {
         progress: 0,
@@ -36,14 +36,14 @@ class VideoUpload extends Component {
                     <Progress percent={ progress } indicating progress label="uploading"/>
                 ) : (
                     <label style={ { backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, cursor: 'pointer', fontWeight: 'bold' } }>
-                        { t('videoUpload.selectFile') }
+                        { t('uploadComponent.selectExercise') }
                         <FileUploader
                             hidden
                             name="file"
                             randomizeFilename
                             storageRef={ fire.storage().ref('files') }
                             onUploadStart={ this.handleUploadStart }
-                            metadata={ { customMetadata: { subject: 'KI', lecture: 1, type: 'V', originalName: 'myFile' } } }
+                            metadata={ { customMetadata: { subject: 'KI', lecture: 1, type: 'E', originalName: 'myFile' } } }
                             onUploadError={ this.handleUploadError }
                             onUploadSuccess={ this.handleUploadSuccess }
                             onProgress={ this.handleProgress }
@@ -58,4 +58,4 @@ class VideoUpload extends Component {
 }
 
 
-export default VideoUpload;
+export default ExerciseUpload;

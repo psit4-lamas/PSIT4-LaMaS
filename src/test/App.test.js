@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../main/App';
-import VideoUpload from '../main/VideoUploadComponent/VideoUpload';
+import VideoUpload from '../main/UploadComponent/VideoUpload';
 
 
 it('renders without crashing', () => {
