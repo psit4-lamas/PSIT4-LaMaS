@@ -19,9 +19,9 @@ describe('Upload video', () => {
         componentLecture = create(<UploadComponent { ...propsForLecture } />);
         componentExercise = create(<UploadComponent { ...propsForExercise } />);
 
-        rootInstance = componentVideo.root;
-        rootInstance = componentLecture.root;
-        rootInstance = componentExercise.root;
+        // rootInstance = componentVideo.root;
+        // rootInstance = componentLecture.root;
+        // rootInstance = componentExercise.root;
 
     });
 
