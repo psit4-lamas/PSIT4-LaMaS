@@ -12,28 +12,24 @@ class UploadMediaPage extends Component {
         const { t } = this.props;
 
         return (
-            <React.Fragment>
+            <div>
 
-                <main>
-                    <UploadComponent fileType={ 'V' } buttonLabel={ t('uploadComponent.selectVideo') }/>
-                </main>
+                <UploadComponent fileType={ 'V' } buttonLabel={ t('uploadComponent.selectVideo') }/>
                 <br/>
                 <FileList firebase={ fire } type={ 'V' } t={ t }/>
                 <br/>
                 <br/>
-                <main>
-                    <UploadComponent fileType={ 'L' } buttonLabel={ t('uploadComponent.selectLecture') }/>
-                </main>
+
+                <UploadComponent fileType={ 'L' } buttonLabel={ t('uploadComponent.selectLecture') }/>
                 <br/>
                 <FileList firebase={ fire } type={ 'L' } t={ t }/>
                 <br/>
                 <br/>
-                <main>
-                    <UploadComponent fileType={ 'E' } buttonLabel={ t('uploadComponent.selectExercise') }/>
-                </main>
+
+                <UploadComponent fileType={ 'E' } buttonLabel={ t('uploadComponent.selectExercise') }/>
                 <br/>
                 <FileList firebase={ fire } type={ 'E' } t={ t }/>
-            </React.Fragment>
+            </div>
         );
     }
 }
