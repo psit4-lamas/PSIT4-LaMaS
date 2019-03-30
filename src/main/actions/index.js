@@ -1,6 +1,5 @@
 import firebase from '../../firebase';
-import config, { isDevelopment } from '../../firebase/configLoader';
-
+import config, {isDevelopment} from '../../firebase/configLoader';
 
 const Actions = {
     LOAD_USER: 'LOAD_USER',
@@ -10,6 +9,12 @@ const Actions = {
     LOG_OUT_SUCCESS: 'LOG_OUT_SUCCESS',
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
+    LOAD_SUBJECT: 'LOAD_SUBJECT',
+    LOAD_SUBJECT_SUCCESS: 'LOAD_SUBJECT_SUCCESS',
+    LOAD_SUBJECT_HEAD: 'LOAD_SUBJECT_HEAD',
+    LOAD_SUBJECT_HEAD_SUCCESS: 'LOAD_SUBJECT_HEAD_SUCCESS',
+    SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
+    SUBJECT_REMOVE_HEAD: 'SUBJECT_REMOVE_HEAD',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -32,9 +37,7 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
-
     return (dispatch) => {
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 console.log(user);
@@ -66,7 +69,6 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
-
         // Connect to Firebase to perform a user login
         firebase
             .auth()
@@ -83,18 +85,65 @@ const logIn = (email, password) => {
     };
 };
 
-
 const logOut = () => {
     return (dispatch) => {
-        firebase.auth().signOut()
+        firebase
+            .auth()
+            .signOut()
             .then((res) => {
-                dispatch({ type: Actions.LOG_OUT_SUCCESS });
+                dispatch({type: Actions.LOG_OUT_SUCCESS});
             })
             .catch((err) => {
                 console.log('ERROR ON LOGOUT ', err);
             });
     };
-
 };
 
-export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut };
+const loadSubject = (subjectId) => {
+    return (dispatch) => {
+        firebase
+            .database()
+            .collection('subjects')
+            .doc(subjectId)
+            .onSnapshot(function (doc) {
+                if (doc.exists) {
+                    dispatch({
+                        type: Actions.LOAD_SUBJECT_SUCCESS,
+                        payload: doc.data(),
+                    });
+                }
+            });
+    };
+};
+
+const loadSubjectHead = () => {
+    return (dispatch) => {
+        firebase
+            .database()
+            .collection('subjects')
+            .onSnapshot(function (querySnapshot) {
+                querySnapshot.docChanges().forEach(function (change) {
+                    if (change.type === 'added') {
+                        dispatch({
+                            type: Actions.SUBJECT_INSERT_HEAD,
+                            payload: {
+                                name: change.doc.data().subject_name,
+                                subjectId: change.doc.id,
+                            },
+                        });
+                    }
+                    if (change.type === 'removed') {
+                        dispatch({
+                            type: Actions.SUBJECT_REMOVE_HEAD,
+                            payload: {
+                                name: change.doc.data().subject_name,
+                                subjectId: change.doc.id,
+                            },
+                        });
+                    }
+                });
+            });
+    };
+};
+
+export {Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut, loadSubject, loadSubjectHead};

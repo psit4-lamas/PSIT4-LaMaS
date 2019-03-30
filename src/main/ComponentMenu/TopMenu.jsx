@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import { withRouterAndRedux } from '../../utils';
-import { logOut } from '../actions';
-import { Button, Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
+import React, {Component} from 'react';
+import {withRouterAndRedux} from '../../utils';
+import {logOut} from '../actions';
+import {Button, Dropdown, Input, Menu, Segment} from 'semantic-ui-react';
 import './TopMenu.css';
 
 
 class TopMenu extends Component {
+    state = {activeItem: window.location.pathname};
 
-    state = { activeItem: window.location.pathname };
-
-    handleItemClick = (e, { name }) => {
-        this.setState({ activeItem: name });
+    handleItemClick = (e, {name}) => {
+        this.setState({activeItem: name});
         const pathname = name === '/home' || name === '/upload' ? `${ name }` : `/courses/${ name }`;
         this.props.history.push(pathname);
     };
@@ -20,7 +19,8 @@ class TopMenu extends Component {
     };
 
     render() {
-        const { t, changeLanguage, activeTabs } = this.props;
+        const {t, changeLanguage, activeTabs} = this.props;
+        const {subjectIds} = this.props.tabs;
         const currentPathname = window.location.pathname;
         const currentName = currentPathname.replace('/courses/', '').replace('%20', ' ');
         // TODO: The activeTabs is a list of subjects defined in src/main/reducers/index.js
@@ -29,12 +29,18 @@ class TopMenu extends Component {
 
         return (
             <div>
-                <Menu pointing id='top-menu'>
-                    <Menu.Item name="/home" active={ currentName === 'home' } onClick={ this.handleItemClick }>Home</Menu.Item>
-                    <Menu.Item name="/upload" active={ currentName === '/upload' } onClick={ this.handleItemClick }>Upload</Menu.Item>
+                <Menu pointing id="top-menu">
+                    <Menu.Item name="/home" active={ currentName === 'home' } onClick={ this.handleItemClick }>
+                        Home
+                    </Menu.Item>
+                    <Menu.Item name="/upload" active={ currentName === '/upload' } onClick={ this.handleItemClick }>
+                        Upload
+                    </Menu.Item>
 
                     { activeTabs.map((activeTab, index) => (
-                        <Menu.Item key={ activeTab } name={ activeTab } active={ currentName === activeTab } onClick={ this.handleItemClick }>{ activeTab }</Menu.Item>
+                        <Menu.Item key={ activeTab } name={ subjectIds[index] + '/' + activeTab } active={ currentName === activeTab } onClick={ this.handleItemClick }>
+                            { activeTab }
+                        </Menu.Item>
                     )) }
 
                     <Menu.Menu position="right">
@@ -43,20 +49,8 @@ class TopMenu extends Component {
                         </Menu.Item>
                     </Menu.Menu>
 
-                    <Menu.Menu
-                        id='top-menu-dropdown-language'
-                        position="right"
-                    >
-                        <Dropdown
-                            id='dropdown-language'
-                            button
-                            className='icon'
-                            floating
-                            labeled
-                            icon='world'
-                            additionPosition='bottom'
-                            text={ t('menu.language') }
-                        >
+                    <Menu.Menu id="top-menu-dropdown-language" position="right">
+                        <Dropdown id="dropdown-language" button className="icon" floating labeled icon="world" additionPosition="bottom" text={ t('menu.language') }>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={ () => changeLanguage('en') }>English</Dropdown.Item>
                                 <Dropdown.Item onClick={ () => changeLanguage('de') }>German</Dropdown.Item>
@@ -64,10 +58,7 @@ class TopMenu extends Component {
                         </Dropdown>
                     </Menu.Menu>
 
-                    <Menu.Menu
-                        id='top-menu-logout'
-                        position="right"
-                    >
+                    <Menu.Menu id="top-menu-logout" position="right">
                         <Menu.Item>
                             <Button color="red" onClick={ this.handleLogout }>
                                 { t('menu.logout') }
@@ -76,25 +67,24 @@ class TopMenu extends Component {
                     </Menu.Menu>
                 </Menu>
 
-                { (window.location.pathname === '/home') || (window.location.pathname === '/')
-                    ? ''
-                    : (
-                        <Segment>
-                            <p>some other sub menu (see moqups)</p>
-                        </Segment>
-                    )
-                }
+                { window.location.pathname === '/home' || window.location.pathname === '/' ? (
+                    ''
+                ) : (
+                    <Segment>
+                        <p>some other sub menu (see moqups)</p>
+                    </Segment>
+                ) }
             </div>
         );
     }
 }
 
 
-const mapStateToProps = (state) => ( {} );
+const mapStateToProps = (state) => ( {tabs: state.tabs} );
 
 const mapDispatchToProps = {
     logOut,
 };
 
-export { TopMenu };
+export {TopMenu};
 export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, TopMenu);

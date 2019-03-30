@@ -1,12 +1,11 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import LoginGuard from './LoginGuard';
 import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
 import LecturePage from '../pages/LecturePage';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import LandingPage from '../pages/LandingPage';
-
 
 const AppNavigation = () => (
     <Switch>
@@ -32,7 +31,7 @@ const AppNavigation = () => (
 
                     <Switch>
                         <Route path={ '/upload' } render={ () => <UploadMediaPage base={ '/upload' }/> }/>
-                        <Route path={ '/courses/:subject' } render={ () => <LecturePage pathname={ window.location.pathname }/> }/>
+                        <Route path={ '/courses/:subjectId/:subject' } render={ () => <LecturePage pathname={ window.location.pathname }/> }/>
                         <Route exact path={ '/home' } render={ () => <LandingPage/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage/> }/>
                     </Switch>
