@@ -71,10 +71,10 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
 
     if (
         typeof data === 'undefined' ||
-        typeof data.subjectName === 'undefined' ||
-        typeof data.assignedTutor === 'undefined' ||
-        !Array.isArray(data.assignedTutor) ||
-        data.assignedTutor.length === 0
+        typeof data.subject_name === 'undefined' ||
+        typeof data.assigned_tutors === 'undefined' ||
+        !Array.isArray(data.assigned_tutors) ||
+        data.assigned_tutors.length === 0
     ) {
         throw new functions.https.HttpsError('failed-precondition', 'Please provide a subjectName and a assignedTutor array with at least length 1.');
     }
@@ -100,8 +100,8 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
     }
 
     const savable = {
-        subject_name: data.subjectName,
-        assigned_tutor: data.assignedTutor,
+        subject_name: data.subject_name,
+        assigned_tutors: data.assigned_tutors,
         lectures,
         grades,
         subject_rates: [],
