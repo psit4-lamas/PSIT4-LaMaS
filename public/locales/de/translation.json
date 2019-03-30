@@ -15,8 +15,10 @@
     "landingPage": {
         "title": "Bookmark"
     },
-    "videoUpload": {
-        "selectFile": "Datei zum hochladen auswählen"
+    "uploadComponent": {
+        "selectVideo": "Videos hinzufügen",
+        "selectLecture": "Unterlagen hinzufügen",
+        "selectExercise": "Übungsaufgaben hinzufügen"
     },
     "fileList": {
         "V": "Videos",

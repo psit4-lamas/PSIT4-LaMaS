@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import fire from '../../firebase';
 import { withNamespaces } from 'react-i18next';
-import VideoUpload from '../VideoUploadComponent/VideoUpload';
+import UploadComponent from '../UploadComponent/UploadComponent';
 import FileList from '../FileListComponent/FileList';
 import './UploadMediaPage.css';
 
@@ -12,18 +12,24 @@ class UploadMediaPage extends Component {
         const { t } = this.props;
 
         return (
-            <React.Fragment>
+            <div>
 
-                <main>
-                    On the upload page!
-                    <VideoUpload t={ t }/>
-                </main>
-                <br/>
+                <UploadComponent fileType={ 'V' } buttonLabel={ t('uploadComponent.selectVideo') }/>
                 <br/>
                 <FileList firebase={ fire } type={ 'V' } t={ t }/>
+                <br/>
+                <br/>
+
+                <UploadComponent fileType={ 'L' } buttonLabel={ t('uploadComponent.selectLecture') }/>
+                <br/>
                 <FileList firebase={ fire } type={ 'L' } t={ t }/>
+                <br/>
+                <br/>
+
+                <UploadComponent fileType={ 'E' } buttonLabel={ t('uploadComponent.selectExercise') }/>
+                <br/>
                 <FileList firebase={ fire } type={ 'E' } t={ t }/>
-            </React.Fragment>
+            </div>
         );
     }
 }
