@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {withNameSpacesAndRouterAndRedux} from '../../utils';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { withNameSpacesAndRouterAndRedux } from '../../utils';
+import { loadSubject, loadSubjectHead } from '../actions';
 import './LandingPage.css';
-import {loadSubject, loadSubjectHead} from '../actions';
 
 
 class LandingPage extends Component {
+
     componentDidMount() {
         this.props.loadSubjectHead();
     }
@@ -21,8 +22,8 @@ class LandingPage extends Component {
 
     // TODO: improve landing page UI (Sprint 2)
     render() {
-        const {t} = this.props;
-        const {activeTabs, subjectIds} = this.props.tabs;
+        const { t } = this.props;
+        const { activeTabs, subjectIds } = this.props.tabs;
 
         return (
             <React.Fragment>
@@ -46,11 +47,13 @@ class LandingPage extends Component {
     }
 }
 
-
-const mapStateToProps = (state) => ( {
+const mapStateToProps = (state) => ({
     tabs: state.tabs,
-} );
+});
 
-const mapDispatchToProps = {loadSubject, loadSubjectHead};
+const mapDispatchToProps = {
+    loadSubject,
+    loadSubjectHead,
+};
 
 export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, LandingPage);
