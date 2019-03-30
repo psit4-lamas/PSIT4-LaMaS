@@ -4,29 +4,32 @@
 //
 
 import React, { Component } from 'react';
-import Fire from '../../firebase';
+import  { connect } from 'react-redux';
+import { createSubject } from '../actions';
 import { Form, Message, Dropdown } from 'semantic-ui-react';
+
 
 const availableTutors = [
     { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
     { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
-    { key: 'Peter Kummer', text: 'Peter Kummer', value: 'Peter Kummer' },
+    { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
 ];
 
 
 class CreateSubject extends Component {
+
     state = {
         subject: '',
-        selectedTutors: '',
+        selectedTutors: [],
         submittedSubject: '',
         submittedTutors: [],
         submitSuccess: false,
-        availableTutors
+        availableTutors: availableTutors.slice(),
     };
 
     handleAddition = (e, { value }) => {
         this.setState({
-            availableTutors: [{ text: value, value }, ...this.state.availableTutors],
+            availableTutors: [ { text: value, value }, ...this.state.availableTutors ],
         });
     };
 
@@ -36,11 +39,9 @@ class CreateSubject extends Component {
 
     handleSubmit = () => {
         const { subject, selectedTutors } = this.state;
-        let sendSubject = Fire.functions().httpsCallable('addSubject');
 
-        sendSubject({ subjectName: subject, assignedTutor: selectedTutors }).then((result) => {
-            console.log(result);
-        });
+        this.props.createSubject(subject, selectedTutors);
+
         this.setState({
             submittedSubject: subject,
             submittedTutors: selectedTutors,
@@ -51,25 +52,28 @@ class CreateSubject extends Component {
     };
 
     render() {
-        const { subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
+        const { availableTutors, submitSuccess, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
         const { t } = this.props;
 
         return (
             <div>
-                { this.state.submitSuccess ? (
+                { submitSuccess ? (
                     <Message success>
                         <Message.Header>Subject created</Message.Header>
                         <p>
-                            Subject with name { submittedSubject } and assigned tutors { submittedTutors.join(', ') } created.
+                            Subject with name { submittedSubject } and assigned
+                            tutors { submittedTutors.join(', ') } created.
                         </p>
                     </Message>
                 ) : null }
+
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>Subject Name</label>
-                        <Form.Input placeholder="Subject Name" name="subject" value={ subject } onChange={ this.handleInputChange }/>
+                        <Form.Input placeholder="Subject Name" name="subject" value={ subject }
+                                    onChange={ this.handleInputChange }/>
                         <Dropdown
-                            options={ this.state.availableTutors }
+                            options={ availableTutors }
                             placeholder="Tutors..."
                             search
                             selection
@@ -88,4 +92,12 @@ class CreateSubject extends Component {
     }
 }
 
-export default CreateSubject;
+
+const mapStateToProps = (state) => ( {} );
+
+const mapDispatchToProps = {
+    createSubject,
+};
+
+export { CreateSubject }
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSubject);
