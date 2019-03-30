@@ -1,5 +1,6 @@
-import {combineReducers} from 'redux';
-import {Actions} from '../actions';
+import { combineReducers } from 'redux';
+import { Actions } from '../actions';
+
 
 const initialState = {
     user: {
@@ -12,7 +13,7 @@ const initialState = {
         subjectIds: [],
     },
     subject: {
-        isLoadingSubject: false,
+        isLoadingSubject: true,
         currentSubjectId: '',
         currentSubject: {
             lectures: {},
@@ -64,26 +65,34 @@ const userReducer = (state = initialState.user, action) => {
                 };
             }
         default:
-            return {...state};
+            return { ...state };
     }
 };
 
 const tabsReducer = (state = initialState.tabs, action) => {
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
+
     switch (action.type) {
         case Actions.SUBJECT_INSERT_HEAD:
+            const subject_id = action.payload.subjectId;
+            const subject_name = action.payload.name;
             const found = state.subjectIds.find(function (element) {
-                return element === action.payload.subjectId;
+                return element === subject_id;
             });
+
+            // TODO: I have the impression we are doing two things in this reducer:
+            //       - handling the add/remove active tabs (a tab should appear only if the subj content is requested)
+            //       - handling the bookmarked subjects (the list of all bookmarked subjects should be available)
+            // TODO: split this logic into 2 different reducers (can be fixed after Sprint 2)
             if (found === undefined) {
                 return {
                     ...state,
                     ...action.payload,
-                    activeTabs: [...state.activeTabs, action.payload.name],
-                    subjectIds: [...state.subjectIds, action.payload.subjectId],
+                    activeTabs: [ ...state.activeTabs, subject_name ],
+                    subjectIds: [ ...state.subjectIds, subject_id ],
                 };
             } else {
-                return {...state};
+                return { ...state };
             }
 
         case Actions.SUBJECT_REMOVE_HEAD:
@@ -91,32 +100,34 @@ const tabsReducer = (state = initialState.tabs, action) => {
                 ...state,
                 ...action.payload,
                 activeTabs: state.activeTabs.filter(function (value) {
-                    return !( action.payload.name === value );
+                    return !(subject_name === value);
                 }),
                 subjectIds: state.subjectIds.filter(function (value) {
-                    return !( action.payload.subjectId === value );
+                    return !(subject_id === value);
                 }),
             };
         default:
-            return {...state};
+            return { ...state };
     }
 };
 
 const subjectReducer = (state = initialState.subject, action) => {
     switch (action.type) {
         case Actions.LOAD_SUBJECT:
-            state.currentSubjectId = action.subjectId;
-            state.isLoadingSubject = true;
-            return state;
+            return {
+                ...state,
+                isLoadingSubject: false,
+                currentSubjectId: action.payload.subject_id,
+            };
         case Actions.LOAD_SUBJECT_SUCCESS:
             return {
                 ...state,
-                ...action.payload,
-                currentSubject: action.payload,
                 isLoadingSubject: false,
+                currentSubjectId: action.payload.subject_id,
+                currentSubject: { ...action.payload.subject },
             };
         default:
-            return {...state};
+            return { ...state };
     }
 };
 
