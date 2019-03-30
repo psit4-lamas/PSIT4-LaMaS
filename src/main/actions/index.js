@@ -119,9 +119,14 @@ const loadSubject = (subjectId) => {
             .doc(subjectId)
             .onSnapshot(function (doc) {
                 if (doc.exists) {
+                    const response = {
+                        subject_id: doc.id,
+                        subject: doc.data(),
+                    };
+
                     dispatch({
                         type: Actions.LOAD_SUBJECT_SUCCESS,
-                        payload: doc.data(),
+                        payload: response,
                     });
                 }
             });
