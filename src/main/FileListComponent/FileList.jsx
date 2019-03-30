@@ -72,12 +72,16 @@ class FileList extends Component {
         const fileList = this.state.files.map((dbEntry) => {
             return (
                 <Table.Row key={ dbEntry.nameOnStorage }>
-                    <Table.Cell width={ 12 }>
+                    <Table.Cell width={ 14 }>
                         <a href={ dbEntry.downloadURL }>
                             { dbEntry.nameOnStorage } for subject { dbEntry.subject } and lecture { dbEntry.lecture }
                         </a>
                     </Table.Cell>
-                    <Table.Cell/>
+                    <Table.Cell>
+                        <button style={{display: "none"}} className="ui icon button">
+                            <i className="trash alternate icon"></i>
+                        </button>
+                    </Table.Cell>
                 </Table.Row>
             );
         });
@@ -86,8 +90,8 @@ class FileList extends Component {
             <Table color={ this.colorForStructure(type) } key={ this.colorForStructure(type) }>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell width={ 12 }>{ t('fileList.' + type) }</Table.HeaderCell>
-                        <Table.HeaderCell width={ 12 }>{ t('fileList.action') }</Table.HeaderCell>
+                        <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) }</Table.HeaderCell>
+                        <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>{ fileList }</Table.Body>

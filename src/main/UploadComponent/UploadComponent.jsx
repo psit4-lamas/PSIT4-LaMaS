@@ -4,7 +4,7 @@ import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
 
 
-class VideoUpload extends Component {
+class UploadComponent extends Component {
 
     state = {
         progress: 0,
@@ -24,11 +24,23 @@ class VideoUpload extends Component {
         this.setState({ progress: 100, isUploading: false });
     };
 
+    getAcceptedFileType = () => {
+        const { fileType } = this.props;
+
+        if ( fileType === 'V' ) {
+            return 'video/*';
+        } else {
+            return '*';
+        }
+    };
+
     handleProgress = (progress) => this.setState({ progress });
 
     render() {
         const { isUploading, progress, errorOccurred } = this.state;
-        const { t } = this.props;
+        const { buttonLabel, fileType } = this.props;
+
+        const acceptedFileTypes = this.getAcceptedFileType();
 
         return (
             <div>
@@ -36,14 +48,15 @@ class VideoUpload extends Component {
                     <Progress percent={ progress } indicating progress label="uploading"/>
                 ) : (
                     <label style={ { backgroundColor: 'pink', color: 'white', padding: 20, borderRadius: 4, cursor: 'pointer', fontWeight: 'bold' } }>
-                        { t('videoUpload.selectFile') }
+                        { buttonLabel }
                         <FileUploader
                             hidden
+                            accept={ acceptedFileTypes }
                             name="file"
                             randomizeFilename
                             storageRef={ fire.storage().ref('files') }
                             onUploadStart={ this.handleUploadStart }
-                            metadata={ { customMetadata: { subject: 'KI', lecture: 1, type: 'V', originalName: 'myFile' } } }
+                            metadata={ { customMetadata: { subject: 'KI', lecture: 1, type: fileType, originalName: 'myFile' } } }
                             onUploadError={ this.handleUploadError }
                             onUploadSuccess={ this.handleUploadSuccess }
                             onProgress={ this.handleProgress }
@@ -58,4 +71,4 @@ class VideoUpload extends Component {
 }
 
 
-export default VideoUpload;
+export default UploadComponent;
