@@ -235,3 +235,6 @@ build/
 
 # Ignore nightwatch test acceptance output files
 src/test/acceptance/output/
+
+# Ignore patch files
+*.patch
