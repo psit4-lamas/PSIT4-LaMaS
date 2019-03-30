@@ -1,4 +1,4 @@
-
+/* to be deleted
 module.exports = {
     'Demo test Google' : function (browser) {
         browser
@@ -12,3 +12,5 @@ module.exports = {
             .end();
     }
 };
+
+*/
