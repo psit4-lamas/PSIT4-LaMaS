@@ -10,6 +10,8 @@ const Actions = {
     LOG_OUT_SUCCESS: 'LOG_OUT_SUCCESS',
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
+
+    CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -32,41 +34,39 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
-
     return (dispatch) => {
+        firebase.auth()
+                .onAuthStateChanged((user) => {
+                    if (user) {
+                        console.log(user);
 
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                console.log(user);
+                        // If the user has not confirmed his/her account yet, re-send a confirmation email
+                        // with a 'Continue' link, redirecting the user to the LaMaS web application
+                        if (!user.emailVerified) {
+                            const redirectURI = isDevelopment() ? 'http://localhost:3000' : `https://${ config.default.authDomain }`;
 
-                // If the user has not confirmed his/her account yet, re-send a confirmation email
-                // with a 'Continue' link, redirecting the user to the LaMaS web application
-                if (!user.emailVerified) {
-                    const redirectURI = isDevelopment() ? 'http://localhost:3000' : `https://${ config.default.authDomain }`;
+                            user.sendEmailVerification({
+                                url: redirectURI,
+                            });
+                        }
 
-                    user.sendEmailVerification({
-                        url: redirectURI,
-                    });
-                }
+                        dispatch({
+                            type: Actions.LOG_IN_SUCCESS,
+                            payload: user,
+                        });
+                    } else {
+                        console.log('User logged out!');
 
-                dispatch({
-                    type: Actions.LOG_IN_SUCCESS,
-                    payload: user,
+                        dispatch({
+                            type: Actions.LOG_OUT_SUCCESS,
+                        });
+                    }
                 });
-            } else {
-                console.log('User logged out!');
-
-                dispatch({
-                    type: Actions.LOG_OUT_SUCCESS,
-                });
-            }
-        });
     };
 };
 
 const logIn = (email, password) => {
     return (dispatch) => {
-
         // Connect to Firebase to perform a user login
         firebase
             .auth()
@@ -83,10 +83,11 @@ const logIn = (email, password) => {
     };
 };
 
-
 const logOut = () => {
     return (dispatch) => {
-        firebase.auth().signOut()
+        firebase
+            .auth()
+            .signOut()
             .then((res) => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
@@ -94,7 +95,30 @@ const logOut = () => {
                 console.log('ERROR ON LOGOUT ', err);
             });
     };
-
 };
 
-export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut };
+const createSubject = (submittedSubject, submittedTutors) => {
+    return (dispatch) => {
+        firebase
+            .functions()
+            .httpsCallable('addSubject')({ subjectName: submittedSubject, assignedTutor: submittedTutors })
+            .then((res) => {
+
+                const data = {
+                    subjectId: res.data.subjectId,
+                    subject_name: submittedSubject,
+                    assigned_tutor: submittedTutors,
+                };
+
+                dispatch({
+                    type: Actions.CREATE_SUBJECT_SUCCESS,
+                    payload: data,
+                });
+            })
+            .catch((err) => {
+                console.log('ERROR ON CREATE SUBJECT ', err);
+            });
+    };
+};
+
+export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut, createSubject };
