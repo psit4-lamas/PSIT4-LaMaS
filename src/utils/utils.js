@@ -8,4 +8,8 @@ const withNameSpacesAndRouterAndRedux = (mapStateToProps, mapDispatchToProps, Wr
 const withRouterAndRedux = (mapStateToProps, mapDispatchToProps, WrappedComponent) =>
     withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedComponent));
 
-export { withNameSpacesAndRouterAndRedux, withRouterAndRedux };
+const isEmptyObject = (object) => {
+    return !object || Object.keys(object).length === 0;
+};
+
+export { withNameSpacesAndRouterAndRedux, withRouterAndRedux, isEmptyObject };
