@@ -9,7 +9,7 @@ import LandingPage from '../pages/LandingPage';
 import CreateSubjectPage from '../pages/CreateSubjectPage';
 
 
-const AppNavigation = () => (
+const AppNavigation = () => ( // NOSONAR
     <Switch>
         <Route
             exact

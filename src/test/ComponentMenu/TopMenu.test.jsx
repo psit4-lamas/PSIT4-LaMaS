@@ -46,8 +46,9 @@ describe('Top menu', () => {
 
         expect(menuItems[0].children[0].props.children).toEqual('Home');
         expect(menuItems[1].children[0].props.children).toEqual('Upload');
-        expect(menuItems[2].children[0].props.children).toEqual('IS');
-        expect(menuItems[3].children[0].props.children).toEqual('KI2');
-        expect(menuItems[4].children[0].props.children).toEqual('PSIT4');
+        expect(menuItems[2].children[0].props.children).toEqual('Create Subject');
+        expect(menuItems[3].children[0].props.children).toEqual('IS');
+        expect(menuItems[4].children[0].props.children).toEqual('KI2');
+        expect(menuItems[5].children[0].props.children).toEqual('PSIT4');
     });
 });
