@@ -1,34 +1,33 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Route, withRouter} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import { withRouterAndRedux } from '../../utils';
+import { loadSubject } from '../actions/index';
+import { isEmptyObject } from '../../utils';
 import LectureBodyContent from '../LectureComponents/LectureBodyContent';
-import {loadSubject} from '../actions/index';
+import LoadingPage from '../pages/LoadingPage';
 import './LecturePage.css';
 
 
 class LecturePage extends Component {
     // TODO: improve lecture page UI (Sprint 2)
-    render() {
-        const {pathname} = this.props;
-        this.props.loadSubject(this.props.match.params.subjectId);
+    componentWillMount() {
+        const { subject_id } = this.props.match.params;
+        this.props.loadSubject(subject_id);
+    }
 
-        if (this.props.isLoadingUser) {
-            return <React.Fragment>page loading ...</React.Fragment>;
+    render() {
+        const { pathname, isLoadingSubject, subject } = this.props;
+
+        if (isLoadingSubject || isEmptyObject(subject)) {
+            return <React.Fragment><LoadingPage/></React.Fragment>;
         } else {
-            //let { subject } = this.props.subject;
-            //console.log();
             return (
                 <React.Fragment>
                     {/* TODO: add proper routes for tutor VS student view */ }
 
-                    <Route exact path={ `${ pathname }` } render={ () => <LectureBodyContent pathname={ this.props.subject['subject_name'] }/> }/>
+                    <Route exact path={ `${ pathname }` }
+                           render={ () => <LectureBodyContent pathname={ subject['subject_name'] }/> }/>
                     {/*<Route exact path={ `${ this.props.base }/:subj` } render={ ({ match }) => <LectureBodyContent match={ match }/> }/>*/ }
-
-                    { Object.keys(this.props.lectures).map((el) => (
-                        <li className="list-group-item" key={ el }>
-                            { this.props.lectures[el].name }
-                        </li>
-                    )) }
                 </React.Fragment>
             );
         }
@@ -36,17 +35,14 @@ class LecturePage extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {lectures: state.subject.currentSubject.lectures, subject: state.subject.currentSubject, isLoadingUser: state.subject.isLoadingSubject};
-};
+const mapStateToProps = (state) => ({
+    isLoadingSubject: state.subject.isLoadingSubject,
+    subject: state.subject.currentSubject,
+});
 
 const mapDispatchToProps = {
     loadSubject,
 };
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(LecturePage),
-);
+export { LecturePage };
+export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, LecturePage);
