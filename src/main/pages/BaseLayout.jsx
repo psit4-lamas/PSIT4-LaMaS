@@ -15,7 +15,7 @@ class BaseLayout extends Component {
 
     // TODO: improve base page UI (Sprint 2)
     render() {
-        const { t, user } = this.props;
+        const { t, user, lectures } = this.props;
         const { activeTabs } = this.props.tabs;
         const { pathname } = window.location;
 
@@ -39,9 +39,13 @@ class BaseLayout extends Component {
                                 ''
                             ) : (
                                 <>
-                                    <p>lecture 1</p>
-                                    <p>lecture 2</p>
-                                    <p>lecture 3</p>
+                                    { Object.keys(lectures)
+                                            .map((index) => (
+                                                <p className="list-group-item" key={ index }>
+                                                    { lectures[index].name }
+                                                </p>
+                                            ))
+                                    }
                                 </>
                             ) }
                         </Grid.Column>
@@ -57,6 +61,7 @@ class BaseLayout extends Component {
 
 const mapStateToProps = (state) => ({
     tabs: state.tabs,
+    lectures: state.subject.currentSubject.lectures,
 });
 
 const mapDispatchToProps = {};
