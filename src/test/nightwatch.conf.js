@@ -48,7 +48,9 @@ var config = {
                 javascriptEnabled: true,
                 acceptSslCerts: true,
                 nativeEvents: true,
-                chromeOptions: ['--headless']
+                chromeOptions: {
+                   'args': ['--headless']
+                }
             }
         },
         firefox: {
