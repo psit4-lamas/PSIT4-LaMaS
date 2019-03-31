@@ -4,12 +4,14 @@ import { logIn } from '../actions';
 import { withNamespaces } from 'react-i18next';
 import { Button, Form, Input, Segment } from 'semantic-ui-react';
 
+
 const FormField = Form.Field;
 
 
 class UserLoginForm extends Component {
     constructor(props, context) {
         super(props, context);
+
         this.state = {
             email: '',
             password: '',
@@ -21,13 +23,16 @@ class UserLoginForm extends Component {
     };
 
     render() {
+        const { email, password } = this.state;
         const { t } = this.props;
+
         return (
             <div>
-                <Form size="large" onSubmit={ () => this.onSubmit(this.state.email, this.state.password) }>
+                <Form size="large" onSubmit={ () => this.onSubmit(email, password) }>
                     <Segment>
                         <FormField>
-                            <Input fluid icon="user" iconPosition="left" name={ 'email' } placeholder={ t('login.email') }
+                            <Input fluid icon="user" iconPosition="left" name={ 'email' }
+                                   placeholder={ t('login.email') }
                                    onChange={ (e) => this.setState({ email: e.target.value }) }/>
                         </FormField>
                         <FormField>
@@ -52,17 +57,11 @@ class UserLoginForm extends Component {
     }
 }
 
-
-const mapStateToProps = () => ( {} );
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
     logIn,
 };
 
 export { UserLoginForm };
-export default withNamespaces()(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(UserLoginForm),
-);
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(UserLoginForm));

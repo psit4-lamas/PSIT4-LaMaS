@@ -32,8 +32,7 @@ describe('UserLoginForm', () => {
     });
 
     it('calls logIn if Login button is clicked', () => {
-        let logIn;
-        logIn = jest.fn();
+        const logIn = jest.fn();
         const loginform = mount(<UserLoginForm t={ (key) => key } logIn={ logIn }/>);
         const emailfield = loginform.find({ name: 'email' }).at(1);
         const passwordfield = loginform.find({ name: 'password' }).at(1);
