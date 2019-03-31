@@ -8,7 +8,7 @@ var config = {
         // Folders with tests
         'src/test/acceptance'
     ],
-    output_folder: 'test/acceptance/reports', // Where to output the test reports
+    output_folder: 'test/acceptance/output', // Where to output the test reports
     selenium: {
         // Information for selenium, such as the location of the drivers ect.
         start_process: true,
@@ -47,7 +47,8 @@ var config = {
                 browserName: 'chrome',
                 javascriptEnabled: true,
                 acceptSslCerts: true,
-                nativeEvents: true
+                nativeEvents: true,
+                chromeOptions: ['--headless']
             }
         },
         firefox: {
