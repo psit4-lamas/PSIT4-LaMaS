@@ -1,13 +1,8 @@
-//TODO internationalization
-//TODO formatierung usw aufräumen
-//TODO test options available? renders.., funct. has been called
-//
-
 import React, { Component } from 'react';
-import  { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { createSubject } from '../actions';
 import { Form, Message, Dropdown } from 'semantic-ui-react';
-
+import { withNamespaces } from 'react-i18next';
 
 const availableTutors = [
     { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
@@ -17,7 +12,6 @@ const availableTutors = [
 
 
 class CreateSubject extends Component {
-
     state = {
         subject: '',
         selectedTutors: [],
@@ -29,11 +23,11 @@ class CreateSubject extends Component {
 
     handleAddition = (e, { value }) => {
         this.setState({
-            availableTutors: [ { text: value, value }, ...this.state.availableTutors ],
+            availableTutors: [{ text: value, value }, ...this.state.availableTutors],
         });
     };
 
-    handleInputChange = (e, { name, value }) => this.setState({ subject: value });
+    handleSubjectChange = (e, { name, value }) => this.setState({ subject: value });
 
     handleDropdownChange = (e, { value }) => this.setState({ selectedTutors: value });
 
@@ -46,7 +40,7 @@ class CreateSubject extends Component {
             submittedSubject: subject,
             submittedTutors: selectedTutors,
             subject: '',
-            selectedTutors: '',
+            selectedTutors: [],
             submitSuccess: true,
         });
     };
@@ -59,22 +53,26 @@ class CreateSubject extends Component {
             <div>
                 { submitSuccess ? (
                     <Message success>
-                        <Message.Header>Subject created</Message.Header>
+                        <Message.Header>{ t('createSubject.successMsgTitle') }</Message.Header>
                         <p>
-                            Subject with name { submittedSubject } and assigned
-                            tutors { submittedTutors.join(', ') } created.
+                            { t('createSubject.successMsgBox1') }
+                            { submittedSubject }
+                            { t('createSubject.successMsgBox2') }
+                            { submittedTutors.join(', ') }
+                            { t('createSubject.successMsgBox3') }
                         </p>
                     </Message>
                 ) : null }
 
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
-                        <label>Subject Name</label>
-                        <Form.Input placeholder="Subject Name" name="subject" value={ subject }
-                                    onChange={ this.handleInputChange }/>
+                        <label>{ t('createSubject.subjectFieldLbl') }</label>
+                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ this.handleSubjectChange }/>
+                        <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
-                            placeholder="Tutors..."
+                            placeholder={ t('createSubject.tutorFieldPlaceholder') }
+                            name="tutors"
                             search
                             selection
                             fluid
@@ -85,7 +83,7 @@ class CreateSubject extends Component {
                             onChange={ this.handleDropdownChange }
                         />
                     </Form.Field>
-                    <Form.Button content="Save"/>
+                    <Form.Button content={ t('createSubject.saveBtn') }/>
                 </Form>
             </div>
         );
@@ -99,5 +97,5 @@ const mapDispatchToProps = {
     createSubject,
 };
 
-export { CreateSubject }
-export default connect(mapStateToProps, mapDispatchToProps)(CreateSubject);
+export { CreateSubject };
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(CreateSubject));

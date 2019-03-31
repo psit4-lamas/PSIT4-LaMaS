@@ -25,5 +25,16 @@
         "E": "Übungsaufgaben",
         "L": "Zusätzliche Unterlagen",
         "action": "Aktion"
+    },
+    "createSubject": {
+        "successMsgTitle": "Vorlesung wurde erstellt",
+        "successMsgBox1": "Vorlesung mit Name ",
+        "successMsgBox2": " und Dozenten ",
+        "successMsgBox3": " wurde erstellt.",
+        "subjectFieldLbl": "Name der Vorlesung",
+        "subjectFieldPlaceholder": "Vorlesung...",
+        "tutorFieldLbl": "Dozenten zuweisen",
+        "tutorFieldPlaceholder": "Dozenten...",
+        "saveBtn": "Speichern"
     }
 }

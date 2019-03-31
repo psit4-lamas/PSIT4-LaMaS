@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CreateSubject from '../CreateSubject/CreateSubject';
+import { withNamespaces } from 'react-i18next';
 
 
 class CreateSubjectPage extends Component {
@@ -13,4 +14,4 @@ class CreateSubjectPage extends Component {
     }
 }
 
-export default CreateSubjectPage;
+export default withNamespaces()(CreateSubjectPage);

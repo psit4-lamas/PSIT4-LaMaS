@@ -1,7 +1,6 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
 
-
 const Actions = {
     LOAD_USER: 'LOAD_USER',
     USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
@@ -35,33 +34,32 @@ const userRedirectedToAccessedPath = () => {
 
 const subscribeToAuthStateChanged = () => {
     return (dispatch) => {
-        firebase.auth()
-                .onAuthStateChanged((user) => {
-                    if (user) {
-                        console.log(user);
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log(user);
 
-                        // If the user has not confirmed his/her account yet, re-send a confirmation email
-                        // with a 'Continue' link, redirecting the user to the LaMaS web application
-                        if (!user.emailVerified) {
-                            const redirectURI = isDevelopment() ? 'http://localhost:3000' : `https://${ config.default.authDomain }`;
+                // If the user has not confirmed his/her account yet, re-send a confirmation email
+                // with a 'Continue' link, redirecting the user to the LaMaS web application
+                if (!user.emailVerified) {
+                    const redirectURI = isDevelopment() ? 'http://localhost:3000' : `https://${ config.default.authDomain }`;
 
-                            user.sendEmailVerification({
-                                url: redirectURI,
-                            });
-                        }
+                    user.sendEmailVerification({
+                        url: redirectURI,
+                    });
+                }
 
-                        dispatch({
-                            type: Actions.LOG_IN_SUCCESS,
-                            payload: user,
-                        });
-                    } else {
-                        console.log('User logged out!');
-
-                        dispatch({
-                            type: Actions.LOG_OUT_SUCCESS,
-                        });
-                    }
+                dispatch({
+                    type: Actions.LOG_IN_SUCCESS,
+                    payload: user,
                 });
+            } else {
+                console.log('User logged out!');
+
+                dispatch({
+                    type: Actions.LOG_OUT_SUCCESS,
+                });
+            }
+        });
     };
 };
 
@@ -101,9 +99,8 @@ const createSubject = (submittedSubject, submittedTutors) => {
     return (dispatch) => {
         firebase
             .functions()
-            .httpsCallable('addSubject')({ subjectName: submittedSubject, assignedTutor: submittedTutors })
+            .httpsCallable('addSubject')({ subject_name: submittedSubject, assigned_tutors: submittedTutors })
             .then((res) => {
-
                 const data = {
                     subjectId: res.data.subjectId,
                     subject_name: submittedSubject,

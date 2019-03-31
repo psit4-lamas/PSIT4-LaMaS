@@ -25,5 +25,16 @@
         "E": "Exercises",
         "L": "Lecture Materials",
         "action": "Action"
+    },
+    "createSubject": {
+        "successMsgTitle": "Subject created",
+        "successMsgBox1": "Subject with name ",
+        "successMsgBox2": " and assigned tutors ",
+        "successMsgBox3": " created.",
+        "subjectFieldLbl": "Subject Name",
+        "subjectFieldPlaceholder": "Subject Name...",
+        "tutorFieldLbl": "Assign Tutors",
+        "tutorFieldPlaceholder": "Tutors...",
+        "saveBtn": "Save"
     }
 }
