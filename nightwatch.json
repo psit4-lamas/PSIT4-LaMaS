@@ -9,9 +9,9 @@
     "test_settings": {
         "globals": {
             "abortOnAssertionFailure": true,
-            "waitForConditionPollInterval": 300,
+            "waitForConditionPollInterval": 10000,
             "waitForConditionTimeout": 10000,
-            "retryAssertionTimeout": 5000
+            "retryAssertionTimeout": 10000
         },
 
         "default": {
@@ -23,7 +23,10 @@
             },
             "desiredCapabilities": {
                 "browserName": "firefox",
-                "acceptInsecureCerts": true
+                "acceptInsecureCerts": true,
+                "elementScrollBehavior": 1,
+                "javascriptEnabled": true,
+                "marionette": false
             }
         },
 
