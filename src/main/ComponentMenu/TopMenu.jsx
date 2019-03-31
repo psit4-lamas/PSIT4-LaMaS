@@ -25,8 +25,8 @@ class TopMenu extends Component {
     };
 
     render() {
-        const { t, changeLanguage, activeTabs } = this.props;
-        const { isLoadingTabs, subjectLinks } = this.props.tabs;
+        const { t, changeLanguage, tabs } = this.props;
+        const { isLoadingTabs, activeTabs, subjectLinks } = tabs;
         const currentPathname = window.location.pathname;
         const currentName = currentPathname.replace('/courses/', '')
                                            .split('/')[1]

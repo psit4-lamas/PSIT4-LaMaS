@@ -16,7 +16,6 @@ class BaseLayout extends Component {
     // TODO: improve base page UI (Sprint 2)
     render() {
         const { t, user, lectures } = this.props;
-        const { activeTabs } = this.props.tabs;
         const { pathname } = window.location;
 
         return (
@@ -26,7 +25,7 @@ class BaseLayout extends Component {
                     { user.isLoadingUser || !user.isAuthenticated ? (
                         <TopMenuUnauthenticated t={ t } changeLanguage={ this.changeLanguage } />
                     ) : (
-                        <TopMenu t={ t } changeLanguage={ this.changeLanguage } activeTabs={ activeTabs } />
+                        <TopMenu t={ t } changeLanguage={ this.changeLanguage } />
                     )}
                 </header>
 
@@ -60,7 +59,6 @@ class BaseLayout extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    tabs: state.tabs,
     lectures: state.subject.currentSubject.lectures,
 });
 
