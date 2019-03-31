@@ -54,7 +54,7 @@ jobs:
 
       - run:
           name: Build application
-          command: yarn run build:production
+          command: yarn run build
 
       - run:
           name: Run acceptance tests on Firefox
