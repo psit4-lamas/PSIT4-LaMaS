@@ -25,6 +25,7 @@
     "test": "react-scripts test -u --coverage --no-watch",
     "test:acceptance:firefox": "nightwatch",
     "test:acceptance:chrome": "nightwatch --env chrome",
+    "debug:acceptance:firefox": "node --inspect-brk node_modules/.bin/nightwatch",
     "test:resnapshot": "react-scripts test -u --no-watch",
     "eject": "react-scripts eject",
     "deploy": "npm run build && firebase deploy"
