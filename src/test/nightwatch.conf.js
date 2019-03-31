@@ -47,10 +47,7 @@ var config = {
                 browserName: 'chrome',
                 javascriptEnabled: true,
                 acceptSslCerts: true,
-                nativeEvents: true,
-                chromeOptions: {
-                   'args': ['--headless']
-                }
+                nativeEvents: true
             }
         },
         firefox: {
