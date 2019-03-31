@@ -12,6 +12,7 @@ const Actions = {
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
     LOAD_SUBJECT: 'LOAD_SUBJECT',
     LOAD_SUBJECT_SUCCESS: 'LOAD_SUBJECT_SUCCESS',
+    LOADING_TABS: 'LOADING_TABS',
     LOAD_SUBJECT_HEAD: 'LOAD_SUBJECT_HEAD',
     LOAD_SUBJECT_HEAD_SUCCESS: 'LOAD_SUBJECT_HEAD_SUCCESS',
     SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
@@ -108,15 +109,15 @@ const logOut = () => {
  *
  * This action is called when a user clicks on a subject's link, requesting the subject's content.
  *
- * @param subjectId     The subject ID to be fetched from firestore
+ * @param subject_id     The subject ID to be fetched from firestore
  * @returns {Function}
  */
-const loadSubject = (subjectId) => {
+const loadSubject = (subject_id) => {
     return (dispatch) => {
         firebase
             .database()
             .collection('subjects')
-            .doc(subjectId)
+            .doc(subject_id)
             .onSnapshot(function (doc) {
                 if (doc.exists) {
                     const response = {
@@ -152,7 +153,7 @@ const loadSubjectHead = () => {
                              .forEach(function (change) {
                                  const response = {
                                          name: change.doc.data().subject_name,
-                                         subjectId: change.doc.id,
+                                         subject_id: change.doc.id,
                                      };
 
                                  if (change.type === 'added') {

@@ -31,7 +31,7 @@ const AppNavigation = () => (
 
                     <Switch>
                         <Route path={ '/upload' } render={ () => <UploadMediaPage base={ '/upload' }/> }/>
-                        <Route path={ '/courses/:subjectId/:subject' } render={ () => <LecturePage pathname={ window.location.pathname }/> }/>
+                        <Route path={ '/courses/:subject_id/:subject' } render={ () => <LecturePage pathname={ window.location.pathname }/> }/>
                         <Route exact path={ '/home' } render={ () => <LandingPage/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage/> }/>
                     </Switch>
