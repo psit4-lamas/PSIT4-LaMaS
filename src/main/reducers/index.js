@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { Actions } from '../actions';
+import { isEmptyObject } from '../../utils';
 
 
 const initialState = {
@@ -9,12 +10,13 @@ const initialState = {
         userAccessedPathname: '',
     },
     tabs: {
+        isLoadingTabs: true,
         activeTabs: [],
-        subjectIds: [],
+        subjectLinks: [],
     },
     subject: {
         isLoadingSubject: true,
-        currentSubjectId: '',
+        currentSubjectID: '',
         currentSubject: {
             lectures: {},
         },
@@ -70,14 +72,14 @@ const userReducer = (state = initialState.user, action) => {
 };
 
 const tabsReducer = (state = initialState.tabs, action) => {
-    // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
-
     switch (action.type) {
+        case Actions.LOADING_TABS:
+            return {
+                isLoadingTabs: true,
+            };
         case Actions.SUBJECT_INSERT_HEAD:
-            const subject_id = action.payload.subjectId;
-            const subject_name = action.payload.name;
-            const found = state.subjectIds.find(function (element) {
-                return element === subject_id;
+            const found = state.subjectLinks.find(function (subject) {
+                return !isEmptyObject(subject) && subject.subject_id === action.payload.subject_id;
             });
 
             // TODO: I have the impression we are doing two things in this reducer:
@@ -85,26 +87,34 @@ const tabsReducer = (state = initialState.tabs, action) => {
             //       - handling the bookmarked subjects (the list of all bookmarked subjects should be available)
             // TODO: split this logic into 2 different reducers (can be fixed after Sprint 2)
             if (found === undefined) {
+                const activeTabs = state.activeTabs.slice();
+                activeTabs.push(action.payload.name);
+
+                const subjectLinks = state.subjectLinks.slice();
+                subjectLinks.push({ ...action.payload });
+
                 return {
                     ...state,
-                    ...action.payload,
-                    activeTabs: [ ...state.activeTabs, subject_name ],
-                    subjectIds: [ ...state.subjectIds, subject_id ],
+                    isLoadingTabs: false,
+                    activeTabs: activeTabs,
+                    subjectLinks: subjectLinks,
                 };
             } else {
                 return { ...state };
             }
-
         case Actions.SUBJECT_REMOVE_HEAD:
+            const activeTabs = state.activeTabs.filter(function (tab) {
+                return !!tab && tab !== action.payload.name;
+            });
+
+            const subjectLinks = state.subjectLinks.filter(function (subject) {
+                return !isEmptyObject(subject) && subject.subject_id !== action.payload.subject_id;
+            });
+
             return {
                 ...state,
-                ...action.payload,
-                activeTabs: state.activeTabs.filter(function (value) {
-                    return !(subject_name === value);
-                }),
-                subjectIds: state.subjectIds.filter(function (value) {
-                    return !(subject_id === value);
-                }),
+                activeTabs: activeTabs,
+                subjectLinks: subjectLinks,
             };
         default:
             return { ...state };
@@ -117,13 +127,13 @@ const subjectReducer = (state = initialState.subject, action) => {
             return {
                 ...state,
                 isLoadingSubject: false,
-                currentSubjectId: action.payload.subject_id,
+                currentSubjectID: action.payload.subject_id,
             };
         case Actions.LOAD_SUBJECT_SUCCESS:
             return {
                 ...state,
                 isLoadingSubject: false,
-                currentSubjectId: action.payload.subject_id,
+                currentSubjectID: action.payload.subject_id,
                 currentSubject: { ...action.payload.subject },
             };
         default:
