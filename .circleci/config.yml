@@ -61,6 +61,12 @@ jobs:
           command: yarn start
           background: true
 
+      - run:
+          - name: Start Selenium
+              command: |
+                java -jar node_modules/selenium-server/lib/runner/selenium-server-standalone-3.141.59.jar -log src/test/acceptance/selenium.log
+              background: true
+
       - run: sleep 10
 
 #      - run:
