@@ -68,8 +68,8 @@ jobs:
 #          command: ./node_modules/.bin/nightwatch
 
       - run:
-          name: Run acceptance tests on Chrome
-          command: ./node_modules/.bin/nightwatch --env chrome
+          name: Run E2E tests
+          command: yarn run nightwatch
 
       - run:
           name: Deploy Master to Firebase
