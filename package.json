@@ -22,9 +22,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --no-watch",
+    "test": "react-scripts test -u --coverage --no-watch",
     "test:acceptance:firefox": "nightwatch",
     "test:acceptance:chrome": "nightwatch --env chrome",
+    "test:resnapshot": "react-scripts test -u --no-watch",
     "eject": "react-scripts eject",
     "deploy": "npm run build && firebase deploy"
   },
