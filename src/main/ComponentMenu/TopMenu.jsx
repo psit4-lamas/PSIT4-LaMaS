@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouterAndRedux } from '../../utils';
-import { logOut } from '../actions';
+import { loadSubject, logOut } from '../actions';
 import { Button, Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
 import './TopMenu.css';
 
@@ -10,8 +10,13 @@ class TopMenu extends Component {
     state = { activeItem: window.location.pathname };
 
     handleItemClick = (e, { name }) => {
-        this.setState({ activeItem: name });
         const pathname = name === '/home' || name === '/upload' ? `${ name }` : `/courses/${ name }`;
+
+        if (pathname.includes('/courses/')) {
+            this.props.loadSubject(name.split('/')[0]);
+        }
+
+        this.setState({ activeItem: name });
         this.props.history.push(pathname);
     };
 
@@ -21,10 +26,12 @@ class TopMenu extends Component {
 
     render() {
         const { t, changeLanguage, activeTabs } = this.props;
-        const { subjectIds } = this.props.tabs;
+        const { isLoadingTabs, subjectLinks } = this.props.tabs;
         const currentPathname = window.location.pathname;
         const currentName = currentPathname.replace('/courses/', '')
+                                           .split('/')[1]
                                            .replace('%20', ' ');
+
         // TODO: The activeTabs is a list of subjects defined in src/main/reducers/index.js
         //       It simulates fetching user's bookmarked subjects from backend based on logged in user.
         //       The backend feature is not implemented at the moment, thus define a mock data in reducers/index.js
@@ -35,14 +42,14 @@ class TopMenu extends Component {
                     <Menu.Item name="/home" active={ currentName === 'home' } onClick={ this.handleItemClick }>
                         Home
                     </Menu.Item>
-                    <Menu.Item name="/upload" active={ currentName === '/upload' } onClick={ this.handleItemClick }>
+                    <Menu.Item name="/upload" active={ currentName === 'upload' } onClick={ this.handleItemClick }>
                         Upload
                     </Menu.Item>
 
-                    { activeTabs.map((activeTab, index) => (
-                        <Menu.Item key={ activeTab } name={ subjectIds[index] + '/' + activeTab }
+                    { !isLoadingTabs && subjectLinks.length && activeTabs.map((activeTab, index) => (
+                        <Menu.Item key={ activeTab } name={ subjectLinks[index].subject_id + '/' + subjectLinks[index].name }
                                    active={ currentName === activeTab } onClick={ this.handleItemClick }>
-                            { activeTab }
+                            { subjectLinks[index].name }
                         </Menu.Item>
                     )) }
 
@@ -92,10 +99,13 @@ class TopMenu extends Component {
 }
 
 
-const mapStateToProps = (state) => ({ tabs: state.tabs });
+const mapStateToProps = (state) => ({
+    tabs: state.tabs,
+});
 
 const mapDispatchToProps = {
     logOut,
+    loadSubject,
 };
 
 export { TopMenu };
