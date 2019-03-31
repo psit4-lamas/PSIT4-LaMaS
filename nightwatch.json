@@ -41,7 +41,7 @@
                 "browserName": "chrome",
                 "loggingPrefs": { "driver": "INFO", "server": "OFF", "browser": "INFO" },
                 "chromeOptions": {
-                    "args": ["--no-sandbox"]
+                    "args": ["--no-sandbox","--headless"]
                 }
             }
         }
