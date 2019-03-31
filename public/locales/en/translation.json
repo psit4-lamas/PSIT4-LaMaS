@@ -25,5 +25,8 @@
         "E": "Exercises",
         "L": "Lecture Materials",
         "action": "Action"
+    },
+    "baseLayout": {
+        "lecture": "lecture"
     }
 }

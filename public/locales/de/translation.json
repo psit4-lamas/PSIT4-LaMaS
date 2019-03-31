@@ -25,5 +25,8 @@
         "E": "Übungsaufgaben",
         "L": "Zusätzliche Unterlagen",
         "action": "Aktion"
+    },
+    "baseLayout": {
+        "lecture": "Vorlesung"
     }
 }

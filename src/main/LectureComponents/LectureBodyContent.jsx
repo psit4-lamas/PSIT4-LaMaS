@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
-import { Placeholder } from 'semantic-ui-react';
+import { withNameSpacesAndRouterAndRedux } from '../../utils';
+import UploadMediaPage from '../pages/UploadMediaPage';
 import './LectureBodyContent.css';
 
 
 class LectureBodyContent extends Component {
-
     // TODO: improve lecture body content UI (Sprint 2)
     render() {
-        const { pathname } = this.props;
+        const { lecture } = this.props;
 
         return (
             <div>
-                <h1>{ pathname }</h1>
-
-                <Placeholder>
-                    <Placeholder.Header image>
-                        <Placeholder.Line/>
-                        <Placeholder.Line/>
-                    </Placeholder.Header>
-                    <Placeholder.Paragraph>
-                        <Placeholder.Line/>
-                        <Placeholder.Line/>
-                        <Placeholder.Line/>
-                        <Placeholder.Line/>
-                    </Placeholder.Paragraph>
-                </Placeholder>
+                <h1>{ lecture.name }</h1>
+                <UploadMediaPage/>
             </div>
         );
     }
 }
 
 
-export default LectureBodyContent;
+const mapStateToProps = (state) => ( {
+    lecture: state.subject.currentSubject.lectures[state.subject.currentLectureID],
+} );
+
+const mapDispatchToProps = {};
+
+export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, LectureBodyContent);

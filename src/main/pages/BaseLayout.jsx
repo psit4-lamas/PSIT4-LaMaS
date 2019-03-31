@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { withNameSpacesAndRouterAndRedux } from '../../utils';
 import i18n from '../../i18n';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Menu } from 'semantic-ui-react';
 import TopMenuUnauthenticated from '../ComponentMenu/TopMenuUnauthenticated';
 import TopMenu from '../ComponentMenu/TopMenu';
+import { selectLecture } from '../actions';
 import './BaseLayout.css';
 
 
 class BaseLayout extends Component {
-
     changeLanguage = (lang) => {
         i18n.changeLanguage(lang);
     };
+
+    handleItemClick = (e) => this.props.selectLecture(e.target.id);
 
     // TODO: improve base page UI (Sprint 2)
     render() {
@@ -21,36 +23,37 @@ class BaseLayout extends Component {
         return (
             <React.Fragment>
                 <header>
-                    {/* TODO: fix this TopMenu */}
+                    {/* TODO: fix this TopMenu */ }
                     { user.isLoadingUser || !user.isAuthenticated ? (
-                        <TopMenuUnauthenticated t={ t } changeLanguage={ this.changeLanguage } />
+                        <TopMenuUnauthenticated t={ t } changeLanguage={ this.changeLanguage }/>
                     ) : (
-                        <TopMenu t={ t } changeLanguage={ this.changeLanguage } />
-                    )}
+                          <TopMenu t={ t } changeLanguage={ this.changeLanguage }/>
+                      ) }
                 </header>
 
-                {/* TODO: fix matching TopMenu clicked items with Route content shown (below) */}
+                {/* TODO: fix matching TopMenu clicked items with Route content shown (below) */ }
                 <main id="page-content">
                     <Grid columns={ 3 }>
                         <Grid.Column width={ 3 }>
-                            {/* TODO: add left aside menu (listing lectures of a specific subject) */}
+                            {/* TODO: add left aside menu (listing lectures of a specific subject) */ }
                             { user.isLoadingUser || !user.isAuthenticated || pathname === '/home' || pathname === '/' ? (
                                 ''
                             ) : (
-                                <>
-                                    { Object.keys(lectures)
-                                            .map((index) => (
-                                                <p className="list-group-item" key={ index }>
-                                                    { lectures[index].name }
-                                                </p>
-                                            ))
-                                    }
-                                </>
-                            ) }
+                                  <>
+                                      <Menu fluid vertical tabular>
+                                          { Object.keys(lectures).map((index, key) => (
+                                              <Menu.Item
+                                                  name={ t('baseLayout.lecture') + ( key + 1 ) }
+                                                  id={ index }
+                                                  active={ this.props.currentLectureID === index }
+                                                  onClick={ this.handleItemClick }
+                                              />
+                                          )) }
+                                      </Menu>
+                                  </>
+                              ) }
                         </Grid.Column>
-                        <Grid.Column width={ 10 }>
-                            { this.props.children }
-                        </Grid.Column>
+                        <Grid.Column width={ 10 }>{ this.props.children }</Grid.Column>
                     </Grid>
                 </main>
             </React.Fragment>
@@ -58,11 +61,15 @@ class BaseLayout extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    lectures: state.subject.currentSubject.lectures,
-});
 
-const mapDispatchToProps = {};
+const mapStateToProps = (state) => ( {
+    lectures: state.subject.currentSubject.lectures,
+    currentLectureID: state.subject.currentLectureID,
+} );
+
+const mapDispatchToProps = {
+    selectLecture,
+};
 
 export { BaseLayout };
 export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, BaseLayout);

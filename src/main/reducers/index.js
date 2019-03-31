@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { Actions } from '../actions';
 import { isEmptyObject } from '../../utils';
 
-
 const initialState = {
     user: {
         isAuthenticated: false,
@@ -20,6 +19,7 @@ const initialState = {
         currentSubject: {
             lectures: {},
         },
+        currentLectureID: 'lecture_01',
     },
 };
 
@@ -135,6 +135,12 @@ const subjectReducer = (state = initialState.subject, action) => {
                 isLoadingSubject: false,
                 currentSubjectID: action.payload.subject_id,
                 currentSubject: { ...action.payload.subject },
+            };
+
+        case Actions.SET_CURRENT_LECTURE:
+            return {
+                ...state,
+                currentLectureID: action.payload,
             };
         default:
             return { ...state };
