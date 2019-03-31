@@ -63,9 +63,9 @@ jobs:
 
       - run: sleep 10
 
-      - run:
-          name: Run acceptance test on firefox
-          command: ./node_modules/.bin/nightwatch
+#      - run:
+#          name: Run acceptance test on firefox
+#          command: ./node_modules/.bin/nightwatch
 
       - run:
           name: Run acceptance tests on Chrome
