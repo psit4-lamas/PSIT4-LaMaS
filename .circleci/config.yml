@@ -19,12 +19,12 @@ jobs:
           name: Install JRE for Sonar scanner
           command: sudo apt install openjdk-8-jre
 
-      - run:
-          name: Deinstall current Firefox and install Firefox 55.0
-          command: |
-            sudo apt-get purge -y firefox
-            wget https://sourceforge.net/projects/ubuntuzilla/files/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
-            sudo dpkg -i firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
+#      - run:
+#          name: Deinstall current Firefox and install Firefox 55.0
+#          command: |
+#            sudo apt-get purge -y firefox
+#            wget https://sourceforge.net/projects/ubuntuzilla/files/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
+#            sudo dpkg -i firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
 
       - run:
           name: Print node, npm and yarn versions

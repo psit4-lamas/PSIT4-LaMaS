@@ -58,7 +58,13 @@ var config = {
                 browserName: 'firefox',
                 javascriptEnabled: true,
                 acceptSslCerts: true,
-                nativeEvents: true
+                nativeEvents: true,
+                acceptInsecureCerts: true,
+                alwaysMatch: {
+                    "moz:firefoxOptions": {
+                        "args": [ "-headless" ]
+                    }
+                }
             }
         },
         safari: {
