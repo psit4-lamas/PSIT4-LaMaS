@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:10.15.1
+      - image: circleci/node:10.15.1-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -18,6 +18,13 @@ jobs:
       - run:
           name: Install JRE for Sonar scanner
           command: sudo apt install openjdk-8-jre
+
+#      - run:
+#          name: Deinstall current Firefox and install Firefox 55.0
+#          command: |
+#            sudo apt-get purge -y firefox
+#            wget https://sourceforge.net/projects/ubuntuzilla/files/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
+#            sudo dpkg -i firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
 
       - run:
           name: Print node, npm and yarn versions
@@ -54,7 +61,23 @@ jobs:
 
       - run:
           name: Build application
-          command: yarn build
+          command: yarn run build
+
+      - run:
+          name: Start application
+          command: yarn start
+          background: true
+
+      - run:
+          name: Start Selenium
+          command: java -jar node_modules/selenium-server/lib/runner/selenium-server-standalone-3.141.59.jar -log src/test/acceptance/selenium.log
+          background: true
+
+      - run: sleep 10
+
+      - run:
+          name: Run E2E tests
+          command: yarn run nightwatch
 
       - run:
           name: Deploy Master to Firebase

@@ -233,3 +233,10 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/node,macos,windows,firebase,jetbrains+all
 build/
 
+# Ignore nightwatch test acceptance output files
+src/test/acceptance/output/
+src/test/*/__snapshots__/
+src/test/__snapshots__/
+
+# Ignore patch files
+*.patch
