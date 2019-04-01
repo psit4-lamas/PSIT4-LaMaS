@@ -8,7 +8,7 @@ var config = {
         // Folders with tests
         'src/test/acceptance'
     ],
-    output_folder: 'test/acceptance/output', // Where to output the test reports
+    output_folder: 'src/test/acceptance/output', // Where to output the test reports
     selenium: {
         // Information for selenium, such as the location of the drivers ect.
         start_process: true,
