@@ -11,6 +11,7 @@ const Actions = {
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
 
     CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
+    CREATE_SUBJECT_FAIL: 'CREATE_SUBJECT_FAIL',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -97,7 +98,7 @@ const logOut = () => {
 
 const createSubject = (submittedSubject, submittedTutors) => {
     return (dispatch) => {
-        return firebase
+        firebase
             .functions()
             .httpsCallable('addSubject')({ subject_name: submittedSubject, assigned_tutors: submittedTutors })
             .then((res) => {
@@ -112,6 +113,10 @@ const createSubject = (submittedSubject, submittedTutors) => {
             })
             .catch((err) => {
                 console.log('ERROR ON CREATE SUBJECT ', err);
+
+                dispatch({
+                    type: Actions.CREATE_SUBJECT_FAIL,
+                });
             });
     };
 };

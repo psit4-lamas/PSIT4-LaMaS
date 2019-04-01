@@ -137,6 +137,7 @@ const initialState = {
 
     subject: {
         ...EMPTY_DEFAULT_SUBJECT,
+        isSubmitted: false,
     },
 };
 
@@ -202,10 +203,19 @@ const subjectReducer = (state = initialState.subject, action) => {
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {
                 ...subject,
+                isSubmitted: true,
                 subject_id: action.payload.subjectId,
             };
+        case Actions.CREATE_SUBJECT_FAIL:
+            return {
+                isSubmitted: true,
+                subject_id: null,
+            };
         default:
-            return { ...state };
+            return {
+                ...state,
+                isSubmitted: false,
+            };
     }
 };
 

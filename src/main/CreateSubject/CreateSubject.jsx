@@ -53,11 +53,10 @@ class CreateSubject extends Component {
             subject: '',
             selectedTutors: [],
         });
-        debugger;
     };
 
     render() {
-        const { availableTutors, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
+        const { availableTutors, submittedSubject, submittedTutors } = this.state;
         const { t, responseSubject } = this.props;
 
         return (
@@ -73,7 +72,7 @@ class CreateSubject extends Component {
                             { t('createSubject.successMsgBox3') }
                         </p>
                     </Message>
-                ) : null }
+                ) : <p>ERROR</p> }
 
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
