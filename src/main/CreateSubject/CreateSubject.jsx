@@ -17,19 +17,30 @@ class CreateSubject extends Component {
         selectedTutors: [],
         submittedSubject: '',
         submittedTutors: [],
-        submitSuccess: false,
         availableTutors: availableTutors.slice(),
     };
 
-    handleAddition = (e, { value }) => {
+    handleAddition = (e) => {
+        const tutorName = e.target.value;
+        const submitTutors = this.state.availableTutors.slice();
+        submitTutors.push({
+            key: tutorName,
+            text: tutorName,
+            value: tutorName,
+        });
+
         this.setState({
-            availableTutors: [{ text: value, value }, ...this.state.availableTutors],
+            availableTutors: submitTutors,
         });
     };
 
-    handleSubjectChange = (e, { name, value }) => this.setState({ subject: value });
+    handleSubjectChange = (e) => {
+        this.setState({ subject: e.target.value });
+    };
 
-    handleDropdownChange = (e, { value }) => this.setState({ selectedTutors: value });
+    handleDropdownChange = (e) => {
+        this.setState({ selectedTutors: e.target.value });
+    };
 
     handleSubmit = () => {
         const { subject, selectedTutors } = this.state;
@@ -41,24 +52,24 @@ class CreateSubject extends Component {
             submittedTutors: selectedTutors,
             subject: '',
             selectedTutors: [],
-            submitSuccess: true,
         });
+        debugger;
     };
 
     render() {
-        const { availableTutors, submitSuccess, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
-        const { t } = this.props;
+        const { availableTutors, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
+        const { t, responseSubject } = this.props;
 
         return (
             <div>
-                { submitSuccess ? (
+                { responseSubject && responseSubject.subject_id !== '' ? (
                     <Message success>
                         <Message.Header>{ t('createSubject.successMsgTitle') }</Message.Header>
                         <p>
                             { t('createSubject.successMsgBox1') }
                             { submittedSubject }
                             { t('createSubject.successMsgBox2') }
-                            { submittedTutors.join(', ') }
+                            { submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }
                             { t('createSubject.successMsgBox3') }
                         </p>
                     </Message>
@@ -67,7 +78,10 @@ class CreateSubject extends Component {
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ this.handleSubjectChange }/>
+                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') }
+                                    name="subject"
+                                    onChange={ (e) => this.handleSubjectChange(e) }
+                        />
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
@@ -78,9 +92,8 @@ class CreateSubject extends Component {
                             fluid
                             multiple
                             allowAdditions
-                            value={ selectedTutors }
-                            onAddItem={ this.handleAddition }
-                            onChange={ this.handleDropdownChange }
+                            onAddItem={ (e) => this.handleAddition(e) }
+                            onChange={ (e) => this.handleDropdownChange(e) }
                         />
                     </Form.Field>
                     <Form.Button content={ t('createSubject.saveBtn') }/>
@@ -91,7 +104,9 @@ class CreateSubject extends Component {
 }
 
 
-const mapStateToProps = (state) => ( {} );
+const mapStateToProps = (state) => ( {
+    responseSubject: state.subject,
+} );
 
 const mapDispatchToProps = {
     createSubject,

@@ -97,14 +97,12 @@ const logOut = () => {
 
 const createSubject = (submittedSubject, submittedTutors) => {
     return (dispatch) => {
-        firebase
+        return firebase
             .functions()
             .httpsCallable('addSubject')({ subject_name: submittedSubject, assigned_tutors: submittedTutors })
             .then((res) => {
                 const data = {
                     subjectId: res.data.subjectId,
-                    subject_name: submittedSubject,
-                    assigned_tutor: submittedTutors,
                 };
 
                 dispatch({

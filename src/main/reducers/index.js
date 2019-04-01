@@ -6,7 +6,7 @@ const EMPTY_DEFAULT_SUBJECT = {
     subject_id: '',
     subject_name: '',
     subject_rates: [],
-    assigned_tutor: [],
+    assigned_tutors: [],
     grades: {},
     lectures: {
         lecture_01: {
@@ -203,8 +203,6 @@ const subjectReducer = (state = initialState.subject, action) => {
             return {
                 ...subject,
                 subject_id: action.payload.subjectId,
-                subject_name: action.payload.subject_name,
-                assigned_tutor: action.payload.assigned_tutor.slice(),
             };
         default:
             return { ...state };
