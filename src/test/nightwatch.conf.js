@@ -49,7 +49,7 @@ var config = {
                 acceptSslCerts: true,
                 nativeEvents: true,
                 chromeOptions: {
-                   'args': ['--no-sandbox']
+                   'args': ['disable-gpu', 'no-sandbox', 'headless', 'window-size=1920,1080', 'verbose']
                 }
             }
         },
