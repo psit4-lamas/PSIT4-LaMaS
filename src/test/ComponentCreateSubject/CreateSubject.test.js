@@ -33,17 +33,21 @@ describe('CreateSubject', () => {
 
     it('calls createSubject if Save button is clicked', () => {
         const createSubject = jest.fn();
-        const createSubjectComponent = mount(<CreateSubject t={ (key) => key } createSubject={ createSubject }/>);
-        const subjectfield = createSubjectComponent.find({ name: 'subject' }).at(1);
+        const responseSubject = { subject_id: '01234' };
+        const createSubjectComponent = mount(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject }/>);
+        const subjectfield = createSubjectComponent.find({ name: 'subject' }).at(3);
         const tutorfield = createSubjectComponent.find({ name: 'tutors' }).at(1);
 
-        subjectfield.simulate('change', { target: { value: 'SubjectName' } });
-        tutorfield.simulate('change', { target: { value: 'Tutor1, Tutor2' } });
+        const subjectEvent = { target: { value: 'SubjectName' } };
+        const tutorsEvent = { target: { value: [{ text: 'Tutor1' }, { text: 'Tutor2' }] } };
+
+        subjectfield.simulate('change', subjectEvent);
+        tutorfield.simulate('change', tutorsEvent);
         createSubjectComponent.find(Form).simulate('submit');
 
-        expect(createSubject).toHaveBeenCalledWith('SubjectName', 'Tutor1');
+        expect(createSubject).toHaveBeenCalledWith(subjectEvent.target.value, tutorsEvent.target.value);
 
-        loginform.unmount();
+        createSubjectComponent.unmount();
     });
 
     it('updates state if Save button is clicked', () => {
