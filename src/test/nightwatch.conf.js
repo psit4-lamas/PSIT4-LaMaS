@@ -21,7 +21,7 @@ var config = {
     },
     test_workers: {
         // This allows more then one browser to be opened and tested in at once
-        enabled: true,
+        enabled: false,
         workers: 'auto',
     },
     test_settings: {
