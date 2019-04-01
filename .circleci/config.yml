@@ -20,6 +20,13 @@ jobs:
           command: sudo apt install openjdk-8-jre
 
       - run:
+          name: Deinstall current Firefox and install Firefox 55.0
+          command: |
+            sudo apt-get purge -y firefox
+            wget https://sourceforge.net/projects/ubuntuzilla/files/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
+            sudo dpkg -i firefox-mozilla-build_55.0.1-0ubuntu1_amd64.deb
+
+      - run:
           name: Print node, npm and yarn versions
           command: node -v && npm -v && yarn -v
 
@@ -67,10 +74,6 @@ jobs:
           background: true
 
       - run: sleep 10
-
-#      - run:
-#          name: Run acceptance test on firefox
-#          command: ./node_modules/.bin/nightwatch
 
       - run:
           name: Run E2E tests
