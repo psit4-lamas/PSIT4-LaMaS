@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import fire from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
-import { UserRoles } from '../../utils/constants';
 import { connect } from 'react-redux';
 import withAuthorization from '../../utils/withAuthorization';
+import { UserRoles } from '../../utils/constants';
 
 
 export class UploadComponent extends Component {
