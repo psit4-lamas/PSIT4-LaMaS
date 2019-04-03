@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { Actions } from '../actions';
 
-
 const initialState = {
     user: {
         isAuthenticated: false,
@@ -9,10 +8,9 @@ const initialState = {
         userAccessedPathname: '',
     },
     tabs: {
-        activeTabs: [ 'KI2', 'IS', 'PSIT4' ],
+        activeTabs: ['KI2', 'IS', 'PSIT4'],
     },
 };
-
 
 const userReducer = (state = initialState.user, action) => {
     switch (action.type) {
@@ -31,12 +29,20 @@ const userReducer = (state = initialState.user, action) => {
                 ...state,
                 userAccessedPathname: '',
             };
+        case Actions.USER_AUTHENTICATED:
+            return {
+                ...state,
+                ...action.payload,
+                isAuthenticated: !!action.payload,
+                isLoadingUser: true,
+            };
         case Actions.LOG_IN_SUCCESS:
             return {
                 ...state,
                 ...action.payload,
                 isAuthenticated: !!action.payload,
                 isLoadingUser: false,
+                roles: action.payload.roles,
             };
         case Actions.LOG_OUT_SUCCESS:
             const user = Object.assign({}, state);

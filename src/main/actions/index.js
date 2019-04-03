@@ -1,12 +1,13 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
-
+import { UserRoles } from '../../utils/constants';
 
 const Actions = {
     LOAD_USER: 'LOAD_USER',
     USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
 
     LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
+    USER_AUTHENTICATED: 'USER_AUTHENTICATED',
     LOG_OUT_SUCCESS: 'LOG_OUT_SUCCESS',
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
@@ -32,13 +33,9 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
-
     return (dispatch) => {
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log(user);
-
                 // If the user has not confirmed his/her account yet, re-send a confirmation email
                 // with a 'Continue' link, redirecting the user to the LaMaS web application
                 if (!user.emailVerified) {
@@ -49,10 +46,30 @@ const subscribeToAuthStateChanged = () => {
                     });
                 }
 
-                dispatch({
-                    type: Actions.LOG_IN_SUCCESS,
-                    payload: user,
-                });
+                firebase
+                    .database()
+                    .collection('user')
+                    .doc(user.uid)
+                    .get()
+                    .then((snapshot) => {
+                        const dbUser = snapshot.data();
+
+                        // default Student
+                        if (!dbUser.roles) {
+                            dbUser.roles = [UserRoles.STUDENT];
+                        }
+
+                        // merge auth and db user
+                        const authUser = {
+                            userCredentials: user,
+                            ...dbUser,
+                        };
+                        dispatch({
+                            type: Actions.LOG_IN_SUCCESS,
+                            payload: authUser,
+                        });
+                    })
+                    .catch((err) => console.log(err));
             } else {
                 console.log('User logged out!');
 
@@ -66,27 +83,24 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
-
         // Connect to Firebase to perform a user login
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then((userCredentials) => {
-                console.log(userCredentials);
-
                 dispatch({
-                    type: Actions.LOG_IN_SUCCESS,
-                    payload: userCredentials.user,
+                    type: Actions.USER_AUTHENTICATED,
+                    payload: userCredentials,
                 });
-            })
-            .catch((err) => console.log(err));
+            });
     };
 };
 
-
 const logOut = () => {
     return (dispatch) => {
-        firebase.auth().signOut()
+        firebase
+            .auth()
+            .signOut()
             .then((res) => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
@@ -94,7 +108,6 @@ const logOut = () => {
                 console.log('ERROR ON LOGOUT ', err);
             });
     };
-
 };
 
 export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut };
