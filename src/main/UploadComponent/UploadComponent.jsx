@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import withAuthorization from '../../utils/withAuthorization';
 
 
-class UploadComponent extends Component {
+export class UploadComponent extends Component {
     state = {
         progress: 0,
         isUploading: false,
@@ -100,7 +100,7 @@ class UploadComponent extends Component {
 }
 
 
-const condition = (authUser) => authUser && authUser.roles.includes(UserRoles.STUDENT);
+const condition = (authUser) => authUser && authUser.roles.includes(UserRoles.TUTOR);
 
 const mapStateToProps = (state) => ( {
     user: state.user,
