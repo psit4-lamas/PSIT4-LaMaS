@@ -4,7 +4,7 @@ import { Actions } from '../actions';
 const initialState = {
     user: {
         isAuthenticated: false,
-        isLoadingUser: true,
+        isLoadingUser: false,
         userAccessedPathname: '',
     },
     tabs: {
@@ -15,11 +15,12 @@ const initialState = {
 const userReducer = (state = initialState.user, action) => {
     switch (action.type) {
         case Actions.LOAD_USER:
+            console.log("LOAD USER");
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
             return {
                 ...state,
-                isLoadingUser: true,
+                isLoadingUser: false,
                 userAccessedPathname: action.payload,
             };
         case Actions.USER_REDIRECT_SUCCESS:
@@ -30,6 +31,7 @@ const userReducer = (state = initialState.user, action) => {
                 userAccessedPathname: '',
             };
         case Actions.USER_AUTHENTICATED:
+            console.log("USER AUTH");
             return {
                 ...state,
                 ...action.payload,
