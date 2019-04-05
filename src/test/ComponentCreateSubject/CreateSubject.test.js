@@ -23,10 +23,10 @@ describe('CreateSubject', () => {
 
     it('sets selectedTutors state value if tutors are entered', () => {
         const createSubjectComponent = shallow(<CreateSubject t={ (key) => key }/>);
-        const event = { target: { value: 'Tutor1, Tutor2' } };
+        const event = { target: { value: 'Tutor1' } };
 
         createSubjectComponent.find({ name: 'tutors' }).simulate('change', event);
-        expect(createSubjectComponent.state('selectedTutors')).toEqual(event.target.value);
+        expect(createSubjectComponent.state('selectedTutors')).toEqual([event.target.value]);
 
         createSubjectComponent.unmount();
     });
@@ -39,13 +39,13 @@ describe('CreateSubject', () => {
         const tutorfield = createSubjectComponent.find({ name: 'tutors' }).at(1);
 
         const subjectEvent = { target: { value: 'SubjectName' } };
-        const tutorsEvent = { target: { value: [{ text: 'Tutor1' }, { text: 'Tutor2' }] } };
+        const tutorsEvent = { target: { value: { text: 'Tutor2' } } };
 
         subjectfield.simulate('change', subjectEvent);
         tutorfield.simulate('change', tutorsEvent);
         createSubjectComponent.find(Form).simulate('submit');
 
-        expect(createSubject).toHaveBeenCalledWith(subjectEvent.target.value, tutorsEvent.target.value);
+        expect(createSubject).toHaveBeenCalledWith(subjectEvent.target.value, [tutorsEvent.target.value]);
 
         createSubjectComponent.unmount();
     });
@@ -58,7 +58,7 @@ describe('CreateSubject', () => {
         const tutorfield = createSubjectComponent.find({ name: 'tutors' }).at(1);
 
         const subjectEvent = { target: { value: 'SubjectName' } };
-        const tutorsEvent = { target: { value: [{ text: 'Tutor1' }, { text: 'Tutor2' }] } };
+        const tutorsEvent = { target: { value: { text: 'Tutor1' } } };
 
         subjectfield.simulate('change', subjectEvent);
         tutorfield.simulate('change', tutorsEvent);
@@ -67,7 +67,7 @@ describe('CreateSubject', () => {
         expect(createSubjectComponent.state('subject')).toEqual('');
         expect(createSubjectComponent.state('selectedTutors')).toEqual([]);
         expect(createSubjectComponent.state('submittedSubject')).toEqual(subjectEvent.target.value);
-        expect(createSubjectComponent.state('submittedTutors')).toEqual(tutorsEvent.target.value);
+        expect(createSubjectComponent.state('submittedTutors')).toEqual([tutorsEvent.target.value]);
 
         createSubjectComponent.unmount();
     });
