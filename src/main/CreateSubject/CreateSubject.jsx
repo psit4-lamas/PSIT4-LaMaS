@@ -35,11 +35,16 @@ class CreateSubject extends Component {
     };
 
     handleSubjectChange = (e) => {
-        this.setState({ subject: e.target.value });
+        this.setState({
+            subject: e.target.value,
+        });
     };
 
     handleDropdownChange = (e) => {
-        this.setState({ selectedTutors: e.target.value });
+        const updatedTutors = this.state.selectedTutors.slice();
+        updatedTutors.push(e.target.value);
+
+        this.setState({ selectedTutors: updatedTutors });
     };
 
     handleSubmit = () => {
