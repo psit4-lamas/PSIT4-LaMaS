@@ -4,7 +4,7 @@ import { Actions } from '../actions';
 const initialState = {
     user: {
         isAuthenticated: false,
-        isLoadingUser: false,
+        isLoadingUser: true,
         userAccessedPathname: '',
     },
     tabs: {
@@ -28,6 +28,7 @@ const userReducer = (state = initialState.user, action) => {
             // clear the saved requested pathname and render that page content
             return {
                 ...state,
+                isLoadingUser: false,
                 userAccessedPathname: '',
             };
         case Actions.USER_AUTHENTICATED:
@@ -36,7 +37,7 @@ const userReducer = (state = initialState.user, action) => {
                 ...state,
                 ...action.payload,
                 isAuthenticated: !!action.payload,
-                isLoadingUser: true,
+                isLoadingUser: false,
             };
         case Actions.LOG_IN_SUCCESS:
             return {
