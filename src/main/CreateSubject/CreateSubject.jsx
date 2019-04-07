@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createSubject } from '../actions';
-import { Form, Message, Dropdown } from 'semantic-ui-react';
+import { Dropdown, Form, Message } from 'semantic-ui-react';
 import { withNamespaces } from 'react-i18next';
 
 const availableTutors = [
@@ -68,7 +68,7 @@ class CreateSubject extends Component {
 
         return (
             <div>
-                { responseSubject && responseSubject.subject_id !== '' ? (
+                { responseSubject && responseSubject.isSubmitted && responseSubject.subject_id !== null ? (
                     <Message success>
                         <Message.Header>{ t('createSubject.successMsgTitle') }</Message.Header>
                         <p>
@@ -79,16 +79,24 @@ class CreateSubject extends Component {
                             { t('createSubject.successMsgBox3') }
                         </p>
                     </Message>
-                ) : <p>ERROR</p> }
+                ) : null }
+                { responseSubject && responseSubject.isSubmitted && responseSubject.subject_id === null ? (
+                    <Message negative>
+                        <Message.Header>{ t('createSubject.negativeMsgTitle') }</Message.Header>
+                        <p>
+                            { t('createSubject.negativeMsgBox1') }
+                            { submittedSubject }
+                            { t('createSubject.negativeMsgBox2') }
+                            { submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }
+                            { t('createSubject.negativeMsgBox3') }
+                        </p>
+                    </Message>
+                ) : null }
 
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') }
-                                    name="subject"
-                                    value={ subject }
-                                    onChange={ (e) => this.handleSubjectChange(e) }
-                        />
+                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ (e) => this.handleSubjectChange(e) }/>
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
@@ -121,4 +129,9 @@ const mapDispatchToProps = {
 };
 
 export { CreateSubject };
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(CreateSubject));
+export default withNamespaces()(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(CreateSubject),
+);
