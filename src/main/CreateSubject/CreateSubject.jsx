@@ -21,7 +21,7 @@ class CreateSubject extends Component {
     };
 
     handleAddition = (e) => {
-        const tutorName = e.target.value;
+        const tutorName = e.target.value ? e.target.value : e.target.textContent;
         const submitTutors = this.state.availableTutors.slice();
         submitTutors.push({
             key: tutorName,
@@ -41,8 +41,9 @@ class CreateSubject extends Component {
     };
 
     handleDropdownChange = (e) => {
+        const newTutor = e.target.value ? e.target.value : e.target.textContent;
         const updatedTutors = this.state.selectedTutors.slice();
-        updatedTutors.push(e.target.value);
+        updatedTutors.push(newTutor);
 
         this.setState({ selectedTutors: updatedTutors });
     };
@@ -61,8 +62,9 @@ class CreateSubject extends Component {
     };
 
     render() {
-        const { availableTutors, submittedSubject, submittedTutors } = this.state;
+        const { availableTutors, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
         const { t, responseSubject } = this.props;
+        console.log('availableTutors', selectedTutors, availableTutors);
 
         return (
             <div>
@@ -84,6 +86,7 @@ class CreateSubject extends Component {
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
                         <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') }
                                     name="subject"
+                                    value={ subject }
                                     onChange={ (e) => this.handleSubjectChange(e) }
                         />
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
@@ -96,6 +99,7 @@ class CreateSubject extends Component {
                             fluid
                             multiple
                             allowAdditions
+                            value={ selectedTutors }
                             onAddItem={ (e) => this.handleAddition(e) }
                             onChange={ (e) => this.handleDropdownChange(e) }
                         />
