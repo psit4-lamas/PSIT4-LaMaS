@@ -43,14 +43,17 @@ class CreateSubject extends Component {
     handleSubmit = () => {
         const { subject, selectedTutors } = this.state;
 
-        this.props.createSubject(subject, selectedTutors);
+        // Prevent admin from accidentally submitting a form without subject name or tutors
+        if (subject !== '' && selectedTutors.length > 0) {
+            this.props.createSubject(subject, selectedTutors);
 
-        this.setState({
-            submittedSubject: subject,
-            submittedTutors: selectedTutors,
-            subject: '',
-            selectedTutors: [],
-        });
+            this.setState({
+                submittedSubject: subject,
+                submittedTutors: selectedTutors,
+                subject: '',
+                selectedTutors: [],
+            });
+        }
     };
 
     render() {
@@ -64,9 +67,9 @@ class CreateSubject extends Component {
                         <Message.Header>{ t('createSubject.successMsgTitle') }</Message.Header>
                         <p>
                             { t('createSubject.successMsgBox1') }
-                            { submittedSubject }
+                            <strong>{ submittedSubject }</strong>
                             { t('createSubject.successMsgBox2') }
-                            { submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }
+                            <strong>{ submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }</strong>
                             { t('createSubject.successMsgBox3') }
                         </p>
                     </Message>
@@ -76,9 +79,9 @@ class CreateSubject extends Component {
                         <Message.Header>{ t('createSubject.negativeMsgTitle') }</Message.Header>
                         <p>
                             { t('createSubject.negativeMsgBox1') }
-                            { submittedSubject }
+                            <strong>{ submittedSubject }</strong>
                             { t('createSubject.negativeMsgBox2') }
-                            { submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }
+                            <strong>{ submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }</strong>
                             { t('createSubject.negativeMsgBox3') }
                         </p>
                     </Message>
@@ -87,7 +90,12 @@ class CreateSubject extends Component {
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ (e) => this.handleSubjectChange(e) }/>
+                        <Form.Input
+                            placeholder={ t('createSubject.subjectFieldPlaceholder') }
+                            name="subject"
+                            value={ subject }
+                            onChange={ (e) => this.handleSubjectChange(e) }
+                        />
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
@@ -120,9 +128,4 @@ const mapDispatchToProps = {
 };
 
 export { CreateSubject };
-export default withNamespaces()(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(CreateSubject),
-);
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(CreateSubject));
