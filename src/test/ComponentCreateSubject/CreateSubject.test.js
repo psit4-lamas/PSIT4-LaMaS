@@ -54,6 +54,53 @@ describe('CreateSubject', () => {
         expect(createSubjectComponent.state('selectedTutors')).toEqual(tutorsEvent.value);
     });
 
+    it('displays success message box on success', () => {
+        const responseSubject = {
+            isSubmitted: true,
+            subject_id: 123,
+        };
+
+        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
+
+        expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeTruthy();
+        expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeFalsy();
+    });
+
+    it('displays negative message box on failure', () => {
+        const responseSubject = {
+            isSubmitted: true,
+            subject_id: null,
+        };
+
+        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
+
+        expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeFalsy();
+        expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeTruthy();
+    });
+
+    it('calls handleAddition onAddItem', () => {
+        const availableTutorsBefore = [
+            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
+            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
+            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+        ];
+        const availableTutorsAfter = [
+            { text: 'TutorName', value: 'TutorName' },
+            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
+            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
+            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+        ];
+        const responseSubject = {};
+
+        createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } availableTutors={ availableTutorsBefore }/>);
+        const tutorsField = createSubjectComponent.find({ name: 'tutors' });
+
+        const changeValue = { value: 'TutorName' };
+        tutorsField.prop('onAddItem')(tutorsDefault, changeValue);
+
+        expect(createSubjectComponent.state('availableTutors')).toEqual(availableTutorsAfter);
+    });
+
     describe('on Save button click', () => {
 
         let subjectField;
@@ -106,52 +153,5 @@ describe('CreateSubject', () => {
 
             expect(createSubject).not.toHaveBeenCalled();
         });
-    });
-
-    it('displays success message box on success', () => {
-        const responseSubject = {
-            isSubmitted: true,
-            subject_id: 123,
-        };
-
-        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
-
-        expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeTruthy();
-        expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeFalsy();
-    });
-
-    it('displays negative message box on failure', () => {
-        const responseSubject = {
-            isSubmitted: true,
-            subject_id: null,
-        };
-
-        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
-
-        expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeFalsy();
-        expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeTruthy();
-    });
-
-    it('calls handleAddition onAddItem', () => {
-        const availableTutorsBefore = [
-            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
-            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
-            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
-        ];
-        const availableTutorsAfter = [
-            { text: 'TutorName', value: 'TutorName' },
-            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
-            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
-            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
-        ];
-        const responseSubject = {};
-
-        createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } availableTutors={ availableTutorsBefore }/>);
-        const tutorsField = createSubjectComponent.find({ name: 'tutors' });
-
-        const changeValue = { value: 'TutorName' };
-        tutorsField.prop('onAddItem')(tutorsDefault, changeValue);
-
-        expect(createSubjectComponent.state('availableTutors')).toEqual(availableTutorsAfter);
     });
 });
