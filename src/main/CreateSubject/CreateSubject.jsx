@@ -56,11 +56,10 @@ class CreateSubject extends Component {
     render() {
         const { availableTutors, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
         const { t, responseSubject } = this.props;
-        // console.log('availableTutors', selectedTutors, availableTutors);
 
         return (
             <div>
-                { responseSubject && responseSubject.isSubmitted && responseSubject.subject_id !== null ? (
+                { responseSubject.isSubmitted && responseSubject.subject_id !== null ? (
                     <Message success>
                         <Message.Header>{ t('createSubject.successMsgTitle') }</Message.Header>
                         <p>
@@ -72,7 +71,7 @@ class CreateSubject extends Component {
                         </p>
                     </Message>
                 ) : null }
-                { responseSubject && responseSubject.isSubmitted && responseSubject.subject_id === null ? (
+                { responseSubject.isSubmitted && responseSubject.subject_id === null ? (
                     <Message negative>
                         <Message.Header>{ t('createSubject.negativeMsgTitle') }</Message.Header>
                         <p>

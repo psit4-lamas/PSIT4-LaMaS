@@ -7,12 +7,15 @@ import { Form } from 'semantic-ui-react';
 describe('CreateSubject', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
-        ReactDOM.render(<CreateSubject t={ (key) => key }/>, div);
+        const responseSubject = { };
+
+        ReactDOM.render(<CreateSubject t={ (key) => key} responseSubject={ responseSubject }/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
     it('sets subject state value if subject is entered', () => {
-        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key }/>);
+        const responseSubject = { };
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
         const event = { target: { name: 'subject', value: 'mySubject' } };
 
         createSubjectComponent.find({ name: 'subject' }).simulate('change', event);
@@ -22,7 +25,8 @@ describe('CreateSubject', () => {
     });
 
     it('sets selectedTutors state value if tutors are entered', () => {
-        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key }/>);
+        const responseSubject = { };
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject}/>);
         const changeEvent = { target: null };
         const changeValue = { value: ['TutorName'] };
 
@@ -77,7 +81,8 @@ describe('CreateSubject', () => {
 
     it('should render correctly', () => {
         const createSubject = jest.fn();
-        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject }/>);
+        const responseSubject = { };
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject}/>);
 
         expect(createSubjectComponent).toMatchSnapshot();
 
@@ -100,9 +105,34 @@ describe('CreateSubject', () => {
             isSubmitted: true,
             subject_id: null,
         };
-
         const createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
 
         expect(createSubjectComponent.find('.ui.negative.message').hasClass('ui negative message')).toBeTruthy();
+    });
+
+    it('calls handleAddition onAddItem', () => {
+        const availableTutorsBefore = [
+            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
+            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
+            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+        ];
+        const availableTutorsAfter = [
+            { text: 'TutorName', value: 'TutorName' },
+            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
+            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
+            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+        ];
+        const responseSubject = {  };
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } availableTutors={ availableTutorsBefore }/>);
+        const tutorfield = createSubjectComponent.find({ name: 'tutors' });
+
+        const tutorsEvent = { target: null };
+        const changeValue = { value: 'TutorName' };
+
+        tutorfield.prop('onAddItem')(tutorsEvent, changeValue);
+
+        expect(createSubjectComponent.state('availableTutors')).toEqual(availableTutorsAfter);
+
+        createSubjectComponent.unmount();
     });
 });
