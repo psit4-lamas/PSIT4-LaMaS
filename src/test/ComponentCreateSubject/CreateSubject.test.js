@@ -97,7 +97,8 @@ describe('CreateSubject', () => {
 
         const createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
 
-        expect(createSubjectComponent.find('.ui.success.message').hasClass('ui success message')).toBeTruthy();
+        expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeTruthy();
+        expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeFalsy();
     });
 
     it('displays negative message box on failure', () => {
@@ -107,7 +108,8 @@ describe('CreateSubject', () => {
         };
         const createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
 
-        expect(createSubjectComponent.find('.ui.negative.message').hasClass('ui negative message')).toBeTruthy();
+        expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeFalsy();
+        expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeTruthy();
     });
 
     it('calls handleAddition onAddItem', () => {
