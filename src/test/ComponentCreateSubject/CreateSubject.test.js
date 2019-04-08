@@ -54,43 +54,46 @@ describe('CreateSubject', () => {
         expect(createSubjectComponent.state('selectedTutors')).toEqual(tutorsEvent.value);
     });
 
-    it('calls createSubject if Save button is clicked with valid form values', () => {
-        const subjectfield = createSubjectComponent.find({ name: 'subject' });
-        const tutorfield = createSubjectComponent.find({ name: 'tutors' });
+    describe('on Save button click', () => {
 
-        subjectfield.simulate('change', subjectEvent);
-        tutorfield.prop('onChange')(tutorsDefault, tutorsEvent);
-        createSubjectComponent.find(Form).simulate('submit');
+        let subjectField;
+        let tutorField;
 
-        expect(createSubject).toHaveBeenCalledWith(subjectEvent.target.value, tutorsEvent.value);
-    });
+        beforeEach(() => {
+            subjectField = createSubjectComponent.find({ name: 'subject' });
+            tutorField = createSubjectComponent.find({ name: 'tutors' });
+        });
 
-    it('updates state if Save button is clicked', () => {
-        const subjectfield = createSubjectComponent.find({ name: 'subject' });
-        const tutorfield = createSubjectComponent.find({ name: 'tutors' });
+        it('calls createSubject if the form values are given', () => {
+            subjectField.simulate('change', subjectEvent);
+            tutorField.prop('onChange')(tutorsDefault, tutorsEvent);
+            createSubjectComponent.find(Form).simulate('submit');
 
-        subjectfield.simulate('change', subjectEvent);
-        tutorfield.prop('onChange')(tutorsDefault, tutorsEvent);
-        createSubjectComponent.find(Form).simulate('submit');
+            expect(createSubject).toHaveBeenCalledWith(subjectEvent.target.value, tutorsEvent.value);
+        });
 
-        expect(createSubjectComponent.state('subject')).toEqual('');
-        expect(createSubjectComponent.state('selectedTutors')).toEqual([]);
-        expect(createSubjectComponent.state('submittedSubject')).toEqual(subjectEvent.target.value);
-        expect(createSubjectComponent.state('submittedTutors')).toEqual(tutorsEvent.value);
-    });
+        it('updates state if the form values are given', () => {
+            subjectField.simulate('change', subjectEvent);
+            tutorField.prop('onChange')(tutorsDefault, tutorsEvent);
+            createSubjectComponent.find(Form).simulate('submit');
 
-    it('prevents user from submitting with missing form value', () => {
-        const subjectfield = createSubjectComponent.find({ name: 'subject' });
+            expect(createSubjectComponent.state('subject')).toEqual('');
+            expect(createSubjectComponent.state('selectedTutors')).toEqual([]);
+            expect(createSubjectComponent.state('submittedSubject')).toEqual(subjectEvent.target.value);
+            expect(createSubjectComponent.state('submittedTutors')).toEqual(tutorsEvent.value);
+        });
 
-        subjectfield.simulate('change', subjectEvent);
-        createSubjectComponent.find(Form).simulate('submit');
+        it('prevents user from submitting form with missing assigned_tutors value', () => {
+            subjectField.simulate('change', subjectEvent);
+            createSubjectComponent.find(Form).simulate('submit');
 
-        expect(createSubjectComponent.state('subject')).toEqual(subjectEvent.target.value);
-        expect(createSubjectComponent.state('selectedTutors')).toEqual([]);
-        expect(createSubjectComponent.state('submittedSubject')).toEqual('');
-        expect(createSubjectComponent.state('submittedTutors')).toEqual([]);
+            expect(createSubjectComponent.state('subject')).toEqual(subjectEvent.target.value);
+            expect(createSubjectComponent.state('selectedTutors')).toEqual([]);
+            expect(createSubjectComponent.state('submittedSubject')).toEqual('');
+            expect(createSubjectComponent.state('submittedTutors')).toEqual([]);
 
-        expect(createSubject).not.toHaveBeenCalled();
+            expect(createSubject).not.toHaveBeenCalled();
+        });
     });
 
     it('displays success message box on success', () => {
@@ -130,11 +133,12 @@ describe('CreateSubject', () => {
             { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
         ];
         const responseSubject = {};
+
         createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } availableTutors={ availableTutorsBefore }/>);
-        const tutorfield = createSubjectComponent.find({ name: 'tutors' });
+        const tutorsField = createSubjectComponent.find({ name: 'tutors' });
 
         const changeValue = { value: 'TutorName' };
-        tutorfield.prop('onAddItem')(tutorsDefault, changeValue);
+        tutorsField.prop('onAddItem')(tutorsDefault, changeValue);
 
         expect(createSubjectComponent.state('availableTutors')).toEqual(availableTutorsAfter);
     });
