@@ -79,6 +79,27 @@ describe('CreateSubject', () => {
         createSubjectComponent.unmount();
     });
 
+    it('prevents user from updating state if Save button is clicked and a form item value is missing', () => {
+        const createSubject = jest.fn();
+        const responseSubject = {};
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject }/>);
+        const subjectfield = createSubjectComponent.find({ name: 'subject' });
+
+        const subjectEvent = { target: { value: 'SubjectName' } };
+
+        subjectfield.simulate('change', subjectEvent);
+        createSubjectComponent.find(Form).simulate('submit');
+
+        expect(createSubjectComponent.state('subject')).toEqual(subjectEvent.target.value);
+        expect(createSubjectComponent.state('selectedTutors')).toEqual([]);
+        expect(createSubjectComponent.state('submittedSubject')).toEqual('');
+        expect(createSubjectComponent.state('submittedTutors')).toEqual([]);
+
+        expect(createSubject).not.toHaveBeenCalled();
+
+        createSubjectComponent.unmount();
+    });
+
     it('should render correctly', () => {
         const createSubject = jest.fn();
         const responseSubject = {};
