@@ -205,6 +205,8 @@ const subjectReducer = (state = initialState.subject, action) => {
                 ...subject,
                 isSubmitted: true,
                 subject_id: action.payload.subjectId,
+                subject_name: action.payload.subject_name,
+                assigned_tutors: action.payload.assigned_tutors.slice(),
             };
         case Actions.CREATE_SUBJECT_FAIL:
             return {

@@ -104,6 +104,8 @@ const createSubject = (submittedSubject, submittedTutors) => {
             .then((res) => {
                 const data = {
                     subjectId: res.data.subjectId,
+                    subject_name: submittedSubject,
+                    assigned_tutors: submittedTutors.slice(),
                 };
 
                 dispatch({
