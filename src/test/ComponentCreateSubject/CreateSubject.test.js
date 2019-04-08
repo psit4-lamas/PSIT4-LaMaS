@@ -94,6 +94,18 @@ describe('CreateSubject', () => {
 
             expect(createSubject).not.toHaveBeenCalled();
         });
+
+        it('prevents user from submitting form with missing subject_name value', () => {
+            tutorField.prop('onChange')(tutorsDefault, tutorsEvent);
+            createSubjectComponent.find(Form).simulate('submit');
+
+            expect(createSubjectComponent.state('subject')).toEqual('');
+            expect(createSubjectComponent.state('selectedTutors')).toEqual(tutorsEvent.value);
+            expect(createSubjectComponent.state('submittedSubject')).toEqual('');
+            expect(createSubjectComponent.state('submittedTutors')).toEqual([]);
+
+            expect(createSubject).not.toHaveBeenCalled();
+        });
     });
 
     it('displays success message box on success', () => {
