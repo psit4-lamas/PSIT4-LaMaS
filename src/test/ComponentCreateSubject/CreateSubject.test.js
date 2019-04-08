@@ -7,14 +7,14 @@ import { Form } from 'semantic-ui-react';
 describe('CreateSubject', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
-        const responseSubject = { };
+        const responseSubject = {};
 
-        ReactDOM.render(<CreateSubject t={ (key) => key} responseSubject={ responseSubject }/>, div);
+        ReactDOM.render(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
     it('sets subject state value if subject is entered', () => {
-        const responseSubject = { };
+        const responseSubject = {};
         const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
         const event = { target: { name: 'subject', value: 'mySubject' } };
 
@@ -25,8 +25,8 @@ describe('CreateSubject', () => {
     });
 
     it('sets selectedTutors state value if tutors are entered', () => {
-        const responseSubject = { };
-        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject}/>);
+        const responseSubject = {};
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
         const changeEvent = { target: null };
         const changeValue = { value: ['TutorName'] };
 
@@ -81,8 +81,8 @@ describe('CreateSubject', () => {
 
     it('should render correctly', () => {
         const createSubject = jest.fn();
-        const responseSubject = { };
-        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject}/>);
+        const responseSubject = {};
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject }/>);
 
         expect(createSubjectComponent).toMatchSnapshot();
 
@@ -122,7 +122,7 @@ describe('CreateSubject', () => {
             { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
             { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
         ];
-        const responseSubject = {  };
+        const responseSubject = {};
         const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } availableTutors={ availableTutorsBefore }/>);
         const tutorfield = createSubjectComponent.find({ name: 'tutors' });
 
