@@ -1,14 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
 import { App } from '../main/App';
 import UploadComponent from '../main/UploadComponent/UploadComponent';
 
 it('App renders without crashing', () => {
-    const div = document.createElement('div');
+    const user = {
+        isAuthenticated: false,
+        isLoadingUser: true,
+        userAccessedPathname: '',
+    };
 
-    ReactDOM.render(<App t={ (key) => key }/>, div);
+    const component = shallow(<App t={ (key) => key } loadUser={ jest.fn() } user={ user }/>);
 
-    ReactDOM.unmountComponentAtNode(div);
+    expect(component).toMatchSnapshot();
+
+    component.unmount();
 });
 
 it('UploadComponent renders without crashing', () => {
