@@ -22,10 +22,6 @@ class CreateSubject extends Component {
             submittedTutors: [],
             availableTutors: availableTutors.slice(),
         };
-        this.handleAddition = this.handleAddition.bind(this);
-        this.handleSubjectChange = this.handleSubjectChange.bind(this);
-        this.handleDropdownChange = this.handleDropdownChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleAddition = (e, { value }) => {

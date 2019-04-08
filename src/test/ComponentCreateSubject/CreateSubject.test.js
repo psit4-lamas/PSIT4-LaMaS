@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { CreateSubject } from '../../main/CreateSubject/CreateSubject';
 import { Form } from 'semantic-ui-react';
 
@@ -77,10 +77,32 @@ describe('CreateSubject', () => {
 
     it('should render correctly', () => {
         const createSubject = jest.fn();
-        const component = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject }/>);
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject }/>);
 
-        expect(component).toMatchSnapshot();
+        expect(createSubjectComponent).toMatchSnapshot();
 
-        component.unmount();
+        createSubjectComponent.unmount();
+    });
+
+    it('displays success message box on success', () => {
+        const responseSubject = {
+            isSubmitted: true,
+            subject_id: 123,
+        };
+
+        const createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
+
+        expect(createSubjectComponent.find('.ui.success.message').hasClass('ui success message')).toBeTruthy();
+    });
+
+    it('displays negative message box on failure', () => {
+        const responseSubject = {
+            isSubmitted: true,
+            subject_id: null,
+        };
+
+        const createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
+
+        expect(createSubjectComponent.find('.ui.negative.message').hasClass('ui negative message')).toBeTruthy();
     });
 });
