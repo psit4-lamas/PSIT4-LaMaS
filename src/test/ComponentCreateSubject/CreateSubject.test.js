@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { CreateSubject } from '../../main/CreateSubject/CreateSubject';
 import { Form } from 'semantic-ui-react';
 
@@ -23,10 +23,11 @@ describe('CreateSubject', () => {
 
     it('sets selectedTutors state value if tutors are entered', () => {
         const createSubjectComponent = shallow(<CreateSubject t={ (key) => key }/>);
-        const event = { target: { value: 'Tutor1' } };
+        const changeEvent = { target: null };
+        const changeValue = { value: ['TutorName'] };
 
-        createSubjectComponent.find({ name: 'tutors' }).simulate('change', event);
-        expect(createSubjectComponent.state('selectedTutors')).toEqual([event.target.value]);
+        createSubjectComponent.find('Dropdown').prop('onChange')(changeEvent, changeValue);
+        expect(createSubjectComponent.state('selectedTutors')).toEqual(['TutorName']);
 
         createSubjectComponent.unmount();
     });
@@ -34,18 +35,19 @@ describe('CreateSubject', () => {
     it('calls createSubject if Save button is clicked', () => {
         const createSubject = jest.fn();
         const responseSubject = { subject_id: '01234' };
-        const createSubjectComponent = mount(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject }/>);
-        const subjectfield = createSubjectComponent.find({ name: 'subject' }).at(3);
-        const tutorfield = createSubjectComponent.find({ name: 'tutors' }).at(1);
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject }/>);
+        const subjectfield = createSubjectComponent.find({ name: 'subject' });
+        const tutorfield = createSubjectComponent.find({ name: 'tutors' });
 
         const subjectEvent = { target: { value: 'SubjectName' } };
-        const tutorsEvent = { target: { value: { text: 'Tutor2' } } };
+        const tutorsEvent = { target: null };
+        const changeValue = { value: ['TutorName'] };
 
         subjectfield.simulate('change', subjectEvent);
-        tutorfield.simulate('change', tutorsEvent);
+        tutorfield.prop('onChange')(tutorsEvent, changeValue);
         createSubjectComponent.find(Form).simulate('submit');
 
-        expect(createSubject).toHaveBeenCalledWith(subjectEvent.target.value, [tutorsEvent.target.value]);
+        expect(createSubject).toHaveBeenCalledWith(subjectEvent.target.value, changeValue.value);
 
         createSubjectComponent.unmount();
     });
@@ -53,21 +55,22 @@ describe('CreateSubject', () => {
     it('updates state if Save button is clicked', () => {
         const createSubject = jest.fn();
         const responseSubject = { subject_id: '01234' };
-        const createSubjectComponent = mount(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject }/>);
-        const subjectfield = createSubjectComponent.find({ name: 'subject' }).at(3);
-        const tutorfield = createSubjectComponent.find({ name: 'tutors' }).at(1);
+        const createSubjectComponent = shallow(<CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject }/>);
+        const subjectfield = createSubjectComponent.find({ name: 'subject' });
+        const tutorfield = createSubjectComponent.find({ name: 'tutors' });
 
         const subjectEvent = { target: { value: 'SubjectName' } };
-        const tutorsEvent = { target: { value: { text: 'Tutor1' } } };
+        const tutorsEvent = { target: null };
+        const changeValue = { value: ['TutorName'] };
 
         subjectfield.simulate('change', subjectEvent);
-        tutorfield.simulate('change', tutorsEvent);
+        tutorfield.prop('onChange')(tutorsEvent, changeValue);
         createSubjectComponent.find(Form).simulate('submit');
 
         expect(createSubjectComponent.state('subject')).toEqual('');
         expect(createSubjectComponent.state('selectedTutors')).toEqual([]);
         expect(createSubjectComponent.state('submittedSubject')).toEqual(subjectEvent.target.value);
-        expect(createSubjectComponent.state('submittedTutors')).toEqual([tutorsEvent.target.value]);
+        expect(createSubjectComponent.state('submittedTutors')).toEqual(changeValue.value);
 
         createSubjectComponent.unmount();
     });

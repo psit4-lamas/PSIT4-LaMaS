@@ -12,25 +12,25 @@ const availableTutors = [
 
 
 class CreateSubject extends Component {
-    state = {
-        subject: '',
-        selectedTutors: [],
-        submittedSubject: '',
-        submittedTutors: [],
-        availableTutors: availableTutors.slice(),
-    };
+    constructor(props, context) {
+        super(props, context);
 
-    handleAddition = (e) => {
-        const tutorName = e.target.value ? e.target.value : e.target.textContent;
-        const submitTutors = this.state.availableTutors.slice();
-        submitTutors.push({
-            key: tutorName,
-            text: tutorName,
-            value: tutorName,
-        });
+        this.state = {
+            subject: '',
+            selectedTutors: [],
+            submittedSubject: '',
+            submittedTutors: [],
+            availableTutors: availableTutors.slice(),
+        };
+        this.handleAddition = this.handleAddition.bind(this);
+        this.handleSubjectChange = this.handleSubjectChange.bind(this);
+        this.handleDropdownChange = this.handleDropdownChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
+    handleAddition = (e, { value }) => {
         this.setState({
-            availableTutors: submitTutors,
+            availableTutors: [{ text: value, value }, ...this.state.availableTutors],
         });
     };
 
@@ -40,12 +40,8 @@ class CreateSubject extends Component {
         });
     };
 
-    handleDropdownChange = (e) => {
-        const newTutor = e.target.value ? e.target.value : e.target.textContent;
-        const updatedTutors = this.state.selectedTutors.slice();
-        updatedTutors.push(newTutor);
-
-        this.setState({ selectedTutors: updatedTutors });
+    handleDropdownChange = (e, { value }) => {
+        this.setState({ selectedTutors: value });
     };
 
     handleSubmit = () => {
@@ -64,7 +60,7 @@ class CreateSubject extends Component {
     render() {
         const { availableTutors, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
         const { t, responseSubject } = this.props;
-        console.log('availableTutors', selectedTutors, availableTutors);
+        // console.log('availableTutors', selectedTutors, availableTutors);
 
         return (
             <div>
@@ -108,8 +104,8 @@ class CreateSubject extends Component {
                             multiple
                             allowAdditions
                             value={ selectedTutors }
-                            onAddItem={ (e) => this.handleAddition(e) }
-                            onChange={ (e) => this.handleDropdownChange(e) }
+                            onAddItem={ (e, { value }) => this.handleAddition(e, { value }) }
+                            onChange={ (e, { value }) => this.handleDropdownChange(e, { value }) }
                         />
                     </Form.Field>
                     <Form.Button content={ t('createSubject.saveBtn') }/>
