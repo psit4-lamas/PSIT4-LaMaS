@@ -27,6 +27,7 @@
         "action": "Aktion"
     },
     "createSubject": {
+        "pageTitle": "Neue Vorlesung erstellen",
         "successMsgTitle": "Vorlesung wurde erstellt",
         "successMsgBox1": "Vorlesung mit Name ",
         "successMsgBox2": " und Dozenten ",

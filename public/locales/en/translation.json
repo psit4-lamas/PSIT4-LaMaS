@@ -27,6 +27,7 @@
         "action": "Action"
     },
     "createSubject": {
+        "pageTitle": "Create new subject",
         "successMsgTitle": "Subject created",
         "successMsgBox1": "Subject with name ",
         "successMsgBox2": " and assigned tutors ",
