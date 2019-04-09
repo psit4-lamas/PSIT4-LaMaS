@@ -2,29 +2,154 @@ import { combineReducers } from 'redux';
 import { Actions } from '../actions';
 import { isEmptyObject } from '../../utils';
 
+const EMPTY_DEFAULT_SUBJECT = {
+    subject_id: '',
+    subject_name: '',
+    subject_rates: [],
+    assigned_tutors: [],
+    grades: {},
+    lectures: {
+        lecture_01: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_02: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_03: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_04: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_05: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_06: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_07: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_08: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_09: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_10: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_11: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_12: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_13: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_14: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+    },
+};
+
 const initialState = {
     user: {
         isAuthenticated: false,
         isLoadingUser: true,
         userAccessedPathname: '',
     },
+
     tabs: {
         isLoadingTabs: true,
         activeTabs: [],
         subjectLinks: [],
     },
+
     subject: {
+        isSubmitted: false,
         isLoadingSubject: true,
-        currentSubjectID: '',
-        currentSubject: {
-            lectures: {},
-        },
         currentLectureID: 'lecture_01',
+        currentSubject: {
+            ...EMPTY_DEFAULT_SUBJECT,
+        },
     },
 };
 
+
 const userReducer = (state = initialState.user, action) => {
-    switch (action.type) {
+    switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
@@ -72,7 +197,8 @@ const userReducer = (state = initialState.user, action) => {
 };
 
 const tabsReducer = (state = initialState.tabs, action) => {
-    switch (action.type) {
+    // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
+    switch (action.type) { // NOSONAR
         case Actions.LOADING_TABS:
             return {
                 isLoadingTabs: true,
@@ -122,28 +248,55 @@ const tabsReducer = (state = initialState.tabs, action) => {
 };
 
 const subjectReducer = (state = initialState.subject, action) => {
-    switch (action.type) {
+    switch (action.type) { // NOSONAR
+        case Actions.CREATE_SUBJECT_SUCCESS:
+            const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
+            return {
+                isSubmitted: true,
+                isLoadingSubject: false,
+                currentLectureID: 'lecture_01',
+                currentSubject: {
+                    ...subject,
+                    subject_id: action.payload.subjectId,
+                    subject_name: action.payload.subject_name,
+                    assigned_tutors: action.payload.assigned_tutors.slice(),
+                },
+            };
+        case Actions.CREATE_SUBJECT_FAIL:
+            return {
+                isSubmitted: true,
+                isLoadingSubject: false,
+                currentLectureID: 'lecture_01',
+                currentSubject: {
+                    subject_id: null,
+                },
+            };
         case Actions.LOAD_SUBJECT:
             return {
                 ...state,
                 isLoadingSubject: false,
-                currentSubjectID: action.payload.subject_id,
+                currentSubject.subject_id: action.payload.subject_id,
             };
         case Actions.LOAD_SUBJECT_SUCCESS:
             return {
                 ...state,
                 isLoadingSubject: false,
-                currentSubjectID: action.payload.subject_id,
-                currentSubject: { ...action.payload.subject },
+                currentSubject: {
+                    ...action.payload.subject,
+                    subject_id: action.payload.subject_id,
+                },
             };
 
         case Actions.SET_CURRENT_LECTURE:
             return {
                 ...state,
-                currentLectureID: action.payload,
+                currentSubject.subject_id: action.payload,
             };
         default:
-            return { ...state };
+            return {
+                ...state,
+                isSubmitted: false,
+            };
     }
 };
 

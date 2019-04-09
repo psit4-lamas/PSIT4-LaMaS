@@ -1,3 +1,3 @@
-import { withNameSpacesAndRouterAndRedux, withRouterAndRedux, isEmptyObject } from './utils';
+import { withNameSpacesAndRouterAndRedux, withNameSpacesAndRedux, withRouterAndRedux, isEmptyObject } from './utils';
 
-export { withNameSpacesAndRouterAndRedux, withRouterAndRedux, isEmptyObject };
+export { withNameSpacesAndRouterAndRedux, withNameSpacesAndRedux, withRouterAndRedux, isEmptyObject };

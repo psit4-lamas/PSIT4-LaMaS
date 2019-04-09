@@ -10,7 +10,7 @@ class TopMenu extends Component {
     state = { activeItem: window.location.pathname };
 
     handleItemClick = (e, { name }) => {
-        const pathname = name === '/home' || name === '/upload' ? `${ name }` : `/courses/${ name }`;
+        const pathname = name === '/home' || name === '/upload' || name === '/createsubject' ? `${ name }` : `/courses/${ name }`;
 
         if (pathname.includes('/courses/')) {
             this.props.loadSubject(name.split('/')[0]);
@@ -44,6 +44,9 @@ class TopMenu extends Component {
                     </Menu.Item>
                     <Menu.Item name="/upload" active={ currentName === 'upload' } onClick={ this.handleItemClick }>
                         Upload
+                    </Menu.Item>
+                    <Menu.Item name="/createsubject" active={ currentName === 'createsubject' } onClick={ this.handleItemClick }>
+                        Create Subject
                     </Menu.Item>
 
                     { !isLoadingTabs && subjectLinks.length && activeTabs.map((activeTab, index) => (

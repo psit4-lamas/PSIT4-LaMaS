@@ -1,13 +1,15 @@
 import React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import LoginGuard from './LoginGuard';
 import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
 import LecturePage from '../pages/LecturePage';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import LandingPage from '../pages/LandingPage';
+import CreateSubjectPage from '../pages/CreateSubjectPage';
 
-const AppNavigation = () => (
+
+const AppNavigation = () => ( // NOSONAR
     <Switch>
         <Route
             exact
@@ -30,6 +32,7 @@ const AppNavigation = () => (
                     {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
 
                     <Switch>
+                        <Route path={ '/createsubject' } render={ () => <CreateSubjectPage base={ '/createsubject' }/> }/>
                         <Route path={ '/upload' } render={ () => <UploadMediaPage base={ '/upload' }/> }/>
                         <Route path={ '/courses/:subject_id/:subject' } render={ () => <LecturePage pathname={ window.location.pathname }/> }/>
                         <Route exact path={ '/home' } render={ () => <LandingPage/> }/>
