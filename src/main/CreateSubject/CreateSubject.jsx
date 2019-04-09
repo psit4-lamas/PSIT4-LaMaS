@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { withNameSpacesAndRedux } from '../../utils';
 import { createSubject } from '../actions';
 import { Dropdown, Form, Message } from 'semantic-ui-react';
-import { withNamespaces } from 'react-i18next';
 
 const availableTutors = [
     { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
@@ -128,4 +127,4 @@ const mapDispatchToProps = {
 };
 
 export { CreateSubject };
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(CreateSubject));
+export default withNameSpacesAndRedux(mapStateToProps, mapDispatchToProps, CreateSubject);
