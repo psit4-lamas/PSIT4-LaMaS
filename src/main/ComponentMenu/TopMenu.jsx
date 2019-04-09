@@ -11,7 +11,7 @@ class TopMenu extends Component {
 
     handleItemClick = (e, { name }) => {
         this.setState({ activeItem: name });
-        const pathname = name === '/home' || name === '/upload' ? `${ name }` : `/courses/${ name }`;
+        const pathname = name === '/home' || name === '/upload' || name === '/createsubject' ? `${ name }` : `/courses/${ name }`;
         this.props.history.push(pathname);
     };
 
@@ -32,6 +32,7 @@ class TopMenu extends Component {
                 <Menu pointing id='top-menu'>
                     <Menu.Item name="/home" active={ currentName === 'home' } onClick={ this.handleItemClick }>Home</Menu.Item>
                     <Menu.Item name="/upload" active={ currentName === '/upload' } onClick={ this.handleItemClick }>Upload</Menu.Item>
+                    <Menu.Item name="/createsubject" active={ currentName === '/createsubject' } onClick={ this.handleItemClick }>Create Subject</Menu.Item>
 
                     { activeTabs.map((activeTab, index) => (
                         <Menu.Item key={ activeTab } name={ activeTab } active={ currentName === activeTab } onClick={ this.handleItemClick }>{ activeTab }</Menu.Item>

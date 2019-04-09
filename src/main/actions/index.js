@@ -1,7 +1,6 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
 
-
 const Actions = {
     LOAD_USER: 'LOAD_USER',
     USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
@@ -10,6 +9,9 @@ const Actions = {
     LOG_OUT_SUCCESS: 'LOG_OUT_SUCCESS',
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
+
+    CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
+    CREATE_SUBJECT_FAIL: 'CREATE_SUBJECT_FAIL',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -32,9 +34,7 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
-
     return (dispatch) => {
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 console.log(user);
@@ -66,7 +66,6 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
-
         // Connect to Firebase to perform a user login
         firebase
             .auth()
@@ -83,10 +82,11 @@ const logIn = (email, password) => {
     };
 };
 
-
 const logOut = () => {
     return (dispatch) => {
-        firebase.auth().signOut()
+        firebase
+            .auth()
+            .signOut()
             .then((res) => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
@@ -94,7 +94,33 @@ const logOut = () => {
                 console.log('ERROR ON LOGOUT ', err);
             });
     };
-
 };
 
-export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut };
+const createSubject = (submittedSubject, submittedTutors) => {
+    return (dispatch) => {
+        firebase
+            .functions()
+            .httpsCallable('addSubject')({ subject_name: submittedSubject, assigned_tutors: submittedTutors })
+            .then((res) => {
+                const data = {
+                    subjectId: res.data.subjectId,
+                    subject_name: submittedSubject,
+                    assigned_tutors: submittedTutors.slice(),
+                };
+
+                dispatch({
+                    type: Actions.CREATE_SUBJECT_SUCCESS,
+                    payload: data,
+                });
+            })
+            .catch((err) => {
+                console.log('ERROR ON CREATE SUBJECT ', err);
+
+                dispatch({
+                    type: Actions.CREATE_SUBJECT_FAIL,
+                });
+            });
+    };
+};
+
+export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut, createSubject };

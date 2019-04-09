@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '../main/App';
+import { shallow } from 'enzyme';
+import { App } from '../main/App';
 import UploadComponent from '../main/UploadComponent/UploadComponent';
 
+it('App renders without crashing', () => {
+    const user = {
+        isAuthenticated: false,
+        isLoadingUser: true,
+        userAccessedPathname: '',
+    };
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App  t={ key => key } />, div);
+    const component = shallow(<App t={ (key) => key } loadUser={ jest.fn() } user={ user }/>);
 
-  ReactDOM.unmountComponentAtNode(div);
+    expect(component).toMatchSnapshot();
+
+    component.unmount();
 });
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<UploadComponent buttonLabel={ 'Add video' } fileType={ 'V' }/>, div);
+it('UploadComponent renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<UploadComponent buttonLabel={ 'Add video' } fileType={ 'V' }/>, div);
 
-  ReactDOM.unmountComponentAtNode(div);
+    ReactDOM.unmountComponentAtNode(div);
 });

@@ -2,20 +2,147 @@ import { combineReducers } from 'redux';
 import { Actions } from '../actions';
 
 
+const EMPTY_DEFAULT_SUBJECT = {
+    subject_id: '',
+    subject_name: '',
+    subject_rates: [],
+    assigned_tutors: [],
+    grades: {},
+    lectures: {
+        lecture_01: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_02: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_03: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_04: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_05: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_06: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_07: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_08: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_09: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_10: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_11: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_12: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_13: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+        lecture_14: {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        },
+    },
+};
+
 const initialState = {
     user: {
         isAuthenticated: false,
         isLoadingUser: true,
         userAccessedPathname: '',
     },
+
     tabs: {
-        activeTabs: [ 'KI2', 'IS', 'PSIT4' ],
+        activeTabs: ['KI2', 'IS', 'PSIT4'],
+    },
+
+    subject: {
+        ...EMPTY_DEFAULT_SUBJECT,
+        isSubmitted: false,
     },
 };
 
-
 const userReducer = (state = initialState.user, action) => {
-    switch (action.type) {
+    switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
@@ -64,13 +191,38 @@ const userReducer = (state = initialState.user, action) => {
 
 const tabsReducer = (state = initialState.tabs, action) => {
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
-    switch (action.type) {
+    switch (action.type) { // NOSONAR
         default:
             return { ...state };
+    }
+};
+
+const subjectReducer = (state = initialState.subject, action) => {
+    switch (action.type) { // NOSONAR
+        case Actions.CREATE_SUBJECT_SUCCESS:
+            const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
+            return {
+                ...subject,
+                isSubmitted: true,
+                subject_id: action.payload.subjectId,
+                subject_name: action.payload.subject_name,
+                assigned_tutors: action.payload.assigned_tutors.slice(),
+            };
+        case Actions.CREATE_SUBJECT_FAIL:
+            return {
+                isSubmitted: true,
+                subject_id: null,
+            };
+        default:
+            return {
+                ...state,
+                isSubmitted: false,
+            };
     }
 };
 
 export default combineReducers({
     user: userReducer,
     tabs: tabsReducer,
+    subject: subjectReducer,
 });
