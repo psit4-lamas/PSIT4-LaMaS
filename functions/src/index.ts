@@ -1,7 +1,7 @@
 'use strict';
 
-import {ObjectMetadata} from 'firebase-functions/lib/providers/storage';
-import {CallableContext} from 'firebase-functions/lib/providers/https';
+import { ObjectMetadata } from 'firebase-functions/lib/providers/storage';
+import { CallableContext } from 'firebase-functions/lib/providers/https';
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -11,8 +11,7 @@ const storage = admin.storage();
 /**
  * When a file is uploaded in the Storage bucket the information and metadata of that file is saved in the Firestore Database.
  */
-
-const nodeNameForType = (type:String) => {
+const nodeNameForType = (type: String) => {
     if (type === 'V') {
         return 'videos';
     } else if (type === 'E') {
@@ -36,9 +35,11 @@ exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMe
         .firestore()
         .collection('subjects')
         .doc(metadataFromFile.metadata.subjectId);
+
     await subjectRef.get().then(function (doc: any) {
         dbSubject = doc.data();
     });
+
     const lectureName = 'lecture_' + ('0' + metadataFromFile.metadata.lecture).slice(-2);
     const attachmentSection = nodeNameForType(metadataFromFile.metadata.type);
     const lectures = dbSubject['lectures'];
@@ -112,7 +113,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
         .collection('subjects')
         .add(savable)
         .then((docRef: any) => {
-            return {subjectId: docRef.id};
+            return { subjectId: docRef.id };
         })
         .catch((error: any) => {
             // Re-throwing the error as an HttpsError so that the client gets the error details.
