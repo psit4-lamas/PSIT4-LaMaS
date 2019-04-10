@@ -271,16 +271,12 @@ const subjectReducer = (state = initialState.subject, action) => {
                     subject_id: null,
                 },
             };
-        case Actions.LOAD_SUBJECT:
-            return {
-                ...state,
-                isLoadingSubject: false,
-                currentSubject.subject_id: action.payload.subject_id,
-            };
         case Actions.LOAD_SUBJECT_SUCCESS:
             return {
                 ...state,
+                isSubmitted: false,
                 isLoadingSubject: false,
+                currentLectureID: 'lecture_01',
                 currentSubject: {
                     ...action.payload.subject,
                     subject_id: action.payload.subject_id,
@@ -290,12 +286,15 @@ const subjectReducer = (state = initialState.subject, action) => {
         case Actions.SET_CURRENT_LECTURE:
             return {
                 ...state,
-                currentSubject.subject_id: action.payload,
+                isSubmitted: false,
+                isLoadingSubject: false,
+                currentLectureID: action.payload,
             };
         default:
             return {
                 ...state,
                 isSubmitted: false,
+                isLoadingSubject: true,
             };
     }
 };
