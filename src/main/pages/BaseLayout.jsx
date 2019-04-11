@@ -19,6 +19,7 @@ class BaseLayout extends Component {
     render() {
         const { t, user, lectures } = this.props;
         const { pathname } = window.location;
+        const excludedPages = ['/', '/home', '/upload', '/createsubject'];
 
         return (
             <React.Fragment>
@@ -36,9 +37,9 @@ class BaseLayout extends Component {
                     <Grid columns={ 3 }>
                         <Grid.Column width={ 3 }>
                             {/* TODO: add left aside menu (listing lectures of a specific subject) */ }
-                            { user.isLoadingUser || !user.isAuthenticated || pathname === '/home' || pathname === '/' ? (
-                                ''
-                            ) : (
+                            { user.isLoadingUser || !user.isAuthenticated || excludedPages.includes(pathname)
+                              ? ('')
+                              : (
                                   <>
                                       <Menu fluid vertical tabular>
                                           { Object.keys(lectures).map((index, key) => (
