@@ -17,7 +17,7 @@ class Firebase {
             return Firebase.instance;
         }
 
-        console.log(config.default);
+        // console.log(config.default);
         this.fire = firebase.initializeApp(config.default);
         this.provider = provider;
 
