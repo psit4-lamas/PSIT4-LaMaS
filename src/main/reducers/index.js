@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { Actions } from '../actions';
-
+import { isEmptyObject } from '../../utils';
 
 const EMPTY_DEFAULT_SUBJECT = {
     subject_id: '',
@@ -132,14 +132,21 @@ const initialState = {
     },
 
     tabs: {
-        activeTabs: ['KI2', 'IS', 'PSIT4'],
+        isLoadingTabs: true,
+        activeTabs: [],
+        subjectLinks: [],
     },
 
     subject: {
-        ...EMPTY_DEFAULT_SUBJECT,
         isSubmitted: false,
+        isLoadingSubject: true,
+        currentLectureID: 'lecture_01',
+        currentSubject: {
+            ...EMPTY_DEFAULT_SUBJECT,
+        },
     },
 };
+
 
 const userReducer = (state = initialState.user, action) => {
     switch (action.type) { // NOSONAR
@@ -192,6 +199,49 @@ const userReducer = (state = initialState.user, action) => {
 const tabsReducer = (state = initialState.tabs, action) => {
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
     switch (action.type) { // NOSONAR
+        case Actions.LOADING_TABS:
+            return {
+                isLoadingTabs: true,
+            };
+        case Actions.SUBJECT_INSERT_HEAD:
+            const found = state.subjectLinks.find(function (subject) {
+                return !isEmptyObject(subject) && subject.subject_id === action.payload.subject_id;
+            });
+
+            // TODO: I have the impression we are doing two things in this reducer:
+            //       - handling the add/remove active tabs (a tab should appear only if the subj content is requested)
+            //       - handling the bookmarked subjects (the list of all bookmarked subjects should be available)
+            // TODO: split this logic into 2 different reducers (can be fixed after Sprint 2)
+            if (found === undefined) {
+                const activeTabs = state.activeTabs.slice();
+                activeTabs.push(action.payload.name);
+
+                const subjectLinks = state.subjectLinks.slice();
+                subjectLinks.push({ ...action.payload });
+
+                return {
+                    ...state,
+                    isLoadingTabs: false,
+                    activeTabs: activeTabs,
+                    subjectLinks: subjectLinks,
+                };
+            } else {
+                return { ...state };
+            }
+        case Actions.SUBJECT_REMOVE_HEAD:
+            const activeTabs = state.activeTabs.filter(function (tab) {
+                return !!tab && tab !== action.payload.name;
+            });
+
+            const subjectLinks = state.subjectLinks.filter(function (subject) {
+                return !isEmptyObject(subject) && subject.subject_id !== action.payload.subject_id;
+            });
+
+            return {
+                ...state,
+                activeTabs: activeTabs,
+                subjectLinks: subjectLinks,
+            };
         default:
             return { ...state };
     }
@@ -202,21 +252,49 @@ const subjectReducer = (state = initialState.subject, action) => {
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {
-                ...subject,
                 isSubmitted: true,
-                subject_id: action.payload.subjectId,
-                subject_name: action.payload.subject_name,
-                assigned_tutors: action.payload.assigned_tutors.slice(),
+                isLoadingSubject: false,
+                currentLectureID: 'lecture_01',
+                currentSubject: {
+                    ...subject,
+                    subject_id: action.payload.subjectId,
+                    subject_name: action.payload.subject_name,
+                    assigned_tutors: action.payload.assigned_tutors.slice(),
+                },
             };
         case Actions.CREATE_SUBJECT_FAIL:
             return {
                 isSubmitted: true,
-                subject_id: null,
+                isLoadingSubject: false,
+                currentLectureID: 'lecture_01',
+                currentSubject: {
+                    subject_id: null,
+                },
+            };
+        case Actions.LOAD_SUBJECT_SUCCESS:
+            return {
+                ...state,
+                isSubmitted: false,
+                isLoadingSubject: false,
+                currentLectureID: 'lecture_01',
+                currentSubject: {
+                    ...action.payload.subject,
+                    subject_id: action.payload.subject_id,
+                },
+            };
+
+        case Actions.SET_CURRENT_LECTURE:
+            return {
+                ...state,
+                isSubmitted: false,
+                isLoadingSubject: false,
+                currentLectureID: action.payload,
             };
         default:
             return {
                 ...state,
                 isSubmitted: false,
+                isLoadingSubject: true,
             };
     }
 };

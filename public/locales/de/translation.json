@@ -41,5 +41,8 @@
         "tutorFieldLbl": "Dozenten zuweisen",
         "tutorFieldPlaceholder": "Dozenten...",
         "saveBtn": "Speichern"
+    },
+    "baseLayout": {
+        "lecture": "Vorlesung"
     }
 }

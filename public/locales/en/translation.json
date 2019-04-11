@@ -41,5 +41,8 @@
         "tutorFieldLbl": "Assign Tutors",
         "tutorFieldPlaceholder": "Tutors...",
         "saveBtn": "Save"
+    },
+    "baseLayout": {
+        "lecture": "lecture"
     }
 }

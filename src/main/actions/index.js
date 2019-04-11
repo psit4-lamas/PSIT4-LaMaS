@@ -1,6 +1,7 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
 
+
 const Actions = {
     LOAD_USER: 'LOAD_USER',
     USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
@@ -12,6 +13,15 @@ const Actions = {
 
     CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
     CREATE_SUBJECT_FAIL: 'CREATE_SUBJECT_FAIL',
+
+    LOAD_SUBJECT: 'LOAD_SUBJECT',
+    LOAD_SUBJECT_SUCCESS: 'LOAD_SUBJECT_SUCCESS',
+    LOADING_TABS: 'LOADING_TABS',
+    LOAD_SUBJECT_HEAD: 'LOAD_SUBJECT_HEAD',
+    LOAD_SUBJECT_HEAD_SUCCESS: 'LOAD_SUBJECT_HEAD_SUCCESS',
+    SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
+    SUBJECT_REMOVE_HEAD: 'SUBJECT_REMOVE_HEAD',
+    SET_CURRENT_LECTURE: 'SET_CURRENT_LECTURE',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -34,7 +44,9 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
+
     return (dispatch) => {
+
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 console.log(user);
@@ -66,6 +78,7 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
+
         // Connect to Firebase to perform a user login
         firebase
             .auth()
@@ -123,4 +136,87 @@ const createSubject = (submittedSubject, submittedTutors) => {
     };
 };
 
-export { Actions, loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged, logIn, logOut, createSubject };
+/**
+ * Load the requested subject document.
+ *
+ * This action is called when a user clicks on a subject's link, requesting the subject's content.
+ *
+ * @param subject_id     The subject ID to be fetched from firestore
+ * @returns {Function}
+ */
+const loadSubject = (subject_id) => {
+    return (dispatch) => {
+        firebase
+            .database()
+            .collection('subjects')
+            .doc(subject_id)
+            .onSnapshot(function (doc) {
+                if (doc.exists) {
+                    const response = {
+                        subject_id: doc.id,
+                        subject: doc.data(),
+                    };
+
+                    dispatch({
+                        type: Actions.LOAD_SUBJECT_SUCCESS,
+                        payload: response,
+                    });
+                }
+            });
+    };
+};
+
+/**
+ * Load all bookmarked subjects' links of the logged in user.
+ *
+ * This action is called on LandingPage to fire a request fetching all current user's bookmarked subjects' links.
+ *
+ * @returns {Function}
+ */
+const loadSubjectHead = () => {
+    return (dispatch) => {
+        // TODO: at the moment this request just fetch all subjects' names available on firestore!
+        //       Later we will just fetch those subjects' names that the specific user (student (tutor too?)) has bookmarked!
+        firebase
+            .database()
+            .collection('subjects')
+            .onSnapshot(function (querySnapshot) {
+                querySnapshot.docChanges().forEach(function (change) {
+                    const response = {
+                        name: change.doc.data().subject_name,
+                        subject_id: change.doc.id,
+                    };
+
+                    if (change.type === 'added') {
+                        dispatch({
+                            type: Actions.SUBJECT_INSERT_HEAD,
+                            payload: response,
+                        });
+                    }
+
+                    if (change.type === 'removed') {
+                        dispatch({
+                            type: Actions.SUBJECT_REMOVE_HEAD,
+                            payload: response,
+                        });
+                    }
+                });
+            });
+    };
+};
+
+const selectLecture = (lectureNumber) => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.SET_CURRENT_LECTURE,
+            payload: lectureNumber,
+        });
+    };
+};
+
+export {
+    Actions,
+    loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged,
+    logIn, logOut,
+    createSubject, loadSubject, loadSubjectHead, selectLecture
+};
