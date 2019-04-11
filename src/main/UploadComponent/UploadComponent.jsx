@@ -7,7 +7,7 @@ import withAuthorization from '../../utils/withAuthorization';
 import { UserRoles } from '../../utils/constants';
 
 
-export class UploadComponent extends Component {
+class UploadComponent extends Component {
     state = {
         progress: 0,
         isUploading: false,
@@ -100,10 +100,11 @@ export class UploadComponent extends Component {
 }
 
 
-const condition = (authUser) => authUser && authUser.roles.includes(UserRoles.TUTOR);
+const condition = (authUser) => authUser && !!authUser.roles && authUser.roles.includes(UserRoles.TUTOR);
 
 const mapStateToProps = (state) => ( {
     user: state.user,
 } );
 
+export { UploadComponent };
 export default withAuthorization(condition)(connect(mapStateToProps)(UploadComponent));

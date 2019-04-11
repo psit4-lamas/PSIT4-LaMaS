@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import { App } from '../main/App';
-import UploadComponent from '../main/UploadComponent/UploadComponent';
+import { UploadComponent } from '../main/UploadComponent/UploadComponent';
 
 it('App renders without crashing', () => {
     const user = {

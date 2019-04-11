@@ -45,6 +45,7 @@ class BaseLayout extends Component {
                                           { Object.keys(lectures).map((index, key) => (
                                               <Menu.Item
                                                   name={ t('baseLayout.lecture') + ( key + 1 ) }
+                                                  key={ index }
                                                   id={ index }
                                                   active={ this.props.currentLectureID === index }
                                                   onClick={ this.handleItemClick }
