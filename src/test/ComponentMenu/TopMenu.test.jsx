@@ -69,7 +69,7 @@ describe('Top menu', () => {
         expect(menuItems[1].children[0].props.children).toEqual('Upload');
         expect(menuItems[1].props.name).toEqual('/upload');
         expect(menuItems[2].children[0].props.children).toEqual('Create Subject');
-        expect(menuItems[2].props.name).toEqual('/createSubject');
+        expect(menuItems[2].props.name).toEqual('/createsubject');
         expect(menuItems[3].children[0].props.children).toEqual('IS');
         expect(menuItems[3].props.name).toEqual('01234/IS');
         expect(menuItems[4].children[0].props.children).toEqual('KI2');
