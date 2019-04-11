@@ -28,6 +28,8 @@ class LandingPage extends Component {
 
         return (
             <React.Fragment>
+                <br/>
+                <br/>
                 <h1>{ t('landingPage.title') }</h1>
 
                 <ul>

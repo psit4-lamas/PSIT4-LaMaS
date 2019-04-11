@@ -39,7 +39,7 @@ class TopMenu extends Component {
         return (
             <div>
                 <Menu pointing id="top-menu">
-                    <Menu.Item name="/home" active={ currentName === 'home' } onClick={ this.handleItemClick }>
+                    <Menu.Item name="/home" onClick={ this.handleItemClick }>
                         Home
                     </Menu.Item>
                     <Menu.Item name="/upload" active={ currentName === 'upload' } onClick={ this.handleItemClick }>
