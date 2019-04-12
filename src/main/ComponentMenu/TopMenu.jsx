@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { withRouterAndRedux } from '../../utils';
-import { loadSubject, logOut } from '../actions';
+import { loadSubject, logOut, saveSubject } from '../actions';
 import { Button, Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
 import './TopMenu.css';
 
 
 class TopMenu extends Component {
-
     state = { activeItem: window.location.pathname };
 
     handleItemClick = (e, { name }) => {
@@ -24,13 +23,18 @@ class TopMenu extends Component {
         this.props.logOut();
     };
 
+    handleSaveLecture = () => {
+        this.props.saveSubject(this.props.currentSubject);
+    };
+
     render() {
         const { t, changeLanguage, tabs } = this.props;
         const { isLoadingTabs, activeTabs, subjectLinks } = tabs;
         const currentPathname = window.location.pathname;
-        const currentName = currentPathname.replace('/courses/', '')
-                                           .split('/')[1]
-                                           .replace('%20', ' ');
+        const currentName = currentPathname
+            .replace('/courses/', '')
+            .split('/')[1]
+            .replace('%20', ' ');
 
         // TODO: The activeTabs is a list of subjects defined in src/main/reducers/index.js
         //       It simulates fetching user's bookmarked subjects from backend based on logged in user.
@@ -49,12 +53,18 @@ class TopMenu extends Component {
                         Create Subject
                     </Menu.Item>
 
-                    { !isLoadingTabs && subjectLinks.length && activeTabs.map((activeTab, index) => (
-                        <Menu.Item key={ activeTab } name={ subjectLinks[index].subject_id + '/' + subjectLinks[index].name }
-                                   active={ currentName === activeTab } onClick={ this.handleItemClick }>
-                            { subjectLinks[index].name }
-                        </Menu.Item>
-                    )) }
+                    { !isLoadingTabs &&
+                      subjectLinks.length &&
+                      activeTabs.map((activeTab, index) => (
+                          <Menu.Item
+                              key={ activeTab }
+                              name={ subjectLinks[index].subject_id + '/' + subjectLinks[index].name }
+                              active={ currentName === activeTab }
+                              onClick={ this.handleItemClick }
+                          >
+                              { subjectLinks[index].name }
+                          </Menu.Item>
+                      )) }
 
                     <Menu.Menu position="right">
                         <Menu.Item>
@@ -63,16 +73,7 @@ class TopMenu extends Component {
                     </Menu.Menu>
 
                     <Menu.Menu id="top-menu-dropdown-language" position="right">
-                        <Dropdown
-                            id="dropdown-language"
-                            button
-                            className="icon"
-                            floating
-                            labeled
-                            icon="world"
-                            additionPosition="bottom"
-                            text={ t('menu.language') }
-                        >
+                        <Dropdown id="dropdown-language" button className="icon" floating labeled icon="world" additionPosition="bottom" text={ t('menu.language') }>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={ () => changeLanguage('en') }>English</Dropdown.Item>
                                 <Dropdown.Item onClick={ () => changeLanguage('de') }>German</Dropdown.Item>
@@ -89,11 +90,19 @@ class TopMenu extends Component {
                     </Menu.Menu>
                 </Menu>
 
-                { window.location.pathname === '/home' || window.location.pathname === '/'
-                  ? ('')
-                  : (
+                { window.location.pathname === '/home' || window.location.pathname === '/' ? (
+                    ''
+                ) : (
                       <Segment>
-                          <p>some other sub menu (see moqups)</p>
+                          <Menu.Menu id="top-menu-lecture" position="right">
+                              <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
+                                  <Dropdown.Menu>
+                                      <Dropdown.Item onClick={ () => changeLanguage('en') }>{ t('menu.editLecture') }</Dropdown.Item>
+                                      <Dropdown.Item onClick={ () => changeLanguage('de') }>{ t('menu.unpublish') }</Dropdown.Item>
+                                  </Dropdown.Menu>
+                              </Dropdown>
+                              <Button onClick={ this.handleSaveLecture }>{ t('menu.save') }</Button>
+                          </Menu.Menu>
                       </Segment>
                   ) }
             </div>
@@ -102,13 +111,15 @@ class TopMenu extends Component {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ( {
     tabs: state.tabs,
-});
+    currentSubject: state.subject.currentSubject,
+} );
 
 const mapDispatchToProps = {
     logOut,
     loadSubject,
+    saveSubject,
 };
 
 export { TopMenu };
