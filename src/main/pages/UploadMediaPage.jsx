@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import fire from '../../firebase';
 import { withNamespaces } from 'react-i18next';
-import UploadComponent from '../UploadComponent/UploadComponent';
 import FileList from '../FileListComponent/FileList';
 import './UploadMediaPage.css';
 
@@ -9,26 +8,16 @@ import './UploadMediaPage.css';
 class UploadMediaPage extends Component {
     // TODO: improve upload media page UI
     render() {
-        const { t } = this.props;
+        const { t, editMode } = this.props;
 
         return (
             <div>
+                <br/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'V' } t={ t }/>
 
-                <UploadComponent fileType={ 'V' } buttonLabel={ t('uploadComponent.selectVideo') }/>
-                <br/>
-                <FileList firebase={ fire } type={ 'V' } t={ t }/>
-                <br/>
-                <br/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t }/>
 
-                <UploadComponent fileType={ 'L' } buttonLabel={ t('uploadComponent.selectLecture') }/>
-                <br/>
-                <FileList firebase={ fire } type={ 'L' } t={ t }/>
-                <br/>
-                <br/>
-
-                <UploadComponent fileType={ 'E' } buttonLabel={ t('uploadComponent.selectExercise') }/>
-                <br/>
-                <FileList firebase={ fire } type={ 'E' } t={ t }/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'E' } t={ t }/>
             </div>
         );
     }

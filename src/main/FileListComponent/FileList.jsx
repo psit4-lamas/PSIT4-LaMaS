@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Table } from 'semantic-ui-react';
+import { Icon, Item, Table } from 'semantic-ui-react';
+import { withRouterAndRedux } from '../../utils';
+import { downloadFileFromFirebase } from '../actions';
+import UploadComponent from '../UploadComponent/UploadComponent';
 
 
 class FileList extends Component {
-
     constructor(props) {
         super(props);
 
@@ -26,60 +28,44 @@ class FileList extends Component {
         }
     };
 
-    componentDidMount() {
-        this.setState({ loading: true });
-        const { type, firebase: fire } = this.props;
+    filesForStructure = (type) => {
+        if (type === 'V') {
+            return this.props.lectureVideos.videos;
+        } else if (type === 'E') {
+            return this.props.lectureVideos.exercises;
+        } else if (type === 'L') {
+            return this.props.lectureVideos.lecture_materials;
+        } else {
+            return null;
+        }
+    };
 
-        this.unsubscribe = fire
-            .database()
-            .collection('files')
-            .where('subject', '==', 'KI')
-            .where('type', '==', type)
-            .onSnapshot((snapshot) => {
-                let files = [];
-
-                snapshot.forEach((doc) => {
-                    let save = this;
-
-                    fire.storage()
-                        .ref(doc.data().nameOnStorage)
-                        .getDownloadURL()
-                        .then(function(url) {
-                            console.log(url);
-
-                            files.push({ ...doc.data(), uid: doc.id, downloadURL: url });
-
-                            save.setState({
-                                files,
-                                loading: false,
-                            });
-                        });
-                });
-
-                this.setState({
-                    files,
-                    loading: false,
-                });
-            });
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe();
+    handleClick(nameOnStorage) {
+        this.props.downloadFileFromFirebase(nameOnStorage);
     }
 
     render() {
-        const { t, type } = this.props;
-        const fileList = this.state.files.map((dbEntry) => {
+        const { t, type, editMode } = this.props;
+        const files = this.filesForStructure(type);
+
+        const fileList = Object.keys(files).map((element) => {
             return (
-                <Table.Row key={ dbEntry.nameOnStorage }>
+                <Table.Row key={ files[element].nameOnStorage }>
                     <Table.Cell width={ 14 }>
-                        <a href={ dbEntry.downloadURL }>
-                            { dbEntry.nameOnStorage } for subject { dbEntry.subject } and lecture { dbEntry.lecture }
-                        </a>
+                        <Item.Group>
+                            <Item>
+                                <Item.Content verticalAlign="middle">
+                                    <Item.Header as="a" onClick={ () => this.handleClick(files[element].nameOnStorage) }>
+                                        <Icon name="download"/>
+                                        { files[element].name }
+                                    </Item.Header>
+                                </Item.Content>
+                            </Item>
+                        </Item.Group>
                     </Table.Cell>
                     <Table.Cell>
-                        <button style={{display: "none"}} className="ui icon button">
-                            <i className="trash alternate icon"></i>
+                        <button style={ { display: 'none' } } className="ui icon button">
+                            <i className="trash alternate icon">X</i>
                         </button>
                     </Table.Cell>
                 </Table.Row>
@@ -90,15 +76,29 @@ class FileList extends Component {
             <Table color={ this.colorForStructure(type) } key={ this.colorForStructure(type) }>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) }</Table.HeaderCell>
+                        <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) } </Table.HeaderCell>
                         <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-                <Table.Body>{ fileList }</Table.Body>
+                <Table.Body>
+                    { fileList }
+                    <Table.Row>
+                        <Table.Cell collapsing>{ editMode ? <UploadComponent fileType={ type } buttonLabel={ t('uploadComponent.add') }/> : null }</Table.Cell>
+                        <Table.Cell/>
+                    </Table.Row>
+                </Table.Body>
             </Table>
         );
     }
 }
 
 
-export default FileList;
+const mapStateToProps = (state) => ( {
+    lectureVideos: state.subject.currentSubject.lectures[state.subject.currentLectureID],
+} );
+
+const mapDispatchToProps = {
+    downloadFileFromFirebase,
+};
+
+export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, FileList);
