@@ -1,7 +1,6 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
 
-
 const Actions = {
     LOAD_USER: 'LOAD_USER',
     USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
@@ -22,6 +21,11 @@ const Actions = {
     SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
     SUBJECT_REMOVE_HEAD: 'SUBJECT_REMOVE_HEAD',
     SET_CURRENT_LECTURE: 'SET_CURRENT_LECTURE',
+
+    SET_NEW_LECTURE_TITLE: 'SET_NEW_LECTURE_TITLE',
+    SAVE_LECTURE_START: 'SAVE_LECTURE_START',
+    SAVE_LECTURE_ERROR: 'SAVE_LECTURE_ERROR',
+    SAVE_LECTURE_SUCCESS: 'SAVE_LECTURE_SUCCESS',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -44,13 +48,9 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
-
     return (dispatch) => {
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log(user);
-
                 // If the user has not confirmed his/her account yet, re-send a confirmation email
                 // with a 'Continue' link, redirecting the user to the LaMaS web application
                 if (!user.emailVerified) {
@@ -78,14 +78,11 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
-
         // Connect to Firebase to perform a user login
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then((userCredentials) => {
-                console.log(userCredentials);
-
                 dispatch({
                     type: Actions.LOG_IN_SUCCESS,
                     payload: userCredentials.user,
@@ -100,7 +97,7 @@ const logOut = () => {
         firebase
             .auth()
             .signOut()
-            .then((res) => {
+            .then(() => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
             .catch((err) => {
@@ -113,7 +110,10 @@ const createSubject = (submittedSubject, submittedTutors) => {
     return (dispatch) => {
         firebase
             .functions()
-            .httpsCallable('addSubject')({ subject_name: submittedSubject, assigned_tutors: submittedTutors })
+            .httpsCallable('addSubject')({
+                subject_name: submittedSubject,
+                assigned_tutors: submittedTutors,
+            })
             .then((res) => {
                 const data = {
                     subjectId: res.data.subjectId,
@@ -214,9 +214,65 @@ const selectLecture = (lectureNumber) => {
     };
 };
 
+const saveSubject = (subject) => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.SAVE_LECTURE_START,
+        });
+
+        firebase
+            .database()
+            .collection('subjects')
+            .doc(subject.subject_id)
+            .update(subject)
+            .then(function () {
+                dispatch({
+                    type: Actions.SAVE_LECTURE_SUCCESS,
+                });
+            })
+            .catch(function (error) {
+                dispatch({
+                    type: Actions.SAVE_LECTURE_ERROR,
+                    payload: error,
+                });
+            });
+    };
+};
+
+const setNewLectureTitle = (title) => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.SET_NEW_LECTURE_TITLE,
+            payload: title,
+        });
+    };
+};
+
+const downloadFileFromFirebase = (nameOnStorage) => {
+    return () => {
+        firebase
+            .storage()
+            .ref(nameOnStorage)
+            .getDownloadURL()
+            .then(function (url) {
+                window.open(url);
+            })
+            .catch((error) => console.log(error));
+    };
+};
+
 export {
     Actions,
-    loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged,
-    logIn, logOut,
-    createSubject, loadSubject, loadSubjectHead, selectLecture
+    loadUser,
+    userRedirectedToAccessedPath,
+    subscribeToAuthStateChanged,
+    logIn,
+    logOut,
+    createSubject,
+    loadSubject,
+    loadSubjectHead,
+    selectLecture,
+    downloadFileFromFirebase,
+    setNewLectureTitle,
+    saveSubject,
 };
