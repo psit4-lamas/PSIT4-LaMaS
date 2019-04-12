@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withNameSpacesAndRedux } from '../../utils';
 import { createSubject } from '../actions';
-import { Dropdown, Form, Message } from 'semantic-ui-react';
+import { Dropdown, Form } from 'semantic-ui-react';
+import MessageBox from './MessageBox';
 
 const availableTutors = [
     { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },

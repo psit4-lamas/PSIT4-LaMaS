@@ -13,7 +13,6 @@ describe('CreateSubject', () => {
         ReactDOM.unmountComponentAtNode(div);
     });
 
-
     let createSubjectComponent;
     let createSubject;
     let responseSubject;
@@ -57,7 +56,9 @@ describe('CreateSubject', () => {
     it('displays success message box on success', () => {
         const responseSubject = {
             isSubmitted: true,
-            subject_id: 123,
+            currentSubject: {
+                subject_id: 123,
+            },
         };
 
         createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
@@ -69,7 +70,9 @@ describe('CreateSubject', () => {
     it('displays negative message box on failure', () => {
         const responseSubject = {
             isSubmitted: true,
-            subject_id: null,
+            currentSubject: {
+                subject_id: null,
+            },
         };
 
         createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
@@ -102,7 +105,6 @@ describe('CreateSubject', () => {
     });
 
     describe('on Save button click', () => {
-
         let subjectField;
         let tutorField;
 
