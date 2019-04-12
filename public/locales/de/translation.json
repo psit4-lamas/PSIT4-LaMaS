@@ -4,7 +4,11 @@
     },
     "menu": {
         "language": "Sprache",
-        "logout": "Ausloggen"
+        "logout": "Ausloggen",
+        "editLecture": "editieren Vorlesung",
+        "unpublish": "unveröffentlichen",
+        "actions": "Aktion",
+        "save": "speichern"
     },
     "login": {
         "message": "Auf LaMaS anmelden",
@@ -16,9 +20,7 @@
         "title": "Bookmark"
     },
     "uploadComponent": {
-        "selectVideo": "Videos hinzufügen",
-        "selectLecture": "Unterlagen hinzufügen",
-        "selectExercise": "Übungsaufgaben hinzufügen"
+        "add": "hinzufügen"
     },
     "fileList": {
         "V": "Videos",
@@ -44,5 +46,9 @@
     },
     "baseLayout": {
         "lecture": "Vorlesung"
+    },
+    "editLecture": {
+        "editLecture": "Editieren: Vorlesung",
+        "lectureTitle": "Titel der Vorlesung:"
     }
 }
