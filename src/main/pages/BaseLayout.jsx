@@ -37,15 +37,16 @@ class BaseLayout extends Component {
                     <Grid columns={ 3 }>
                         <Grid.Column width={ 3 }>
                             {/* TODO: add left aside menu (listing lectures of a specific subject) */ }
-                            { user.isLoadingUser || !user.isAuthenticated || excludedPages.includes(pathname)
-                              ? ('')
-                              : (
+                            { user.isLoadingUser || !user.isAuthenticated || excludedPages.includes(pathname) ? (
+                                ''
+                            ) : (
                                   <>
                                       <Menu fluid vertical tabular>
                                           { Object.keys(lectures).map((index, key) => (
                                               <Menu.Item
                                                   name={ t('baseLayout.lecture') + ( key + 1 ) }
                                                   id={ index }
+                                                  key={ index }
                                                   active={ this.props.currentLectureID === index }
                                                   onClick={ this.handleItemClick }
                                               />
