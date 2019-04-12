@@ -66,7 +66,12 @@ class CreateSubject extends Component {
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ (e) => this.handleSubjectChange(e) }/>
+                        <Form.Input
+                            placeholder={ t('createSubject.subjectFieldPlaceholder') }
+                            name="subject"
+                            value={ subject }
+                            onChange={ (e) => this.handleSubjectChange(e) }
+                        />
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
