@@ -62,40 +62,11 @@ class CreateSubject extends Component {
 
         return (
             <div>
-                { responseSubject.isSubmitted && responseSubject.subject_id !== null ? (
-                    <Message success>
-                        <Message.Header>{ t('createSubject.successMsgTitle') }</Message.Header>
-                        <p>
-                            { t('createSubject.successMsgBox1') }
-                            <strong>{ submittedSubject }</strong>
-                            { t('createSubject.successMsgBox2') }
-                            <strong>{ submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }</strong>
-                            { t('createSubject.successMsgBox3') }
-                        </p>
-                    </Message>
-                ) : null }
-                { responseSubject.isSubmitted && responseSubject.subject_id === null ? (
-                    <Message negative>
-                        <Message.Header>{ t('createSubject.negativeMsgTitle') }</Message.Header>
-                        <p>
-                            { t('createSubject.negativeMsgBox1') }
-                            <strong>{ submittedSubject }</strong>
-                            { t('createSubject.negativeMsgBox2') }
-                            <strong>{ submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }</strong>
-                            { t('createSubject.negativeMsgBox3') }
-                        </p>
-                    </Message>
-                ) : null }
-
+                <MessageBox t={ t } responseSubject={ responseSubject } submittedSubject={ submittedSubject } submittedTutors={ submittedTutors }/>
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input
-                            placeholder={ t('createSubject.subjectFieldPlaceholder') }
-                            name="subject"
-                            value={ subject }
-                            onChange={ (e) => this.handleSubjectChange(e) }
-                        />
+                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ (e) => this.handleSubjectChange(e) }/>
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
