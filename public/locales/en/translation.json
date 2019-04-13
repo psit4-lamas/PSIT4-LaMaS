@@ -50,6 +50,8 @@
 
     "editLecture": {
         "editLecture": "Edit: Lecture",
-        "lectureTitle": "Lecture title:"
+        "lectureTitle": "Lecture title:",
+        "negativeMsgTitle": "invalid name for lecture",
+        "negativeMsgBox1": "Name of lecture can not be empty."
     }
 }

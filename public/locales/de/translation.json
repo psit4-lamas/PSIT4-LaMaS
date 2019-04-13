@@ -49,6 +49,8 @@
     },
     "editLecture": {
         "editLecture": "Editieren: Vorlesung",
-        "lectureTitle": "Titel der Vorlesung:"
+        "lectureTitle": "Titel der Vorlesung:",
+        "negativeMsgTitle": "ungültiger Name für Vorlesung",
+        "negativeMsgBox1": "Der Name der Vorlesung darf nicht leer sein."
     }
 }

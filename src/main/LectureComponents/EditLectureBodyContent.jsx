@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
-import { withNameSpacesAndRouterAndRedux } from '../../utils';
+import { withNameSpacesAndRedux } from '../../utils';
 import UploadMediaPage from '../pages/UploadMediaPage';
-import './LectureBodyContent.css';
 import { Form, FormField, Input } from 'semantic-ui-react';
 import { setNewLectureTitle } from '../actions';
+import { Message } from 'semantic-ui-react';
 
 
 class EditLectureBodyContent extends Component {
     // TODO: improve lecture body content UI (Sprint 2)
+
     constructor(props) {
         super(props);
-        this.state = { lectureTitle: this.props.lecture.name };
+        this.state = {
+            lectureTitle: this.props.lecture.name,
+            isValid: true,
+        };
     }
 
     handleChange(e) {
         this.setState({ lectureTitle: e.target.value });
+        if (e.target.value === '') {
+            this.setState({ isValid: false });
+        } else {
+            this.setState({ isValid: true });
+        }
         this.props.setNewLectureTitle(e.target.value);
     }
 
@@ -30,8 +39,15 @@ class EditLectureBodyContent extends Component {
                 <div>
                     <Form>
                         <FormField>
+                            { !this.state.isValid ? (
+                                <Message negative>
+                                    <Message.Header>{ t('editLecture.negativeMsgTitle') }</Message.Header>
+                                    <p>{ t('editLecture.negativeMsgBox1') }</p>
+                                </Message>
+                            ) : null }
                             { t('editLecture.lectureTitle') }
-                            <Input focus value={ this.props.newLectureTitle ? this.props.newLectureTitle : lectureName } onChange={ (e) => this.handleChange(e) }/>
+                            <Input name="lectureTitle" focus value={ this.props.newLectureTitle ? this.props.newLectureTitle : lectureName }
+                                   onChange={ (e) => this.handleChange(e) }/>
                         </FormField>
                     </Form>
 
@@ -50,5 +66,5 @@ const mapStateToProps = (state) => ( {
 } );
 
 const mapDispatchToProps = { setNewLectureTitle };
-
-export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, EditLectureBodyContent);
+export { EditLectureBodyContent };
+export default withNameSpacesAndRedux(mapStateToProps, mapDispatchToProps, EditLectureBodyContent);
