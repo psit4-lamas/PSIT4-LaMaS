@@ -105,4 +105,6 @@ const mapStateToProps = (state) => ( {
 
 const mapDispatchToProps = {};
 
+export {UploadComponent};
+
 export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, UploadComponent);
