@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import fire from '../../firebase';
-import { withNamespaces } from 'react-i18next';
 import FileList from '../FileListComponent/FileList';
 import './UploadMediaPage.css';
 
@@ -25,4 +24,4 @@ class UploadMediaPage extends Component {
 
 
 export { UploadMediaPage };
-export default withNamespaces()(UploadMediaPage);
+export default UploadMediaPage;

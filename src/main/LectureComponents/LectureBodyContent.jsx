@@ -7,12 +7,12 @@ import './LectureBodyContent.css';
 class LectureBodyContent extends Component {
     // TODO: improve lecture body content UI (Sprint 2)
     render() {
-        const { lecture } = this.props;
+        const { lecture, t } = this.props;
 
         return (
             <div>
                 <h1>{ lecture.name }</h1>
-                <UploadMediaPage/>
+                <UploadMediaPage t={ t }/>
             </div>
         );
     }
@@ -25,4 +25,5 @@ const mapStateToProps = (state) => ( {
 
 const mapDispatchToProps = {};
 
+export { LectureBodyContent };
 export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, LectureBodyContent);

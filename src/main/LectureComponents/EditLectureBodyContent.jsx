@@ -51,7 +51,7 @@ class EditLectureBodyContent extends Component {
                         </FormField>
                     </Form>
 
-                    <UploadMediaPage editMode={ true }/>
+                    <UploadMediaPage t={ t } editMode={ true }/>
                 </div>
             </div>
         );

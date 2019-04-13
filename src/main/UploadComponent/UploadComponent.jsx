@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import fire from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
-import { withNameSpacesAndRouterAndRedux } from '../../utils';
+import { withRouterAndRedux } from '../../utils';
 
 
 class UploadComponent extends Component {
@@ -72,7 +72,7 @@ class UploadComponent extends Component {
                           <FileUploader
                               hidden
                               accept={ acceptedFileTypes }
-                              name="file"
+                              name="upload"
                               randomizeFilename
                               storageRef={ fire.storage().ref('files') }
                               onUploadStart={ this.handleUploadStart }
@@ -105,6 +105,6 @@ const mapStateToProps = (state) => ( {
 
 const mapDispatchToProps = {};
 
-export {UploadComponent};
+export { UploadComponent };
 
-export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, UploadComponent);
+export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, UploadComponent);

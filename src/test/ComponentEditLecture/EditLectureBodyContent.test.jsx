@@ -100,7 +100,6 @@ describe('Edit LectureBodyContent', () => {
 
         editLectureContent = shallow(component);
         editLectureContent.find({ name: 'lectureTitle' }).simulate('change', lectureTitleEmptyEvent);
-        editLectureContent.update();
         expect(editLectureContent.find('.ui.negative.message')).toBeTruthy();
     });
 

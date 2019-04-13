@@ -55,7 +55,7 @@ class FileList extends Component {
                         <Item.Group>
                             <Item>
                                 <Item.Content verticalAlign="middle">
-                                    <Item.Header as="a" onClick={ () => this.handleClick(files[element].nameOnStorage) }>
+                                    <Item.Header name="file" as="a" onClick={ () => this.handleClick(files[element].nameOnStorage) }>
                                         <Icon name="download"/>
                                         { files[element].name }
                                     </Item.Header>
@@ -101,4 +101,5 @@ const mapDispatchToProps = {
     downloadFileFromFirebase,
 };
 
+export { FileList };
 export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, FileList);
