@@ -24,4 +24,5 @@ class UploadMediaPage extends Component {
 }
 
 
+export { UploadMediaPage };
 export default withNamespaces()(UploadMediaPage);
