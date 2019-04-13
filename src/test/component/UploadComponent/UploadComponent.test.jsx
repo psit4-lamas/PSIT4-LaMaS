@@ -1,28 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { create } from 'react-test-renderer';
-import {UploadComponent} from '../../../main/UploadComponent/UploadComponent';
+import { UploadComponent } from '../../../main/UploadComponent/UploadComponent';
 import FileUploader from 'react-firebase-file-uploader';
 
-
 describe('Upload video', () => {
-
     let div;
     // let props;
-    let propsForVideo,
-        propsForLecture,
-        propsForExercise;
-    let componentVideo,
-        componentLecture,
-        componentExercise;
+    let propsForVideo, propsForLecture, propsForExercise;
+    let componentVideo, componentLecture, componentExercise;
     let rootInstance;
 
     beforeEach(() => {
         div = document.createElement('div');
         // props = { t: (key) => key };
-        propsForVideo = { buttonLabel: 'add', fileType: 'V', lectureId: 'lecture_01', subjectId: 'testId' };
-        propsForLecture = { buttonLabel: 'add', fileType: 'L', lectureId: 'lecture_01', subjectId: 'testId' };
-        propsForExercise = { buttonLabel: 'add', fileType: 'E', lectureId: 'lecture_01', subjectId: 'testId' };
+        propsForVideo = {
+            buttonLabel: 'add',
+            fileType: 'V',
+            lectureId: 'lecture_01',
+            subjectId: 'testId',
+        };
+        propsForLecture = {
+            buttonLabel: 'add',
+            fileType: 'L',
+            lectureId: 'lecture_01',
+            subjectId: 'testId',
+        };
+        propsForExercise = {
+            buttonLabel: 'add',
+            fileType: 'E',
+            lectureId: 'lecture_01',
+            subjectId: 'testId',
+        };
 
         componentVideo = create(<UploadComponent { ...propsForVideo } />);
         componentLecture = create(<UploadComponent { ...propsForLecture } />);
@@ -73,5 +82,4 @@ describe('Upload video', () => {
         expect(exerciseUploader.metadata.customMetadata.type).toEqual('E');
         expect(exerciseUploader.metadata.customMetadata.originalName).toEqual('myFile');
     });
-
 });
