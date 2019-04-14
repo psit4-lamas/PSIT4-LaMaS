@@ -32,7 +32,7 @@
         "successMsgBox1": "Created new subject with name ",
         "successMsgBox2": " and assigned tutors ",
         "successMsgBox3": ".",
-        "negativeMsgTitle": "Subject cannot be created",
+        "negativeMsgTitle": "Subject was not created",
         "negativeMsgBox1": "Cannot create subject with name ",
         "negativeMsgBox2": " and assigned tutors ",
         "negativeMsgBox3": ".",

@@ -1,7 +1,6 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
 
-
 const Actions = {
     LOAD_USER: 'LOAD_USER',
     USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
@@ -22,6 +21,7 @@ const Actions = {
     SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
     SUBJECT_REMOVE_HEAD: 'SUBJECT_REMOVE_HEAD',
     SET_CURRENT_LECTURE: 'SET_CURRENT_LECTURE',
+    LEAVE_CREATE_SUBJECT: 'LEAVE_CREATE_SUBJECT',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -44,9 +44,7 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
-
     return (dispatch) => {
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 console.log(user);
@@ -78,7 +76,6 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
-
         // Connect to Firebase to perform a user login
         firebase
             .auth()
@@ -113,7 +110,10 @@ const createSubject = (submittedSubject, submittedTutors) => {
     return (dispatch) => {
         firebase
             .functions()
-            .httpsCallable('addSubject')({ subject_name: submittedSubject, assigned_tutors: submittedTutors })
+            .httpsCallable('addSubject')({
+                subject_name: submittedSubject,
+                assigned_tutors: submittedTutors,
+            })
             .then((res) => {
                 const data = {
                     subjectId: res.data.subjectId,
@@ -214,9 +214,24 @@ const selectLecture = (lectureNumber) => {
     };
 };
 
+const leaveCreateSubject = () => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.LEAVE_CREATE_SUBJECT,
+        });
+    };
+};
+
 export {
     Actions,
-    loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged,
-    logIn, logOut,
-    createSubject, loadSubject, loadSubjectHead, selectLecture
+    loadUser,
+    userRedirectedToAccessedPath,
+    subscribeToAuthStateChanged,
+    logIn,
+    logOut,
+    createSubject,
+    loadSubject,
+    loadSubjectHead,
+    selectLecture,
+    leaveCreateSubject,
 };

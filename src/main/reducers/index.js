@@ -147,9 +147,10 @@ const initialState = {
     },
 };
 
-
 const userReducer = (state = initialState.user, action) => {
-    switch (action.type) { // NOSONAR
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
@@ -198,7 +199,9 @@ const userReducer = (state = initialState.user, action) => {
 
 const tabsReducer = (state = initialState.tabs, action) => {
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
-    switch (action.type) { // NOSONAR
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.LOADING_TABS:
             return {
                 isLoadingTabs: true,
@@ -248,7 +251,9 @@ const tabsReducer = (state = initialState.tabs, action) => {
 };
 
 const subjectReducer = (state = initialState.subject, action) => {
-    switch (action.type) { // NOSONAR
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {
@@ -290,6 +295,16 @@ const subjectReducer = (state = initialState.subject, action) => {
                 isLoadingSubject: false,
                 currentLectureID: action.payload,
             };
+
+        case Actions.SUBJECT_INSERT_HEAD:
+            return { ...state };
+
+        case Actions.LEAVE_CREATE_SUBJECT:
+            return {
+                ...state,
+                isSubmitted: false,
+            };
+
         default:
             return {
                 ...state,
