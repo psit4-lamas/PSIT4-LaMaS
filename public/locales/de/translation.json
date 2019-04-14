@@ -26,30 +26,32 @@
         "V": "Videos",
         "E": "Übungsaufgaben",
         "L": "Zusätzliche Unterlagen",
-        "action": "Aktion"
+        "action": "Aktion",
+        "noData": "Keine Datei"
     },
     "createSubject": {
-        "pageTitle": "Neue Vorlesung erstellen",
-        "successMsgTitle": "Vorlesung wurde erstellt",
-        "successMsgBox1": "Neue Vorlesung mit Name ",
+        "pageTitle": "Neu Fach erstellen",
+        "successMsgTitle": "Fach wurde erstellt",
+        "successMsgBox1": "Neu Fach mit Name ",
         "successMsgBox2": " und Dozenten ",
         "successMsgBox3": " wurde erstellt.",
-        "negativeMsgTitle": "Vorlesung konnte nicht erstellt werden",
-        "negativeMsgBox1": "Vorlesung mit Name ",
+        "negativeMsgTitle": "Fach konnte nicht erstellt werden",
+        "negativeMsgBox1": "Fach mit Name ",
         "negativeMsgBox2": " und Dozenten ",
         "negativeMsgBox3": " konnte nicht erstellt werden.",
-        "subjectFieldLbl": "Name der Vorlesung",
-        "subjectFieldPlaceholder": "Vorlesung...",
+        "subjectFieldLbl": "Name des Faches",
+        "subjectFieldPlaceholder": "Fachname...",
         "tutorFieldLbl": "Dozenten zuweisen",
         "tutorFieldPlaceholder": "Dozenten...",
         "saveBtn": "Speichern"
     },
     "baseLayout": {
-        "lecture": "Vorlesung"
+        "lecture": "Vorlesung "
     },
     "editLecture": {
-        "editLecture": "Editieren: Vorlesung",
+        "editLecture": "Editieren: Vorlesung ",
         "lectureTitle": "Titel der Vorlesung:",
+        "lectureTitlePlaceholder": "Vorlesung Titel...",
         "negativeMsgTitle": "ungültiger Name für Vorlesung",
         "negativeMsgBox1": "Der Name der Vorlesung darf nicht leer sein."
     }

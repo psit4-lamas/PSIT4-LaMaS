@@ -26,7 +26,8 @@
         "V": "Videos",
         "E": "Exercises",
         "L": "Lecture Materials",
-        "action": "Action"
+        "action": "Action",
+        "noData": "No files uploaded"
     },
     "createSubject": {
         "pageTitle": "Create new subject",
@@ -45,12 +46,13 @@
         "saveBtn": "Save"
     },
     "baseLayout": {
-        "lecture": "lecture"
+        "lecture": "Lecture "
     },
 
     "editLecture": {
-        "editLecture": "Edit: Lecture",
+        "editLecture": "Edit: Lecture ",
         "lectureTitle": "Lecture title:",
+        "lectureTitlePlaceholder": "Lecture title...",
         "negativeMsgTitle": "invalid name for lecture",
         "negativeMsgBox1": "Name of lecture can not be empty."
     }
