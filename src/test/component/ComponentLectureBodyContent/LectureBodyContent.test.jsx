@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import { LectureBodyContent } from '../../../main/LectureComponents/LectureBodyContent';
+import LectureBodyContent from '../../../main/LectureComponents/LectureBodyContent';
+
 
 describe('LectureBodyContent', () => {
     it('renders without crashing', () => {
@@ -49,6 +50,7 @@ describe('LectureBodyContent', () => {
     };
 
     const props = {
+        lectureTitle: 'Lecture 1',
         lecture: lecture,
         t: (key) => key,
     };
@@ -62,6 +64,7 @@ describe('LectureBodyContent', () => {
         comments: {},
     };
     const propsEmptyFiles = {
+        lectureTitle: 'Lecture 1',
         lecture: lectureEmptyFiles,
         t: (key) => key,
     };

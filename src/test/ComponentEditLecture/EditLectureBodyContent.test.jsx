@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import { EditLectureBodyContent } from '../../main/LectureComponents/EditLectureBodyContent';
+import EditLectureBodyContent from '../../main/LectureComponents/EditLectureBodyContent';
+
 
 describe('Edit LectureBodyContent', () => {
     it('renders without crashing', () => {
@@ -49,7 +50,11 @@ describe('Edit LectureBodyContent', () => {
         comments: {},
     };
     const props = {
+        lectureTitle: 'Lecture 1',
         lecture: lecture_01,
+        onLectureTitleChange: jest.fn(),
+        lectureName: ' - some title',
+        isValid: true,
         lectureId: 'lecture_01',
         t: (key) => key,
     };
