@@ -21,7 +21,7 @@ describe('FileList', () => {
         type: 'V',
         editMode: false,
         t: (key) => key,
-        lectureVideos: {
+        lecture: {
             videos: {
                 videos_01: {
                     nameOnStorage: 'files/fdd95078-367b-4c21-b395-0bcbae435d2f.mox',
@@ -39,7 +39,7 @@ describe('FileList', () => {
         type: 'L',
         editMode: false,
         t: (key) => key,
-        lectureVideos: {
+        lecture: {
             lecture_materials: {
                 lecture_materials_01: {
                     nameOnStorage: 'files/fdd95222-367b-4c21-b395-0bcbae435d2f.mox',
@@ -57,7 +57,7 @@ describe('FileList', () => {
         type: 'E',
         editMode: false,
         t: (key) => key,
-        lectureVideos: {
+        lecture: {
             exercises: {
                 exercises_01: {
                     nameOnStorage: 'files/11195222-367b-4c21-b395-0bcbae435d2f.mox',
@@ -75,7 +75,7 @@ describe('FileList', () => {
         type: 'E',
         editMode: false,
         t: (key) => key,
-        lectureVideos: {
+        lecture: {
             exercises: {},
         },
     };
@@ -93,15 +93,11 @@ describe('FileList', () => {
     });
 
     it('should render correctly videos', () => {
-        const component = <FileList { ...propsVideos } />;
-
-        fileListComponent = shallow(component);
-
         expect(fileListComponent).toMatchSnapshot();
     });
 
     it('should render correctly lecture materials', () => {
-        const component = <FileList { ...propsLectureMaterials } />;
+        const component = <FileList { ...propsLectureMaterials } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
 
         fileListComponent = shallow(component);
 
@@ -109,7 +105,7 @@ describe('FileList', () => {
     });
 
     it('should render correctly exercises', () => {
-        const component = <FileList { ...propsExercises } />;
+        const component = <FileList { ...propsExercises } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
 
         fileListComponent = shallow(component);
 
@@ -117,7 +113,7 @@ describe('FileList', () => {
     });
 
     it('should render correctly empty', () => {
-        const component = <FileList { ...propsEmpty } />;
+        const component = <FileList { ...propsEmpty } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
 
         fileListComponent = shallow(component);
 
@@ -127,9 +123,9 @@ describe('FileList', () => {
     it('calls firebase to get download link on click', () => {
         fileListComponent
             .find({ name: 'file' })
-            .first()
+            .at(0)
             .simulate('click');
-        let result = propsVideos.lectureVideos.videos.videos_01.nameOnStorage;
+        let result = propsVideos.lecture.videos.videos_01.nameOnStorage;
         expect(downloadFileFromFirebase).toHaveBeenCalledWith(result);
     });
 
