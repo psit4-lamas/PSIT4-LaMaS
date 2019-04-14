@@ -1,70 +1,56 @@
 import React, { Component } from 'react';
-import { withNameSpacesAndRedux } from '../../utils';
+import PropTypes from 'prop-types';
+import { Message, FormField, Input } from 'semantic-ui-react';
 import UploadMediaPage from '../pages/UploadMediaPage';
-import { Form, FormField, Input } from 'semantic-ui-react';
-import { setNewLectureTitle } from '../actions';
-import { Message } from 'semantic-ui-react';
+import './LectureBodyContent.css';
 
 
 class EditLectureBodyContent extends Component {
-    // TODO: improve lecture body content UI (Sprint 2)
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            lectureTitle: this.props.lecture.name,
-            isValid: true,
-        };
-    }
-
-    handleChange(e) {
-        this.setState({ lectureTitle: e.target.value });
-        if (e.target.value === '') {
-            this.setState({ isValid: false });
-        } else {
-            this.setState({ isValid: true });
-        }
-        this.props.setNewLectureTitle(e.target.value);
-    }
+    handleChange = (e) => {
+        this.props.onLectureTitleChange(e.target.value);
+    };
 
     render() {
-        const { t, lecture } = this.props;
-        let lectureName = lecture.name;
+        const { t, lecture, lectureTitle, lectureName, isValid } = this.props;
 
         return (
-            <div>
+            <>
                 <h1>
-                    { t('editLecture.editLecture') } { this.props.lectureId.substring(this.props.lectureId.length - 2, this.props.lectureId.length) }{ ' ' }
+                    { t('editLecture.editLecture') }
+                    { lectureTitle }
+                    { !!lectureName ? ` - ${ lectureName }` : '' }
                 </h1>
-                <div>
-                    <Form>
-                        <FormField>
-                            { !this.state.isValid ? (
-                                <Message negative>
-                                    <Message.Header>{ t('editLecture.negativeMsgTitle') }</Message.Header>
-                                    <p>{ t('editLecture.negativeMsgBox1') }</p>
-                                </Message>
-                            ) : null }
-                            { t('editLecture.lectureTitle') }
-                            <Input name="lectureTitle" focus value={ this.props.newLectureTitle ? this.props.newLectureTitle : lectureName }
-                                   onChange={ (e) => this.handleChange(e) }/>
-                        </FormField>
-                    </Form>
 
-                    <UploadMediaPage t={ t } editMode={ true }/>
+                <div style={ { marginTop: '25px' } }>
+                    <FormField>
+                        { !isValid && <Message negative>
+                            <Message.Header>{ t('editLecture.negativeMsgTitle') }</Message.Header>
+                            <p>{ t('editLecture.negativeMsgBox1') }</p>
+                        </Message> }
+
+                        <label>{ t('editLecture.lectureTitle') }</label>
+                        <Input focus
+                               name="lectureTitle"
+                               value={ lectureName }
+                               placeholder={ t('editLecture.lectureTitlePlaceholder') }
+                               onChange={ this.handleChange }
+                        />
+                    </FormField>
+
+                    {/* TODO: wrap the 'unpublish' input component for exercise solution files */}
+                    <UploadMediaPage t={ t } editMode={ true } lecture={ lecture }/>
                 </div>
-            </div>
+            </>
         );
     }
 }
 
 
-const mapStateToProps = (state) => ( {
-    lecture: state.subject.currentSubject.lectures[state.subject.currentLectureID],
-    lectureId: state.subject.currentLectureID,
-    newLectureTitle: state.subject.newLectureTitle,
-} );
+EditLectureBodyContent.propTypes = {
+    lectureTitle: PropTypes.string.isRequired,
+    lecture: PropTypes.object.isRequired,
+    onLectureTitleChange: PropTypes.func.isRequired,
+};
 
-const mapDispatchToProps = { setNewLectureTitle };
-export { EditLectureBodyContent };
-export default withNameSpacesAndRedux(mapStateToProps, mapDispatchToProps, EditLectureBodyContent);
+export default EditLectureBodyContent;

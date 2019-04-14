@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
-import { withNameSpacesAndRouterAndRedux } from '../../utils';
+import PropTypes from 'prop-types';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import './LectureBodyContent.css';
 
 
 class LectureBodyContent extends Component {
-    // TODO: improve lecture body content UI (Sprint 2)
+
     render() {
-        const { lecture, t } = this.props;
+        const { t, lecture, lectureTitle } = this.props;
 
         return (
-            <div>
-                <h1>{ lecture.name }</h1>
-                <UploadMediaPage t={ t }/>
-            </div>
+            <>
+                <h1>
+                    { t('baseLayout.lecture') }
+                    { lectureTitle }
+                    { !!lecture.name ? ` - ${ lecture.name }` : '' }
+                </h1>
+
+                <div style={ { marginTop: '25px' } }>
+                    <UploadMediaPage t={ t } editMode={ false } lecture={ lecture }/>
+                </div>
+            </>
         );
     }
 }
 
 
-const mapStateToProps = (state) => ( {
-    lecture: state.subject.currentSubject.lectures[state.subject.currentLectureID],
-} );
+LectureBodyContent.propTypes = {
+    lectureTitle: PropTypes.string.isRequired,
+    lecture: PropTypes.object.isRequired,
+};
 
-const mapDispatchToProps = {};
-
-export { LectureBodyContent };
-export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, LectureBodyContent);
+export default LectureBodyContent;
