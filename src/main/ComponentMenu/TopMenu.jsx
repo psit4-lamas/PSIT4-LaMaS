@@ -10,7 +10,7 @@ class TopMenu extends Component {
     state = { activeItem: window.location.pathname };
 
     handleItemClick = (e, { name }) => {
-        const pathname = name === '/home' || name === '/upload' || name === '/createsubject'
+        const pathname = name === '/home' || name === '/createsubject'
                          ? `${ name }` : `/courses/${ name }`;
 
         if (pathname.includes('/courses/')) {
@@ -43,9 +43,6 @@ class TopMenu extends Component {
                 <Menu pointing id="top-menu">
                     <Menu.Item name="/home" onClick={ this.handleItemClick }>
                         Home
-                    </Menu.Item>
-                    <Menu.Item name="/upload" active={ currentName === 'upload' } onClick={ this.handleItemClick }>
-                        Upload
                     </Menu.Item>
                     <Menu.Item name="/createsubject" active={ currentName === 'createsubject' }
                                onClick={ this.handleItemClick }

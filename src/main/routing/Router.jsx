@@ -33,7 +33,6 @@ const AppNavigation = () => ( // NOSONAR
 
                     <Switch>
                         <Route path={ '/createsubject' } render={ () => <CreateSubjectPage base={ '/createsubject' }/> }/>
-                        <Route path={ '/upload' } render={ () => <UploadMediaPage base={ '/upload' }/> }/>
                         <Route path={ '/courses/:subject_id/:subject' } render={ () => <LecturePage pathname={ window.location.pathname }/> }/>
                         <Route exact path={ '/home' } render={ () => <LandingPage/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage/> }/>
