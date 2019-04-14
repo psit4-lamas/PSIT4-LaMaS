@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { withRouterAndRedux } from '../../utils';
-import { loadSubject, logOut, saveSubject } from '../actions';
-import { Button, Dropdown, Input, Menu, Segment } from 'semantic-ui-react';
+import { loadSubject, logOut } from '../actions';
+import { Button, Dropdown, Input, Menu } from 'semantic-ui-react';
 import './TopMenu.css';
 
 
 class TopMenu extends Component {
+
     state = { activeItem: window.location.pathname };
 
     handleItemClick = (e, { name }) => {
-        const pathname = name === '/home' || name === '/upload' || name === '/createsubject' ? `${ name }` : `/courses/${ name }`;
+        const pathname = name === '/home' || name === '/upload' || name === '/createsubject'
+                         ? `${ name }` : `/courses/${ name }`;
 
         if (pathname.includes('/courses/')) {
             this.props.loadSubject(name.split('/')[0]);
@@ -21,10 +23,6 @@ class TopMenu extends Component {
 
     handleLogout = () => {
         this.props.logOut();
-    };
-
-    handleSaveLecture = () => {
-        this.props.saveSubject(this.props.currentSubject);
     };
 
     render() {
@@ -49,7 +47,9 @@ class TopMenu extends Component {
                     <Menu.Item name="/upload" active={ currentName === 'upload' } onClick={ this.handleItemClick }>
                         Upload
                     </Menu.Item>
-                    <Menu.Item name="/createsubject" active={ currentName === 'createsubject' } onClick={ this.handleItemClick }>
+                    <Menu.Item name="/createsubject" active={ currentName === 'createsubject' }
+                               onClick={ this.handleItemClick }
+                    >
                         Create Subject
                     </Menu.Item>
 
@@ -73,7 +73,9 @@ class TopMenu extends Component {
                     </Menu.Menu>
 
                     <Menu.Menu id="top-menu-dropdown-language" position="right">
-                        <Dropdown id="dropdown-language" button className="icon" floating labeled icon="world" additionPosition="bottom" text={ t('menu.language') }>
+                        <Dropdown id="dropdown-language" button className="icon" floating labeled icon="world"
+                                  additionPosition="bottom" text={ t('menu.language') }
+                        >
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={ () => changeLanguage('en') }>English</Dropdown.Item>
                                 <Dropdown.Item onClick={ () => changeLanguage('de') }>German</Dropdown.Item>
@@ -89,22 +91,6 @@ class TopMenu extends Component {
                         </Menu.Item>
                     </Menu.Menu>
                 </Menu>
-
-                { window.location.pathname === '/home' || window.location.pathname === '/' ? (
-                    ''
-                ) : (
-                      <Segment>
-                          <Menu.Menu id="top-menu-lecture" position="right">
-                              <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
-                                  <Dropdown.Menu>
-                                      <Dropdown.Item onClick={ () => changeLanguage('en') }>{ t('menu.editLecture') }</Dropdown.Item>
-                                      <Dropdown.Item onClick={ () => changeLanguage('de') }>{ t('menu.unpublish') }</Dropdown.Item>
-                                  </Dropdown.Menu>
-                              </Dropdown>
-                              <Button onClick={ this.handleSaveLecture }>{ t('menu.save') }</Button>
-                          </Menu.Menu>
-                      </Segment>
-                  ) }
             </div>
         );
     }
@@ -113,13 +99,11 @@ class TopMenu extends Component {
 
 const mapStateToProps = (state) => ( {
     tabs: state.tabs,
-    currentSubject: state.subject.currentSubject,
 } );
 
 const mapDispatchToProps = {
     logOut,
     loadSubject,
-    saveSubject,
 };
 
 export { TopMenu };
