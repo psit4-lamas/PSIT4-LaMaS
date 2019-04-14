@@ -1,6 +1,7 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
 
+
 const Actions = {
     LOAD_USER: 'LOAD_USER',
     USER_REDIRECT_SUCCESS: 'USER_REDIRECT_SUCCESS',
@@ -12,6 +13,7 @@ const Actions = {
 
     CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
     CREATE_SUBJECT_FAIL: 'CREATE_SUBJECT_FAIL',
+    LEAVE_CREATE_SUBJECT: 'LEAVE_CREATE_SUBJECT',
 
     LOAD_SUBJECT: 'LOAD_SUBJECT',
     LOAD_SUBJECT_SUCCESS: 'LOAD_SUBJECT_SUCCESS',
@@ -48,7 +50,9 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
+
     return (dispatch) => {
+
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // If the user has not confirmed his/her account yet, re-send a confirmation email
@@ -78,11 +82,14 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
+
         // Connect to Firebase to perform a user login
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then((userCredentials) => {
+                console.log(userCredentials);
+
                 dispatch({
                     type: Actions.LOG_IN_SUCCESS,
                     payload: userCredentials.user,
@@ -133,6 +140,14 @@ const createSubject = (submittedSubject, submittedTutors) => {
                     type: Actions.CREATE_SUBJECT_FAIL,
                 });
             });
+    };
+};
+
+const leaveCreateSubject = () => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.LEAVE_CREATE_SUBJECT,
+        });
     };
 };
 
@@ -272,6 +287,7 @@ export {
     logIn,
     logOut,
     createSubject,
+    leaveCreateSubject,
     loadSubject,
     loadSubjectHead,
     selectLecture,
