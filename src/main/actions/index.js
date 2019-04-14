@@ -146,21 +146,24 @@ const createSubject = (submittedSubject, submittedTutors) => {
  */
 const loadSubject = (subject_id) => {
     return (dispatch) => {
-        firebase
+        return firebase
             .database()
             .collection('subjects')
             .doc(subject_id)
-            .onSnapshot(function (doc) {
+            .get()
+            .then(function (doc) {
                 if (doc.exists) {
                     const response = {
                         subject_id: doc.id,
                         subject: doc.data(),
                     };
 
-                    dispatch({
-                        type: Actions.LOAD_SUBJECT_SUCCESS,
-                        payload: response,
-                    });
+                    // dispatch({
+                    //     type: Actions.LOAD_SUBJECT_SUCCESS,
+                    //     payload: response,
+                    // });
+
+                    return response;
                 }
             });
     };
