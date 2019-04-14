@@ -1,1 +1,6 @@
 /* TODO: add CSS rules for LecturePage.jsx */
+#top-menu-lecture {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+}
