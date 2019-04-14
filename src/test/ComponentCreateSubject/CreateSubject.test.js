@@ -9,28 +9,30 @@ describe('CreateSubject', () => {
         const div = document.createElement('div');
         const responseSubject = {};
 
-        ReactDOM.render(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>, div);
+        ReactDOM.render(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } leaveCreateSubject={ leaveCreateSubject }/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
     let createSubjectComponent;
     let createSubject;
+    let leaveCreateSubject;
     let responseSubject;
 
-    const subjectEvent = Object.freeze({ target: { name: 'subject', value: 'SubjectName' } });
+    const subjectEvent = Object.freeze({
+        target: {
+            name: 'subject',
+            value: 'SubjectName',
+        },
+    });
     const tutorsDefault = Object.freeze({ target: null });
     const tutorsEvent = Object.freeze({ value: ['TutorName'] });
 
     beforeEach(() => {
         createSubject = jest.fn();
+        leaveCreateSubject = jest.fn();
         responseSubject = {};
 
-        const component = (
-            <CreateSubject
-                t={ (key) => key }
-                createSubject={ createSubject }
-                responseSubject={ responseSubject }
-            />);
+        const component = <CreateSubject t={ (key) => key } createSubject={ createSubject } responseSubject={ responseSubject } leaveCreateSubject={ leaveCreateSubject }/>;
 
         createSubjectComponent = shallow(component);
     });
@@ -61,7 +63,7 @@ describe('CreateSubject', () => {
             },
         };
 
-        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
+        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } leaveCreateSubject={ leaveCreateSubject }/>);
 
         expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeTruthy();
         expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeFalsy();
@@ -75,7 +77,7 @@ describe('CreateSubject', () => {
             },
         };
 
-        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject }/>);
+        createSubjectComponent = mount(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } leaveCreateSubject={ leaveCreateSubject }/>);
 
         expect(createSubjectComponent.find('.ui.success.message').get(0)).toBeFalsy();
         expect(createSubjectComponent.find('.ui.negative.message').get(0)).toBeTruthy();
@@ -83,19 +85,48 @@ describe('CreateSubject', () => {
 
     it('calls handleAddition onAddItem', () => {
         const availableTutorsBefore = [
-            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
-            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
-            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+            {
+                key: 'Patrick Baumgartner',
+                text: 'Patrick Baumgartner',
+                value: 'Patrick Baumgartner',
+            },
+            {
+                key: 'Hans Doran',
+                text: 'Hans Doran',
+                value: 'Hans Doran',
+            },
+            {
+                key: 'Renate Kummer',
+                text: 'Renate Kummer',
+                value: 'Renate Kummer',
+            },
         ];
         const availableTutorsAfter = [
-            { text: 'TutorName', value: 'TutorName' },
-            { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
-            { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
-            { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+            {
+                text: 'TutorName',
+                value: 'TutorName',
+            },
+            {
+                key: 'Patrick Baumgartner',
+                text: 'Patrick Baumgartner',
+                value: 'Patrick Baumgartner',
+            },
+            {
+                key: 'Hans Doran',
+                text: 'Hans Doran',
+                value: 'Hans Doran',
+            },
+            {
+                key: 'Renate Kummer',
+                text: 'Renate Kummer',
+                value: 'Renate Kummer',
+            },
         ];
         const responseSubject = {};
 
-        createSubjectComponent = shallow(<CreateSubject t={ (key) => key } responseSubject={ responseSubject } availableTutors={ availableTutorsBefore }/>);
+        createSubjectComponent = shallow(
+            <CreateSubject t={ (key) => key } responseSubject={ responseSubject } availableTutors={ availableTutorsBefore } leaveCreateSubject={ leaveCreateSubject }/>,
+        );
         const tutorsField = createSubjectComponent.find({ name: 'tutors' });
 
         const changeValue = { value: 'TutorName' };

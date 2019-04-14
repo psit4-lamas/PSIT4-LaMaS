@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import { withNameSpacesAndRedux } from '../../utils';
-import { createSubject } from '../actions';
+import { createSubject, leaveCreateSubject } from '../actions';
 import { Dropdown, Form } from 'semantic-ui-react';
 import MessageBox from './MessageBox';
 
 const availableTutors = [
-    { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
-    { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
-    { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+    {
+        key: 'Patrick Baumgartner',
+        text: 'Patrick Baumgartner',
+        value: 'Patrick Baumgartner',
+    },
+    {
+        key: 'Hans Doran',
+        text: 'Hans Doran',
+        value: 'Hans Doran',
+    },
+    {
+        key: 'Renate Kummer',
+        text: 'Renate Kummer',
+        value: 'Renate Kummer',
+    },
 ];
 
 
@@ -24,9 +36,16 @@ class CreateSubject extends Component {
         };
     }
 
+    componentWillUnmount() {
+        this.props.leaveCreateSubject();
+    }
+
     handleAddition = (e, { value }) => {
         this.setState({
-            availableTutors: [{ text: value, value }, ...this.state.availableTutors],
+            availableTutors: [{
+                text: value,
+                value,
+            }, ...this.state.availableTutors],
         });
     };
 
@@ -66,12 +85,7 @@ class CreateSubject extends Component {
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input
-                            placeholder={ t('createSubject.subjectFieldPlaceholder') }
-                            name="subject"
-                            value={ subject }
-                            onChange={ (e) => this.handleSubjectChange(e) }
-                        />
+                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ (e) => this.handleSubjectChange(e) }/>
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
@@ -101,6 +115,7 @@ const mapStateToProps = (state) => ( {
 
 const mapDispatchToProps = {
     createSubject,
+    leaveCreateSubject,
 };
 
 export { CreateSubject };
