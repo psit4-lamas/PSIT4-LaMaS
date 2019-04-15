@@ -279,6 +279,14 @@ const downloadFileFromFirebase = (nameOnStorage) => {
     };
 };
 
+const fetchVideo = (nameOnStorage) => {
+    return () => {
+        return firebase.storage()
+                       .ref(nameOnStorage)
+                       .getDownloadURL();
+    };
+};
+
 export {
     Actions,
     loadUser,
@@ -294,4 +302,5 @@ export {
     downloadFileFromFirebase,
     setNewLectureTitle,
     saveSubject,
+    fetchVideo,
 };
