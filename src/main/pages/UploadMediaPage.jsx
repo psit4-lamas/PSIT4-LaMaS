@@ -8,15 +8,15 @@ import './UploadMediaPage.css';
 class UploadMediaPage extends Component {
 
     render() {
-        const { t, editMode, lecture } = this.props;
+        const { t, editMode, subject, lecture } = this.props;
 
         return (
             <>
-                <FileList editMode={ editMode } firebase={ fire } type={ 'V' } t={ t } lecture={ lecture }/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'V' } t={ t } subject={ subject } lecture={ lecture }/>
 
-                <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t } lecture={ lecture }/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t } subject={ subject } lecture={ lecture }/>
 
-                <FileList editMode={ editMode } firebase={ fire } type={ 'E' } t={ t } lecture={ lecture }/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'E' } t={ t } subject={ subject } lecture={ lecture }/>
             </>
         );
     }

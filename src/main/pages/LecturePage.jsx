@@ -24,8 +24,6 @@ class LecturePage extends Component {
             lectureName: '',
             isValid: true,
         };
-
-        this.refTest = React.createRef();
     }
 
     componentWillMount() {
@@ -35,11 +33,13 @@ class LecturePage extends Component {
         this.props.loadSubject(subject_id)
             .then((response) => {
                 const currentLecture = response.subject.lectures[lectureID];
+                const subject = Object.assign({}, response.subject);
+                subject.subject_id = response.subject_id;
 
                 this.setState({
                     isLoadingSubject: false,
                     lectureID: lectureID,
-                    subject: response.subject,
+                    subject: subject,
                     currentLecture: currentLecture,
                     lectureName: currentLecture.name || '',
                 });
@@ -181,6 +181,7 @@ class LecturePage extends Component {
                             {/* TODO: add proper routes for tutor VS student view */ }
                             { isEditMode && <EditLectureBodyContent
                                 t={ t }
+                                subject={ subject }
                                 lecture={ currentLecture }
                                 lectureTitle={ lectureTitle }
                                 lectureName={ lectureName }
@@ -189,6 +190,7 @@ class LecturePage extends Component {
                             /> }
                             { !isEditMode && <LectureBodyContent
                                 t={ t }
+                                subject={ subject }
                                 lecture={ currentLecture }
                                 lectureTitle={ lectureTitle }
                             /> }

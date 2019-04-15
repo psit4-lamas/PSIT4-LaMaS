@@ -78,7 +78,7 @@ class UploadComponent extends Component {
                               onUploadStart={ this.handleUploadStart }
                               metadata={ {
                                   customMetadata: {
-                                      subjectId: this.props.subjectId,
+                                      subjectId: this.props.subject.subject_id,
                                       lecture: this.props.lectureId.substring(this.props.lectureId.length - 2, this.props.lectureId.length),
                                       type: fileType,
                                       originalName: 'myFile',
@@ -99,7 +99,6 @@ class UploadComponent extends Component {
 
 
 const mapStateToProps = (state) => ( {
-    subjectId: state.subject.currentSubject.subject_id,
     lectureId: state.subject.currentLectureID,
 } );
 

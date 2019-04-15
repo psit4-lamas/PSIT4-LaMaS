@@ -76,7 +76,7 @@ class FileList extends Component {
     }
 
     render() {
-        const { t, type, editMode, lecture } = this.props;
+        const { t, type, editMode, subject, lecture } = this.props;
         const files = !isEmptyObject(lecture) ? this.filesForStructure(type) : {};
 
         return (
@@ -90,7 +90,11 @@ class FileList extends Component {
                 <Table.Body>
                     { editMode && <Table.Row>
                         <Table.Cell collapsing>
-                            <UploadComponent fileType={ type } buttonLabel={ t('uploadComponent.add') }/>
+                            <UploadComponent
+                                subject={ subject }
+                                fileType={ type }
+                                buttonLabel={ t('uploadComponent.add') }
+                            />
                         </Table.Cell>
                         <Table.Cell/>
                     </Table.Row> }
