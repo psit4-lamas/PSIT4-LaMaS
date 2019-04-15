@@ -4,7 +4,6 @@ import LoginGuard from './LoginGuard';
 import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
 import LecturePage from '../pages/LecturePage';
-import UploadMediaPage from '../pages/UploadMediaPage';
 import LandingPage from '../pages/LandingPage';
 import CreateSubjectPage from '../pages/CreateSubjectPage';
 

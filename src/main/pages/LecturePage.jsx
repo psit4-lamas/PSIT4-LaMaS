@@ -157,10 +157,9 @@ class LecturePage extends Component {
             );
         }
 
-        debugger;
         const { lectureID, isEditMode, isValid, lectureName } = this.state;
         let { currentLecture } = this.state;
-        const { t, currentSubject } = this.props;
+        const { t } = this.props;
         const { lectures } = subject;
         currentLecture = !!currentLecture && isEmptyObject(currentLecture) ? lectures[lectureID] : currentLecture;
         let lectureTitle = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
