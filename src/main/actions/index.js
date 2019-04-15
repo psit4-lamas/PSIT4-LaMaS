@@ -173,10 +173,10 @@ const loadSubject = (subject_id) => {
                         subject: doc.data(),
                     };
 
-                    // dispatch({
-                    //     type: Actions.LOAD_SUBJECT_SUCCESS,
-                    //     payload: response,
-                    // });
+                    dispatch({
+                        type: Actions.LOAD_SUBJECT_SUCCESS,
+                        payload: response,
+                    });
 
                     return response;
                 }

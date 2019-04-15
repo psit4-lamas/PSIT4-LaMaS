@@ -28,26 +28,29 @@ class LecturePage extends Component {
 
     componentWillMount() {
         const { subject_id } = this.props.match.params;
+        const { currentSubject } = this.props;
         const lectureID = 'lecture_01';
 
-        this.props.loadSubject(subject_id)
-            .then((response) => {
-                const currentLecture = response.subject.lectures[lectureID];
-                const subject = Object.assign({}, response.subject);
-                subject.subject_id = response.subject_id;
+        if (!!currentSubject && currentSubject.subject_id !== subject_id) {
+            this.props.loadSubject(subject_id)
+                .then((response) => {
+                    const currentLecture = response.subject.lectures[lectureID];
+                    const subject = Object.assign({}, response.subject);
+                    subject.subject_id = response.subject_id;
 
-                this.setState({
-                    isLoadingSubject: false,
-                    lectureID: lectureID,
-                    subject: subject,
-                    currentLecture: currentLecture,
-                    lectureName: currentLecture.name || '',
+                    this.setState({
+                        isLoadingSubject: false,
+                        lectureID: lectureID,
+                        subject: subject,
+                        currentLecture: currentLecture,
+                        lectureName: currentLecture.name || '',
+                    });
                 });
-            });
+        }
     }
 
     handleLectureMenuClick = (e) => {
-        // this.props.selectLecture(e.target.id);
+        this.props.selectLecture(e.target.id);
         const { subject } = this.state;
 
         const lectureID = e.target.id;
@@ -66,7 +69,15 @@ class LecturePage extends Component {
     };
 
     handleSaveLecture = () => {
-        this.props.saveSubject(this.state.subject);
+        this.props.saveSubject(this.state.subject)
+            .then(response => {
+                if (response.message && response.message.includes('success')) {
+                    this.setState({
+                        isEditMode: false,
+                        mode: 'view',
+                    });
+                }
+            });
     };
 
     onModeChange = (e, { value }) => {
@@ -136,7 +147,7 @@ class LecturePage extends Component {
     };
 
     render() {
-        const { isLoadingSubject, subject, lectureID, isEditMode, isValid, lectureName } = this.state;
+        const { isLoadingSubject, subject } = this.state;
 
         if (isLoadingSubject || isEmptyObject(subject)) {
             return (
@@ -146,8 +157,10 @@ class LecturePage extends Component {
             );
         }
 
+        debugger;
+        const { lectureID, isEditMode, isValid, lectureName } = this.state;
         let { currentLecture } = this.state;
-        const { t } = this.props;
+        const { t, currentSubject } = this.props;
         const { lectures } = subject;
         currentLecture = !!currentLecture && isEmptyObject(currentLecture) ? lectures[lectureID] : currentLecture;
         let lectureTitle = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
@@ -207,6 +220,7 @@ class LecturePage extends Component {
 
 const mapStateToProps = (state) => ( {
     user: state.user,
+    currentSubject: state.subject.currentSubject,
 } );
 
 const mapDispatchToProps = {
