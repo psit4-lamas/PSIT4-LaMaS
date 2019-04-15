@@ -1,38 +1,38 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import fire from '../../firebase';
-import { withNamespaces } from 'react-i18next';
-import UploadComponent from '../UploadComponent/UploadComponent';
+import PropTypes from 'prop-types';
 import FileList from '../FileListComponent/FileList';
 import './UploadMediaPage.css';
 
 
 class UploadMediaPage extends Component {
-    // TODO: improve upload media page UI
+
     render() {
-        const { t } = this.props;
+        const { t, editMode, subject, lecture, onSelectVideoClick } = this.props;
 
         return (
-            <div>
+            <>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'V' } t={ t }
+                          subject={ subject } lecture={ lecture }
+                          onSelectVideoClick={ onSelectVideoClick }
+                />
 
-                <UploadComponent fileType={ 'V' } buttonLabel={ t('uploadComponent.selectVideo') }/>
-                <br/>
-                <FileList firebase={ fire } type={ 'V' } t={ t }/>
-                <br/>
-                <br/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t } subject={ subject } lecture={ lecture }/>
 
-                <UploadComponent fileType={ 'L' } buttonLabel={ t('uploadComponent.selectLecture') }/>
-                <br/>
-                <FileList firebase={ fire } type={ 'L' } t={ t }/>
-                <br/>
-                <br/>
-
-                <UploadComponent fileType={ 'E' } buttonLabel={ t('uploadComponent.selectExercise') }/>
-                <br/>
-                <FileList firebase={ fire } type={ 'E' } t={ t }/>
-            </div>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'E' } t={ t } subject={ subject } lecture={ lecture }/>
+            </>
         );
     }
 }
 
 
-export default withNamespaces()(UploadMediaPage);
+UploadMediaPage.propTypes = {
+    editMode: PropTypes.bool.isRequired,
+    lecture: PropTypes.object.isRequired,
+};
+
+UploadMediaPage.defaultProps = {
+    editMode: false,
+};
+
+export default UploadMediaPage;

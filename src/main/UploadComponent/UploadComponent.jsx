@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import fire from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
-import { connect } from 'react-redux';
 import withAuthorization from '../../utils/withAuthorization';
 import { UserRoles } from '../../utils/constants';
+import { withRouterAndRedux } from '../../utils';
 
 
 class UploadComponent extends Component {
+
     state = {
         progress: 0,
         isUploading: false,
@@ -16,11 +17,14 @@ class UploadComponent extends Component {
         error: '',
     };
 
-    handleUploadStart = () =>
+    handleUploadStart = (obj1, obj2) => {
         this.setState({
             isUploading: true,
             progress: 0,
         });
+
+        obj2.metadata_.customMetadata.originalName = obj1.name;
+    };
 
     handleUploadError = (error) => {
         this.setState({
@@ -64,7 +68,7 @@ class UploadComponent extends Component {
                           style={ {
                               backgroundColor: 'pink',
                               color: 'white',
-                              padding: 20,
+                              padding: 5,
                               borderRadius: 4,
                               cursor: 'pointer',
                               fontWeight: 'bold',
@@ -74,14 +78,14 @@ class UploadComponent extends Component {
                           <FileUploader
                               hidden
                               accept={ acceptedFileTypes }
-                              name="file"
+                              name="upload"
                               randomizeFilename
                               storageRef={ fire.storage().ref('files') }
                               onUploadStart={ this.handleUploadStart }
                               metadata={ {
                                   customMetadata: {
-                                      subject: 'KI',
-                                      lecture: 1,
+                                      subjectId: this.props.subject.subject_id,
+                                      lecture: this.props.lectureId.substring(this.props.lectureId.length - 2, this.props.lectureId.length),
                                       type: fileType,
                                       originalName: 'myFile',
                                   },
@@ -104,7 +108,11 @@ const condition = (authUser) => authUser && !!authUser.roles && authUser.roles.i
 
 const mapStateToProps = (state) => ( {
     user: state.user,
+    lectureId: state.subject.currentLectureID,
 } );
 
+const mapDispatchToProps = {};
+
 export { UploadComponent };
-export default withAuthorization(condition)(connect(mapStateToProps)(UploadComponent));
+export default withAuthorization(condition)(withRouterAndRedux(mapStateToProps, mapDispatchToProps, UploadComponent));
+

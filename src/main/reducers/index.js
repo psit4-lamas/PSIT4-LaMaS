@@ -147,7 +147,6 @@ const initialState = {
     },
 };
 
-
 const userReducer = (state = initialState.user, action) => {
     switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
@@ -271,6 +270,16 @@ const subjectReducer = (state = initialState.subject, action) => {
                     assigned_tutors: action.payload.assigned_tutors.slice(),
                 },
             };
+
+        case Actions.SUBJECT_INSERT_HEAD:
+            return { ...state };
+
+        case Actions.LEAVE_CREATE_SUBJECT:
+            return {
+                ...state,
+                isSubmitted: false,
+            };
+
         case Actions.CREATE_SUBJECT_FAIL:
             return {
                 isSubmitted: true,
@@ -285,7 +294,6 @@ const subjectReducer = (state = initialState.subject, action) => {
                 ...state,
                 isSubmitted: false,
                 isLoadingSubject: false,
-                currentLectureID: 'lecture_01',
                 currentSubject: {
                     ...action.payload.subject,
                     subject_id: action.payload.subject_id,
@@ -299,6 +307,36 @@ const subjectReducer = (state = initialState.subject, action) => {
                 isLoadingSubject: false,
                 currentLectureID: action.payload,
             };
+
+        case Actions.SAVE_LECTURE_START:
+            return {
+                ...state,
+                isLoadingSubject: true,
+            };
+
+        case Actions.SAVE_LECTURE_SUCCESS:
+            return {
+                ...state,
+                isLoadingSubject: false,
+            };
+
+        case Actions.SET_NEW_LECTURE_TITLE:
+            const currentLecture = state.currentLectureID;
+
+            return {
+                ...state,
+                currentSubject: {
+                    ...state.currentSubject,
+                    lectures: {
+                        ...state.currentSubject.lectures,
+                        [currentLecture]: {
+                            ...state.currentSubject.lectures[currentLecture],
+                            name: action.payload,
+                        },
+                    },
+                },
+            };
+
         default:
             return {
                 ...state,

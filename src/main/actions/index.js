@@ -14,6 +14,7 @@ const Actions = {
 
     CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
     CREATE_SUBJECT_FAIL: 'CREATE_SUBJECT_FAIL',
+    LEAVE_CREATE_SUBJECT: 'LEAVE_CREATE_SUBJECT',
 
     LOAD_SUBJECT: 'LOAD_SUBJECT',
     LOAD_SUBJECT_SUCCESS: 'LOAD_SUBJECT_SUCCESS',
@@ -23,6 +24,11 @@ const Actions = {
     SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
     SUBJECT_REMOVE_HEAD: 'SUBJECT_REMOVE_HEAD',
     SET_CURRENT_LECTURE: 'SET_CURRENT_LECTURE',
+
+    SET_NEW_LECTURE_TITLE: 'SET_NEW_LECTURE_TITLE',
+    SAVE_LECTURE_START: 'SAVE_LECTURE_START',
+    SAVE_LECTURE_ERROR: 'SAVE_LECTURE_ERROR',
+    SAVE_LECTURE_SUCCESS: 'SAVE_LECTURE_SUCCESS',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -50,8 +56,6 @@ const subscribeToAuthStateChanged = () => {
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log(user);
-
                 // If the user has not confirmed his/her account yet, re-send a confirmation email
                 // with a 'Continue' link, redirecting the user to the LaMaS web application
                 if (!user.emailVerified) {
@@ -118,7 +122,7 @@ const logOut = () => {
         firebase
             .auth()
             .signOut()
-            .then((res) => {
+            .then(() => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
             .catch((err) => {
@@ -131,7 +135,10 @@ const createSubject = (submittedSubject, submittedTutors) => {
     return (dispatch) => {
         firebase
             .functions()
-            .httpsCallable('addSubject')({ subject_name: submittedSubject, assigned_tutors: submittedTutors })
+            .httpsCallable('addSubject')({
+                subject_name: submittedSubject,
+                assigned_tutors: submittedTutors,
+            })
             .then((res) => {
                 const data = {
                     subjectId: res.data.subjectId,
@@ -154,6 +161,14 @@ const createSubject = (submittedSubject, submittedTutors) => {
     };
 };
 
+const leaveCreateSubject = () => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.LEAVE_CREATE_SUBJECT,
+        });
+    };
+};
+
 /**
  * Load the requested subject document.
  *
@@ -164,11 +179,12 @@ const createSubject = (submittedSubject, submittedTutors) => {
  */
 const loadSubject = (subject_id) => {
     return (dispatch) => {
-        firebase
+        return firebase
             .database()
             .collection('subjects')
             .doc(subject_id)
-            .onSnapshot(function (doc) {
+            .get()
+            .then(function (doc) {
                 if (doc.exists) {
                     const response = {
                         subject_id: doc.id,
@@ -179,6 +195,8 @@ const loadSubject = (subject_id) => {
                         type: Actions.LOAD_SUBJECT_SUCCESS,
                         payload: response,
                     });
+
+                    return response;
                 }
             });
     };
@@ -232,9 +250,78 @@ const selectLecture = (lectureNumber) => {
     };
 };
 
+const saveSubject = (subject) => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.SAVE_LECTURE_START,
+        });
+
+        return firebase
+            .database()
+            .collection('subjects')
+            .doc(subject.subject_id)
+            .update(subject)
+            .then(function () {
+                dispatch({
+                    type: Actions.SAVE_LECTURE_SUCCESS,
+                });
+
+                return { message: 'Subject successfully saved!' };
+            })
+            .catch(function (error) {
+                dispatch({
+                    type: Actions.SAVE_LECTURE_ERROR,
+                    payload: error,
+                });
+                return error;
+            });
+    };
+};
+
+const setNewLectureTitle = (title) => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.SET_NEW_LECTURE_TITLE,
+            payload: title,
+        });
+    };
+};
+
+const downloadFileFromFirebase = (nameOnStorage) => {
+    return () => {
+        firebase
+            .storage()
+            .ref(nameOnStorage)
+            .getDownloadURL()
+            .then(function (url) {
+                window.open(url);
+            })
+            .catch((error) => console.log(error));
+    };
+};
+
+const fetchVideo = (nameOnStorage) => {
+    return () => {
+        return firebase.storage()
+                       .ref(nameOnStorage)
+                       .getDownloadURL();
+    };
+};
+
 export {
     Actions,
-    loadUser, userRedirectedToAccessedPath, subscribeToAuthStateChanged,
-    logIn, logOut,
-    createSubject, loadSubject, loadSubjectHead, selectLecture
+    loadUser,
+    userRedirectedToAccessedPath,
+    subscribeToAuthStateChanged,
+    logIn,
+    logOut,
+    createSubject,
+    leaveCreateSubject,
+    loadSubject,
+    loadSubjectHead,
+    selectLecture,
+    downloadFileFromFirebase,
+    setNewLectureTitle,
+    saveSubject,
+    fetchVideo,
 };

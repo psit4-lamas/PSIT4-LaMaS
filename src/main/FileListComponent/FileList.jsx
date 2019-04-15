@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Table } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { isEmptyObject } from '../../utils';
+import { Icon, Item, Table } from 'semantic-ui-react';
+import UploadComponent from '../UploadComponent/UploadComponent';
 
 
 class FileList extends Component {
@@ -26,79 +29,99 @@ class FileList extends Component {
         }
     };
 
-    componentDidMount() {
-        this.setState({ loading: true });
-        const { type, firebase: fire } = this.props;
+    filesForStructure = (type) => {
+        const { lecture } = this.props;
 
-        this.unsubscribe = fire
-            .database()
-            .collection('files')
-            .where('subject', '==', 'KI')
-            .where('type', '==', type)
-            .onSnapshot((snapshot) => {
-                let files = [];
+        if (type === 'V') {
+            return lecture.videos;
+        } else if (type === 'E') {
+            return lecture.exercises;
+        } else if (type === 'L') {
+            return lecture.lecture_materials;
+        } else {
+            return null;
+        }
+    };
 
-                snapshot.forEach((doc) => {
-                    let save = this;
+    handleClick = (e) => {
+        const nameOnStorage = e.target.getAttribute('value');
+        this.props.onSelectVideoClick(nameOnStorage);
+    };
 
-                    fire.storage()
-                        .ref(doc.data().nameOnStorage)
-                        .getDownloadURL()
-                        .then(function(url) {
-                            console.log(url);
+    renderFileList(file) {
+        const { nameOnStorage, name } = file;
 
-                            files.push({ ...doc.data(), uid: doc.id, downloadURL: url });
+        return (
+            <Table.Row key={ nameOnStorage }>
+                <Table.Cell width={ 14 }>
+                    <Item.Group>
+                        <Item>
+                            <Item.Content verticalAlign="middle">
+                                <Item.Header name="file" as="a" value={ nameOnStorage } onClick={ this.handleClick }>
+                                    <Icon name="download"/> { name }
+                                </Item.Header>
+                            </Item.Content>
+                        </Item>
+                    </Item.Group>
+                </Table.Cell>
 
-                            save.setState({
-                                files,
-                                loading: false,
-                            });
-                        });
-                });
-
-                this.setState({
-                    files,
-                    loading: false,
-                });
-            });
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe();
+                <Table.Cell>
+                    <button style={ { display: 'none' } } className="ui icon button">
+                        <i className="trash alternate icon">X</i>
+                    </button>
+                </Table.Cell>
+            </Table.Row>
+        );
     }
 
     render() {
-        const { t, type } = this.props;
-        const fileList = this.state.files.map((dbEntry) => {
-            return (
-                <Table.Row key={ dbEntry.nameOnStorage }>
-                    <Table.Cell width={ 14 }>
-                        <a href={ dbEntry.downloadURL }>
-                            { dbEntry.nameOnStorage } for subject { dbEntry.subject } and lecture { dbEntry.lecture }
-                        </a>
-                    </Table.Cell>
-                    <Table.Cell>
-                        <button style={{display: "none"}} className="ui icon button">
-                            <i className="trash alternate icon"></i>
-                        </button>
-                    </Table.Cell>
-                </Table.Row>
-            );
-        });
+        const { t, type, editMode, subject, lecture } = this.props;
+        const files = !isEmptyObject(lecture) ? this.filesForStructure(type) : {};
 
         return (
             <Table color={ this.colorForStructure(type) } key={ this.colorForStructure(type) }>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) }</Table.HeaderCell>
+                        <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) } </Table.HeaderCell>
                         <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-                <Table.Body>{ fileList }</Table.Body>
+                <Table.Body>
+                    { editMode && <Table.Row>
+                        <Table.Cell collapsing>
+                            <UploadComponent
+                                subject={ subject }
+                                fileType={ type }
+                                buttonLabel={ t('uploadComponent.add') }
+                            />
+                        </Table.Cell>
+                        <Table.Cell/>
+                    </Table.Row> }
+
+                    { !isEmptyObject(files)
+                      ? Object.keys(files).map((index) => { return this.renderFileList(files[index]); })
+                      : (<Table.Row>
+                            <Table.Cell collapsing>
+                                <span>{ t('fileList.noData') }</span>
+                            </Table.Cell>
+                            <Table.Cell/>
+                        </Table.Row>)
+                    }
+                </Table.Body>
             </Table>
         );
     }
 }
 
+
+FileList.propTypes = {
+    editMode: PropTypes.bool.isRequired,
+    lecture: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
+};
+
+FileList.defaultProps = {
+    editMode: false,
+};
 
 export default FileList;

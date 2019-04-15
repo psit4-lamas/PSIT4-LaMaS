@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import { withNameSpacesAndRedux } from '../../utils';
-import { createSubject } from '../actions';
-import { Dropdown, Form, Message } from 'semantic-ui-react';
+import { createSubject, leaveCreateSubject } from '../actions';
+import { Dropdown, Form } from 'semantic-ui-react';
+import MessageBox from './MessageBox';
 
 const availableTutors = [
-    { key: 'Patrick Baumgartner', text: 'Patrick Baumgartner', value: 'Patrick Baumgartner' },
-    { key: 'Hans Doran', text: 'Hans Doran', value: 'Hans Doran' },
-    { key: 'Renate Kummer', text: 'Renate Kummer', value: 'Renate Kummer' },
+    {
+        key: 'Patrick Baumgartner',
+        text: 'Patrick Baumgartner',
+        value: 'Patrick Baumgartner',
+    },
+    {
+        key: 'Hans Doran',
+        text: 'Hans Doran',
+        value: 'Hans Doran',
+    },
+    {
+        key: 'Renate Kummer',
+        text: 'Renate Kummer',
+        value: 'Renate Kummer',
+    },
 ];
 
 
@@ -23,9 +36,16 @@ class CreateSubject extends Component {
         };
     }
 
+    componentWillUnmount() {
+        this.props.leaveCreateSubject();
+    }
+
     handleAddition = (e, { value }) => {
         this.setState({
-            availableTutors: [{ text: value, value }, ...this.state.availableTutors],
+            availableTutors: [{
+                text: value,
+                value,
+            }, ...this.state.availableTutors],
         });
     };
 
@@ -61,40 +81,11 @@ class CreateSubject extends Component {
 
         return (
             <div>
-                { responseSubject.isSubmitted && responseSubject.subject_id !== null ? (
-                    <Message success>
-                        <Message.Header>{ t('createSubject.successMsgTitle') }</Message.Header>
-                        <p>
-                            { t('createSubject.successMsgBox1') }
-                            <strong>{ submittedSubject }</strong>
-                            { t('createSubject.successMsgBox2') }
-                            <strong>{ submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }</strong>
-                            { t('createSubject.successMsgBox3') }
-                        </p>
-                    </Message>
-                ) : null }
-                { responseSubject.isSubmitted && responseSubject.subject_id === null ? (
-                    <Message negative>
-                        <Message.Header>{ t('createSubject.negativeMsgTitle') }</Message.Header>
-                        <p>
-                            { t('createSubject.negativeMsgBox1') }
-                            <strong>{ submittedSubject }</strong>
-                            { t('createSubject.negativeMsgBox2') }
-                            <strong>{ submittedTutors && submittedTutors.length > 0 && submittedTutors.join(', ') }</strong>
-                            { t('createSubject.negativeMsgBox3') }
-                        </p>
-                    </Message>
-                ) : null }
-
+                <MessageBox t={ t } responseSubject={ responseSubject } submittedSubject={ submittedSubject } submittedTutors={ submittedTutors }/>
                 <Form onSubmit={ this.handleSubmit }>
                     <Form.Field>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input
-                            placeholder={ t('createSubject.subjectFieldPlaceholder') }
-                            name="subject"
-                            value={ subject }
-                            onChange={ (e) => this.handleSubjectChange(e) }
-                        />
+                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ (e) => this.handleSubjectChange(e) }/>
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
@@ -124,6 +115,7 @@ const mapStateToProps = (state) => ( {
 
 const mapDispatchToProps = {
     createSubject,
+    leaveCreateSubject,
 };
 
 export { CreateSubject };
