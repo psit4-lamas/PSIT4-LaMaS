@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import './LectureBodyContent.css';
+import DisplayVideo from './DisplayVideo';
 
 
 class LectureBodyContent extends Component {
 
     render() {
-        const { t, lecture, lectureTitle } = this.props;
+        const { t, subject, lecture, lectureTitle } = this.props;
+        const nameOnStorage = Object.keys(lecture.videos).length > 0 ? lecture.videos.videos_00.nameOnStorage : '';
 
         return (
             <>
@@ -18,7 +20,9 @@ class LectureBodyContent extends Component {
                 </h1>
 
                 <div style={ { marginTop: '25px' } }>
-                    <UploadMediaPage t={ t } editMode={ false } lecture={ lecture }/>
+                    <DisplayVideo nameOnStorage={ nameOnStorage }/>
+                    <br/>
+                    <UploadMediaPage t={ t } editMode={ false } subject={ subject } lecture={ lecture }/>
                 </div>
             </>
         );
