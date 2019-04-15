@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow, mount } from 'enzyme';
-import { Item } from 'semantic-ui-react';
-import { FileList } from '../../main/FileListComponent/FileList';
+import { shallow } from 'enzyme';
+import FileList from '../../main/FileListComponent/FileList';
 import { UploadComponent } from '../../main/UploadComponent/UploadComponent';
 
 describe('FileList', () => {
