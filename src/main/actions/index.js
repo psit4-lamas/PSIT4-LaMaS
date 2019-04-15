@@ -52,10 +52,11 @@ const subscribeToAuthStateChanged = () => {
                     .doc(user.uid)
                     .get()
                     .then((snapshot) => {
-                        const dbUser = snapshot.data();
-
+                        const dbUser = {};
                         // default Student
-                        if (!dbUser.roles) {
+                        if (snapshot.exists) {
+                            dbUser.roles = snapshot.data().roles;
+                        } else {
                             dbUser.roles = [UserRoles.STUDENT];
                         }
 
@@ -69,7 +70,7 @@ const subscribeToAuthStateChanged = () => {
                             payload: authUser,
                         });
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => console.log('error'));
             } else {
                 console.log('User logged out!');
 
