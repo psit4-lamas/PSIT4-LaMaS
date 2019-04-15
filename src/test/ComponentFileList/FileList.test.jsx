@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import { Item } from 'semantic-ui-react';
 import { FileList } from '../../main/FileListComponent/FileList';
 import { UploadComponent } from '../../main/UploadComponent/UploadComponent';
 
@@ -120,13 +121,12 @@ describe('FileList', () => {
         expect(fileListComponent).toMatchSnapshot();
     });
 
-    it('calls firebase to get download link on click', () => {
-        fileListComponent
-            .find({ name: 'file' })
-            .at(0)
-            .simulate('click');
-        let result = propsVideos.lecture.videos.videos_01.nameOnStorage;
-        expect(downloadFileFromFirebase).toHaveBeenCalledWith(result);
+    xit('calls firebase to get download link on click', () => {
+        const component = <FileList { ...propsExercises } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
+        fileListComponent = shallow(component);
+        const videoEvent = { target: { value: propsVideos.lecture.videos.videos_01.nameOnStorage } };
+        fileListComponent.find({name: 'file'}).at(0).prop('onClick')(videoEvent);
+        expect(downloadFileFromFirebase).toHaveBeenCalledWith(videoEvent.target.value);
     });
 
     it('renders add button not if not edit mode', () => {
