@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import EditLectureBodyContent from '../../main/LectureComponents/EditLectureBodyContent';
 
 
@@ -14,6 +14,7 @@ describe('Edit LectureBodyContent', () => {
 
     let editLectureContent;
     let setNewLectureTitle;
+    let onLectureTitleChange;
     const lecture_01 = {
         is_public: false,
         name: 'Lecture 1',
@@ -52,7 +53,6 @@ describe('Edit LectureBodyContent', () => {
     const props = {
         lectureTitle: 'Lecture 1',
         lecture: lecture_01,
-        onLectureTitleChange: jest.fn(),
         lectureName: ' - some title',
         isValid: true,
         lectureId: 'lecture_01',
@@ -75,8 +75,9 @@ describe('Edit LectureBodyContent', () => {
 
     beforeEach(() => {
         setNewLectureTitle = jest.fn();
+        onLectureTitleChange = jest.fn();
 
-        const component = <EditLectureBodyContent t={ (key) => key } { ...props } setNewLectureTitle={ setNewLectureTitle }/>;
+        const component = <EditLectureBodyContent { ...props } onLectureTitleChange={ onLectureTitleChange }/>;
 
         editLectureContent = shallow(component);
     });
@@ -90,18 +91,19 @@ describe('Edit LectureBodyContent', () => {
     });
 
     it('sets subject state value if title of lecture is changed', () => {
-        editLectureContent.find({ name: 'lectureTitle' }).simulate('change', lectureEvent);
-        expect(editLectureContent.state('lectureTitle')).toEqual(lectureEvent.target.value);
+        editLectureContent.find({name: 'lectureTitle'}).prop('onChange')(lectureEvent);
+        expect(onLectureTitleChange).toHaveBeenCalledWith(lectureEvent.target.value);
     });
 
     it('calls save lecture if title of lecture is changed', () => {
         editLectureContent.find({ name: 'lectureTitle' }).simulate('change', lectureEvent);
-        expect(setNewLectureTitle).toHaveBeenCalledWith(lectureEvent.target.value);
+        expect(onLectureTitleChange).toHaveBeenCalledWith(lectureEvent.target.value);
+        // expect(editLectureContent.state('lectureTitle')).toEqual(lectureEvent.target.value);
     });
 
     it('shows negative message if lecture name is empty', () => {
         // editLectureContent = shallow(<EditLectureBodyContent {...props } setNewLectureTitle={ setNewLectureTitle } />);
-        const component = <EditLectureBodyContent t={ (key) => key } { ...props } setNewLectureTitle={ setNewLectureTitle }/>;
+        const component = <EditLectureBodyContent t={ (key) => key } { ...props } onLectureTitleChange={ setNewLectureTitle }/>;
 
         editLectureContent = shallow(component);
         editLectureContent.find({ name: 'lectureTitle' }).simulate('change', lectureTitleEmptyEvent);
@@ -109,12 +111,7 @@ describe('Edit LectureBodyContent', () => {
     });
 
     it('shows not negative message if lecture name is not empty', () => {
-        // editLectureContent = shallow(<EditLectureBodyContent {...props } setNewLectureTitle={ setNewLectureTitle } />);
-        const component = <EditLectureBodyContent t={ (key) => key } { ...props } setNewLectureTitle={ setNewLectureTitle }/>;
-
-        editLectureContent = shallow(component);
-        editLectureContent.find({ name: 'lectureTitle' }).simulate('change', lectureEvent);
-        editLectureContent.update();
+        editLectureContent.find({ name: 'lectureTitle' }).prop('onChange')(lectureEvent);
         expect(editLectureContent.find('.ui.negative.message').get(0)).toBeFalsy();
     });
 });
