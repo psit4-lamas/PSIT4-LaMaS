@@ -10,6 +10,7 @@ class CreateSubjectPage extends Component {
 
         return (
             <React.Fragment>
+                <br/>
                 <h1>{ t('createSubject.pageTitle') }</h1>
                 <br/>
 

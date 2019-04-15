@@ -25,7 +25,7 @@ class App extends Component {
             <div className='body' style={ { overflow: 'auto', minHeight: 100 } }>
                 <div className="App-content">
                     <Router>
-                        <BaseLayout user={ user }>
+                        <BaseLayout t={ t } user={ user }>
                             { user.isLoadingUser
                                 ? <LoadingPage/>
                                 : <AppNavigation/>
