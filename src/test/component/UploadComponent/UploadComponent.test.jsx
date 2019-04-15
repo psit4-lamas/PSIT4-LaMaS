@@ -20,19 +20,19 @@ describe('upload component', () => {
             buttonLabel: 'add',
             fileType: 'V',
             lectureId: 'lecture_01',
-            subjectId: 'testId',
+            subject: { subject_id: 'testId' },
         };
         propsForLecture = {
             buttonLabel: 'add',
             fileType: 'L',
             lectureId: 'lecture_01',
-            subjectId: 'testId',
+            subject: { subject_id: 'testId' },
         };
         propsForExercise = {
             buttonLabel: 'add',
             fileType: 'E',
             lectureId: 'lecture_01',
-            subjectId: 'testId',
+            subject: { subject_id: 'testId' },
         };
 
         componentVideo = create(<UploadComponent { ...propsForVideo } />);

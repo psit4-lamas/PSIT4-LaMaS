@@ -17,31 +17,31 @@ describe('LectureBodyContent', () => {
         is_public: true,
         name: 'Lecture 1',
         videos: {
-            videos_01: {
+            videos_00: {
                 nameOnStorage: 'files/fdd95078-367b-4c21-b395-0bcbae435d2f.mox',
                 name: 'modell.css',
             },
-            videos_02: {
+            videos_01: {
                 nameOnStorage: 'files/fdd95078-367b-4c21-b395-0eeee435d2f.mox',
                 name: 'modell2.css',
             },
         },
         lecture_materials: {
-            lecture_materials_01: {
+            lecture_materials_00: {
                 nameOnStorage: 'files/fdd95222-367b-4c21-b395-0bcbae435d2f.mox',
                 name: 'modell33.css',
             },
-            lecture_materials_02: {
+            lecture_materials_01: {
                 nameOnStorage: 'files/fdd95111-367b-4c21-b395-0eeee435d2f.mox',
                 name: 'modell233.css',
             },
         },
         exercises: {
-            exercises_01: {
+            exercises_00: {
                 nameOnStorage: 'files/11195222-367b-4c21-b395-0bcbae435d2f.mox',
                 name: 'modell3333.css',
             },
-            exercises_02: {
+            exercises_01: {
                 nameOnStorage: 'files/22295111-367b-4c21-b395-0eeee435d2f.mox',
                 name: 'modell23322.css',
             },
