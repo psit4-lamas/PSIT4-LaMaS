@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { isEmptyObject } from '../../utils';
-import { connect } from 'react-redux';
-import { downloadFileFromFirebase } from '../actions';
 import { Icon, Item, Table } from 'semantic-ui-react';
 import UploadComponent from '../UploadComponent/UploadComponent';
 
@@ -45,9 +43,10 @@ class FileList extends Component {
         }
     };
 
-    handleClick(e) {
-        this.props.downloadFileFromFirebase(e.target.value);
-    }
+    handleClick = (e) => {
+        const nameOnStorage = e.target.getAttribute('value');
+        this.props.onSelectVideoClick(nameOnStorage);
+    };
 
     renderFileList(file) {
         const { nameOnStorage, name } = file;
@@ -125,11 +124,4 @@ FileList.defaultProps = {
     editMode: false,
 };
 
-const mapStateToProps = (state) => ( {} );
-
-const mapDispatchToProps = {
-    downloadFileFromFirebase,
-};
-
-export { FileList };
-export default connect(mapStateToProps, mapDispatchToProps)(FileList);
+export default FileList;

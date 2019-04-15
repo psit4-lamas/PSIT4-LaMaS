@@ -11,25 +11,24 @@ class DisplayVideo extends Component {
         super(props);
 
         this.state = {
-            videoUrl: '',
+            fetchedVideo: '',
         };
     }
 
     componentWillMount() {
-        this.handleDisplayVideo()
-    }
-
-    handleDisplayVideo = () => {
         const { nameOnStorage } = this.props;
 
-        this.props.fetchVideo(nameOnStorage)
-            .then(videoUrl => {
-                this.setState({ videoUrl });
-            });
-    };
+        if (!!nameOnStorage) {
+            this.props.fetchVideo(nameOnStorage)
+                .then(fetchedVideo => {
+                    this.setState({ fetchedVideo });
+                });
+        }
+    }
 
     render() {
-        const { videoUrl } = this.state;
+        const { fetchedVideo } = this.state;
+        const { videoUrl } = this.props;
 
         return (
             <>
@@ -37,10 +36,11 @@ class DisplayVideo extends Component {
                     width="640"
                     height="100%"
                     controls
-                    src={ videoUrl }
+                    src={ videoUrl ? videoUrl : fetchedVideo }
                 >
                     Your browser does not support the video tag.
                 </video>
+                <br/>
             </>
         );
     }
