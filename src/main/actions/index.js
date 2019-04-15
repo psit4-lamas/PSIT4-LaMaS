@@ -238,7 +238,7 @@ const saveSubject = (subject) => {
             type: Actions.SAVE_LECTURE_START,
         });
 
-        firebase
+        return firebase
             .database()
             .collection('subjects')
             .doc(subject.subject_id)
@@ -247,12 +247,15 @@ const saveSubject = (subject) => {
                 dispatch({
                     type: Actions.SAVE_LECTURE_SUCCESS,
                 });
+
+                return { message: 'Subject successfully saved!' };
             })
             .catch(function (error) {
                 dispatch({
                     type: Actions.SAVE_LECTURE_ERROR,
                     payload: error,
                 });
+                return error;
             });
     };
 };
