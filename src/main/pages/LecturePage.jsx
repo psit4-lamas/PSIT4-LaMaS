@@ -9,7 +9,6 @@ import './LecturePage.css';
 
 
 class LecturePage extends Component {
-
     constructor(props) {
         super(props);
         const lectureID = 'lecture_01';
@@ -26,27 +25,23 @@ class LecturePage extends Component {
         };
     }
 
-    componentWillUpdate() {
+    componentWillMount() {
         const { subject_id } = this.props.match.params;
-        const { currentSubject } = this.props;
-        const lectureID = 'lecture_01';
+        this.props.loadSubject(subject_id);
+    }
 
-        if (!!currentSubject && currentSubject.subject_id !== subject_id) {
-            this.props.loadSubject(subject_id)
-                .then((response) => {
-                    const currentLecture = response.subject.lectures[lectureID];
-                    const subject = Object.assign({}, response.subject);
-                    subject.subject_id = response.subject_id;
-
-                    this.setState({
-                        isLoadingSubject: false,
-                        lectureID: lectureID,
-                        subject: subject,
-                        currentLecture: currentLecture,
-                        lectureName: currentLecture.name || '',
-                    });
-                });
-        }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const { subject_id } = nextProps.match.params;
+        const { currentSubject } = nextProps;
+        const lectureID = prevState.lectureID || 'lecture_01';
+        const currentLecture = nextProps.currentSubject.lectures[lectureID];
+        const lectureName = !!currentSubject && currentSubject.subject_id !== subject_id ? prevState.lectureName || currentLecture.name || '' : currentLecture.name || '';
+        return {
+            isLoadingSubject: false,
+            subject: nextProps.currentSubject,
+            currentLecture: currentLecture,
+            lectureName,
+        };
     }
 
     handleLectureMenuClick = (e) => {
@@ -69,15 +64,14 @@ class LecturePage extends Component {
     };
 
     handleSaveLecture = () => {
-        this.props.saveSubject(this.state.subject)
-            .then(response => {
-                if (response.message && response.message.includes('success')) {
-                    this.setState({
-                        isEditMode: false,
-                        mode: 'view',
-                    });
-                }
-            });
+        this.props.saveSubject(this.state.subject).then((response) => {
+            if (response.message && response.message.includes('success')) {
+                this.setState({
+                    isEditMode: false,
+                    mode: 'view',
+                });
+            }
+        });
     };
 
     onModeChange = (e, { value }) => {
@@ -107,9 +101,7 @@ class LecturePage extends Component {
         const { t } = this.props;
 
         return (
-            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil"
-                      additionPosition="bottom" text={ t('menu.actions') }
-            >
+            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
                 <Dropdown.Menu>
                     <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
                         { t('menu.editLecture') }
@@ -126,9 +118,7 @@ class LecturePage extends Component {
         // TODO: check how to retrieve the form data to be submitted
         const { t } = this.props;
 
-        return (
-            <Button onClick={ this.handleSaveLecture }>{ t('menu.save') }</Button>
-        );
+        return <Button onClick={ this.handleSaveLecture }>{ t('menu.save') }</Button>;
     };
 
     renderActionsDropdown = () => {
@@ -137,10 +127,7 @@ class LecturePage extends Component {
         return (
             <Segment>
                 <Menu.Menu id="top-menu-lecture" position="right">
-                    { mode === 'view'
-                      ? this.renderOnViewModeDropdown()
-                      : this.renderOnEditModeDropdown()
-                    }
+                    { mode === 'view' ? this.renderOnViewModeDropdown() : this.renderOnEditModeDropdown() }
                 </Menu.Menu>
             </Segment>
         );
@@ -149,7 +136,7 @@ class LecturePage extends Component {
     render() {
         const { isLoadingSubject, subject } = this.state;
 
-        if (isLoadingSubject || isEmptyObject(subject)) {
+        if (isLoadingSubject) {
             return (
                 <React.Fragment>
                     <LoadingPage/>
@@ -168,47 +155,39 @@ class LecturePage extends Component {
         return (
             <>
                 <Form onSubmit={ this.handleSubmit }>
-
                     { this.renderActionsDropdown() }
 
                     <Grid columns={ 3 }>
-
                         <Grid.Column width={ 3 }>
                             <Menu fluid vertical tabular>
-                                { Object.keys(lectures)
-                                        .map((index, key) => (
-                                            <Menu.Item
-                                                name={ t('baseLayout.lecture') + (key + 1) }
-                                                id={ index }
-                                                key={ index }
-                                                active={ lectureID === index }
-                                                onClick={ this.handleLectureMenuClick }
-                                            />
-                                        ))
-                                }
+                                { Object.keys(lectures).map((index, key) => (
+                                    <Menu.Item
+                                        name={ t('baseLayout.lecture') + ( key + 1 ) }
+                                        id={ index }
+                                        key={ index }
+                                        active={ lectureID === index }
+                                        onClick={ this.handleLectureMenuClick }
+                                    />
+                                )) }
                             </Menu>
                         </Grid.Column>
 
                         <Grid.Column width={ 10 }>
                             {/* TODO: add proper routes for tutor VS student view */ }
-                            { isEditMode && <EditLectureBodyContent
-                                t={ t }
-                                subject={ subject }
-                                lecture={ currentLecture }
-                                lectureTitle={ lectureTitle }
-                                lectureName={ lectureName }
-                                isValid={ isValid }
-                                onLectureTitleChange={ this.onLectureTitleChange }
-                            /> }
-                            { !isEditMode && <LectureBodyContent
-                                t={ t }
-                                subject={ subject }
-                                lecture={ currentLecture }
-                                lectureTitle={ lectureTitle }
-                            /> }
+                            { isEditMode && (
+                                <EditLectureBodyContent
+                                    t={ t }
+                                    subject={ subject }
+                                    lecture={ currentLecture }
+                                    lectureTitle={ lectureTitle }
+                                    lectureName={ lectureName }
+                                    isValid={ isValid }
+                                    onLectureTitleChange={ this.onLectureTitleChange }
+                                />
+                            ) }
+                            { !isEditMode && <LectureBodyContent t={ t } subject={ subject } lecture={ currentLecture } lectureTitle={ lectureTitle }/> }
                             {/*<Route exact path={ `${ this.props.base }/:subj` } render={ ({ match }) => <LectureBodyContent match={ match }/> }/>*/ }
                         </Grid.Column>
-
                     </Grid>
                 </Form>
             </>

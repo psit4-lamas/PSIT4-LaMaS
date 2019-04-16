@@ -180,8 +180,7 @@ const loadSubject = (subject_id) => {
             .database()
             .collection('subjects')
             .doc(subject_id)
-            .get()
-            .then(function (doc) {
+            .onSnapshot(function (doc) {
                 if (doc.exists) {
                     const response = {
                         subject_id: doc.id,
