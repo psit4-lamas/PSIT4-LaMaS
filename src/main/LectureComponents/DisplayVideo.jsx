@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchVideo } from '../actions';
+import { fetchFile } from '../actions';
 import './LectureBodyContent.css';
 
 
@@ -55,7 +55,7 @@ DisplayVideo.propTypes = {
 const mapStateToProps = (state) => ( {} );
 
 const mapDispatchToProps = {
-    fetchVideo,
+    fetchVideo: fetchFile,
 };
 
 export { DisplayVideo };

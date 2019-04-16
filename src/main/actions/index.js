@@ -298,7 +298,7 @@ const downloadFileFromFirebase = (nameOnStorage) => {
     };
 };
 
-const fetchVideo = (nameOnStorage) => {
+const fetchFile = (nameOnStorage) => {
     return () => {
         return firebase.storage()
                        .ref(nameOnStorage)
@@ -321,5 +321,5 @@ export {
     downloadFileFromFirebase,
     setNewLectureTitle,
     saveSubject,
-    fetchVideo,
+    fetchFile,
 };

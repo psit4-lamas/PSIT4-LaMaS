@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchVideo } from '../actions';
+import { fetchFile } from '../actions';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import './LectureBodyContent.css';
 import DisplayVideo from './DisplayVideo';
@@ -38,7 +38,7 @@ class LectureBodyContent extends Component {
     }
 
     onSelectVideoClick = (nameOnStorage) => {
-        this.props.fetchVideo(nameOnStorage)
+        this.props.fetchFile(nameOnStorage)
             .then(videoUrl => {
 
                 this.setState({
@@ -46,6 +46,12 @@ class LectureBodyContent extends Component {
                     videoUrl: videoUrl,
                 });
             });
+    };
+
+    onSelectFileClick = (nameOnStorage) => {
+        this.props.fetchFile(nameOnStorage).then(fileUrl => {
+            window.open(fileUrl);
+        })
     };
 
     render() {
@@ -71,7 +77,7 @@ class LectureBodyContent extends Component {
                 <div style={ { marginTop: '25px' } }>
                     { !!nameOnStorage && <DisplayVideo nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> }
                     <UploadMediaPage t={ t } editMode={ false } subject={ subject } lecture={ lecture }
-                                     onSelectVideoClick={ this.onSelectVideoClick }/>
+                                     onSelectVideoClick={ this.onSelectVideoClick } onSelectFileClick={this.onSelectFileClick}/>
                 </div>
             </>
         );
@@ -87,7 +93,8 @@ LectureBodyContent.propTypes = {
 const mapStateToProps = (state) => ( {} );
 
 const mapDispatchToProps = {
-    fetchVideo,
+    fetchVideo: fetchFile,
+    fetchFile,
 };
 
 export { LectureBodyContent };

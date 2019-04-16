@@ -26,7 +26,7 @@ class LecturePage extends Component {
         };
     }
 
-    componentWillMount() {
+    componentWillUpdate() {
         const { subject_id } = this.props.match.params;
         const { currentSubject } = this.props;
         const lectureID = 'lecture_01';
