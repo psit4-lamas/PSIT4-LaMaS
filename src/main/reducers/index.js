@@ -322,22 +322,6 @@ const subjectReducer = (state = initialState.subject, action) => {
                 isLoadingSubject: false,
             };
 
-        case Actions.SET_NEW_LECTURE_TITLE:
-            const currentLecture = state.currentLectureID;
-
-            return {
-                ...state,
-                currentSubject: {
-                    ...state.currentSubject,
-                    lectures: {
-                        ...state.currentSubject.lectures,
-                        [currentLecture]: {
-                            ...state.currentSubject.lectures[currentLecture],
-                            name: action.payload,
-                        },
-                    },
-                },
-            };
 
         default:
             return {

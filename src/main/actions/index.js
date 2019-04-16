@@ -25,7 +25,6 @@ const Actions = {
     SUBJECT_REMOVE_HEAD: 'SUBJECT_REMOVE_HEAD',
     SET_CURRENT_LECTURE: 'SET_CURRENT_LECTURE',
 
-    SET_NEW_LECTURE_TITLE: 'SET_NEW_LECTURE_TITLE',
     SAVE_LECTURE_START: 'SAVE_LECTURE_START',
     SAVE_LECTURE_ERROR: 'SAVE_LECTURE_ERROR',
     SAVE_LECTURE_SUCCESS: 'SAVE_LECTURE_SUCCESS',
@@ -276,28 +275,6 @@ const saveSubject = (subject) => {
     };
 };
 
-const setNewLectureTitle = (title) => {
-    return (dispatch) => {
-        dispatch({
-            type: Actions.SET_NEW_LECTURE_TITLE,
-            payload: title,
-        });
-    };
-};
-
-const downloadFileFromFirebase = (nameOnStorage) => {
-    return () => {
-        firebase
-            .storage()
-            .ref(nameOnStorage)
-            .getDownloadURL()
-            .then(function (url) {
-                window.open(url);
-            })
-            .catch((error) => console.log(error));
-    };
-};
-
 const fetchFile = (nameOnStorage) => {
     return () => {
         return firebase.storage()
@@ -318,8 +295,6 @@ export {
     loadSubject,
     loadSubjectHead,
     selectLecture,
-    downloadFileFromFirebase,
-    setNewLectureTitle,
     saveSubject,
     fetchFile,
 };
