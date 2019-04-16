@@ -16,12 +16,13 @@ export class UploadComponent extends Component {
         error: '',
     };
 
-    handleUploadStart = () =>
+    handleUploadStart = (obj1, obj2) => {
         this.setState({
             isUploading: true,
             progress: 0,
         });
-
+        obj2.metadata_.customMetadata.originalName = obj1.name;
+    };
     handleUploadError = (error) => {
         this.setState({
             isUploading: false,
@@ -54,7 +55,6 @@ export class UploadComponent extends Component {
         const { buttonLabel, fileType } = this.props;
 
         const acceptedFileTypes = this.getAcceptedFileType();
-
         return (
             <div>
                 { isUploading ? (
@@ -64,7 +64,7 @@ export class UploadComponent extends Component {
                           style={ {
                               backgroundColor: 'pink',
                               color: 'white',
-                              padding: 20,
+                              padding: 5,
                               borderRadius: 4,
                               cursor: 'pointer',
                               fontWeight: 'bold',
@@ -74,14 +74,14 @@ export class UploadComponent extends Component {
                           <FileUploader
                               hidden
                               accept={ acceptedFileTypes }
-                              name="file"
+                              name="upload"
                               randomizeFilename
                               storageRef={ fire.storage().ref('files') }
                               onUploadStart={ this.handleUploadStart }
                               metadata={ {
                                   customMetadata: {
-                                      subject: 'KI',
-                                      lecture: 1,
+                                      subjectId: this.props.subject.subject_id,
+                                      lecture: this.props.lectureId.substring(this.props.lectureId.length - 2, this.props.lectureId.length),
                                       type: fileType,
                                       originalName: 'myFile',
                                   },
@@ -104,6 +104,7 @@ const condition = (authUser) => authUser && authUser.roles.includes(UserRoles.TU
 
 const mapStateToProps = (state) => ( {
     user: state.user,
+    lectureId: state.subject.currentLectureID,
 } );
 
 export default withAuthorization(condition)(connect(mapStateToProps)(UploadComponent));

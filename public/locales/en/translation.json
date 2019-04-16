@@ -4,7 +4,11 @@
     },
     "menu": {
         "language": "Language",
-        "logout": "Logout"
+        "logout": "Logout",
+        "editLecture": "edit lecture",
+        "unpublish": "unpublish lecture",
+        "actions": "actions",
+        "save": "save"
     },
     "login": {
         "message": "Log-in to LaMaS",
@@ -16,14 +20,40 @@
         "title": "Bookmark"
     },
     "uploadComponent": {
-        "selectVideo": "Add video",
-        "selectLecture": "Add lecture documents",
-        "selectExercise": "Add exercises"
+        "add": "add"
     },
     "fileList": {
         "V": "Videos",
         "E": "Exercises",
         "L": "Lecture Materials",
-        "action": "Action"
+        "action": "Action",
+        "noData": "No files uploaded"
+    },
+    "createSubject": {
+        "pageTitle": "Create new subject",
+        "successMsgTitle": "Subject created",
+        "successMsgBox1": "Created new subject with name ",
+        "successMsgBox2": " and assigned tutors ",
+        "successMsgBox3": ".",
+        "negativeMsgTitle": "Subject was not created",
+        "negativeMsgBox1": "Cannot create subject with name ",
+        "negativeMsgBox2": " and assigned tutors ",
+        "negativeMsgBox3": ".",
+        "subjectFieldLbl": "Subject Name",
+        "subjectFieldPlaceholder": "Subject Name...",
+        "tutorFieldLbl": "Assign Tutors",
+        "tutorFieldPlaceholder": "Tutors...",
+        "saveBtn": "Save"
+    },
+    "baseLayout": {
+        "lecture": "Lecture "
+    },
+
+    "editLecture": {
+        "editLecture": "Edit: Lecture ",
+        "lectureTitle": "Lecture title:",
+        "lectureTitlePlaceholder": "Lecture title...",
+        "negativeMsgTitle": "invalid name for lecture",
+        "negativeMsgBox1": "Name of lecture can not be empty."
     }
 }

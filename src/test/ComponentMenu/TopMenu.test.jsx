@@ -13,7 +13,27 @@ describe('Top menu', () => {
 
     beforeEach(() => {
         div = document.createElement('div');
-        props = { t: (key) => key, activeTabs: [ 'IS', 'KI2', 'PSIT4' ], changeLanguage: (lang) => lang };
+        props = {
+            t: (key) => key,
+            changeLanguage: (lang) => lang,
+            tabs: {
+                isLoadingTabs: false,
+                activeTabs: [ 'IS', 'KI2', 'PSIT4' ],
+                subjectLinks: [
+                    {
+                        name: 'IS',
+                        subject_id: '01234',
+                    }, {
+                        name: 'KI2',
+                        subject_id: '12345',
+                    }, {
+                        name: 'PSIT4',
+                        subject_id: '23456',
+                    },
+                ],
+            },
+        };
+
         component = create(<TopMenu { ...props } />);
         rootInstance = component.root;
     });
@@ -45,9 +65,14 @@ describe('Top menu', () => {
         const menuItems = rootInstance.findAllByType(Menu.Item);
 
         expect(menuItems[0].children[0].props.children).toEqual('Home');
-        expect(menuItems[1].children[0].props.children).toEqual('Upload');
+        expect(menuItems[0].props.name).toEqual('/home');
+        expect(menuItems[1].children[0].props.children).toEqual('Create Subject');
+        expect(menuItems[1].props.name).toEqual('/createsubject');
         expect(menuItems[2].children[0].props.children).toEqual('IS');
+        expect(menuItems[2].props.name).toEqual('01234/IS');
         expect(menuItems[3].children[0].props.children).toEqual('KI2');
+        expect(menuItems[3].props.name).toEqual('12345/KI2');
         expect(menuItems[4].children[0].props.children).toEqual('PSIT4');
+        expect(menuItems[4].props.name).toEqual('23456/PSIT4');
     });
 });
