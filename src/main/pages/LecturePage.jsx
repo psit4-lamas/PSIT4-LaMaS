@@ -7,11 +7,11 @@ import LectureBodyContent from '../LectureComponents/LectureBodyContent';
 import LoadingPage from '../pages/LoadingPage';
 import './LecturePage.css';
 
+
 class LecturePage extends Component {
     constructor(props) {
         super(props);
         const lectureID = 'lecture_01';
-
         this.state = {
             isLoadingSubject: true,
             subject: {},
@@ -28,29 +28,14 @@ class LecturePage extends Component {
         this.props.loadSubject(subject_id);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        this.showFirstVideoOfLecture(this.state.lectureID);
+    }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        const { subject_id } = nextProps.match.params;
-        const { currentSubject } = nextProps;
-        const lectureID = prevState.lectureID || 'lecture_01';
+        const lectureID = prevState.lectureID;
         const currentLecture = nextProps.currentSubject.lectures[lectureID];
-        const lectureName = !!currentSubject && currentSubject.subject_id !== subject_id ? prevState.lectureName || currentLecture.name || '' : currentLecture.name || '';
-        console.log(currentLecture);
-        if (!prevState.videoUrl) {
-            let nameOnStorage = Object.keys(currentLecture.videos).length > 0 ? currentLecture.videos.videos_00.nameOnStorage : '';
-            console.log("nameOnStorageIS"+nameOnStorage);
-            if (nameOnStorage) {
-                console.log("load"+nameOnStorage);
-                nextProps.fetchFile(nameOnStorage).then((videoUrl) => {
-                    console.log("ready"+nameOnStorage);
-                    console.log("video"+videoUrl);
-                    return {
-                        nameOnStorage: nameOnStorage,
-                        videoUrl: videoUrl,
-                    };
-                });
-            }
-        }
+        const lectureName = currentLecture.name;
 
         return {
             isLoadingSubject: false,
@@ -73,8 +58,6 @@ class LecturePage extends Component {
             lectureID: lectureID,
             currentLecture: currentLecture,
             lectureName: currentLecture.name || '',
-        //    videoUrl: '',
-        //    nameOnStorage: '',
         });
     };
 
@@ -150,13 +133,13 @@ class LecturePage extends Component {
         const { t } = this.props;
 
         return (
-            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={t('menu.actions')}>
+            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
                 <Dropdown.Menu>
-                    <Dropdown.Item value={'view'} onClick={this.onModeChange}>
-                        {t('menu.editLecture')}
+                    <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
+                        { t('menu.editLecture') }
                     </Dropdown.Item>
-                    <Dropdown.Item value={subject.subject_id} onClick={this.handlePublishLecture}>
-                        {t('menu.unpublish')}
+                    <Dropdown.Item value={ subject.subject_id } onClick={ this.handlePublishLecture }>
+                        { t('menu.unpublish') }
                     </Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
@@ -167,7 +150,7 @@ class LecturePage extends Component {
         // TODO: check how to retrieve the form data to be submitted
         const { t } = this.props;
 
-        return <Button onClick={this.handleSaveLecture}>{t('menu.save')}</Button>;
+        return <Button onClick={ this.handleSaveLecture }>{ t('menu.save') }</Button>;
     };
 
     renderActionsDropdown = () => {
@@ -176,7 +159,7 @@ class LecturePage extends Component {
         return (
             <Segment>
                 <Menu.Menu id="top-menu-lecture" position="right">
-                    {mode === 'view' ? this.renderOnViewModeDropdown() : this.renderOnEditModeDropdown()}
+                    { mode === 'view' ? this.renderOnViewModeDropdown() : this.renderOnEditModeDropdown() }
                 </Menu.Menu>
             </Segment>
         );
@@ -184,11 +167,10 @@ class LecturePage extends Component {
 
     render() {
         const { isLoadingSubject, subject } = this.state;
-console.log("newRender");
         if (isLoadingSubject) {
             return (
                 <React.Fragment>
-                    <LoadingPage />
+                    <LoadingPage/>
                 </React.Fragment>
             );
         }
@@ -196,7 +178,7 @@ console.log("newRender");
         const { lectureID, isEditMode, isValid, lectureName, nameOnStorage, videoUrl } = this.state;
         let { currentLecture } = this.state;
 
-        const { t } = this.props;
+        const { t, subject_id } = this.props;
         const { lectures } = subject;
         currentLecture = !!currentLecture && isEmptyObject(currentLecture) ? lectures[lectureID] : currentLecture;
         let lectureTitle = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
@@ -204,55 +186,55 @@ console.log("newRender");
 
         return (
             <>
-                <Form onSubmit={this.handleSubmit}>
-                    {this.renderActionsDropdown()}
+                <Form onSubmit={ this.handleSubmit }>
+                    { this.renderActionsDropdown() }
 
-                    <Grid columns={3}>
-                        <Grid.Column width={3}>
+                    <Grid columns={ 3 }>
+                        <Grid.Column width={ 3 }>
                             <Menu fluid vertical tabular>
-                                {Object.keys(lectures).map((index, key) => (
+                                { Object.keys(lectures).map((index, key) => (
                                     <Menu.Item
-                                        name={t('baseLayout.lecture') + (key + 1)}
-                                        id={index}
-                                        key={index}
-                                        active={lectureID === index}
-                                        onClick={this.handleLectureMenuClick}
+                                        name={ t('baseLayout.lecture') + ( key + 1 ) }
+                                        id={ index }
+                                        key={ index }
+                                        active={ lectureID === index }
+                                        onClick={ this.handleLectureMenuClick }
                                     />
-                                ))}
+                                )) }
                             </Menu>
                         </Grid.Column>
 
-                        <Grid.Column width={10}>
-                            {/* TODO: add proper routes for tutor VS student view */}
-                            {isEditMode && (
+                        <Grid.Column width={ 10 }>
+                            {/* TODO: add proper routes for tutor VS student view */ }
+                            { isEditMode && (
                                 <EditLectureBodyContent
-                                    t={t}
-                                    subject={subject}
-                                    lecture={currentLecture}
-                                    lectureTitle={lectureTitle}
-                                    lectureName={lectureName}
-                                    isValid={isValid}
-                                    onLectureTitleChange={this.onLectureTitleChange}
-                                    onSelectVideoClick={this.onSelectVideoClick}
-                                    onSelectFileClick={this.onSelectFileClick}
+                                    t={ t }
+                                    subject={ subject }
+                                    lecture={ currentLecture }
+                                    lectureTitle={ lectureTitle }
+                                    lectureName={ lectureName }
+                                    isValid={ isValid }
+                                    onLectureTitleChange={ this.onLectureTitleChange }
+                                    onSelectVideoClick={ this.onSelectVideoClick }
+                                    onSelectFileClick={ this.onSelectFileClick }
                                 />
-                            )}
-                            {!isEditMode && (
+                            ) }
+                            { !isEditMode && (
                                 <LectureBodyContent
-                                    key={lectureID}
-                                    t={t}
-                                    lectureId={lectureID}
-                                    subject={subject}
-                                    lecture={currentLecture}
-                                    lectureTitle={lectureTitle}
-                                    onSelectVideoClick={this.onSelectVideoClick}
-                                    onSelectFileClick={this.onSelectFileClick}
-                                    nameOnStorage={nameOnStorage}
-                                    videoUrl={videoUrl}
-                                    showVideo = {this.showFirstVideoOfLecture}
+                                    key={ subject_id + '-' + lectureID }
+                                    t={ t }
+                                    lectureId={ lectureID }
+                                    subject={ subject }
+                                    lecture={ currentLecture }
+                                    lectureTitle={ lectureTitle }
+                                    onSelectVideoClick={ this.onSelectVideoClick }
+                                    onSelectFileClick={ this.onSelectFileClick }
+                                    nameOnStorage={ nameOnStorage }
+                                    videoUrl={ videoUrl }
+                                    showVideo={ this.showFirstVideoOfLecture }
                                 />
-                            )}
-                            {/*<Route exact path={ `${ this.props.base }/:subj` } render={ ({ match }) => <LectureBodyContent match={ match }/> }/>*/}
+                            ) }
+                            {/*<Route exact path={ `${ this.props.base }/:subj` } render={ ({ match }) => <LectureBodyContent match={ match }/> }/>*/ }
                         </Grid.Column>
                     </Grid>
                 </Form>
@@ -261,12 +243,12 @@ console.log("newRender");
     }
 }
 
-const mapStateToProps = (state) => ({
+
+const mapStateToProps = (state) => ( {
     user: state.user,
     currentSubject: state.subject.currentSubject,
-    videoUrl: state.subject.currentVideoUrl,
-    nameOnStorage: state.subject.currentNameOnStorage,
-});
+    subject_id: state.subject.subject_id,
+} );
 
 const mapDispatchToProps = {
     selectLecture,
