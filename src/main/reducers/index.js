@@ -147,10 +147,10 @@ const initialState = {
     },
 };
 
+
 const userReducer = (state = initialState.user, action) => {
     switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
-            console.log("LOAD USER");
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
             return {
@@ -167,7 +167,6 @@ const userReducer = (state = initialState.user, action) => {
                 userAccessedPathname: '',
             };
         case Actions.USER_AUTHENTICATED:
-            console.log("USER AUTH");
             return {
                 ...state,
                 ...action.payload,
