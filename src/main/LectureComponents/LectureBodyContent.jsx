@@ -1,62 +1,40 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchFile } from '../actions';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import './LectureBodyContent.css';
 import DisplayVideo from './DisplayVideo';
+import { fetchFile } from '../actions';
 
 
 class LectureBodyContent extends Component {
 
     constructor(props) {
         super(props);
-
+console.log("inital"+this.props.nameOnStorage);
         this.state = {
-            nameOnStorage: '',
-            videoUrl: '',
+            nameOnStorage: props.nameOnStorage,
+            videoUrl: props.videoUrl,
         };
+        this.props.showVideo(this.props.lectureId);
     }
 
-    componentWillMount() {
-        const { lecture } = this.props;
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const { lecture } = nextProps;
         const nameOnStorage = Object.keys(lecture.videos).length > 0 ? lecture.videos.videos_00.nameOnStorage : '';
 
-        if (!!nameOnStorage) {
-            this.props.fetchVideo(nameOnStorage)
-                .then(videoUrl => {
+                    return {
+                        videoUrl: nextProps.videoUrl,
+                        nameOnStorage
+                    };
 
-                    this.setState({
-                        videoUrl: videoUrl,
-                    });
-                });
-        }
 
-        this.setState({
-            nameOnStorage: nameOnStorage,
-        });
+
     }
 
-    onSelectVideoClick = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage)
-            .then(videoUrl => {
-
-                this.setState({
-                    nameOnStorage: nameOnStorage,
-                    videoUrl: videoUrl,
-                });
-            });
-    };
-
-    onSelectFileClick = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage).then(fileUrl => {
-            window.open(fileUrl);
-        })
-    };
-
     render() {
-        const { t, subject, lecture, lectureTitle } = this.props;
-        let { nameOnStorage, videoUrl } = this.state;
+        const { t, subject, lecture, lectureTitle, onSelectVideoClick, onSelectFileClick } = this.props;
+        let { nameOnStorage, videoUrl } = this.props;
 
         if (!nameOnStorage && Object.keys(lecture.videos).length > 0) {
             nameOnStorage = lecture.videos.videos_00.nameOnStorage;
@@ -65,7 +43,6 @@ class LectureBodyContent extends Component {
         } else {
             nameOnStorage = '';
         }
-
         return (
             <>
                 <h1>
@@ -75,9 +52,9 @@ class LectureBodyContent extends Component {
                 </h1>
 
                 <div style={ { marginTop: '25px' } }>
-                    { !!nameOnStorage && <DisplayVideo nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> }
+                    { !!nameOnStorage && <DisplayVideo key={nameOnStorage} nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> }
                     <UploadMediaPage t={ t } editMode={ false } subject={ subject } lecture={ lecture }
-                                     onSelectVideoClick={ this.onSelectVideoClick } onSelectFileClick={this.onSelectFileClick}/>
+                                     onSelectVideoClick={ onSelectVideoClick } onSelectFileClick={ onSelectFileClick }/>
                 </div>
             </>
         );
@@ -93,7 +70,6 @@ LectureBodyContent.propTypes = {
 const mapStateToProps = (state) => ( {} );
 
 const mapDispatchToProps = {
-    fetchVideo: fetchFile,
     fetchFile,
 };
 
