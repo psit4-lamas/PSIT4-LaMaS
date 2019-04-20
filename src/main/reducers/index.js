@@ -147,7 +147,7 @@ const initialState = {
     },
 };
 
-const userReducer = (state = initialState.user, action) => {
+const userReducer = (state = initialState.user, action) => { // NOSONAR
     switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
@@ -195,7 +195,7 @@ const userReducer = (state = initialState.user, action) => {
     }
 };
 
-const tabsReducer = (state = initialState.tabs, action) => {
+const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
     switch (action.type) { // NOSONAR
         case Actions.LOADING_TABS:
@@ -246,7 +246,7 @@ const tabsReducer = (state = initialState.tabs, action) => {
     }
 };
 
-const subjectReducer = (state = initialState.subject, action) => {
+const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
     switch (action.type) { // NOSONAR
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);

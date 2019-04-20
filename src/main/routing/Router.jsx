@@ -45,4 +45,4 @@ const AppNavigation = () => ( // NOSONAR
     </Switch>
 );
 
-export default AppNavigation;
+export default AppNavigation; // NOSONAR

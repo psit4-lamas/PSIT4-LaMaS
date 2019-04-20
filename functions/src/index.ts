@@ -11,7 +11,7 @@ const storage = admin.storage();
 /**
  * When a file is uploaded in the Storage bucket the information and metadata of that file is saved in the Firestore Database.
  */
-const nodeNameForType = (type: String) => {
+const nodeNameForType = (type: string) => {
     if (type === 'V') {
         return 'videos';
     } else if (type === 'E') {
