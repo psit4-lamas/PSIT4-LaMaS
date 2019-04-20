@@ -17,7 +17,7 @@ class UploadMediaPage extends Component {
                           onSelectFile={ onSelectVideoClick }
                 />
 
-                <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t } subject={ subject } lecture={ lecture } onSelectFile={ onSelectFileClick }/>
+                <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t } subject={ subject } lecture={ lecture } J={ onSelectFileClick }/>
 
                 <FileList editMode={ editMode } firebase={ fire } type={ 'E' } t={ t } subject={ subject } lecture={ lecture } onSelectFile={ onSelectFileClick }/>
             </>

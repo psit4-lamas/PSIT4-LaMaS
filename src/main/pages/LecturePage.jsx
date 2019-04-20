@@ -29,7 +29,10 @@ class LecturePage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.showFirstVideoOfLecture(this.state.lectureID);
+        if(this.state.videoUrl ==='')
+        {
+            this.showFirstVideoOfLecture(this.state.lectureID);
+        }
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
