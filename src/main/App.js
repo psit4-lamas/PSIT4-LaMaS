@@ -5,7 +5,7 @@ import { loadUser } from './actions';
 import { withNamespaces } from 'react-i18next';
 import BaseLayout from './pages/BaseLayout';
 import LoadingPage from './pages/LoadingPage';
-import AppNavigation from './routing/Router';
+import AppNavigation from './routing/AppNavigation';
 import './App.css';
 
 

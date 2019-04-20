@@ -8,7 +8,7 @@ import LandingPage from '../pages/LandingPage';
 import CreateSubjectPage from '../pages/CreateSubjectPage';
 
 
-const AppNavigation = () => ( // NOSONAR
+const AppNavigation = () => (
     <Switch>
         <Route
             exact
@@ -45,4 +45,4 @@ const AppNavigation = () => ( // NOSONAR
     </Switch>
 );
 
-export default AppNavigation; // NOSONAR
+export default AppNavigation;
