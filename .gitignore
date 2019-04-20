@@ -235,6 +235,7 @@ build/
 
 # Ignore nightwatch test acceptance output files
 src/test/acceptance/output/
+src/test/component/*/__snapshots__/
 src/test/*/__snapshots__/
 src/test/__snapshots__/
 
