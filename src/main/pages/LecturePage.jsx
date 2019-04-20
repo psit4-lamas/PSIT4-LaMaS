@@ -55,13 +55,15 @@ class LecturePage extends Component {
         const lectureID = e.target.id;
         const currentLecture = subject.lectures[lectureID];
 
-        this.showFirstVideoOfLecture(lectureID);
-
         this.setState({
             lectureID: lectureID,
             currentLecture: currentLecture,
             lectureName: currentLecture.name || '',
+            videoUrl: '',
+            nameOnStorage: '',
         });
+
+        this.showFirstVideoOfLecture(lectureID);
     };
 
     handlePublishLecture = (e) => {
