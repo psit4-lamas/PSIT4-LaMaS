@@ -24,8 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test -u --coverage --no-watch",
-    "test:acceptance:firefox": "nightwatch",
-    "test:acceptance:chrome": "nightwatch --env chrome",
+    "nightwatch": "node_modules/.bin/nightwatch -c src/test/nightwatch.conf.js -e chrome,firefox",
+    "debug:acceptance:firefox": "node --inspect-brk node_modules/.bin/nightwatch",
     "test:resnapshot": "react-scripts test -u --no-watch",
     "eject": "react-scripts eject",
     "deploy": "npm run build && firebase deploy"
@@ -50,6 +50,7 @@
     "prettier": "^1.16.4",
     "react-test-renderer": "^16.8.4",
     "redux-devtools-extension": "^2.13.8",
+    "selenium-server": "^3.141.59",
     "sonar-scanner": "^3.1.0"
   }
 }
