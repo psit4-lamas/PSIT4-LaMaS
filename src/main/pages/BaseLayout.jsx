@@ -18,7 +18,6 @@ class BaseLayout extends Component {
     render() {
         const { t, user } = this.props;
         const { pathname } = window.location;
-
         return (
             <React.Fragment>
                 <header>
@@ -38,7 +37,7 @@ class BaseLayout extends Component {
                     }
 
                     <Switch>
-                        <Route path={ '/courses/:subject_id/:subject' } render={ () => <LecturePage t={ t }/> }/>
+                        <Route path={ '/courses/:subject_id/:subject' } render={ (props) => <LecturePage t={ t } key={props.match.params.subject_id}/> }/>
                     </Switch>
                 </main>
             </React.Fragment>

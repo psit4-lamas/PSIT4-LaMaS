@@ -147,14 +147,14 @@ const initialState = {
     },
 };
 
-const userReducer = (state = initialState.user, action) => {
+const userReducer = (state = initialState.user, action) => { // NOSONAR
     switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
             return {
                 ...state,
-                isLoadingUser: false,
+                isLoadingUser: true,
                 userAccessedPathname: action.payload,
             };
         case Actions.USER_REDIRECT_SUCCESS:
@@ -162,7 +162,6 @@ const userReducer = (state = initialState.user, action) => {
             // clear the saved requested pathname and render that page content
             return {
                 ...state,
-                isLoadingUser: false,
                 userAccessedPathname: '',
             };
         case Actions.USER_AUTHENTICATED:
@@ -204,7 +203,7 @@ const userReducer = (state = initialState.user, action) => {
     }
 };
 
-const tabsReducer = (state = initialState.tabs, action) => {
+const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
     switch (action.type) { // NOSONAR
         case Actions.LOADING_TABS:
@@ -255,7 +254,7 @@ const tabsReducer = (state = initialState.tabs, action) => {
     }
 };
 
-const subjectReducer = (state = initialState.subject, action) => {
+const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
     switch (action.type) { // NOSONAR
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
@@ -320,28 +319,12 @@ const subjectReducer = (state = initialState.subject, action) => {
                 isLoadingSubject: false,
             };
 
-        case Actions.SET_NEW_LECTURE_TITLE:
-            const currentLecture = state.currentLectureID;
-
-            return {
-                ...state,
-                currentSubject: {
-                    ...state.currentSubject,
-                    lectures: {
-                        ...state.currentSubject.lectures,
-                        [currentLecture]: {
-                            ...state.currentSubject.lectures[currentLecture],
-                            name: action.payload,
-                        },
-                    },
-                },
-            };
 
         default:
             return {
                 ...state,
-                isSubmitted: false,
-                isLoadingSubject: true,
+ //               isSubmitted: false,
+ //               isLoadingSubject: true,
             };
     }
 };

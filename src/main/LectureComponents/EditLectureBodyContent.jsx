@@ -12,7 +12,7 @@ class EditLectureBodyContent extends Component {
     };
 
     render() {
-        const { t, subject, lecture, lectureTitle, lectureName, isValid } = this.props;
+        const { t, subject, lecture, lectureTitle, lectureName, isValid, onSelectVideoClick, onSelectFileClick } = this.props;
 
         return (
             <>
@@ -39,7 +39,7 @@ class EditLectureBodyContent extends Component {
                     </FormField>
 
                     {/* TODO: wrap the 'unpublish' input component for exercise solution files */}
-                    <UploadMediaPage t={ t } editMode={ true } subject={ subject } lecture={ lecture }/>
+                    <UploadMediaPage t={ t } editMode={ true } subject={ subject } lecture={ lecture } onSelectVideoClick={ onSelectVideoClick } onSelectFileClick={ onSelectFileClick } />
                 </div>
             </>
         );

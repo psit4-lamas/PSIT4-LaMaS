@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import fire from '../../firebase';
-import FileUploader from 'react-firebase-file-uploader';
-import { Progress } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import withAuthorization from '../../utils/withAuthorization';
 import { UserRoles } from '../../utils/constants';
-import { withRouterAndRedux } from '../../utils';
+import FileUploader from 'react-firebase-file-uploader';
+import { Progress } from 'semantic-ui-react';
 
 
 class UploadComponent extends Component {
@@ -55,7 +55,7 @@ class UploadComponent extends Component {
 
     render() {
         const { isUploading, progress, errorOccurred } = this.state;
-        const { buttonLabel, fileType } = this.props;
+        const { buttonLabel, fileType, subject, lectureId } = this.props;
 
         const acceptedFileTypes = this.getAcceptedFileType();
 
@@ -84,8 +84,8 @@ class UploadComponent extends Component {
                               onUploadStart={ this.handleUploadStart }
                               metadata={ {
                                   customMetadata: {
-                                      subjectId: this.props.subject.subject_id,
-                                      lecture: this.props.lectureId.substring(this.props.lectureId.length - 2, this.props.lectureId.length),
+                                      subjectId: subject.subject_id,
+                                      lecture: lectureId.substring(lectureId.length - 2, lectureId.length),
                                       type: fileType,
                                       originalName: 'myFile',
                                   },
@@ -114,5 +114,4 @@ const mapStateToProps = (state) => ( {
 const mapDispatchToProps = {};
 
 export { UploadComponent };
-export default withAuthorization(condition)(withRouterAndRedux(mapStateToProps, mapDispatchToProps, UploadComponent));
-
+export default withAuthorization(condition)(connect(mapStateToProps, mapDispatchToProps)(UploadComponent));

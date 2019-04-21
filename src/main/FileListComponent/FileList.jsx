@@ -45,7 +45,7 @@ class FileList extends Component {
 
     handleClick = (e) => {
         const nameOnStorage = e.target.getAttribute('value');
-        this.props.onSelectVideoClick(nameOnStorage);
+        this.props.onSelectFile(nameOnStorage);
     };
 
     renderFileList(file) {

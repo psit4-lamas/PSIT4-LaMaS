@@ -16,7 +16,7 @@ i18n
 
         // react-i18next options
         react: {
-            wait: true
+            wait: false
         }
     });
 

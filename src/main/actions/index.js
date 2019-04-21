@@ -25,7 +25,6 @@ const Actions = {
     SUBJECT_REMOVE_HEAD: 'SUBJECT_REMOVE_HEAD',
     SET_CURRENT_LECTURE: 'SET_CURRENT_LECTURE',
 
-    SET_NEW_LECTURE_TITLE: 'SET_NEW_LECTURE_TITLE',
     SAVE_LECTURE_START: 'SAVE_LECTURE_START',
     SAVE_LECTURE_ERROR: 'SAVE_LECTURE_ERROR',
     SAVE_LECTURE_SUCCESS: 'SAVE_LECTURE_SUCCESS',
@@ -51,9 +50,7 @@ const userRedirectedToAccessedPath = () => {
 };
 
 const subscribeToAuthStateChanged = () => {
-
     return (dispatch) => {
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // If the user has not confirmed his/her account yet, re-send a confirmation email
@@ -72,10 +69,11 @@ const subscribeToAuthStateChanged = () => {
                     .doc(user.uid)
                     .get()
                     .then((snapshot) => {
-                        const dbUser = snapshot.data();
-
+                        const dbUser = {};
                         // default Student
-                        if (!dbUser.roles) {
+                        if (snapshot.exists) {
+                            dbUser.roles = snapshot.data().roles;
+                        } else {
                             dbUser.roles = [UserRoles.STUDENT];
                         }
 
@@ -89,7 +87,7 @@ const subscribeToAuthStateChanged = () => {
                             payload: authUser,
                         });
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => console.log('error'));
             } else {
                 console.log('User logged out!');
 
@@ -103,7 +101,6 @@ const subscribeToAuthStateChanged = () => {
 
 const logIn = (email, password) => {
     return (dispatch) => {
-
         // Connect to Firebase to perform a user login
         firebase
             .auth()
@@ -122,7 +119,7 @@ const logOut = () => {
         firebase
             .auth()
             .signOut()
-            .then(() => {
+            .then((res) => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
             .catch((err) => {
@@ -183,8 +180,7 @@ const loadSubject = (subject_id) => {
             .database()
             .collection('subjects')
             .doc(subject_id)
-            .get()
-            .then(function (doc) {
+            .onSnapshot(function (doc) {
                 if (doc.exists) {
                     const response = {
                         subject_id: doc.id,
@@ -278,29 +274,7 @@ const saveSubject = (subject) => {
     };
 };
 
-const setNewLectureTitle = (title) => {
-    return (dispatch) => {
-        dispatch({
-            type: Actions.SET_NEW_LECTURE_TITLE,
-            payload: title,
-        });
-    };
-};
-
-const downloadFileFromFirebase = (nameOnStorage) => {
-    return () => {
-        firebase
-            .storage()
-            .ref(nameOnStorage)
-            .getDownloadURL()
-            .then(function (url) {
-                window.open(url);
-            })
-            .catch((error) => console.log(error));
-    };
-};
-
-const fetchVideo = (nameOnStorage) => {
+const fetchFile = (nameOnStorage) => {
     return () => {
         return firebase.storage()
                        .ref(nameOnStorage)
@@ -320,8 +294,6 @@ export {
     loadSubject,
     loadSubjectHead,
     selectLecture,
-    downloadFileFromFirebase,
-    setNewLectureTitle,
     saveSubject,
-    fetchVideo,
+    fetchFile,
 };
