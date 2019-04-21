@@ -6,9 +6,11 @@
         "language": "Language",
         "logout": "Logout",
         "editLecture": "edit lecture",
+        "cancel": "cancel",
         "unpublish": "unpublish lecture",
         "actions": "actions",
-        "save": "save"
+        "save": "save",
+        "bookmarkSubject": "Bookmark subject"
     },
     "login": {
         "message": "Log-in to LaMaS",
