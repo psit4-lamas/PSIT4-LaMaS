@@ -115,6 +115,7 @@ class FileList extends Component {
 
 
 FileList.propTypes = {
+    onSelectFile: PropTypes.func.isRequired,
     editMode: PropTypes.bool.isRequired,
     lecture: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
