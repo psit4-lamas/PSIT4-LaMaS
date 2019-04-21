@@ -39,14 +39,14 @@ describe('Top menu', () => {
     });
 
     it('renders without crashing', () => {
-        const intern = i18n.default;
-        console.log(intern.language);
-        console.log(i18n.languages);
+        // const intern = i18n.default;
+        // console.log(intern.language);
+        // console.log(i18n.languages);
 
         const menu = <TopMenu { ...props } />;
         ReactDOM.render(menu, div);
 
-        console.log(i18n.language);
+        // console.log(i18n.language);
 
         ReactDOM.unmountComponentAtNode(div);
     });

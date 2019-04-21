@@ -8,9 +8,9 @@ describe('FileList', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
 
-        shallow(<FileList t={ (key) => key } { ...propsVideos } />, div);
-        shallow(<FileList t={ (key) => key } { ...propsLectureMaterials } />, div);
-        shallow(<FileList t={ (key) => key } { ...propsExercises } />, div);
+        shallow(<FileList t={ (key) => key } { ...propsVideos } onSelectFile={ jest.fn() } />, div);
+        shallow(<FileList t={ (key) => key } { ...propsLectureMaterials } onSelectFile={ jest.fn() } />, div);
+        shallow(<FileList t={ (key) => key } { ...propsExercises } onSelectFile={ jest.fn() } />, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
