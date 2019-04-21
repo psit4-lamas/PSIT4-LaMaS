@@ -39,7 +39,14 @@ class EditLectureBodyContent extends Component {
                     </FormField>
 
                     {/* TODO: wrap the 'unpublish' input component for exercise solution files */}
-                    <UploadMediaPage t={ t } editMode={ true } subject={ subject } lecture={ lecture } onSelectVideoClick={ onSelectVideoClick } onSelectFileClick={ onSelectFileClick } />
+                    <UploadMediaPage
+                        t={ t }
+                        editMode={ true }
+                        subject={ subject }
+                        lecture={ lecture }
+                        onSelectVideoClick={ onSelectVideoClick }
+                        onSelectFileClick={ onSelectFileClick }
+                    />
                 </div>
             </>
         );

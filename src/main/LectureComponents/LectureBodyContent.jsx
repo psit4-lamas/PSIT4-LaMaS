@@ -21,8 +21,15 @@ class LectureBodyContent extends Component {
 
                 <div style={ { marginTop: '25px' } }>
                     { videoUrl ? <DisplayVideo key={ videoUrl } nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> : '' }
-                    <UploadMediaPage t={ t } editMode={ false } subject={ subject } lecture={ lecture } onSelectVideoClick={ onSelectVideoClick }
-                                     onSelectFileClick={ onSelectFileClick }/>
+
+                    <UploadMediaPage
+                        t={ t }
+                        editMode={ false }
+                        subject={ subject }
+                        lecture={ lecture }
+                        onSelectVideoClick={ onSelectVideoClick }
+                        onSelectFileClick={ onSelectFileClick }
+                    />
                 </div>
             </>
         );
