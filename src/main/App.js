@@ -25,7 +25,7 @@ class App extends Component {
                 <div className="App-content">
                     <Router>
                         <BaseLayout t={ t } user={ user }>
-                            <AppNavigation/>
+                            <AppNavigation t={ t } user={ user }/>
                         </BaseLayout>
                     </Router>
                 </div>

@@ -7,7 +7,7 @@ import LandingPage from '../pages/LandingPage';
 import CreateSubjectPage from '../pages/CreateSubjectPage';
 
 
-const AppNavigation = () => (
+const AppNavigation = ({ t, user }) => (
     <Switch>
         <Route
             exact
@@ -31,7 +31,8 @@ const AppNavigation = () => (
                     {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
 
                     <Switch>
-                        <Route path={ '/createsubject' } render={ () => <CreateSubjectPage base={ '/createsubject' }/> }/>
+                        <Route path={ '/createsubject' } render={ () => <CreateSubjectPage
+                            base={ '/createsubject' } t={ t } user={ user }/> }/>
                         <Route exact path={ '/home' } render={ () => <LandingPage/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage/> }/>
                     </Switch>
