@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import i18n from '../../i18n';
 import { Grid } from 'semantic-ui-react';
+import LoadingPage from './LoadingPage';
 import TopMenuUnauthenticated from '../ComponentMenu/TopMenuUnauthenticated';
 import TopMenu from '../ComponentMenu/TopMenu';
 import LecturePage from './LecturePage';
@@ -18,8 +19,17 @@ class BaseLayout extends Component {
     render() {
         const { t, user } = this.props;
         const { pathname } = window.location;
+
+        if (user.isLoadingUser) {
+            return (
+                <>
+                    <LoadingPage/>
+                </>
+            );
+        }
+
         return (
-            <React.Fragment>
+            <>
                 <header>
                     {/* TODO: fix this TopMenu */ }
                     { user.isLoadingUser || !user.isAuthenticated
@@ -40,7 +50,7 @@ class BaseLayout extends Component {
                         <Route path={ '/courses/:subject_id/:subject' } render={ (props) => <LecturePage t={ t } key={props.match.params.subject_id}/> }/>
                     </Switch>
                 </main>
-            </React.Fragment>
+            </>
         );
     }
 }

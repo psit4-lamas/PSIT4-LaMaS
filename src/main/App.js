@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { loadUser } from './actions';
 import { withNamespaces } from 'react-i18next';
 import BaseLayout from './pages/BaseLayout';
-import LoadingPage from './pages/LoadingPage';
 import AppNavigation from './routing/AppNavigation';
 import './App.css';
 
@@ -26,10 +25,7 @@ class App extends Component {
                 <div className="App-content">
                     <Router>
                         <BaseLayout t={ t } user={ user }>
-                            { user.isLoadingUser
-                                ? <LoadingPage/>
-                                : <AppNavigation/>
-                            }
+                            <AppNavigation/>
                         </BaseLayout>
                     </Router>
                 </div>
