@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { Actions } from '../actions';
 import { isEmptyObject } from '../../utils';
+import { UserRoles } from '../../utils';
 
 const EMPTY_DEFAULT_SUBJECT = {
     subject_id: '',
@@ -161,22 +162,25 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
             // clear the saved requested pathname and render that page content
             return {
                 ...state,
+                isLoadingUser: false,
                 userAccessedPathname: '',
             };
         case Actions.USER_AUTHENTICATED:
             return {
                 ...state,
-                ...action.payload,
+                userCredentials: Object.assign({}, action.payload),
                 isAuthenticated: !!action.payload,
                 isLoadingUser: false,
             };
         case Actions.LOG_IN_SUCCESS:
+            const userRoles = action.payload.roles;
+
             return {
                 ...state,
-                ...action.payload,
+                ...action.payload, // { userCredentials: { ... }, roles: [ ... ] }
                 isAuthenticated: !!action.payload,
                 isLoadingUser: false,
-                roles: action.payload.roles,
+                isStudent: !!userRoles && userRoles.includes(UserRoles.STUDENT),
             };
         case Actions.LOG_OUT_SUCCESS:
             const user = Object.assign({}, state);
@@ -271,6 +275,7 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
             return {
                 ...state,
                 isSubmitted: false,
+                isLoadingSubject: false,
             };
 
         case Actions.CREATE_SUBJECT_FAIL:
@@ -304,12 +309,14 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
         case Actions.SAVE_LECTURE_START:
             return {
                 ...state,
+                isSubmitted: true,
                 isLoadingSubject: true,
             };
 
         case Actions.SAVE_LECTURE_SUCCESS:
             return {
                 ...state,
+                isSubmitted: true,
                 isLoadingSubject: false,
             };
 

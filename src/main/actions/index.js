@@ -1,6 +1,6 @@
 import firebase from '../../firebase';
 import config, { isDevelopment } from '../../firebase/configLoader';
-import { UserRoles } from '../../utils/constants';
+import { UserRoles } from '../../utils';
 
 const Actions = {
     LOAD_USER: 'LOAD_USER',
@@ -87,7 +87,9 @@ const subscribeToAuthStateChanged = () => {
                             payload: authUser,
                         });
                     })
-                    .catch((err) => console.log('error'));
+                    .catch((err) => {
+                        console.log('error', err);
+                    });
             } else {
                 console.log('User logged out!');
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import fire from '../../firebase';
 import { connect } from 'react-redux';
 import withAuthorization from '../../utils/withAuthorization';
-import { UserRoles } from '../../utils/constants';
+import { UserRoles } from '../../utils';
 import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
 
