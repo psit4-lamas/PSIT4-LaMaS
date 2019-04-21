@@ -46,7 +46,12 @@ class BaseLayout extends Component {
                     }
 
                     <Switch>
-                        <Route path={ '/courses/:subject_id/:subject' } render={ (props) => <LecturePage t={ t } key={props.match.params.subject_id}/> }/>
+                        <Route path={ '/courses/:subject_id/:subject' }
+                               render={ (props) => <LecturePage t={ t }
+                                                                key={ props.match.params.subject_id }
+                                                                isStudent={ user.isStudent }
+                               /> }
+                        />
                     </Switch>
                 </main>
             </>
