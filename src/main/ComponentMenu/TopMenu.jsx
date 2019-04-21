@@ -7,11 +7,12 @@ import './TopMenu.css';
 
 class TopMenu extends Component {
 
-    state = { activeItem: window.location.pathname };
+    state = {
+        activeItem: window.location.pathname.replace('/courses/', '')
+    };
 
     handleItemClick = (e, { name }) => {
-        const pathname = name === '/home' || name === '/createsubject'
-                         ? `${ name }` : `/courses/${ name }`;
+        const pathname = name === '/home' || name === '/createsubject' ? `${ name }` : `/courses/${ name }`;
 
         if (pathname.includes('/courses/')) {
             this.props.loadSubject(name.split('/')[0]);
@@ -27,12 +28,18 @@ class TopMenu extends Component {
 
     render() {
         const { t, changeLanguage, tabs } = this.props;
-        const { isLoadingTabs, activeTabs, subjectLinks } = tabs;
+        const { activeTabs } = tabs;
         const currentPathname = window.location.pathname;
-        const currentName = currentPathname
-            .replace('/courses/', '')
-            .split('/')[1]
-            .replace('%20', ' ');
+        let [currentSubjectID, currentName] = currentPathname.replace('/courses/', '').split('/');
+
+        // If the global state has no activeTabs (default state of reducer),
+        // then at least show an active tab for the current visited subject page
+        if (activeTabs.length < 1 && !!currentName && !!currentSubjectID) {
+            activeTabs.push({
+                subject_name: currentName.replace('%20', ' '),
+                subject_id: currentSubjectID,
+            });
+        }
 
         // TODO: The activeTabs is a list of subjects defined in src/main/reducers/index.js
         //       It simulates fetching user's bookmarked subjects from backend based on logged in user.
@@ -50,16 +57,14 @@ class TopMenu extends Component {
                         Create Subject
                     </Menu.Item>
 
-                    { !isLoadingTabs &&
-                      subjectLinks.length &&
-                      activeTabs.map((activeTab, index) => (
+                    { activeTabs.map(activeTab => (
                           <Menu.Item
-                              key={ activeTab }
-                              name={ subjectLinks[index].subject_id + '/' + subjectLinks[index].name }
-                              active={ currentName === activeTab }
+                              key={ activeTab.subject_id }
+                              name={ activeTab.subject_id + '/' + activeTab.subject_name.replace(' ', '%20') }
+                              active={ currentName === activeTab.subject_name }
                               onClick={ this.handleItemClick }
                           >
-                              { subjectLinks[index].name }
+                              { activeTab.subject_name }
                           </Menu.Item>
                       )) }
 

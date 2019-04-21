@@ -134,7 +134,6 @@ const initialState = {
     tabs: {
         isLoadingTabs: true,
         activeTabs: [],
-        subjectLinks: [],
     },
 
     subject: {
@@ -211,8 +210,8 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
                 isLoadingTabs: true,
             };
         case Actions.SUBJECT_INSERT_HEAD:
-            const found = state.subjectLinks.find(function (subject) {
-                return !isEmptyObject(subject) && subject.subject_id === action.payload.subject_id;
+            const found = state.activeTabs.find(function (tab) {
+                return !isEmptyObject(tab) && tab.subject_id === action.payload.subject_id;
             });
 
             // TODO: I have the impression we are doing two things in this reducer:
@@ -221,33 +220,28 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
             // TODO: split this logic into 2 different reducers (can be fixed after Sprint 2)
             if (found === undefined) {
                 const activeTabs = state.activeTabs.slice();
-                activeTabs.push(action.payload.name);
-
-                const subjectLinks = state.subjectLinks.slice();
-                subjectLinks.push({ ...action.payload });
+                activeTabs.push({
+                    subject_name: action.payload.name.replace('%20', ' '),
+                    subject_id: action.payload.subject_id,
+                });
 
                 return {
                     ...state,
                     isLoadingTabs: false,
                     activeTabs: activeTabs,
-                    subjectLinks: subjectLinks,
                 };
             } else {
                 return { ...state };
             }
         case Actions.SUBJECT_REMOVE_HEAD:
             const activeTabs = state.activeTabs.filter(function (tab) {
-                return !!tab && tab !== action.payload.name;
-            });
-
-            const subjectLinks = state.subjectLinks.filter(function (subject) {
-                return !isEmptyObject(subject) && subject.subject_id !== action.payload.subject_id;
+                return !isEmptyObject(tab) && tab.subject_id !== action.payload.subject_id;
             });
 
             return {
                 ...state,
+                isLoadingTabs: false,
                 activeTabs: activeTabs,
-                subjectLinks: subjectLinks,
             };
         default:
             return { ...state };
@@ -265,7 +259,7 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 currentSubject: {
                     ...subject,
                     subject_id: action.payload.subjectId,
-                    subject_name: action.payload.subject_name,
+                    subject_name: action.payload.subject_name.replace('%20', ' '),
                     assigned_tutors: action.payload.assigned_tutors.slice(),
                 },
             };
