@@ -15,12 +15,11 @@ class BaseLayout extends Component {
         i18n.changeLanguage(lang);
     };
 
-    // TODO: improve base page UI (Sprint 2)
     render() {
         const { t, user } = this.props;
         const { pathname } = window.location;
 
-        if (user.isLoadingUser) {
+        if (user === undefined || user.isLoadingUser) {
             return (
                 <>
                     <LoadingPage/>
@@ -34,7 +33,7 @@ class BaseLayout extends Component {
                     {/* TODO: fix this TopMenu */ }
                     { user.isLoadingUser || !user.isAuthenticated
                       ? (<TopMenuUnauthenticated t={ t } changeLanguage={ this.changeLanguage }/>)
-                      : (<TopMenu t={ t } changeLanguage={ this.changeLanguage }/>)
+                      : (<TopMenu t={ t } changeLanguage={ this.changeLanguage } isStudent={ user.isStudent }/>)
                     }
                 </header>
 
