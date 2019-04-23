@@ -260,6 +260,33 @@ const saveSubject = (subject) => {
     };
 };
 
+const addRating = (subject_id, userId, rating) => {
+    return (dispatch) => {
+        const path = "subject_rates."+userId;
+        return firebase
+            .database()
+            .collection('subjects')
+            .doc(subject_id)
+            .update({
+                [path]: rating,
+            })
+            .then(function () {
+             //   dispatch({
+               //     type: Actions.SAVE_LECTURE_SUCCESS,
+                //});
+
+                return { message: 'Subject successfully saved!' };
+            })
+            .catch(function (error) {
+                //   dispatch({
+                //      type: Actions.SAVE_LECTURE_ERROR,
+                //     payload: error,
+                // });
+                return error;
+            });
+    };
+};
+
 const setNewLectureTitle = (title) => {
     return (dispatch) => {
         dispatch({
@@ -306,4 +333,5 @@ export {
     setNewLectureTitle,
     saveSubject,
     fetchVideo,
+    addRating
 };

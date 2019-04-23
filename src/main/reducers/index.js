@@ -143,12 +143,16 @@ const initialState = {
         currentLectureID: 'lecture_01',
         currentSubject: {
             ...EMPTY_DEFAULT_SUBJECT,
+            averageRating: null,
         },
     },
 };
 
-const userReducer = (state = initialState.user, action) => { // NOSONAR
-    switch (action.type) { // NOSONAR
+const userReducer = (state = initialState.user, action) => {
+    // NOSONAR
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
@@ -195,9 +199,12 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
     }
 };
 
-const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
+const tabsReducer = (state = initialState.tabs, action) => {
+    // NOSONAR
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
-    switch (action.type) { // NOSONAR
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.LOADING_TABS:
             return {
                 isLoadingTabs: true,
@@ -246,8 +253,11 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
     }
 };
 
-const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
-    switch (action.type) { // NOSONAR
+const subjectReducer = (state = initialState.subject, action) => {
+    // NOSONAR
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {
@@ -281,6 +291,16 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 },
             };
         case Actions.LOAD_SUBJECT_SUCCESS:
+            let total = 0;
+            let avg = 0;
+            const rates = action.payload.subject.subject_rates;
+            const keys = Object.keys(rates);
+            if (keys.length > 0) {
+                for (let i = 0; i < keys.length; i++) {
+                    total += rates[keys[i]];
+                }
+                avg = total / keys.length;
+            }
             return {
                 ...state,
                 isSubmitted: false,
@@ -288,6 +308,7 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 currentSubject: {
                     ...action.payload.subject,
                     subject_id: action.payload.subject_id,
+                    averageRating: avg,
                 },
             };
 

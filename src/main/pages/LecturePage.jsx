@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { selectLecture, loadSubject, saveSubject } from '../actions';
+import { selectLecture, loadSubject, saveSubject, addRating } from '../actions';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { Grid, Segment, Menu, Dropdown, Button, Form } from 'semantic-ui-react';
 import EditLectureBodyContent from '../LectureComponents/EditLectureBodyContent';
 import LectureBodyContent from '../LectureComponents/LectureBodyContent';
 import LoadingPage from '../pages/LoadingPage';
+import RatingComponent from '../RatingComponent/RatingComponent';
 import './LecturePage.css';
 
 
 class LecturePage extends Component {
-
     constructor(props) {
         super(props);
         const lectureID = 'lecture_01';
@@ -32,20 +32,19 @@ class LecturePage extends Component {
         const lectureID = 'lecture_01';
 
         if (!!currentSubject && currentSubject.subject_id !== subject_id) {
-            this.props.loadSubject(subject_id)
-                .then((response) => {
-                    const currentLecture = response.subject.lectures[lectureID];
-                    const subject = Object.assign({}, response.subject);
-                    subject.subject_id = response.subject_id;
+            this.props.loadSubject(subject_id).then((response) => {
+                const currentLecture = response.subject.lectures[lectureID];
+                const subject = Object.assign({}, response.subject);
+                subject.subject_id = response.subject_id;
 
-                    this.setState({
-                        isLoadingSubject: false,
-                        lectureID: lectureID,
-                        subject: subject,
-                        currentLecture: currentLecture,
-                        lectureName: currentLecture.name || '',
-                    });
+                this.setState({
+                    isLoadingSubject: false,
+                    lectureID: lectureID,
+                    subject: subject,
+                    currentLecture: currentLecture,
+                    lectureName: currentLecture.name || '',
                 });
+            });
         }
     }
 
@@ -69,15 +68,14 @@ class LecturePage extends Component {
     };
 
     handleSaveLecture = () => {
-        this.props.saveSubject(this.state.subject)
-            .then(response => {
-                if (response.message && response.message.includes('success')) {
-                    this.setState({
-                        isEditMode: false,
-                        mode: 'view',
-                    });
-                }
-            });
+        this.props.saveSubject(this.state.subject).then((response) => {
+            if (response.message && response.message.includes('success')) {
+                this.setState({
+                    isEditMode: false,
+                    mode: 'view',
+                });
+            }
+        });
     };
 
     onModeChange = (e, { value }) => {
@@ -107,9 +105,7 @@ class LecturePage extends Component {
         const { t } = this.props;
 
         return (
-            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil"
-                      additionPosition="bottom" text={ t('menu.actions') }
-            >
+            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
                 <Dropdown.Menu>
                     <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
                         { t('menu.editLecture') }
@@ -126,9 +122,7 @@ class LecturePage extends Component {
         // TODO: check how to retrieve the form data to be submitted
         const { t } = this.props;
 
-        return (
-            <Button onClick={ this.handleSaveLecture }>{ t('menu.save') }</Button>
-        );
+        return <Button onClick={ this.handleSaveLecture }>{ t('menu.save') }</Button>;
     };
 
     renderActionsDropdown = () => {
@@ -137,10 +131,7 @@ class LecturePage extends Component {
         return (
             <Segment>
                 <Menu.Menu id="top-menu-lecture" position="right">
-                    { mode === 'view'
-                      ? this.renderOnViewModeDropdown()
-                      : this.renderOnEditModeDropdown()
-                    }
+                    { mode === 'view' ? this.renderOnViewModeDropdown() : this.renderOnEditModeDropdown() }
                 </Menu.Menu>
             </Segment>
         );
@@ -168,47 +159,47 @@ class LecturePage extends Component {
         return (
             <>
                 <Form onSubmit={ this.handleSubmit }>
-
                     { this.renderActionsDropdown() }
 
                     <Grid columns={ 3 }>
-
                         <Grid.Column width={ 3 }>
+                            <RatingComponent
+                                currentRating={ this.props.currentRating }
+                                addRating={ this.props.addRating }
+                                subject_id={ this.state.subject.subject_id }
+                                userId={ this.props.user.uid }
+                                userRating={ this.state.subject.subject_rates[this.props.user.uid] }
+                            />
+
                             <Menu fluid vertical tabular>
-                                { Object.keys(lectures)
-                                        .map((index, key) => (
-                                            <Menu.Item
-                                                name={ t('baseLayout.lecture') + (key + 1) }
-                                                id={ index }
-                                                key={ index }
-                                                active={ lectureID === index }
-                                                onClick={ this.handleLectureMenuClick }
-                                            />
-                                        ))
-                                }
+                                { Object.keys(lectures).map((index, key) => (
+                                    <Menu.Item
+                                        name={ t('baseLayout.lecture') + ( key + 1 ) }
+                                        id={ index }
+                                        key={ index }
+                                        active={ lectureID === index }
+                                        onClick={ this.handleLectureMenuClick }
+                                    />
+                                )) }
                             </Menu>
                         </Grid.Column>
 
                         <Grid.Column width={ 10 }>
                             {/* TODO: add proper routes for tutor VS student view */ }
-                            { isEditMode && <EditLectureBodyContent
-                                t={ t }
-                                subject={ subject }
-                                lecture={ currentLecture }
-                                lectureTitle={ lectureTitle }
-                                lectureName={ lectureName }
-                                isValid={ isValid }
-                                onLectureTitleChange={ this.onLectureTitleChange }
-                            /> }
-                            { !isEditMode && <LectureBodyContent
-                                t={ t }
-                                subject={ subject }
-                                lecture={ currentLecture }
-                                lectureTitle={ lectureTitle }
-                            /> }
+                            { isEditMode && (
+                                <EditLectureBodyContent
+                                    t={ t }
+                                    subject={ subject }
+                                    lecture={ currentLecture }
+                                    lectureTitle={ lectureTitle }
+                                    lectureName={ lectureName }
+                                    isValid={ isValid }
+                                    onLectureTitleChange={ this.onLectureTitleChange }
+                                />
+                            ) }
+                            { !isEditMode && <LectureBodyContent t={ t } subject={ subject } lecture={ currentLecture } lectureTitle={ lectureTitle }/> }
                             {/*<Route exact path={ `${ this.props.base }/:subj` } render={ ({ match }) => <LectureBodyContent match={ match }/> }/>*/ }
                         </Grid.Column>
-
                     </Grid>
                 </Form>
             </>
@@ -220,12 +211,14 @@ class LecturePage extends Component {
 const mapStateToProps = (state) => ( {
     user: state.user,
     currentSubject: state.subject.currentSubject,
+    currentRating: state.subject.currentSubject.averageRating,
 } );
 
 const mapDispatchToProps = {
     selectLecture,
     loadSubject,
     saveSubject,
+    addRating,
 };
 
 export { LecturePage };
