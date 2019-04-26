@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import i18n from '../../i18n';
 import { create } from 'react-test-renderer';
 import TopMenuUnauthenticated from '../../main/ComponentMenu/TopMenuUnauthenticated';
+import { Dropdown } from 'semantic-ui-react';
 
 describe('Top menu', () => {
 
@@ -33,5 +34,15 @@ describe('Top menu', () => {
         console.log(i18n.language);
 
         ReactDOM.unmountComponentAtNode(div);
+    });
+
+    it('should change language when clicking on Dropdown', () => {
+        const dropdownItems = rootInstance.findAllByType(Dropdown.Item);
+
+        expect(dropdownItems[0].props.children).toEqual('English');
+        expect(dropdownItems[1].props.children).toEqual('German');
+
+        expect(dropdownItems[0].props.onClick()).toEqual('en');
+        expect(dropdownItems[1].props.onClick()).toEqual('de');
     });
 });
