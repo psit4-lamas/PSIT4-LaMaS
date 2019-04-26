@@ -25,13 +25,9 @@ describe('Top menu unauthenticated', () => {
 
     it('renders without crashing', () => {
         const intern = i18n.default;
-        console.log(intern.language);
-        console.log(i18n.languages);
 
         const menu = <TopMenuUnauthenticated { ...props } />;
         ReactDOM.render(menu, div);
-
-        console.log(i18n.language);
 
         ReactDOM.unmountComponentAtNode(div);
     });
