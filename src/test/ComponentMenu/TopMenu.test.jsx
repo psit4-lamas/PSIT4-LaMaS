@@ -10,9 +10,6 @@ describe('Top menu', () => {
     let props;
     let component;
     let rootInstance;
-    let myComponent;
-    let React;
-    let TopMenu, TestUtils, FluxxorTestUtils, FluxConstructor, realFlux, fakeFlux;
 
     beforeEach(() => {
         div = document.createElement('div');
@@ -40,18 +37,6 @@ describe('Top menu', () => {
 
         component = create(<TopMenu { ...props } />);
         rootInstance = component.root;
-
-        // React = require('react/addons');
-        // TestUtils = React.addons.TestUtils;
-        // myComponent = require('../../../src/main/ComponentMenu/TopMenu.jsx');
-        // FluxxorTestUtils = require('fluxxor-test-utils');
-        // FluxConstructor = require('../../../app/FluxConstructor.js');
-        // realFlux = FluxConstructor();
-        // fakeFlux = FluxxorTestUtils.fakeFlux(realFlux);
-        // fakeFlux.genMocksForStoresAndActions();
-        // // now all stores and action methods are mocked for testing
-        //
-        // TopMenu = TestUtils.renderIntoDocument(<TopMenu flux={fakeFlux} />);
     });
 
     it('renders without crashing', () => {
@@ -68,6 +53,18 @@ describe('Top menu', () => {
     });
 
     it('handleOnClick correctly', () => {
+        let TopMenu, TestUtils, FluxxorTestUtils, FluxConstructor, realFlux, fakeFlux;
+
+        TestUtils = require('react-dom/test-utils');
+        FluxxorTestUtils = require('fluxxor-test-utils');
+        FluxConstructor = require('../../../app/FluxConstructor.js');
+        realFlux = FluxConstructor();
+        fakeFlux = FluxxorTestUtils.fakeFlux(realFlux);
+        fakeFlux.genMocksForStoresAndActions();
+        // now all stores and action methods are mocked for testing
+
+        TopMenu = TestUtils.renderIntoDocument(<TopMenu flux={fakeFlux} />);
+
         TopMenu.handleItemClick = jest.genMockFunction();
         TestUtils.Simulate.click(TopMenu.refs.MenuItem.getDOMNode());
         expect(TopMenu.handleItemClick).toBeCalled();
