@@ -14,6 +14,7 @@ describe('Top menu', () => {
         div = document.createElement('div');
         props = {
             t: (key) => key,
+            nameOnStorage: 'files/9786e06c-3be2-4090-80f2-6fc28d2eb2dd.mp4',
             videoUrl: 'https://firebasestorage.googleapis.com/v0/b/fir-and-react-55a5a.appspot.com/o/files%2F9786e06c-3be2-4090-80f2-6fc28d2eb2dd.mp4?alt=media&token=70d24a4c-a2d0-4d1f-bb22-07913c61f845'
         };
 
