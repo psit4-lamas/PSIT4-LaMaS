@@ -10,6 +10,10 @@ class TopMenu extends Component {
     state = { activeItem: window.location.pathname };
 
     handleItemClick = (e, { name }) => {
+        console.log("e", e);
+        console.log("name", name);
+        console.log(this.state);
+
         const pathname = name === '/home' || name === '/createsubject'
                          ? `${ name }` : `/courses/${ name }`;
 
@@ -18,7 +22,12 @@ class TopMenu extends Component {
         }
 
         this.setState({ activeItem: name });
+
+        console.log(this.state);
+
         this.props.history.push(pathname);
+
+        console.log(pathname);
     };
 
     handleLogout = () => {
