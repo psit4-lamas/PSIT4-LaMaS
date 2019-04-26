@@ -4,7 +4,7 @@ import i18n from '../../i18n';
 import { create } from 'react-test-renderer';
 import { DisplayVideo } from '../../main/LectureComponents/DisplayVideo';
 
-describe('Top menu', () => {
+describe('DisplayVideo', () => {
     let div;
     let props;
     let component;
