@@ -20,4 +20,5 @@ class CreateSubjectPage extends Component {
     }
 }
 
+export { CreateSubjectPage };
 export default withNamespaces()(CreateSubjectPage);

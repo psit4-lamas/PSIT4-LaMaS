@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { mount, shallow } from 'enzyme';
-import { BaseLayout } from '../../main/pages/BaseLayout';
+import { LandingPage } from '../../main/pages/LandingPage';
 
-describe('BaseLayout', () => {
+describe('LandingPage', () => {
     let renderedComponent;
 
-    const user = Object.freeze({
-        isLoadingUser: true,
+    const activeTabs = Object.freeze({
+        null,
     });
 
     // it('renders without crashing', () => {
@@ -19,7 +19,7 @@ describe('BaseLayout', () => {
 
     beforeEach(() => {
 
-        const component = <BaseLayout t={ (key) => key } user={ user }/>;
+        const component = <LandingPage t={ (key) => key } />;
 
         renderedComponent = shallow(component);
     });

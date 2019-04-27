@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { mount, shallow } from 'enzyme';
-import { BaseLayout } from '../../main/pages/BaseLayout';
+import { LecturePage } from '../../main/pages/LecturePage';
 
-describe('BaseLayout', () => {
+describe('LecturePage', () => {
     let renderedComponent;
 
     const user = Object.freeze({
@@ -19,7 +19,7 @@ describe('BaseLayout', () => {
 
     beforeEach(() => {
 
-        const component = <BaseLayout t={ (key) => key } user={ user }/>;
+        const component = <LecturePage t={ (key) => key } />;
 
         renderedComponent = shallow(component);
     });
