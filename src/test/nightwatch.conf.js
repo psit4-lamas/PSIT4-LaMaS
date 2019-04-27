@@ -1,8 +1,12 @@
 // Get Selenium and the drivers
+/* istanbul ignore next */
 var seleniumServer = require('selenium-server');
+/* istanbul ignore next */
 var chromedriver = require('chromedriver');
+/* istanbul ignore next */
 var geckodriver = require('geckodriver');
 
+/* istanbul ignore next */
 var config = {
     src_folders: [
         // Folders with tests
@@ -75,5 +79,5 @@ var config = {
         },
     },
 };
-
+/* istanbul ignore next */
 module.exports = config;
