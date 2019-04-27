@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { selectLecture, loadSubject, saveSubject, fetchFile } from '../actions';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
-import { Grid, Segment, Menu, Dropdown, Form, Breadcrumb } from 'semantic-ui-react';
-import EditLectureBodyContent from '../LectureComponents/EditLectureBodyContent';
-import LectureBodyContent from '../LectureComponents/LectureBodyContent';
+import { Form, Breadcrumb } from 'semantic-ui-react';
 import LoadingPage from '../pages/LoadingPage';
+import { LecturePageStudentView } from '../LectureComponents/LecturePageStudentView';
+import { LecturePageTutorView } from '../LectureComponents/LecturePageTutorView';
 import './LecturePage.css';
 
 
@@ -19,10 +19,10 @@ class LecturePage extends Component {
             subject: {},
             lectureID: lectureID,
             currentLecture: {},
-            isEditMode: false,
-            mode: 'view',
+            // isEditMode: false,
+            // mode: 'view',
             lectureName: '',
-            isValid: true,
+            // isValid: true,
             videoUrl: '',
             nameOnStorage: '',
         };
@@ -68,30 +68,41 @@ class LecturePage extends Component {
         this.showFirstVideoOfLecture(lectureID);
     };
 
-    handlePublishLecture = (e) => {
-        // TODO: add action to POST a request to publish this lecture
-        console.log('Not yet implemented!', e.target.value);
-    };
+    // handlePublishLecture = (e) => {
+    //     // TODO: add action to POST a request to publish this lecture
+    //     console.log('Not yet implemented!', e.target.value);
+    // };
 
-    handleSaveLecture = () => {
-        this.props.saveSubject(this.state.subject)
-            .then((response) => {
-                if (response.message && response.message.includes('success')) {
-                    this.setState({
-                        isEditMode: false,
-                        mode: 'view',
-                    });
-                }
-            });
-    };
+    // handleSaveLecture = () => {
+    //     this.props.saveSubject(this.state.subject)
+    //         .then((response) => {
+    //             if (response.message && response.message.includes('success')) {
+    //                 this.setState({
+    //                     isEditMode: false,
+    //                     mode: 'view',
+    //                 });
+    //             }
+    //         });
+    // };
 
-    onModeChange = (e, { value }) => {
-        // Force mode options to accept only: 'edit' | 'view'
-        const mode = value === 'edit' ? 'view' : 'edit';
+    // onModeChange = (e, { value }) => {
+    //     // Force mode options to accept only: 'edit' | 'view'
+    //     const mode = value === 'edit' ? 'view' : 'edit';
+    //
+    //     this.setState({
+    //         isEditMode: mode === 'edit',
+    //         mode: mode,
+    //     });
+    // };
+
+    onLectureTitleUpdate = (updatedSubject, value) => {
+        // const { subject, lectureID } = this.state;
+        // subject.lectures[lectureID].name = value;
 
         this.setState({
-            isEditMode: mode === 'edit',
-            mode: mode,
+            subject: updatedSubject,
+            lectureName: value,
+            // isValid: value !== '',
         });
     };
 
@@ -102,7 +113,7 @@ class LecturePage extends Component {
         this.setState({
             subject: subject,
             lectureName: value,
-            isValid: value !== '',
+            // isValid: value !== '',
         });
     };
 
@@ -135,58 +146,58 @@ class LecturePage extends Component {
         });
     };
 
-    renderOnViewModeDropdown = () => {
-        // TODO: add check for the current lecture is_published: true | false
-        const { subject } = this.state;
-        const { t } = this.props;
+    // renderOnViewModeDropdown = () => {
+    //     // TODO: add check for the current lecture is_published: true | false
+    //     const { subject } = this.state;
+    //     const { t } = this.props;
+    //
+    //     return (
+    //         <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
+    //             <Dropdown.Menu>
+    //                 <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
+    //                     { t('menu.editLecture') }
+    //                 </Dropdown.Item>
+    //                 <Dropdown.Item value={ subject.subject_id } onClick={ this.handlePublishLecture }>
+    //                     { t('menu.unpublish') }
+    //                 </Dropdown.Item>
+    //             </Dropdown.Menu>
+    //         </Dropdown>
+    //     );
+    // };
 
-        return (
-            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
-                <Dropdown.Menu>
-                    <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
-                        { t('menu.editLecture') }
-                    </Dropdown.Item>
-                    <Dropdown.Item value={ subject.subject_id } onClick={ this.handlePublishLecture }>
-                        { t('menu.unpublish') }
-                    </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
-        );
-    };
+    // renderStudentOnViewModeDropdown = () => {
+    //     // TODO: add check for the current lecture is_published: true | false
+    //     const { t } = this.props;
+    //     const bookmark = window.location.pathname.replace('/courses/', '');
+    //
+    //     return (
+    //         <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
+    //             <Dropdown.Menu>
+    //                 <Dropdown.Item value={ bookmark } onClick={ this.onModeChange } disabled>
+    //                     { t('menu.bookmarkSubject') }
+    //                 </Dropdown.Item>
+    //             </Dropdown.Menu>
+    //         </Dropdown>
+    //     );
+    // };
 
-    renderStudentOnViewModeDropdown = () => {
-        // TODO: add check for the current lecture is_published: true | false
-        const { t } = this.props;
-        const bookmark = window.location.pathname.replace('/courses/', '');
-
-        return (
-            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
-                <Dropdown.Menu>
-                    <Dropdown.Item value={ bookmark } onClick={ this.onModeChange } disabled>
-                        { t('menu.bookmarkSubject') }
-                    </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
-        );
-    };
-
-    renderOnEditModeDropdown = () => {
-        // TODO: check how to retrieve the form data to be submitted
-        const { t } = this.props;
-
-        return (
-            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
-                <Dropdown.Menu>
-                    <Dropdown.Item onClick={ this.handleSaveLecture }>
-                        { t('menu.save') }
-                    </Dropdown.Item>
-                    <Dropdown.Item value={ 'edit' } onClick={ this.onModeChange }>
-                        { t('menu.cancel') }
-                    </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
-        );
-    };
+    // renderOnEditModeDropdown = () => {
+    //     // TODO: check how to retrieve the form data to be submitted
+    //     const { t } = this.props;
+    //
+    //     return (
+    //         <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil" additionPosition="bottom" text={ t('menu.actions') }>
+    //             <Dropdown.Menu>
+    //                 <Dropdown.Item onClick={ this.handleSaveLecture }>
+    //                     { t('menu.save') }
+    //                 </Dropdown.Item>
+    //                 <Dropdown.Item value={ 'edit' } onClick={ this.onModeChange }>
+    //                     { t('menu.cancel') }
+    //                 </Dropdown.Item>
+    //             </Dropdown.Menu>
+    //         </Dropdown>
+    //     );
+    // };
 
     renderBreadcrumb = () => {
         const { subject, lectureID } = this.state;
@@ -206,42 +217,65 @@ class LecturePage extends Component {
         );
     };
 
-    renderActionsDropdown = () => {
-        const { mode } = this.state;
-        const { isStudent } = this.props;
+    // renderActionsDropdown = () => {
+    //     const { mode } = this.state;
+    //     const { isStudent } = this.props;
+    //
+    //     if (isStudent) {
+    //         return (
+    //             <>
+    //                 { this.renderStudentOnViewModeDropdown() }
+    //             </>
+    //         );
+    //     } else {
+    //         return (
+    //             <>
+    //                 { mode === 'view' ? this.renderOnViewModeDropdown() : this.renderOnEditModeDropdown() }
+    //             </>
+    //         );
+    //     }
+    //
+    // };
 
-        if (isStudent) {
-            return (
-                <>
-                    { this.renderStudentOnViewModeDropdown() }
-                </>
-            );
-        } else {
-            return (
-                <>
-                    { mode === 'view' ? this.renderOnViewModeDropdown() : this.renderOnEditModeDropdown() }
-                </>
-            );
-        }
+    // renderActionsComponent = () => {
+    //     const actionDropdown = this.renderActionsDropdown();
+    //
+    //     return (
+    //         <Segment>
+    //             <Grid columns={ 2 }>
+    //                 <Grid.Column floated='left' width={ 3 } verticalAlign={ 'middle' }>
+    //                     { this.renderBreadcrumb() }
+    //                 </Grid.Column>
+    //                 <Grid.Column floated='right' width={ 3 }>
+    //                     <Menu.Menu id="top-menu-lecture" position="right">
+    //                         { actionDropdown }
+    //                     </Menu.Menu>
+    //                 </Grid.Column>
+    //             </Grid>
+    //         </Segment>
+    //     );
+    // };
 
-    };
-
-    renderActionsComponent = () => {
-        return (
-            <Segment>
-                <Grid columns={ 2 }>
-                    <Grid.Column floated='left' width={ 3 } verticalAlign={ 'middle' }>
-                        { this.renderBreadcrumb() }
-                    </Grid.Column>
-                    <Grid.Column floated='right' width={ 3 }>
-                        <Menu.Menu id="top-menu-lecture" position="right">
-                            { this.renderActionsDropdown() }
-                        </Menu.Menu>
-                    </Grid.Column>
-                </Grid>
-            </Segment>
-        );
-    };
+    // renderLecturesMenu = () => {
+    //     const { lectures } = this.state.subject;
+    //     const { t } = this.props;
+    //
+    //     return (
+    //         <Menu fluid vertical tabular>
+    //             { Object.keys(lectures).map((index, key) => (
+    //                 <Menu.Item
+    //                     color={ lectures[index].is_public ? LaMaSColours['public-lecture-active'] : LaMaSColours['unpublic-lecture-active'] }
+    //                     className={ lectures[index].is_public ? 'public-lecture' : 'unpublic-lecture' }
+    //                     name={ t('baseLayout.lecture') + ( key + 1 ) }
+    //                     id={ index }
+    //                     key={ index }
+    //                     active={ this.state.lectureID === index }
+    //                     onClick={ this.handleLectureMenuClick }
+    //                 />
+    //             )) }
+    //         </Menu>
+    //     );
+    // };
 
     render() {
         const { isLoadingSubject, subject } = this.state;
@@ -253,7 +287,7 @@ class LecturePage extends Component {
             );
         }
 
-        const { lectureID, isEditMode, isValid, lectureName, nameOnStorage, videoUrl } = this.state;
+        const { lectureID, lectureName, nameOnStorage, videoUrl } = this.state;
         let { currentLecture } = this.state;
 
         const { t, subject_id, isStudent } = this.props;
@@ -265,43 +299,38 @@ class LecturePage extends Component {
         return (
             <>
                 <Form onSubmit={ this.handleSubmit }>
-                    { this.renderActionsComponent() }
+                    {/*{ this.renderActionsComponent() }*/}
 
-                    <Grid columns={ 3 }>
-                        <Grid.Column width={ 3 }>
-                            <Menu fluid vertical tabular>
-                                { Object.keys(lectures).map((index, key) => (
-                                    <Menu.Item
-                                        name={ t('baseLayout.lecture') + ( key + 1 ) }
-                                        id={ index }
-                                        key={ index }
-                                        active={ lectureID === index }
-                                        onClick={ this.handleLectureMenuClick }
-                                    />
-                                )) }
-                            </Menu>
-                        </Grid.Column>
+                    {/*<Grid columns={ 3 }>*/}
+                        {/*<Grid.Column width={ 3 }>*/}
+                            {/*{ this.renderLecturesMenu() }*/}
+                        {/*</Grid.Column>*/}
 
-                        <Grid.Column width={ 10 }>
+                        {/*<Grid.Column width={ 10 }>*/}
+
                             {/* TODO: add proper routes for tutor VS student view */ }
-                            { !isStudent && isEditMode && (
-                                <EditLectureBodyContent
-                                    t={ t }
-                                    subject={ subject }
-                                    lecture={ currentLecture }
-                                    lectureTitle={ lectureTitle }
+                            {/*{ !isStudent && isEditMode && (*/}
+                                {/*<EditLectureBodyContent*/}
+                                    {/*t={ t }*/}
+                                    {/*subject={ subject }*/}
+                                    {/*lecture={ currentLecture }*/}
+                                    {/*lectureTitle={ lectureTitle }*/}
+                                    {/*lectureName={ lectureName }*/}
+                                    {/*isValid={ isValid }*/}
+                                    {/*onLectureTitleChange={ this.onLectureTitleChange }*/}
+                                    {/*onSelectVideoClick={ this.onSelectVideoClick }*/}
+                                    {/*onSelectFileClick={ this.onSelectFileClick }*/}
+                                {/*/>*/}
+                            {/*) }*/}
+                            { !isStudent && (
+                                <LecturePageTutorView
                                     lectureName={ lectureName }
-                                    isValid={ isValid }
-                                    onLectureTitleChange={ this.onLectureTitleChange }
-                                    onSelectVideoClick={ this.onSelectVideoClick }
-                                    onSelectFileClick={ this.onSelectFileClick }
-                                />
-                            ) }
-                            { !isEditMode && (
-                                <LectureBodyContent
+                                    onLectureTitleUpdate={ this.onLectureTitleUpdate }
+                                    saveSubject={ this.props.saveSubject }
                                     key={ subject_id + '-' + lectureID }
                                     t={ t }
                                     lectureId={ lectureID }
+                                    subject_id={ subject_id }
                                     subject={ subject }
                                     lecture={ currentLecture }
                                     lectureTitle={ lectureTitle }
@@ -310,11 +339,31 @@ class LecturePage extends Component {
                                     nameOnStorage={ nameOnStorage }
                                     videoUrl={ videoUrl }
                                     showVideo={ this.showFirstVideoOfLecture }
+                                    handleLectureMenuClick={ this.handleLectureMenuClick }
+                                    breadcrumbComponent={ this.renderBreadcrumb }
+                                />
+                            ) }
+                            { isStudent && (
+                                <LecturePageStudentView
+                                    key={ subject_id + '-' + lectureID }
+                                    t={ t }
+                                    lectureId={ lectureID }
+                                    subject_id={ subject_id }
+                                    subject={ subject }
+                                    lecture={ currentLecture }
+                                    lectureTitle={ lectureTitle }
+                                    onSelectVideoClick={ this.onSelectVideoClick }
+                                    onSelectFileClick={ this.onSelectFileClick }
+                                    nameOnStorage={ nameOnStorage }
+                                    videoUrl={ videoUrl }
+                                    showVideo={ this.showFirstVideoOfLecture }
+                                    handleLectureMenuClick={ this.handleLectureMenuClick }
+                                    breadcrumbComponent={ this.renderBreadcrumb }
                                 />
                             ) }
                             {/*<Route exact path={ `${ this.props.base }/:subj` } render={ ({ match }) => <LectureBodyContent match={ match }/> }/>*/ }
-                        </Grid.Column>
-                    </Grid>
+                        {/*</Grid.Column>*/}
+                    {/*</Grid>*/}
                 </Form>
             </>
         );

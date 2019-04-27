@@ -47,7 +47,4 @@ const mapStateToProps = (state) => ( {} );
 const mapDispatchToProps = {};
 
 export { LectureBodyContent };
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(LectureBodyContent);
+export default connect(mapStateToProps, mapDispatchToProps)(LectureBodyContent);
