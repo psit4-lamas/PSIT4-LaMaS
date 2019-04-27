@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import i18n from '../../i18n';
 import { Grid } from 'semantic-ui-react';
 import LoadingPage from './LoadingPage';
@@ -33,11 +33,10 @@ class BaseLayout extends Component {
                     {/* TODO: fix this TopMenu */ }
                     { user.isLoadingUser || !user.isAuthenticated
                       ? (<TopMenuUnauthenticated t={ t } changeLanguage={ this.changeLanguage }/>)
-                      : (<TopMenu t={ t } changeLanguage={ this.changeLanguage } isStudent={ user.isStudent }/>)
+                      : (<TopMenu t={ t } changeLanguage={ this.changeLanguage } user={ user } isStudent={ user.isStudent }/>)
                     }
                 </header>
 
-                {/* TODO: fix matching TopMenu clicked items with Route content shown (below) */ }
                 <main id="page-content">
                     { (user.isLoadingUser || !user.isAuthenticated || !pathname.includes('/courses')) &&
                         <Grid centered={ true } columns={ 3 }>
@@ -45,14 +44,12 @@ class BaseLayout extends Component {
                         </Grid>
                     }
 
-                    <Switch>
-                        <Route path={ '/courses/:subject_id/:subject' }
-                               render={ (props) => <LecturePage t={ t }
-                                                                key={ props.match.params.subject_id }
-                                                                isStudent={ user.isStudent }
-                               /> }
-                        />
-                    </Switch>
+                    <Route path={ '/courses/:subject_id/:subject' }
+                           render={ (props) => <LecturePage t={ t }
+                                                            key={ props.match.params.subject_id }
+                                                            isStudent={ user.isStudent }
+                           /> }
+                    />
                 </main>
             </>
         );
