@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { withRouterAndRedux } from '../../utils';
+import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { loadSubject, logOut } from '../actions';
-import { Button, Dropdown, Input, Menu } from 'semantic-ui-react';
+import { Button, Dropdown, Icon, Input, Menu } from 'semantic-ui-react';
+import { LaMaSColours } from '../../utils/colourPalettes';
 import './TopMenu.css';
 
 
@@ -27,10 +28,11 @@ class TopMenu extends Component {
     };
 
     render() {
-        const { t, changeLanguage, isStudent, tabs } = this.props;
+        const { t, changeLanguage, user, isStudent, tabs } = this.props;
         const { activeTabs } = tabs;
         const currentPathname = window.location.pathname;
         let [currentSubjectID, currentName] = currentPathname.replace('/courses/', '').split('/');
+        const userRole = !isEmptyObject(user) && user.roles && user.roles.length ? user.roles[0] : 'STUDENT';
 
         // If the global state has no activeTabs (default state of reducer),
         // then at least show an active tab for the current visited subject page
@@ -83,6 +85,12 @@ class TopMenu extends Component {
                                 <Dropdown.Item onClick={ () => changeLanguage('de') }>German</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
+                    </Menu.Menu>
+
+                    <Menu.Menu id="top-menu-dropdown-language" position="right">
+                        <Menu.Item>
+                            <Icon circular inverted color={ LaMaSColours.dominant } name='user' />  { userRole }
+                        </Menu.Item>
                     </Menu.Menu>
 
                     <Menu.Menu id="top-menu-logout" position="right">
