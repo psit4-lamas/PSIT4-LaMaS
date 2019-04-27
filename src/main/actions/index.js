@@ -1,5 +1,5 @@
 import firebase from '../../firebase';
-import config, { isDevelopment } from '../../firebase/configLoader';
+// import config, { isDevelopment } from '../../firebase/configLoader';
 import { UserRoles } from '../../utils';
 
 const Actions = {
@@ -55,13 +55,13 @@ const subscribeToAuthStateChanged = () => {
             if (user) {
                 // If the user has not confirmed his/her account yet, re-send a confirmation email
                 // with a 'Continue' link, redirecting the user to the LaMaS web application
-                if (!user.emailVerified) {
-                    const redirectURI = isDevelopment() ? 'http://localhost:3000' : `https://${ config.default.authDomain }`;
-
-                    user.sendEmailVerification({
-                        url: redirectURI,
-                    });
-                }
+                // if (!user.emailVerified) {
+                //     const redirectURI = isDevelopment() ? 'http://localhost:3000' : `https://${ config.default.authDomain }`;
+                //
+                //     user.sendEmailVerification({
+                //         url: redirectURI,
+                //     });
+                // }
 
                 firebase
                     .database()
