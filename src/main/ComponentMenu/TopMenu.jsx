@@ -70,13 +70,13 @@ class TopMenu extends Component {
                           </Menu.Item>
                       )) }
 
-                    <Menu.Menu position="right">
+                    {/*<Menu.Menu position="right">
                         <Menu.Item>
                             <Input icon="search" placeholder="Search..."/>
                         </Menu.Item>
-                    </Menu.Menu>
+                    </Menu.Menu>*/}
 
-                    <Menu.Menu id="top-menu-dropdown-language" position="right">
+                    <Menu.Menu position="right">
                         <Dropdown id="dropdown-language" button className="icon" floating labeled icon="world"
                                   additionPosition="bottom" text={ t('menu.language') }
                         >
