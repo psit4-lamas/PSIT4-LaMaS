@@ -24,10 +24,12 @@ class EditLectureBodyContent extends Component {
 
                 <div style={ { marginTop: '25px' } }>
                     <FormField>
-                        { !isValid && <Message negative>
-                            <Message.Header>{ t('editLecture.negativeMsgTitle') }</Message.Header>
-                            <p>{ t('editLecture.negativeMsgBox1') }</p>
-                        </Message> }
+                        { !isValid &&
+                            <Message negative>
+                                <Message.Header>{ t('editLecture.negativeMsgTitle') }</Message.Header>
+                                <p>{ t('editLecture.negativeMsgBox1') }</p>
+                            </Message>
+                        }
 
                         <label>{ t('editLecture.lectureTitle') }</label>
                         <Input focus

@@ -50,6 +50,7 @@ class FileList extends Component {
 
     renderFileList(file) {
         const { nameOnStorage, name } = file;
+        const isDeleteImplemented = false;
 
         return (
             <Table.Row key={ nameOnStorage }>
@@ -65,11 +66,11 @@ class FileList extends Component {
                     </Item.Group>
                 </Table.Cell>
 
-                <Table.Cell>
+                { isDeleteImplemented && <Table.Cell>
                     <button style={ { display: 'none' } } className="ui icon button">
                         <i className="trash alternate icon">X</i>
                     </button>
-                </Table.Cell>
+                </Table.Cell> }
             </Table.Row>
         );
     }
@@ -77,13 +78,14 @@ class FileList extends Component {
     render() {
         const { t, type, editMode, subject, lecture } = this.props;
         const files = !isEmptyObject(lecture) ? this.filesForStructure(type) : {};
+        const isDeleteImplemented = false;
 
         return (
             <Table color={ this.colorForStructure(type) } key={ this.colorForStructure(type) }>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) } </Table.HeaderCell>
-                        <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell>
+                        { isDeleteImplemented && <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell> }
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -95,7 +97,7 @@ class FileList extends Component {
                                 buttonLabel={ t('uploadComponent.add') }
                             />
                         </Table.Cell>
-                        <Table.Cell/>
+                        { isDeleteImplemented && <Table.Cell/> }
                     </Table.Row> }
 
                     { !isEmptyObject(files)
@@ -104,7 +106,7 @@ class FileList extends Component {
                             <Table.Cell collapsing>
                                 <span>{ t('fileList.noData') }</span>
                             </Table.Cell>
-                            <Table.Cell/>
+                             { isDeleteImplemented && <Table.Cell/> }
                         </Table.Row>)
                     }
                 </Table.Body>
