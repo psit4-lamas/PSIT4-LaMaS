@@ -14,7 +14,7 @@ const LaMaSColours = {
 
     // LaMaS defined colours
     'primary': '#e03997',
-    'dominant': '#e03997',
+    'dominant': 'pink', //'#e03997',
     'public-lecture-student': '#1b1c1d',
     'public-lecture-active-student': 'black', // #e03997
     'background-public-lecture-student': '#9ea9b51a', // light pink
