@@ -5,6 +5,7 @@ import { loadUser } from './actions';
 import { withNamespaces } from 'react-i18next';
 import BaseLayout from './pages/BaseLayout';
 import AppNavigation from './routing/AppNavigation';
+import { handleColourPalettes } from './../utils/colourPalettes';
 import './App.css';
 
 
@@ -12,6 +13,9 @@ import './App.css';
 class App extends Component {
 
     componentWillMount() {
+        // Load all JS-CSS variables to be used all over LaMaS application on first App mount
+        handleColourPalettes();
+
         // Before rendering anything, store the pathname that the user tries to access
         const { pathname: accessedPathname } = window.location;
         this.props.loadUser(accessedPathname);
