@@ -149,10 +149,7 @@ const initialState = {
 };
 
 const userReducer = (state = initialState.user, action) => { // NOSONAR
-
-    switch (
-        action.type // NOSONAR
-        ) {
+    switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
@@ -211,15 +208,8 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
 };
 
 const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
-
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
-    switch (
-        action.type // NOSONAR
-        ) {
-        case Actions.LOADING_TABS:
-            return {
-                isLoadingTabs: true,
-            };
+    switch (action.type) { // NOSONAR
         case Actions.SUBJECT_INSERT_HEAD:
             const found = state.activeTabs.find(function (tab) {
                 return !isEmptyObject(tab) && tab.subject_id === action.payload.subject_id;
@@ -260,10 +250,7 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
 };
 
 const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
-
-    switch (
-        action.type // NOSONAR
-        ) {
+    switch (action.type) { // NOSONAR
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {
@@ -350,6 +337,10 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
             };
     }
 };
+
+
+// Named exports to be called in the tests
+export { userReducer, tabsReducer, subjectReducer };
 
 export default combineReducers({
     user: userReducer,

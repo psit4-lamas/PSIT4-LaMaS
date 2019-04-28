@@ -18,7 +18,6 @@ const Actions = {
 
     LOAD_SUBJECT: 'LOAD_SUBJECT',
     LOAD_SUBJECT_SUCCESS: 'LOAD_SUBJECT_SUCCESS',
-    LOADING_TABS: 'LOADING_TABS',
     LOAD_SUBJECT_HEAD: 'LOAD_SUBJECT_HEAD',
     LOAD_SUBJECT_HEAD_SUCCESS: 'LOAD_SUBJECT_HEAD_SUCCESS',
     SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
@@ -112,6 +111,9 @@ const logIn = (email, password) => {
                     type: Actions.USER_AUTHENTICATED,
                     payload: userCredentials,
                 });
+            })
+            .catch((err) => {
+                console.log(err);
             });
     };
 };
