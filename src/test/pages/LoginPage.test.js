@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme/build';
 import React from 'react';
-import LoginPage from '../../main/pages/LoginPage';
+import { LoginPage } from '../../main/pages/LoginPage';
 
 describe('LoginPage', () => {
     it('should render correctly', () => {
