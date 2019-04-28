@@ -289,12 +289,11 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
             let avg = 0;
             const rates = action.payload.subject.subject_rates;
             const keys = Object.keys(rates);
-            if (keys.length > 0) {
-                for (let i = 0; i < keys.length; i++) {
-                    total += rates[keys[i]];
-                }
-                avg = total / keys.length;
+            for (let i = 0; i < keys.length; i++) {
+                total += rates[keys[i]];
             }
+            avg = keys.length ? total / keys.length : 0;
+
             return {
                 ...state,
                 isSubmitted: false,

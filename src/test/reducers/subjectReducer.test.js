@@ -122,7 +122,7 @@ describe('Subject reducer', () => {
         expect(subjectReducer(undefined, actionCreate)).toEqual(updatedSubjectState);
     });
 
-    it('on LOAD_SUBJECT_SUCCESS, should update subject state', () => {
+    it('on LOAD_SUBJECT_SUCCESS, should update subject state with existing ratings', () => {
         const actionLoadSuccess = {
             type: Actions.LOAD_SUBJECT_SUCCESS,
             payload: {
@@ -140,6 +140,25 @@ describe('Subject reducer', () => {
         updatedSubjectState.currentSubject.subject_rates = actionLoadSuccess.payload.subject.subject_rates;
         updatedSubjectState.currentSubject.subject_id = actionLoadSuccess.payload.subject_id;
         updatedSubjectState.currentSubject.averageRating = avg;
+
+        expect(subjectReducer(undefined, actionLoadSuccess)).toEqual(updatedSubjectState);
+    });
+
+    it('on LOAD_SUBJECT_SUCCESS, should update subject state without ratings', () => {
+        const actionLoadSuccess = {
+            type: Actions.LOAD_SUBJECT_SUCCESS,
+            payload: {
+                subject: {
+                    ...EMPTY_DEFAULT_SUBJECT,
+                },
+                subject_id: '1a2b3c4d5e',
+            },
+        };
+
+        updatedSubjectState.isLoadingSubject = false;
+        updatedSubjectState.currentSubject.subject_rates = actionLoadSuccess.payload.subject.subject_rates;
+        updatedSubjectState.currentSubject.subject_id = actionLoadSuccess.payload.subject_id;
+        updatedSubjectState.currentSubject.averageRating = 0;
 
         expect(subjectReducer(undefined, actionLoadSuccess)).toEqual(updatedSubjectState);
     });
