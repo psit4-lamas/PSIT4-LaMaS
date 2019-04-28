@@ -31,7 +31,7 @@ class RatingComponent extends Component {
                 { ' ' }
                 <Label basic color={ LaMaSColours.dominant } pointing={ 'left' }>
                     { t('rating.yourVote') }
-                    <Rating icon="star" defaultRating={ this.props.userRating } maxRating={ 5 } onRate={ this.handleClickRating }/>
+                    <Rating name={"userRating"} icon="star" defaultRating={ this.props.userRating } maxRating={ 5 } onRate={ this.handleClickRating }/>
                 </Label>
             </>
         );
@@ -43,7 +43,7 @@ class RatingComponent extends Component {
         return (
             <div onMouseEnter={ this.handleMouseHover } onMouseLeave={ this.handleMouseLeave }>
                 <Label basic color={ LaMaSColours.dominant } ribbon>
-                    <Rating key={ valueToDisplay } icon="star" defaultRating={ valueToDisplay } maxRating={ 5 } disabled/>
+                    <Rating key={ valueToDisplay } name={"currentRating"} icon="star" defaultRating={ valueToDisplay } maxRating={ 5 } disabled/>
                     { this.state.isHovering ? this.renderUserVote() : '' }
                 </Label>
             </div>
