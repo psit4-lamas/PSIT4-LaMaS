@@ -330,6 +330,8 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
     }
 };
 
+export { userReducer };
+
 export default combineReducers({
     user: userReducer,
     tabs: tabsReducer,

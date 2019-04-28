@@ -112,6 +112,9 @@ const logIn = (email, password) => {
                     type: Actions.USER_AUTHENTICATED,
                     payload: userCredentials,
                 });
+            })
+            .catch((err) => {
+                console.log(err);
             });
     };
 };
