@@ -6,7 +6,6 @@ import UploadComponent from '../UploadComponent/UploadComponent';
 
 
 class FileList extends Component {
-
     constructor(props) {
         super(props);
 
@@ -24,8 +23,6 @@ class FileList extends Component {
             return 'purple';
         } else if (type === 'L') {
             return 'blue';
-        } else {
-            return 'orange';
         }
     };
 
@@ -38,8 +35,6 @@ class FileList extends Component {
             return lecture.exercises;
         } else if (type === 'L') {
             return lecture.lecture_materials;
-        } else {
-            return null;
         }
     };
 
@@ -50,7 +45,7 @@ class FileList extends Component {
 
     renderFileList(file) {
         const { nameOnStorage, name } = file;
-        const isDeleteImplemented = false;
+        const { isDeleteImplemented } = this.props;
 
         return (
             <Table.Row key={ nameOnStorage }>
@@ -66,11 +61,13 @@ class FileList extends Component {
                     </Item.Group>
                 </Table.Cell>
 
-                { isDeleteImplemented && <Table.Cell>
-                    <button style={ { display: 'none' } } className="ui icon button">
-                        <i className="trash alternate icon">X</i>
-                    </button>
-                </Table.Cell> }
+                { isDeleteImplemented && (
+                    <Table.Cell>
+                        <button style={ { display: 'none' } } className="ui icon button">
+                            <i className="trash alternate icon">X</i>
+                        </button>
+                    </Table.Cell>
+                ) }
             </Table.Row>
         );
     }
@@ -78,7 +75,7 @@ class FileList extends Component {
     render() {
         const { t, type, editMode, subject, lecture } = this.props;
         const files = !isEmptyObject(lecture) ? this.filesForStructure(type) : {};
-        const isDeleteImplemented = false;
+        const { isDeleteImplemented } = this.props;
 
         return (
             <Table color={ this.colorForStructure(type) } key={ this.colorForStructure(type) }>
@@ -89,26 +86,27 @@ class FileList extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    { editMode && <Table.Row>
-                        <Table.Cell collapsing>
-                            <UploadComponent
-                                subject={ subject }
-                                fileType={ type }
-                                buttonLabel={ t('uploadComponent.add') }
-                            />
-                        </Table.Cell>
-                        { isDeleteImplemented && <Table.Cell/> }
-                    </Table.Row> }
-
-                    { !isEmptyObject(files)
-                      ? Object.keys(files).map((index) => { return this.renderFileList(files[index]); })
-                      : (<Table.Row>
+                    { editMode && (
+                        <Table.Row>
                             <Table.Cell collapsing>
-                                <span>{ t('fileList.noData') }</span>
+                                <UploadComponent subject={ subject } fileType={ type } buttonLabel={ t('uploadComponent.add') }/>
                             </Table.Cell>
-                             { isDeleteImplemented && <Table.Cell/> }
-                        </Table.Row>)
-                    }
+                            { isDeleteImplemented && <Table.Cell/> }
+                        </Table.Row>
+                    ) }
+
+                    { !isEmptyObject(files) ? (
+                        Object.keys(files).map((index) => {
+                            return this.renderFileList(files[index]);
+                        })
+                    ) : (
+                          <Table.Row>
+                              <Table.Cell collapsing>
+                                  <span>{ t('fileList.noData') }</span>
+                              </Table.Cell>
+                              { isDeleteImplemented && <Table.Cell/> }
+                          </Table.Row>
+                      ) }
                 </Table.Body>
             </Table>
         );

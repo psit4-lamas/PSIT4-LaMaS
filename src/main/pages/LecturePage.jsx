@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { selectLecture, loadSubject, saveSubject, fetchFile } from '../actions';
+import { selectLecture, loadSubject, saveSubject, fetchFile, addRating } from '../actions';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { Form, Breadcrumb } from 'semantic-ui-react';
 import LoadingPage from '../pages/LoadingPage';
@@ -198,6 +198,9 @@ class LecturePage extends Component {
                             nameOnStorage={ nameOnStorage }
                             videoUrl={ videoUrl }
                             showVideo={ this.showFirstVideoOfLecture }
+                            addRating={this.props.addRating}
+                            currentRating={this.props.currentRating}
+                            user={this.props.user}
                         />
                     ) }
                 </Form>
@@ -211,6 +214,7 @@ const mapStateToProps = (state) => ({
     user: state.user,
     currentSubject: state.subject.currentSubject,
     subject_id: state.subject.subject_id,
+    currentRating: state.subject.currentSubject.averageRating,
 });
 
 const mapDispatchToProps = {
@@ -218,6 +222,7 @@ const mapDispatchToProps = {
     loadSubject,
     saveSubject,
     fetchFile,
+    addRating,
 };
 
 export { LecturePage };

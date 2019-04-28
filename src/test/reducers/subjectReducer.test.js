@@ -37,6 +37,7 @@ describe('Subject reducer', () => {
             currentLectureID: 'lecture_01',
             currentSubject: {
                 ...EMPTY_DEFAULT_SUBJECT,
+                averageRating: null,
             },
         };
 
@@ -46,6 +47,7 @@ describe('Subject reducer', () => {
             currentLectureID: 'lecture_01',
             currentSubject: {
                 ...EMPTY_DEFAULT_SUBJECT,
+                averageRating: null,
             },
         };
     });
@@ -68,6 +70,7 @@ describe('Subject reducer', () => {
         updatedSubjectState.currentSubject.subject_id = actionCreate.payload.subjectId;
         updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name;
         updatedSubjectState.currentSubject.assigned_tutors = actionCreate.payload.assigned_tutors;
+        delete updatedSubjectState.currentSubject.averageRating;
 
         expect(subjectReducer(undefined, actionCreate)).toEqual(updatedSubjectState);
     });
@@ -86,6 +89,7 @@ describe('Subject reducer', () => {
         updatedSubjectState.currentSubject.subject_id = actionCreate.payload.subjectId;
         updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name.replace('%20', ' ');
         updatedSubjectState.currentSubject.assigned_tutors = actionCreate.payload.assigned_tutors;
+        delete updatedSubjectState.currentSubject.averageRating;
 
         expect(subjectReducer(undefined, actionCreate)).toEqual(updatedSubjectState);
     });
@@ -113,21 +117,48 @@ describe('Subject reducer', () => {
 
         updatedSubjectState.isSubmitted = true;
         updatedSubjectState.currentSubject = { subject_id: null };
+        delete updatedSubjectState.currentSubject.averageRating;
 
         expect(subjectReducer(undefined, actionCreate)).toEqual(updatedSubjectState);
     });
 
-    it('on LOAD_SUBJECT_SUCCESS, should update subject state', () => {
+    it('on LOAD_SUBJECT_SUCCESS, should update subject state with existing ratings', () => {
         const actionLoadSuccess = {
             type: Actions.LOAD_SUBJECT_SUCCESS,
             payload: {
-                subject: { ...EMPTY_DEFAULT_SUBJECT },
+                subject: {
+                    ...EMPTY_DEFAULT_SUBJECT,
+                    subject_rates: [1, 5, 3, 4, 2],
+                },
+                subject_id: '1a2b3c4d5e',
+            },
+        };
+        const rates = actionLoadSuccess.payload.subject.subject_rates;
+        const avg = rates.reduce((total, current) => { return total + current }, 0) / rates.length;
+
+        updatedSubjectState.isLoadingSubject = false;
+        updatedSubjectState.currentSubject.subject_rates = actionLoadSuccess.payload.subject.subject_rates;
+        updatedSubjectState.currentSubject.subject_id = actionLoadSuccess.payload.subject_id;
+        updatedSubjectState.currentSubject.averageRating = avg;
+
+        expect(subjectReducer(undefined, actionLoadSuccess)).toEqual(updatedSubjectState);
+    });
+
+    it('on LOAD_SUBJECT_SUCCESS, should update subject state without ratings', () => {
+        const actionLoadSuccess = {
+            type: Actions.LOAD_SUBJECT_SUCCESS,
+            payload: {
+                subject: {
+                    ...EMPTY_DEFAULT_SUBJECT,
+                },
                 subject_id: '1a2b3c4d5e',
             },
         };
 
         updatedSubjectState.isLoadingSubject = false;
+        updatedSubjectState.currentSubject.subject_rates = actionLoadSuccess.payload.subject.subject_rates;
         updatedSubjectState.currentSubject.subject_id = actionLoadSuccess.payload.subject_id;
+        updatedSubjectState.currentSubject.averageRating = 0;
 
         expect(subjectReducer(undefined, actionLoadSuccess)).toEqual(updatedSubjectState);
     });
@@ -157,6 +188,7 @@ describe('Subject reducer', () => {
         const actionSaveLectureSuccess = { type: Actions.SAVE_LECTURE_SUCCESS };
 
         updatedSubjectState.isSubmitted = true;
+        updatedSubjectState.isLoadingSubject = false;
         updatedSubjectState.isLoadingSubject = false;
 
         expect(subjectReducer(undefined, actionSaveLectureSuccess)).toEqual(updatedSubjectState);

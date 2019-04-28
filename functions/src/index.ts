@@ -105,7 +105,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
         assigned_tutors: data.assigned_tutors,
         lectures,
         grades,
-        subject_rates: [],
+        subject_rates: {},
     };
 
     return admin

@@ -3,10 +3,10 @@ import { Grid, Segment, Menu, Dropdown } from 'semantic-ui-react';
 import LectureBodyContent from './LectureBodyContent';
 import { LaMaSColours } from '../../utils/colourPalettes';
 import '../pages/LecturePage.css';
+import RatingComponent from '../RatingComponent/RatingComponent';
 
 
 class LecturePageStudentView extends Component {
-
     handleBookmarkSubject = (e) => {
         // TODO: add action to POST a request to bookmark this subject
         console.log('Not yet implemented!', e.target.value);
@@ -17,8 +17,7 @@ class LecturePageStudentView extends Component {
         const bookmark = window.location.pathname.replace('/courses/', '');
 
         return (
-            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="student"
-                      additionPosition="bottom" direction="left" text={ t('menu.actions') }>
+            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="student" additionPosition="bottom" direction="left" text={ t('menu.actions') }>
                 <Dropdown.Menu>
                     <Dropdown.Item value={ bookmark } onClick={ this.handleBookmarkSubject } disabled>
                         { t('menu.bookmarkSubject') }
@@ -34,10 +33,11 @@ class LecturePageStudentView extends Component {
         return (
             <Segment>
                 <Grid columns={ 2 }>
-                    <Grid.Column floated='left' width={ 4 } verticalAlign={ 'middle' }>
+                    <Grid.Column floated="left" width={ 4 } verticalAlign={ 'middle' }>
+                        { this.renderRatingComponent() }
                         { breadcrumbComponent() }
                     </Grid.Column>
-                    <Grid.Column floated='right' width={ 3 }>
+                    <Grid.Column floated="right" width={ 3 }>
                         <Menu.Menu id="top-menu-lecture" position="right">
                             { this.renderActionsDropdown() }
                         </Menu.Menu>
@@ -65,9 +65,25 @@ class LecturePageStudentView extends Component {
                             active={ lectureId === index }
                             onClick={ handleLectureMenuClick }
                         />
-                    ) : '';
+                    ) : (
+                               ''
+                           );
                 }) }
             </Menu>
+        );
+    };
+
+    renderRatingComponent = () => {
+        const { t } = this.props;
+        return (
+            <RatingComponent
+                currentRating={ this.props.currentRating }
+                t={ t }
+                addRating={ this.props.addRating }
+                subject_id={ this.props.subject.subject_id }
+                userId={ this.props.user.userCredentials.uid }
+                userRating={ this.props.subject.subject_rates[this.props.user.userCredentials.uid] }
+            />
         );
     };
 
@@ -80,9 +96,7 @@ class LecturePageStudentView extends Component {
                 { this.renderActionsComponent() }
 
                 <Grid columns={ 3 }>
-                    <Grid.Column width={ 3 }>
-                        { this.renderLecturesMenu() }
-                    </Grid.Column>
+                    <Grid.Column width={ 3 }>{ this.renderLecturesMenu() }</Grid.Column>
 
                     <Grid.Column width={ 10 }>
                         <LectureBodyContent
@@ -104,5 +118,6 @@ class LecturePageStudentView extends Component {
         );
     }
 }
+
 
 export default LecturePageStudentView;
