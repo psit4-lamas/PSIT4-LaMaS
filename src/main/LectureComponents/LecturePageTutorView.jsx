@@ -81,7 +81,7 @@ class LecturePageTutorView extends Component {
 
         return (
             <Dropdown.Menu>
-                <Dropdown.Item onClick={ this.handleSaveLecture }>{ t('menu.save') }</Dropdown.Item>
+                <Dropdown.Item name={'save'} onClick={ this.handleSaveLecture }>{ t('menu.save') }</Dropdown.Item>
                 <Dropdown.Item value={ 'edit' } onClick={ this.onModeChange }>
                     { t('menu.cancel') }
                 </Dropdown.Item>
