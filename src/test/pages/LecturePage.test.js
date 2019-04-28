@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { mount, shallow } from 'enzyme';
-import './loadSubject.mock';
 import { LecturePage } from '../../main/pages/LecturePage';
+import LecturePageTutorView from '../../main/LectureComponents/LecturePageTutorView';
+import LecturePageStudentView from '../../main/LectureComponents/LecturePageStudentView';
 
 describe('LecturePage', () => {
     let renderedComponent;
@@ -234,169 +235,28 @@ describe('LecturePage', () => {
 
     const loadSubject = jest.fn().mockResolvedValue(result);
 
+    //note: the subject is loaded via the callback
     const props = {
         loadSubject,
+        selectLecture: jest.fn(),
+        fetchFile: jest.fn().mockResolvedValue('http://example.com'),
+        isStudent: true,
         match: {
-            path: '/courses/:subject_id/:subject',
-            url: '/courses/2D0MoB57yByiAQhLSGnK/MQMO',
-            isExact: true,
-            params: {
-                subject_id: '2D0MoB57yByiAQhLSGnK',
-                subject: 'MQMO',
-            },
+            params: 'SubjectIdFromParams',
         },
-        location: {
-            pathname: '/courses/2D0MoB57yByiAQhLSGnK/MQMO',
-            search: '',
-            hash: '',
-        },
-        history: {
-            length: 2,
-            action: 'POP',
-            location: {
-                pathname: '/courses/2D0MoB57yByiAQhLSGnK/MQMO',
-                search: '',
-                hash: '',
-            },
-        },
-        user: {
-            isAuthenticated: false,
-            isLoadingUser: true,
-            userAccessedPathname: '',
-        },
-        currentSubject: {
-            subject_id: '',
-            subject_name: '',
-            subject_rates: [],
-            assigned_tutors: [],
-            grades: {},
-            lectures: {
-                lecture_01: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_02: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_03: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_04: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_05: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_06: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_07: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_08: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_09: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_10: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_11: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_12: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_13: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-                lecture_14: {
-                    is_public: false,
-                    name: '',
-                    videos: {},
-                    lecture_materials: {},
-                    exercises: {},
-                    comments: {},
-                },
-            },
-        },
+        currentSubject: result.subject,
     };
 
-    const user = Object.freeze({
-        isLoadingUser: true,
-    });
-
-    // it('renders without crashing', () => {
-    //     const div = document.createElement('div');
-    //
-    //     ReactDOM.render(<BaseLayout t={ (key) => key } user={ user } />, div);
-    //     ReactDOM.unmountComponentAtNode(div);
-    // });
+    const propsNotStudent = {
+        loadSubject,
+        selectLecture: jest.fn(),
+        fetchFile: jest.fn().mockResolvedValue('http://example.com'),
+        isStudent: false,
+        match: {
+            params: 'SubjectIdFromParams',
+        },
+        currentSubject: result.subject,
+    };
 
     beforeEach(() => {
         const component = <LecturePage t={ (key) => key } { ...props } />;
@@ -411,4 +271,82 @@ describe('LecturePage', () => {
     it('should match snapshot', () => {
         expect(renderedComponent).toMatchSnapshot();
     });
+
+    it('should match snapshot if not student', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+
+        expect(renderedComponent).toMatchSnapshot();
+    });
+
+    it('should render breadcrumb component on click', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+        renderedComponent.find(LecturePageTutorView).prop('breadcrumbComponent')();
+
+        expect(renderedComponent).toMatchSnapshot();
+    });
+
+    it('should handle lecture menu click correctly', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+        const event = {
+            target: {
+                id: 'lecture_02',
+            },
+        };
+        renderedComponent.find(LecturePageTutorView).prop('handleLectureMenuClick')(event);
+
+        expect(renderedComponent.state('lectureID')).toEqual('lecture_02');
+        expect(renderedComponent.state('currentLecture')).toEqual(propsNotStudent.currentSubject.lectures.lecture_02);
+        expect(renderedComponent.state('lectureName')).toEqual(propsNotStudent.currentSubject.lectures.lecture_02.name);
+        expect(renderedComponent.state('videoUrl')).toEqual('');
+        expect(renderedComponent.state('nameOnStorage')).toEqual('');
+        expect(propsNotStudent.selectLecture).toHaveBeenCalledWith('lecture_02');
+    });
+
+    it('should handle click on file correctly from tutorView', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+        window.open = jest.fn();
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageTutorView).prop('onSelectFileClick')(event);
+
+        expect(propsNotStudent.fetchFile).toHaveBeenCalledWith(event);
+
+    });
+
+    it('should handle click on file correctly from studentView', () => {
+        const component = <LecturePage t={ (key) => key } { ...props } />;
+        window.open = jest.fn();
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageStudentView).prop('onSelectFileClick')(event);
+
+        expect(props.fetchFile).toHaveBeenCalledWith(event);
+    });
+
+    it('should handle click on video correctly from studentView', () => {
+        const component = <LecturePage t={ (key) => key } { ...props } />;
+
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageStudentView).prop('onSelectVideoClick')(event);
+
+        expect(props.fetchFile).toHaveBeenCalledWith(event);
+    });
+
+    it('should handle click on video correctly from tutorView', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageTutorView).prop('onSelectVideoClick')(event);
+
+        expect(props.fetchFile).toHaveBeenCalledWith(event);
+    });
+
 });

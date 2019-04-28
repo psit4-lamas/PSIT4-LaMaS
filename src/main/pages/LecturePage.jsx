@@ -9,7 +9,6 @@ import './LecturePage.css';
 
 
 class LecturePage extends Component {
-
     constructor(props) {
         super(props);
         const lectureID = 'lecture_01';
@@ -88,9 +87,7 @@ class LecturePage extends Component {
     showFirstVideoOfLecture = (lectureID) => {
         const { subject } = this.state;
         const currentLecture = subject.lectures[lectureID];
-        const nameOnStorage = Object.keys(currentLecture.videos).length > 0
-                              ? currentLecture.videos.videos_00.nameOnStorage
-                              : '';
+        const nameOnStorage = Object.keys(currentLecture.videos).length > 0 ? currentLecture.videos.videos_00.nameOnStorage : '';
 
         if (nameOnStorage) {
             this.showVideo(nameOnStorage);
@@ -98,13 +95,12 @@ class LecturePage extends Component {
     };
 
     showVideo = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage)
-            .then((videoUrl) => {
-                this.setState({
-                    nameOnStorage: nameOnStorage,
-                    videoUrl: videoUrl,
-                });
+        this.props.fetchFile(nameOnStorage).then((videoUrl) => {
+            this.setState({
+                nameOnStorage: nameOnStorage,
+                videoUrl: videoUrl,
             });
+        });
     };
 
     onSelectVideoClick = (nameOnStorage) => {
@@ -112,18 +108,16 @@ class LecturePage extends Component {
     };
 
     onSelectFileClick = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage)
-            .then((fileUrl) => {
-                window.open(fileUrl);
-            });
+        this.props.fetchFile(nameOnStorage).then((fileUrl) => {
+            window.open(fileUrl);
+        });
     };
 
     renderBreadcrumb = () => {
         const { subject, lectureID } = this.state;
         const { t } = this.props;
         let lectureEnum = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
-        lectureEnum = lectureEnum.replace('-0', '')
-                                 .replace('-', '');
+        lectureEnum = lectureEnum.replace('-0', '').replace('-', '');
         const currentPage = t('baseLayout.lecture') + lectureEnum;
 
         return (
@@ -159,7 +153,6 @@ class LecturePage extends Component {
         return (
             <>
                 <Form onSubmit={ this.handleSubmit }>
-
                     { !isStudent && (
                         <LecturePageTutorView
                             lectureName={ lectureName }
@@ -207,11 +200,11 @@ class LecturePage extends Component {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ( {
     user: state.user,
     currentSubject: state.subject.currentSubject,
     subject_id: state.subject.subject_id,
-});
+} );
 
 const mapDispatchToProps = {
     selectLecture,
