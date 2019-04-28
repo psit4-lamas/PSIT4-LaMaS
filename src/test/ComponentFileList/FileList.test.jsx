@@ -8,14 +8,14 @@ describe('FileList', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
 
-        shallow(<FileList t={ (key) => key } { ...propsVideos } />, div);
-        shallow(<FileList t={ (key) => key } { ...propsLectureMaterials } />, div);
-        shallow(<FileList t={ (key) => key } { ...propsExercises } />, div);
+        shallow(<FileList t={ (key) => key } { ...propsVideos } onSelectFile={ jest.fn() } />, div);
+        shallow(<FileList t={ (key) => key } { ...propsLectureMaterials } onSelectFile={ jest.fn() } />, div);
+        shallow(<FileList t={ (key) => key } { ...propsExercises } onSelectFile={ jest.fn() } />, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
     let fileListComponent;
-    let downloadFileFromFirebase;
+    let onSelectFile;
 
     const propsVideos = {
         type: 'V',
@@ -81,9 +81,9 @@ describe('FileList', () => {
     };
 
     beforeEach(() => {
-        downloadFileFromFirebase = jest.fn();
+        onSelectFile = jest.fn();
 
-        const component = <FileList { ...propsVideos } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
+        const component = <FileList { ...propsVideos } onSelectFile={ onSelectFile }/>;
 
         fileListComponent = shallow(component);
     });
@@ -97,7 +97,7 @@ describe('FileList', () => {
     });
 
     it('should render correctly lecture materials', () => {
-        const component = <FileList { ...propsLectureMaterials } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
+        const component = <FileList { ...propsLectureMaterials } onSelectFile={ onSelectFile }/>;
 
         fileListComponent = shallow(component);
 
@@ -105,7 +105,7 @@ describe('FileList', () => {
     });
 
     it('should render correctly exercises', () => {
-        const component = <FileList { ...propsExercises } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
+        const component = <FileList { ...propsExercises } onSelectFile={ onSelectFile }/>;
 
         fileListComponent = shallow(component);
 
@@ -113,19 +113,29 @@ describe('FileList', () => {
     });
 
     it('should render correctly empty', () => {
-        const component = <FileList { ...propsEmpty } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
+        const component = <FileList { ...propsEmpty } onSelectFile={ onSelectFile }/>;
 
         fileListComponent = shallow(component);
 
         expect(fileListComponent).toMatchSnapshot();
     });
 
-    xit('calls firebase to get download link on click', () => {
-        const component = <FileList { ...propsExercises } downloadFileFromFirebase={ downloadFileFromFirebase }/>;
+    it('calls handler function if clicked on element', () => {
+        const component = <FileList { ...propsExercises } onSelectFile={ onSelectFile }/>;
         fileListComponent = shallow(component);
-        const videoEvent = { target: { value: propsVideos.lecture.videos.videos_01.nameOnStorage } };
-        fileListComponent.find({name: 'file'}).at(0).prop('onClick')(videoEvent);
-        expect(downloadFileFromFirebase).toHaveBeenCalledWith(videoEvent.target.value);
+        const videoEvent = {
+            target: {
+                value: propsVideos.lecture.videos.videos_01.nameOnStorage,
+                getAttribute() {
+                    return propsVideos.lecture.videos.videos_01.nameOnStorage;
+                },
+            },
+        };
+        fileListComponent
+            .find({ name: 'file' })
+            .at(0)
+            .prop('onClick')(videoEvent);
+        expect(onSelectFile).toHaveBeenCalledWith(videoEvent.target.value);
     });
 
     it('renders add button not if not edit mode', () => {

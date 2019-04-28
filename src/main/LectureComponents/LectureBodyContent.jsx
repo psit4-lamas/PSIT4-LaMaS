@@ -1,64 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchVideo } from '../actions';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import './LectureBodyContent.css';
 import DisplayVideo from './DisplayVideo';
 
 
 class LectureBodyContent extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            nameOnStorage: '',
-            videoUrl: '',
-        };
-    }
-
-    componentWillMount() {
-        const { lecture } = this.props;
-        const nameOnStorage = Object.keys(lecture.videos).length > 0 ? lecture.videos.videos_00.nameOnStorage : '';
-
-        if (!!nameOnStorage) {
-            this.props.fetchVideo(nameOnStorage)
-                .then(videoUrl => {
-
-                    this.setState({
-                        videoUrl: videoUrl,
-                    });
-                });
-        }
-
-        this.setState({
-            nameOnStorage: nameOnStorage,
-        });
-    }
-
-    onSelectVideoClick = (nameOnStorage) => {
-        this.props.fetchVideo(nameOnStorage)
-            .then(videoUrl => {
-
-                this.setState({
-                    nameOnStorage: nameOnStorage,
-                    videoUrl: videoUrl,
-                });
-            });
-    };
-
     render() {
-        const { t, subject, lecture, lectureTitle } = this.props;
-        let { nameOnStorage, videoUrl } = this.state;
-
-        if (!nameOnStorage && Object.keys(lecture.videos).length > 0) {
-            nameOnStorage = lecture.videos.videos_00.nameOnStorage;
-        } else if (!!nameOnStorage && Object.keys(lecture.videos).length > 0) {
-            console.log('Selected video', nameOnStorage);
-        } else {
-            nameOnStorage = '';
-        }
+        const { t, subject, lecture, lectureTitle, onSelectVideoClick, onSelectFileClick } = this.props;
+        let { nameOnStorage, videoUrl } = this.props;
 
         return (
             <>
@@ -69,9 +20,16 @@ class LectureBodyContent extends Component {
                 </h1>
 
                 <div style={ { marginTop: '25px' } }>
-                    { !!nameOnStorage && <DisplayVideo nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> }
-                    <UploadMediaPage t={ t } editMode={ false } subject={ subject } lecture={ lecture }
-                                     onSelectVideoClick={ this.onSelectVideoClick }/>
+                    { videoUrl ? <DisplayVideo key={ videoUrl } nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> : '' }
+
+                    <UploadMediaPage
+                        t={ t }
+                        editMode={ false }
+                        subject={ subject }
+                        lecture={ lecture }
+                        onSelectVideoClick={ onSelectVideoClick }
+                        onSelectFileClick={ onSelectFileClick }
+                    />
                 </div>
             </>
         );
@@ -86,9 +44,7 @@ LectureBodyContent.propTypes = {
 
 const mapStateToProps = (state) => ( {} );
 
-const mapDispatchToProps = {
-    fetchVideo,
-};
+const mapDispatchToProps = {};
 
 export { LectureBodyContent };
 export default connect(mapStateToProps, mapDispatchToProps)(LectureBodyContent);

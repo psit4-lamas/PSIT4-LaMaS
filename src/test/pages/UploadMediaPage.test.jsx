@@ -14,11 +14,12 @@ describe('UploadMediaPage', () => {
     });
 
     let uploadMediaPageComponent;
-    let downloadFileFromFirebase;
 
     const props = {
         editMode: false,
         t: (key) => key,
+        onSelectVideoClick: jest.fn(),
+        onSelectFileClick: jest.fn(),
         lecture: {
             is_public: false,
             name: '',
@@ -30,8 +31,6 @@ describe('UploadMediaPage', () => {
     };
 
     beforeEach(() => {
-        downloadFileFromFirebase = jest.fn();
-
         const component = <UploadMediaPage { ...props } />;
 
         uploadMediaPageComponent = shallow(component);
