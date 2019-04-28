@@ -8,7 +8,7 @@ describe('Edit LectureBodyContent', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
 
-        shallow(<EditLectureBodyContent t={ (key) => key } { ...props } setNewLectureTitle={ setNewLectureTitle }/>, div);
+        shallow(<EditLectureBodyContent t={ (key) => key } { ...props } setNewLectureTitle={ setNewLectureTitle } onLectureTitleChange={ onLectureTitleChange }/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 

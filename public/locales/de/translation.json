@@ -6,9 +6,11 @@
         "language": "Sprache",
         "logout": "Ausloggen",
         "editLecture": "editieren Vorlesung",
+        "cancel": "abbrechen",
         "unpublish": "unveröffentlichen",
         "actions": "Aktion",
-        "save": "speichern"
+        "save": "speichern",
+        "bookmarkSubject": "Fach bookmarken"
     },
     "login": {
         "message": "Auf LaMaS anmelden",

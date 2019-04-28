@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
 import CreateSubject from '../CreateSubject/CreateSubject';
-import { withNamespaces } from 'react-i18next';
+import Error403 from '../Error403';
 
 
 class CreateSubjectPage extends Component {
 
     render() {
-        const { t } = this.props;
+        const { t, user } = this.props;
+
+        if (user.isStudent) {
+            return (
+                <>
+                    <Error403 location={ { pathname: '/createsubject', pageName: 'Create Subject' } }/>
+                </>
+            );
+        }
 
         return (
-            <React.Fragment>
+            <>
                 <br/>
                 <h1>{ t('createSubject.pageTitle') }</h1>
                 <br/>
 
                 <CreateSubject t={ t }/>
-            </React.Fragment>
+            </>
         );
     }
 }
 
-export default withNamespaces()(CreateSubjectPage);
+export default CreateSubjectPage;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withNameSpacesAndRedux } from '../../utils';
 import { createSubject, leaveCreateSubject } from '../actions';
-import { Dropdown, Form } from 'semantic-ui-react';
+import { Dropdown, Form, Segment } from 'semantic-ui-react';
 import MessageBox from './MessageBox';
+import LoadingPage from '../pages/LoadingPage';
+
 
 const availableTutors = [
     {
@@ -24,8 +26,9 @@ const availableTutors = [
 
 
 class CreateSubject extends Component {
-    constructor(props, context) {
-        super(props, context);
+
+    constructor(props) {
+        super(props);
 
         this.state = {
             subject: '',
@@ -81,11 +84,31 @@ class CreateSubject extends Component {
 
         return (
             <div>
-                <MessageBox t={ t } responseSubject={ responseSubject } submittedSubject={ submittedSubject } submittedTutors={ submittedTutors }/>
+                { !!responseSubject && !!submittedSubject && responseSubject.isLoadingSubject &&
+                  <Segment>
+                      <LoadingPage/>
+                  </Segment>
+                }
+
+                { !!responseSubject && responseSubject.isSubmitted && !responseSubject.isLoadingSubject &&
+                    <MessageBox
+                        t={ t }
+                        responseSubject={ responseSubject }
+                        submittedSubject={ submittedSubject }
+                        submittedTutors={ submittedTutors }
+                    />
+                }
+
                 <Form onSubmit={ this.handleSubmit }>
-                    <Form.Field>
+                    <Form.Field required>
                         <label>{ t('createSubject.subjectFieldLbl') }</label>
-                        <Form.Input placeholder={ t('createSubject.subjectFieldPlaceholder') } name="subject" value={ subject } onChange={ (e) => this.handleSubjectChange(e) }/>
+                        <Form.Input
+                            placeholder={ t('createSubject.subjectFieldPlaceholder') }
+                            name="subject"
+                            value={ subject }
+                            onChange={ (e) => this.handleSubjectChange(e) }
+                        />
+
                         <label>{ t('createSubject.tutorFieldLbl') }</label>
                         <Dropdown
                             options={ availableTutors }
@@ -101,6 +124,7 @@ class CreateSubject extends Component {
                             onChange={ (e, { value }) => this.handleDropdownChange(e, { value }) }
                         />
                     </Form.Field>
+
                     <Form.Button content={ t('createSubject.saveBtn') }/>
                 </Form>
             </div>
