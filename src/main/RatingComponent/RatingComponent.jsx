@@ -9,7 +9,6 @@ class RatingComponent extends Component {
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
         this.state = {
             isHovering: false,
-            userRating: this.props.userRating,
         };
     }
 
@@ -27,19 +26,15 @@ class RatingComponent extends Component {
     }
 
     renderUserVote() {
-        let valueToDisplay = 0;
-        if (this.state.userRating) {
-            valueToDisplay = this.state.userRating;
-        }
-
+        const { t } = this.props;
         return (
-            <div>
+            <>
                 { ' ' }
-                <Label basic color="blue" pointing>
-                    Your vote:
-                    <Rating icon="star" defaultRating={ valueToDisplay } maxRating={ 5 } onRate={ this.handleClickRating }/>
+                <Label basic color="blue" pointing={ 'left' }>
+                    { t('rating.yourVote') }
+                    <Rating icon="star" defaultRating={ this.props.userRating } maxRating={ 5 } onRate={ this.handleClickRating }/>
                 </Label>
-            </div>
+            </>
         );
     }
 
@@ -49,7 +44,7 @@ class RatingComponent extends Component {
         return (
             <div onMouseEnter={ this.handleMouseHover } onMouseLeave={ this.handleMouseLeave }>
                 <Label basic color="blue" ribbon>
-                    <Rating icon="star" defaultRating={ valueToDisplay } maxRating={ 5 } disabled/>
+                    <Rating key={ valueToDisplay } icon="star" defaultRating={ valueToDisplay } maxRating={ 5 } disabled/>
                     { this.state.isHovering ? this.renderUserVote() : '' }
                 </Label>
             </div>
