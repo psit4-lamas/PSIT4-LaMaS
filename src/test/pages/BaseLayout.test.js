@@ -10,16 +10,20 @@ describe('BaseLayout', () => {
         isLoadingUser: true,
     });
 
-    // it('renders without crashing', () => {
-    //     const div = document.createElement('div');
-    //
-    //     ReactDOM.render(<BaseLayout t={ (key) => key } user={ user } />, div);
-    //     ReactDOM.unmountComponentAtNode(div);
-    // });
+    const userReady = Object.freeze({
+        isLoadingUser: false,
+        isAuthenticated: true,
+        isStudent: false,
+    });
+
+    const match = {
+        params: {
+            subject_id: 'ddddeeee',
+        },
+    };
 
     beforeEach(() => {
-
-        const component = <BaseLayout t={ (key) => key } user={ user }/>;
+        const component = <BaseLayout t={ (key) => key } user={ user } match={ match }/>;
 
         renderedComponent = shallow(component);
     });
@@ -29,6 +33,22 @@ describe('BaseLayout', () => {
     });
 
     it('should match snapshot', () => {
+        expect(renderedComponent).toMatchSnapshot();
+    });
+
+    it('should match snapshot user not loading', () => {
+        const component = <BaseLayout t={ (key) => key } user={ userReady } match={ match }/>;
+        renderedComponent = shallow(component);
+
+        expect(renderedComponent).toMatchSnapshot();
+    });
+
+    it('handles change of language correctly', () => {
+        const component = <BaseLayout t={ (key) => key } user={ userReady } match={ match }/>;
+
+        renderedComponent = shallow(component);
+        renderedComponent.instance().changeLanguage('de');
+
         expect(renderedComponent).toMatchSnapshot();
     });
 });
