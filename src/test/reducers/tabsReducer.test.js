@@ -161,31 +161,3 @@ describe('Tabs reducer', () => {
         });
     });
 });
-
-// test('reducers', () => {
-//     let state;
-//     state = reducers({user:{isAuthenticated:false,isLoadingUser:true,userAccessedPathname:''},tabs:{isLoadingTabs:true,activeTabs:[{subject_name:'MQMO',subject_id:'2D0MoB57yByiAQhLSGnK'}]},subject:{isSubmitted:false,isLoadingSubject:true,currentLectureID:'lecture_01',currentSubject:{subject_id:'',subject_name:'',subject_rates:[],assigned_tutors:[],grades:{},lectures:{lecture_01:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_02:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_03:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_04:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_05:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_06:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_07:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_08:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_09:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_10:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_11:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_12:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_13:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_14:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}}}}}}, {type:'LOAD_USER',payload:'/courses/2D0MoB57yByiAQhLSGnK/MQMO'});
-//     expect(state).toEqual({user:{isAuthenticated:false,isLoadingUser:true,userAccessedPathname:'/courses/2D0MoB57yByiAQhLSGnK/MQMO'},tabs:{isLoadingTabs:true,activeTabs:[{subject_name:'MQMO',subject_id:'2D0MoB57yByiAQhLSGnK'}]},subject:{isSubmitted:false,isLoadingSubject:true,currentLectureID:'lecture_01',currentSubject:{subject_id:'',subject_name:'',subject_rates:[],assigned_tutors:[],grades:{},lectures:{lecture_01:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_02:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_03:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_04:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_05:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_06:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_07:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_08:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_09:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_10:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_11:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_12:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_13:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}},lecture_14:{is_public:false,name:'',videos:{},lecture_materials:{},exercises:{},comments:{}}}}}});
-// });
-
-// it('Reduces', () => {
-//     // const user = {
-//     //     isAuthenticated: false,
-//     //     isLoadingUser: true,
-//     //     userAccessedPathname: '',
-//     // };
-//
-//     const action = {
-//         type: Actions.LOAD_USER,
-//         payload: '/test'
-//     };
-//
-//
-//     const updatedState = tabsReducer(action);
-//
-//     expect(updatedState).toBe({
-//         isAuthenticated: false,
-//         isLoadingUser: true,
-//         userAccessedPathname: action.payload,
-//     });
-// });
