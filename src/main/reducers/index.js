@@ -326,7 +326,9 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
     }
 };
 
-export { userReducer, tabsReducer };
+
+// Named exports to be called in the tests
+export { userReducer, tabsReducer, subjectReducer };
 
 export default combineReducers({
     user: userReducer,
