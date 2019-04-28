@@ -148,8 +148,8 @@ const initialState = {
     },
 };
 
-const userReducer = (state = initialState.user, action) => {
-    // NOSONAR
+const userReducer = (state = initialState.user, action) => { // NOSONAR
+
     switch (
         action.type // NOSONAR
         ) {
@@ -210,8 +210,8 @@ const userReducer = (state = initialState.user, action) => {
     }
 };
 
-const tabsReducer = (state = initialState.tabs, action) => {
-    // NOSONAR
+const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
+
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
     switch (
         action.type // NOSONAR
@@ -259,8 +259,8 @@ const tabsReducer = (state = initialState.tabs, action) => {
     }
 };
 
-const subjectReducer = (state = initialState.subject, action) => {
-    // NOSONAR
+const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
+
     switch (
         action.type // NOSONAR
         ) {
