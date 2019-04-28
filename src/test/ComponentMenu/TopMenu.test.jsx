@@ -12,57 +12,35 @@ describe('Top menu', () => {
     let component;
     let rootInstance;
 
-    // beforeEach(() => {
-    //     div = document.createElement('div');
-    //     props = {
-    //         t: (key) => key,
-    //         changeLanguage: (lang) => lang,
-    //         tabs: {
-    //             isLoadingTabs: false,
-    //             activeTabs: [ 'IS', 'KI2', 'PSIT4' ],
-    //
-    //             subjectLinks: [
-    //                 {
-    //                     name: 'IS',
-    //                     subject_id: '01234',
-    //                 }, {
-    //                     name: 'KI2',
-    //                     subject_id: '12345',
-    //                 }, {
-    //                     name: 'PSIT4',
-    //                     subject_id: '23456',
-    //                 },
-    //             ],
-    //         },
-    //     };
-    //
-    //
-    //     component = create(<TopMenu { ...props } />);
-    //     rootInstance = component.root;
-    // });
+    beforeEach(() => {
+        div = document.createElement('div');
+        props = {
+            t: (key) => key,
+            changeLanguage: (lang) => lang,
+            tabs: {
+                isLoadingTabs: false,
+                activeTabs: [ 'IS', 'KI2', 'PSIT4' ],
 
-    props = {
-        t: (key) => key,
-        loadSubject: jest.fn(),
-        changeLanguage: (lang) => lang,
-        tabs: {
-            isLoadingTabs: false,
-            activeTabs: [ 'IS', 'KI2', 'PSIT4' ],
+                subjectLinks: [
+                    {
+                        name: 'IS',
+                        subject_id: '01234',
+                    }, {
+                        name: 'KI2',
+                        subject_id: '12345',
+                    }, {
+                        name: 'PSIT4',
+                        subject_id: '23456',
+                    },
+                ],
+            },
+        };
 
-            subjectLinks: [
-                {
-                    name: 'IS',
-                    subject_id: '01234',
-                }, {
-                    name: 'KI2',
-                    subject_id: '12345',
-                }, {
-                    name: 'PSIT4',
-                    subject_id: '23456',
-                },
-            ],
-        },
-    };
+
+        component = create(<TopMenu { ...props } />);
+        rootInstance = component.root;
+    });
+
 
     it('renders without crashing', () => {
         const intern = i18n.default;
