@@ -56,5 +56,5 @@ class BaseLayout extends Component {
     }
 }
 
-
+export { BaseLayout };
 export default BaseLayout;

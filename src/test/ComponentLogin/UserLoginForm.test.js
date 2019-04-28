@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow, mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { UserLoginForm } from '../../main/ComponentLogin/UserLoginForm';
 import { Form } from 'semantic-ui-react';
+
 
 describe('UserLoginForm', () => {
     it('renders without crashing', () => {

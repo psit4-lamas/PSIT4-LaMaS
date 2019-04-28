@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
-import LecturePageStudentView from '../../main/LectureComponents/LecturePageStudentView';
+import { shallow } from 'enzyme';
 import LecturePageTutorView from '../../main/LectureComponents/LecturePageTutorView';
 import EditLectureBodyContent from '../../main/LectureComponents/EditLectureBodyContent';
+
 
 describe('LecturePagTutorView', () => {
     it('renders without crashing', () => {

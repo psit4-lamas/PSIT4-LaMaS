@@ -122,8 +122,7 @@ class LecturePage extends Component {
         const { subject, lectureID } = this.state;
         const { t } = this.props;
         let lectureEnum = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
-        lectureEnum = lectureEnum.replace('-0', '')
-                                 .replace('-', '');
+        lectureEnum = lectureEnum.replace('-0', '').replace('-', '');
         const currentPage = t('baseLayout.lecture') + lectureEnum;
 
         return (

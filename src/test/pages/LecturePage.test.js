@@ -1,22 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
+import { LecturePage } from '../../main/pages/LecturePage';
+import LecturePageTutorView from '../../main/LectureComponents/LecturePageTutorView';
 import LecturePageStudentView from '../../main/LectureComponents/LecturePageStudentView';
 
 
-describe('LecturePageStudentView', () => {
-    it('renders without crashing', () => {
-        const div = document.createElement('div');
-
-        shallow(<LecturePageStudentView { ...props } />, div);
-        ReactDOM.unmountComponentAtNode(div);
-    });
-
-    const props = {
-        t: (key) => key,
+describe('LecturePage', () => {
+    let renderedComponent;
+    const result = {
+        subject_id: '2D0MoB57yByiAQhLSGnK',
         subject: {
             assigned_tutors: ['Patrick Baumgartner'],
-            averageRating: 3,
             grades: {},
             lectures: {
                 lecture_01: {
@@ -128,7 +122,7 @@ describe('LecturePageStudentView', () => {
                     exercises: {},
                     is_public: false,
                     lecture_materials: {},
-                    name: 'this is lecture MEWO',
+                    name: 'this is lecture MEW',
                     videos: {},
                 },
                 lecture_06: {
@@ -235,133 +229,124 @@ describe('LecturePageStudentView', () => {
             },
             subject_id: '2D0MoB57yByiAQhLSGnK',
             subject_name: 'MQMO',
-            subject_rates: {
-                tdPkwA4XH7aa4KSipjg07lRgEdg1: 1,
-                undefined: 5,
-            },
-        },
-
-        subject_id: 'test123',
-        lecture: {
-            comments: {},
-            exercises: {
-                exercises_01: {
-                    name: 'MQMO-Ex01.pdf',
-                    nameOnStorage: 'files/55401379-9e0f-4d8a-903e-35e32fb175db.pdf',
-                },
-            },
-            is_public: true,
-            lecture_materials: {
-                lecture_materials_00: {
-                    name: 'mms-modell.mox',
-                    nameOnStorage: 'files/fdd95078-367b-4c21-b395-0bcbae435d2f.mox',
-                },
-                lecture_materials_01: {
-                    name: 'MQMO-Ex6_Aufgabe1.mox',
-                    nameOnStorage: 'files/1a5b430e-ee3d-479b-b940-e81f072d91a5.mox',
-                },
-                lecture_materials_02: {
-                    name: 'MQMO-Ex6_Aufgabe2.mox',
-                    nameOnStorage: 'files/72ea5169-9c61-4c69-ab62-17ac147fcb4a.mox',
-                },
-                lecture_materials_03: {
-                    name: 'Musik.txt',
-                    nameOnStorage: 'files/386b2d2d-6a40-4ab5-8a6d-1fa315d6bc73.txt',
-                },
-                lecture_materials_04: {
-                    name: 'Anleitung Wahlen.JPG',
-                    nameOnStorage: 'files/595f3cda-c74b-4c12-bc12-7b4ece3ed655.JPG',
-                },
-                lecture_materials_05: {
-                    name: 'ZweiServer_EineWarteschlange.mox',
-                    nameOnStorage: 'files/a5e59969-fe6d-4491-8705-17224d75df1e.mox',
-                },
-                lecture_materials_06: {
-                    name: 'Torte.txt',
-                    nameOnStorage: 'files/ed1ecd2a-e0b5-4f45-b317-268436da3863.txt',
-                },
-            },
-            name: 'this is a difficult lecture!',
-            videos: {
-                videos_00: {
-                    name: 'realshort.mp4',
-                    nameOnStorage: 'files/9786e06c-3be2-4090-80f2-6fc28d2eb2dd.mp4',
-                },
-                videos_01: {
-                    name: 'cockatoo.mp4',
-                    nameOnStorage: 'files/27e0a27e-dc60-4e10-8c80-ae9143333a75.mp4',
-                },
-                videos_02: {
-                    name: 'SF1_Bern - Kopie22.mp4',
-                    nameOnStorage: 'files/fcf7934d-6e09-4595-80ff-f1aca768f1c9.mp4',
-                },
-            },
-        },
-        lectureId: 'lecture_01',
-        lectureTitle: 'this is lecture title',
-        nameOnStorage: 'files/def',
-        videoUrl: 'https://example.com',
-        onSelectFileClick: jest.fn(),
-        onSelectVideoClick: jest.fn(),
-        showVideo: jest.fn(),
-        addRating: jest.fn(),
-        currentRating: 5,
-        breadcrumbComponent: jest.fn(),
-        user: {
-            isAuthenticated: true,
-            isLoadingUser: false,
-            userAccessedPathname: '',
-            userCredentials: {
-                uid: 'tdPkwA4XH7aa4KSipjg07lRgEdg1',
-                displayName: null,
-                photoURL: null,
-                email: 'student@students.zhaw.ch',
-                emailVerified: false,
-                phoneNumber: null,
-                isAnonymous: false,
-                providerData: [
-                    {
-                        uid: 'student@students.zhaw.ch',
-                        displayName: null,
-                        photoURL: null,
-                        email: 'student@students.zhaw.ch',
-                        phoneNumber: null,
-                        providerId: 'password',
-                    },
-                ],
-                apiKey: 'AIzaSyB49zT7KVrVGXrvhAcVd47cQXV9wsVeDLo',
-                appName: '[DEFAULT]',
-                authDomain: 'fir-and-react-55a5a.firebaseapp.com',
-                stsTokenManager: {
-                    apiKey: 'AIzaSyB49zT7KVrVGXrvhAcVd47cQXV9wsVeDLo',
-                    refreshToken:
-                        'AEu4IL0NPaMz3Jw0KxbZjLmYQYtqHmDQs4o-pzY_UxIFsA5y_2X5ZCDuSsPEu41v271fk5WoU4ykXzUqGWNuDk-f2dp4QYTI3R6cwzMOE9xucOp6lpwGLpZuR9sybdw5i5VaNExjOCSlSKNAzWRIJHdqOuTsc3CKRvmfOpFvmg_G-9bhL5Zru-pDhR6hAFUcpxm_UBgORaSyeEIRaq0VQJS07jJ84lmLXQAxR01lAqpo9ZWfc4RUIaQ',
-                    accessToken:
-                        'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY1NmMzZGQyMWQwZmVmODgyZTA5ZTBkODY5MWNhNWM3ZjJiMGQ2MjEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLWFuZC1yZWFjdC01NWE1YSIsImF1ZCI6ImZpci1hbmQtcmVhY3QtNTVhNWEiLCJhdXRoX3RpbWUiOjE1NTY0NjQxOTYsInVzZXJfaWQiOiJ0ZFBrd0E0WEg3YWE0S1NpcGpnMDdsUmdFZGcxIiwic3ViIjoidGRQa3dBNFhIN2FhNEtTaXBqZzA3bFJnRWRnMSIsImlhdCI6MTU1NjQ2NDE5NiwiZXhwIjoxNTU2NDY3Nzk2LCJlbWFpbCI6InN0dWRlbnRAc3R1ZGVudHMuemhhdy5jaCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJzdHVkZW50QHN0dWRlbnRzLnpoYXcuY2giXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.rgXCGZVNukxVz8QgDXfvoOabrx9UlnBIu6vPkUFZMo-X0RNGnSbFZXyDil3cjH-DRWGqi-yXs6VOyAmSyqrB1PH51yNOCcHJYmSaDGhWMXD9FX3eLYz8hKxY82a7MZnKR1K4okaFR2lSo-24BTFQoOan5FJa6Us4Xh1beOyyWk21VYT-oGj_luwfotYx7TqlkSyRqTadrKMfFXCyEZztdjmHtaSj2iCMF2gbwbDxOOvtd5sT05qYCdmGxogtNzTzWVfAXGRsUvLAFgvR-xKFVSYx760fsEaLSaYhoKpk6tbId9icpMbEciyWxDjgz63JnqAgCGQT27Gdgo9hnNYTsQ',
-                    expirationTime: 1556467796292,
-                },
-                redirectEventId: null,
-                lastLoginAt: '1556464196038',
-                createdAt: '1556377066788',
-            },
-            roles: ['STUDENT'],
-            isStudent: true,
+            subject_rates: [],
         },
     };
 
-    let lecturePageStudentViewComponent;
+    const loadSubject = jest.fn().mockResolvedValue(result);
+
+    //note: the subject is loaded via the callback
+    const props = {
+        loadSubject,
+        selectLecture: jest.fn(),
+        fetchFile: jest.fn().mockResolvedValue('http://example.com'),
+        isStudent: true,
+        match: {
+            params: 'SubjectIdFromParams',
+        },
+        currentSubject: result.subject,
+    };
+
+    const propsNotStudent = {
+        loadSubject,
+        selectLecture: jest.fn(),
+        fetchFile: jest.fn().mockResolvedValue('http://example.com'),
+        isStudent: false,
+        match: {
+            params: 'SubjectIdFromParams',
+        },
+        currentSubject: result.subject,
+    };
 
     beforeEach(() => {
-        const component = <LecturePageStudentView { ...props } />;
+        const component = <LecturePage t={ (key) => key } { ...props } />;
 
-        lecturePageStudentViewComponent = shallow(component);
+        renderedComponent = shallow(component);
     });
 
     afterEach(() => {
-        lecturePageStudentViewComponent.unmount();
+        renderedComponent.unmount();
     });
 
-    it('should render correctly', () => {
-        expect(lecturePageStudentViewComponent).toMatchSnapshot();
+    it('should match snapshot', () => {
+        expect(renderedComponent).toMatchSnapshot();
     });
+
+    it('should match snapshot if not student', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+
+        expect(renderedComponent).toMatchSnapshot();
+    });
+
+    it('should render breadcrumb component on click', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+        renderedComponent.find(LecturePageTutorView).prop('breadcrumbComponent')();
+
+        expect(renderedComponent).toMatchSnapshot();
+    });
+
+    it('should handle lecture menu click correctly', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+        const event = {
+            target: {
+                id: 'lecture_02',
+            },
+        };
+        renderedComponent.find(LecturePageTutorView).prop('handleLectureMenuClick')(event);
+
+        expect(renderedComponent.state('lectureID')).toEqual('lecture_02');
+        expect(renderedComponent.state('currentLecture')).toEqual(propsNotStudent.currentSubject.lectures.lecture_02);
+        expect(renderedComponent.state('lectureName')).toEqual(propsNotStudent.currentSubject.lectures.lecture_02.name);
+        expect(renderedComponent.state('videoUrl')).toEqual('');
+        expect(renderedComponent.state('nameOnStorage')).toEqual('');
+        expect(propsNotStudent.selectLecture).toHaveBeenCalledWith('lecture_02');
+    });
+
+    it('should handle click on file correctly from tutorView', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+        window.open = jest.fn();
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageTutorView).prop('onSelectFileClick')(event);
+
+        expect(propsNotStudent.fetchFile).toHaveBeenCalledWith(event);
+
+    });
+
+    it('should handle click on file correctly from studentView', () => {
+        const component = <LecturePage t={ (key) => key } { ...props } />;
+        window.open = jest.fn();
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageStudentView).prop('onSelectFileClick')(event);
+
+        expect(props.fetchFile).toHaveBeenCalledWith(event);
+    });
+
+    it('should handle click on video correctly from studentView', () => {
+        const component = <LecturePage t={ (key) => key } { ...props } />;
+
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageStudentView).prop('onSelectVideoClick')(event);
+
+        expect(props.fetchFile).toHaveBeenCalledWith(event);
+    });
+
+    it('should handle click on video correctly from tutorView', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+        const event = 'files/datei.mp4';
+        renderedComponent.find(LecturePageTutorView).prop('onSelectVideoClick')(event);
+
+        expect(props.fetchFile).toHaveBeenCalledWith(event);
+    });
+
 });

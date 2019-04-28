@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import i18n from '../../i18n';
 import { create } from 'react-test-renderer';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { TopMenu } from '../../main/ComponentMenu/TopMenu';
+
 
 describe('Top menu', () => {
     let div;
