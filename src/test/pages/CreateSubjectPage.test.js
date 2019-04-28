@@ -1,14 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
-import { CreateSubjectPage } from '../../main/pages/CreateSubjectPage';
+import { shallow } from 'enzyme';
+import CreateSubjectPage from '../../main/pages/CreateSubjectPage';
 
 describe('CreateSubjectPage', () => {
     let renderedComponent;
 
-    const user = Object.freeze({
-        isLoadingUser: true,
-    });
+    // const user = Object.freeze({
+    //     isLoadingUser: true,
+    // });
+
+    const props = {
+        t: jest.fn(),
+        user: {
+            isStudent: false,
+        },
+    };
 
     // it('renders without crashing', () => {
     //     const div = document.createElement('div');
@@ -19,7 +25,7 @@ describe('CreateSubjectPage', () => {
 
     beforeEach(() => {
 
-        const component = <CreateSubjectPage t={ (key) => key } />;
+        const component = <CreateSubjectPage { ...props } />;
 
         renderedComponent = shallow(component);
     });
