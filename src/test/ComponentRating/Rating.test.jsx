@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import RatingComponent from '../../main/RatingComponent/RatingComponent';
-import { Form } from 'semantic-ui-react';
 
 
 describe('Rating Component', () => {
