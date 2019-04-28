@@ -66,6 +66,17 @@ describe('Top menu', () => {
         // expect(handleItemClick).toHaveBeenCalled();
     })
 
+    it('handleLogout correctly', () => {
+        const handleLogout = jest.fn();
+        const logOut = jest.fn();
+        const component = <TopMenu { ...props } handleLogout={ handleLogout } logOut={ logOut } />;
+        const clickTopMenu = mount(component);
+
+        clickTopMenu.find('button').simulate('click');
+
+        expect(logOut).toHaveBeenCalled();
+    });
+
     it('should change language when clicking on Dropdown', () => {
         const dropdownItems = rootInstance.findAllByType(Dropdown.Item);
 
