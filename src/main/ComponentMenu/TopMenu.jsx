@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { loadSubject, logOut } from '../actions';
-import { Button, Dropdown, Icon, Input, Menu } from 'semantic-ui-react';
+import { Button, Dropdown, Icon, Menu } from 'semantic-ui-react';
 import { LaMaSColours } from '../../utils/colourPalettes';
 import './TopMenu.css';
 
