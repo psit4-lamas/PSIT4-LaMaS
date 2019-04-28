@@ -18,7 +18,6 @@ const Actions = {
 
     LOAD_SUBJECT: 'LOAD_SUBJECT',
     LOAD_SUBJECT_SUCCESS: 'LOAD_SUBJECT_SUCCESS',
-    LOADING_TABS: 'LOADING_TABS',
     LOAD_SUBJECT_HEAD: 'LOAD_SUBJECT_HEAD',
     LOAD_SUBJECT_HEAD_SUCCESS: 'LOAD_SUBJECT_HEAD_SUCCESS',
     SUBJECT_INSERT_HEAD: 'SUBJECT_INSERT_HEAD',
@@ -112,6 +111,9 @@ const logIn = (email, password) => {
                     type: Actions.USER_AUTHENTICATED,
                     payload: userCredentials,
                 });
+            })
+            .catch((err) => {
+                console.log(err);
             });
     };
 };
@@ -276,11 +278,38 @@ const saveSubject = (subject) => {
     };
 };
 
+const addRating = (subject_id, userId, rating) => {
+    return (dispatch) => {
+        const path = "subject_rates."+userId;
+        return firebase
+            .database()
+            .collection('subjects')
+            .doc(subject_id)
+            .update({
+                [path]: rating,
+            })
+            .then(function () {
+             //   dispatch({
+               //     type: Actions.SAVE_LECTURE_SUCCESS,
+                //});
+
+                return { message: 'Subject successfully saved!' };
+            })
+            .catch(function (error) {
+                //   dispatch({
+                //      type: Actions.SAVE_LECTURE_ERROR,
+                //     payload: error,
+                // });
+                return error;
+            });
+    };
+};
+
 const fetchFile = (nameOnStorage) => {
     return () => {
         return firebase.storage()
-                       .ref(nameOnStorage)
-                       .getDownloadURL();
+            .ref(nameOnStorage)
+            .getDownloadURL();
     };
 };
 
@@ -298,4 +327,5 @@ export {
     selectLecture,
     saveSubject,
     fetchFile,
+    addRating,
 };

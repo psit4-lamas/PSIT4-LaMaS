@@ -8,9 +8,9 @@ describe('FileList', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
 
-        shallow(<FileList t={ (key) => key } { ...propsVideos } onSelectFile={ jest.fn() } />, div);
-        shallow(<FileList t={ (key) => key } { ...propsLectureMaterials } onSelectFile={ jest.fn() } />, div);
-        shallow(<FileList t={ (key) => key } { ...propsExercises } onSelectFile={ jest.fn() } />, div);
+        shallow(<FileList t={ (key) => key } { ...propsVideos } onSelectFile={ jest.fn() }/>, div);
+        shallow(<FileList t={ (key) => key } { ...propsLectureMaterials } onSelectFile={ jest.fn() }/>, div);
+        shallow(<FileList t={ (key) => key } { ...propsExercises } onSelectFile={ jest.fn() }/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
@@ -75,9 +75,72 @@ describe('FileList', () => {
         type: 'E',
         editMode: false,
         t: (key) => key,
+        lecture: {},
+    };
+
+    const propsEmptyAndDelete = {
+        type: 'E',
+        isDeleteImplemented: true,
+        editMode: false,
+        t: (key) => key,
+        lecture: {},
+    };
+
+    const propsWithDelete = {
+        type: 'E',
+        editMode: false,
+        t: (key) => key,
         lecture: {
-            exercises: {},
+            exercises: {
+                exercises_01: {
+                    nameOnStorage: 'files/11195222-367b-4c21-b395-0bcbae435d2f.mox',
+                    name: 'modell3333.css',
+                },
+                exercises_02: {
+                    nameOnStorage: 'files/22295111-367b-4c21-b395-0eeee435d2f.mox',
+                    name: 'modell23322.css',
+                },
+            },
         },
+        isDeleteImplemented: true,
+    };
+
+    const propsWithDeleteAndEditMode = {
+        type: 'L',
+        editMode: true,
+        t: (key) => key,
+        lecture: {
+            exercises: {
+                exercises_01: {
+                    nameOnStorage: 'files/11195222-367b-4c21-b395-0bcbae435d2f.mox',
+                    name: 'modell3333.css',
+                },
+                exercises_02: {
+                    nameOnStorage: 'files/22295111-367b-4c21-b395-0eeee435d2f.mox',
+                    name: 'modell23322.css',
+                },
+            },
+        },
+        isDeleteImplemented: true,
+    };
+
+    const propsEditMode = {
+        type: 'L',
+        editMode: true,
+        t: (key) => key,
+        lecture: {
+            exercises: {
+                exercises_01: {
+                    nameOnStorage: 'files/11195222-367b-4c21-b395-0bcbae435d2f.mox',
+                    name: 'modell3333.css',
+                },
+                exercises_02: {
+                    nameOnStorage: 'files/22295111-367b-4c21-b395-0eeee435d2f.mox',
+                    name: 'modell23322.css',
+                },
+            },
+        },
+        isDeleteImplemented: false,
     };
 
     beforeEach(() => {
@@ -120,6 +183,38 @@ describe('FileList', () => {
         expect(fileListComponent).toMatchSnapshot();
     });
 
+    it('should render correctly with deleted implemented', () => {
+        const component = <FileList { ...propsWithDelete } onSelectFile={ onSelectFile }/>;
+
+        fileListComponent = shallow(component);
+
+        expect(fileListComponent).toMatchSnapshot();
+    });
+
+    it('should render correctly with editMode', () => {
+        const component = <FileList { ...propsEditMode } onSelectFile={ onSelectFile }/>;
+
+        fileListComponent = shallow(component);
+
+        expect(fileListComponent).toMatchSnapshot();
+    });
+
+    it('should render correctly with editMode and deleted', () => {
+        const component = <FileList { ...propsWithDeleteAndEditMode } onSelectFile={ onSelectFile }/>;
+
+        fileListComponent = shallow(component);
+
+        expect(fileListComponent).toMatchSnapshot();
+    });
+
+    it('should render correctly with empty and deleteImplemented', () => {
+        const component = <FileList { ...propsEmptyAndDelete } onSelectFile={ onSelectFile }/>;
+
+        fileListComponent = shallow(component);
+
+        expect(fileListComponent).toMatchSnapshot();
+    });
+
     it('calls handler function if clicked on element', () => {
         const component = <FileList { ...propsExercises } onSelectFile={ onSelectFile }/>;
         fileListComponent = shallow(component);
@@ -140,5 +235,28 @@ describe('FileList', () => {
 
     it('renders add button not if not edit mode', () => {
         expect(fileListComponent.find(<UploadComponent/>).get(0)).toBeFalsy();
+    });
+
+    it('returns correct files for type videos', () => {
+        const files = fileListComponent.instance().filesForStructure('V');
+        expect(files).toEqual(propsVideos.lecture.videos);
+    });
+
+    it('returns correct files for type lecture materials', () => {
+        const component = <FileList { ...propsLectureMaterials } onSelectFile={ onSelectFile }/>;
+
+        fileListComponent = shallow(component);
+        const files = fileListComponent.instance().filesForStructure('L');
+
+        expect(files).toEqual(propsLectureMaterials.lecture.lecture_materials);
+    });
+
+    it('returns correct files for type exercises', () => {
+        const component = <FileList { ...propsExercises } onSelectFile={ onSelectFile }/>;
+
+        fileListComponent = shallow(component);
+        const files = fileListComponent.instance().filesForStructure('E');
+
+        expect(files).toEqual(propsExercises.lecture.exercises);
     });
 });

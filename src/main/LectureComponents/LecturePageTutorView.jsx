@@ -8,7 +8,6 @@ import '../pages/LecturePage.css';
 
 
 class LecturePageTutorView extends Component {
-
     constructor(props) {
         super(props);
 
@@ -27,15 +26,14 @@ class LecturePageTutorView extends Component {
     handleSaveLecture = () => {
         const { subject } = this.props;
 
-        this.props.saveSubject(subject)
-            .then((response) => {
-                if (response.message && response.message.includes('success')) {
-                    this.setState({
-                        isEditMode: false,
-                        mode: 'view',
-                    });
-                }
-            });
+        this.props.saveSubject(subject).then((response) => {
+            if (response.message && response.message.includes('success')) {
+                this.setState({
+                    isEditMode: false,
+                    mode: 'view',
+                });
+            }
+        });
     };
 
     onModeChange = (e, { value }) => {
@@ -53,9 +51,12 @@ class LecturePageTutorView extends Component {
         const updatedSubject = Object.assign({}, subject);
         updatedSubject.lectures[lectureId].name = value;
 
-        this.setState({
-            isValid: value !== '',
-        }, () => this.props.onLectureTitleUpdate(updatedSubject, value));
+        this.setState(
+            {
+                isValid: value !== '',
+            },
+            () => this.props.onLectureTitleUpdate(updatedSubject, value),
+        );
     };
 
     renderOnViewModeDropdown = () => {
@@ -80,9 +81,7 @@ class LecturePageTutorView extends Component {
 
         return (
             <Dropdown.Menu>
-                <Dropdown.Item onClick={ this.handleSaveLecture }>
-                    { t('menu.save') }
-                </Dropdown.Item>
+                <Dropdown.Item name={'save'} onClick={ this.handleSaveLecture }>{ t('menu.save') }</Dropdown.Item>
                 <Dropdown.Item value={ 'edit' } onClick={ this.onModeChange }>
                     { t('menu.cancel') }
                 </Dropdown.Item>
@@ -97,13 +96,22 @@ class LecturePageTutorView extends Component {
         return (
             <Segment>
                 <Grid columns={ 2 }>
-                    <Grid.Column floated='left' width={ 4 } verticalAlign={ 'middle' }>
+                    <Grid.Column floated="left" width={ 4 } verticalAlign={ 'middle' }>
                         { breadcrumbComponent() }
                     </Grid.Column>
-                    <Grid.Column floated='right' width={ 3 }>
+                    <Grid.Column floated="right" width={ 3 }>
                         <Menu.Menu id="top-menu-lecture" position="right">
-                            <Dropdown id="dropdown-lecture" button className="icon" floating labeled icon="pencil"
-                                      additionPosition="bottom" direction="left" text={ t('menu.actions') }>
+                            <Dropdown
+                                id="dropdown-lecture"
+                                button
+                                className="icon"
+                                floating
+                                labeled
+                                icon="pencil"
+                                additionPosition="bottom"
+                                direction="left"
+                                text={ t('menu.actions') }
+                            >
                                 { mode === 'view' ? this.renderOnViewModeDropdown() : this.renderOnEditModeDropdown() }
                             </Dropdown>
                         </Menu.Menu>
@@ -123,7 +131,7 @@ class LecturePageTutorView extends Component {
                     <Menu.Item
                         color={ lectures[index].is_public ? LaMaSColours['public-lecture-active'] : LaMaSColours['unpublic-lecture-active'] }
                         className={ lectures[index].is_public ? 'public-lecture' : 'unpublic-lecture' }
-                        name={ t('baseLayout.lecture') + (key + 1) }
+                        name={ t('baseLayout.lecture') + ( key + 1 ) }
                         id={ index }
                         key={ index }
                         active={ lectureId === index }
@@ -138,17 +146,14 @@ class LecturePageTutorView extends Component {
         const { isEditMode, isValid } = this.state;
 
         const { lectureName } = this.props;
-        const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl,
-                onSelectFileClick, onSelectVideoClick, showVideo } = this.props;
+        const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl, onSelectFileClick, onSelectVideoClick, showVideo } = this.props;
 
         return (
             <>
                 { this.renderActionsComponent() }
 
                 <Grid columns={ 3 }>
-                    <Grid.Column width={ 3 }>
-                        { this.renderLecturesMenu() }
-                    </Grid.Column>
+                    <Grid.Column width={ 3 }>{ this.renderLecturesMenu() }</Grid.Column>
 
                     <Grid.Column width={ 10 }>
                         { isEditMode && (

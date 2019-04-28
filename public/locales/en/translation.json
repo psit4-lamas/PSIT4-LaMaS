@@ -57,5 +57,8 @@
         "lectureTitlePlaceholder": "Lecture title...",
         "negativeMsgTitle": "invalid name for lecture",
         "negativeMsgBox1": "Name of lecture can not be empty."
+    },
+    "rating": {
+        "yourVote": "Your vote:"
     }
 }

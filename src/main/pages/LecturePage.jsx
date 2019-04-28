@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { selectLecture, loadSubject, saveSubject, fetchFile } from '../actions';
+import { selectLecture, loadSubject, saveSubject, fetchFile, addRating } from '../actions';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { Form, Breadcrumb } from 'semantic-ui-react';
 import LoadingPage from '../pages/LoadingPage';
@@ -9,6 +9,7 @@ import './LecturePage.css';
 
 
 class LecturePage extends Component {
+
     constructor(props) {
         super(props);
         const lectureID = 'lecture_01';
@@ -87,7 +88,9 @@ class LecturePage extends Component {
     showFirstVideoOfLecture = (lectureID) => {
         const { subject } = this.state;
         const currentLecture = subject.lectures[lectureID];
-        const nameOnStorage = Object.keys(currentLecture.videos).length > 0 ? currentLecture.videos.videos_00.nameOnStorage : '';
+        const nameOnStorage = Object.keys(currentLecture.videos).length > 0
+                              ? currentLecture.videos.videos_00.nameOnStorage
+                              : '';
 
         if (nameOnStorage) {
             this.showVideo(nameOnStorage);
@@ -95,12 +98,13 @@ class LecturePage extends Component {
     };
 
     showVideo = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage).then((videoUrl) => {
-            this.setState({
-                nameOnStorage: nameOnStorage,
-                videoUrl: videoUrl,
+        this.props.fetchFile(nameOnStorage)
+            .then((videoUrl) => {
+                this.setState({
+                    nameOnStorage: nameOnStorage,
+                    videoUrl: videoUrl,
+                });
             });
-        });
     };
 
     onSelectVideoClick = (nameOnStorage) => {
@@ -108,9 +112,10 @@ class LecturePage extends Component {
     };
 
     onSelectFileClick = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage).then((fileUrl) => {
-            window.open(fileUrl);
-        });
+        this.props.fetchFile(nameOnStorage)
+            .then((fileUrl) => {
+                window.open(fileUrl);
+            });
     };
 
     renderBreadcrumb = () => {
@@ -153,6 +158,7 @@ class LecturePage extends Component {
         return (
             <>
                 <Form onSubmit={ this.handleSubmit }>
+
                     { !isStudent && (
                         <LecturePageTutorView
                             lectureName={ lectureName }
@@ -191,6 +197,9 @@ class LecturePage extends Component {
                             nameOnStorage={ nameOnStorage }
                             videoUrl={ videoUrl }
                             showVideo={ this.showFirstVideoOfLecture }
+                            addRating={this.props.addRating}
+                            currentRating={this.props.currentRating}
+                            user={this.props.user}
                         />
                     ) }
                 </Form>
@@ -200,17 +209,19 @@ class LecturePage extends Component {
 }
 
 
-const mapStateToProps = (state) => ( {
+const mapStateToProps = (state) => ({
     user: state.user,
     currentSubject: state.subject.currentSubject,
     subject_id: state.subject.subject_id,
-} );
+    currentRating: state.subject.currentSubject.averageRating,
+});
 
 const mapDispatchToProps = {
     selectLecture,
     loadSubject,
     saveSubject,
     fetchFile,
+    addRating,
 };
 
 export { LecturePage };

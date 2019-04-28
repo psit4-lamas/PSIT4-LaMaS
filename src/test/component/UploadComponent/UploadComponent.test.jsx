@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { create } from 'react-test-renderer';
 import { shallow } from 'enzyme';
 import { Progress } from 'semantic-ui-react';
-import { UploadComponent } from '../../../main/UploadComponent/UploadComponent';
+import { UploadComponent, condition } from '../../../main/UploadComponent/UploadComponent';
 import FileUploader from 'react-firebase-file-uploader';
 
 describe('upload component', () => {
@@ -208,5 +208,21 @@ describe('upload component', () => {
         uploadComponent.instance().handleUploadError(error);
 
         expect(uploadComponent.state('errorOccurred')).toBeTruthy();
+    });
+
+    it('updates progress on update upload ', () => {
+        const component = <UploadComponent { ...propsForVideo } />;
+        let uploadComponent = shallow(component);
+        uploadComponent.instance().handleProgress(10);
+
+        expect(uploadComponent.state('progress')).toBe(10);
+    });
+
+    it('condition returns correct values', () => {
+        const authUser = { roles: ['TUTOR', 'ADMIN'] };
+        const authUserStudent = { roles: ['STUDENT'] };
+
+        expect(condition(authUser)).toBe(true);
+        expect(condition(authUserStudent)).toBe(false);
     });
 });

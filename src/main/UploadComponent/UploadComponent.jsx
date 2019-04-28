@@ -113,5 +113,5 @@ const mapStateToProps = (state) => ( {
 
 const mapDispatchToProps = {};
 
-export { UploadComponent };
+export { UploadComponent, condition };
 export default withAuthorization(condition)(connect(mapStateToProps, mapDispatchToProps)(UploadComponent));
