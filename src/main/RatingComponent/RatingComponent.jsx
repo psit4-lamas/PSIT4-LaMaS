@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Label, Rating } from 'semantic-ui-react';
+import { LaMaSColours } from '../../utils/colourPalettes';
 
 
 class RatingComponent extends Component {
     constructor(props) {
         super(props);
-        this.handleMouseHover = this.handleMouseHover.bind(this);
-        this.handleMouseLeave = this.handleMouseLeave.bind(this);
         this.state = {
             isHovering: false,
         };
@@ -17,33 +16,33 @@ class RatingComponent extends Component {
         this.setState({ userRating: rating });
     };
 
-    handleMouseHover() {
+    handleMouseHover = () => {
         this.setState({ isHovering: true });
-    }
+    };
 
-    handleMouseLeave() {
+    handleMouseLeave = () => {
         this.setState({ isHovering: false });
-    }
+    };
 
-    renderUserVote() {
+    renderUserVote = () => {
         const { t } = this.props;
         return (
             <>
                 { ' ' }
-                <Label basic color="blue" pointing={ 'left' }>
+                <Label basic color={ LaMaSColours.dominant } pointing={ 'left' }>
                     { t('rating.yourVote') }
                     <Rating icon="star" defaultRating={ this.props.userRating } maxRating={ 5 } onRate={ this.handleClickRating }/>
                 </Label>
             </>
         );
-    }
+    };
 
     render() {
         let valueToDisplay = this.props.currentRating;
 
         return (
             <div onMouseEnter={ this.handleMouseHover } onMouseLeave={ this.handleMouseLeave }>
-                <Label basic color="blue" ribbon>
+                <Label basic color={ LaMaSColours.dominant } ribbon>
                     <Rating key={ valueToDisplay } icon="star" defaultRating={ valueToDisplay } maxRating={ 5 } disabled/>
                     { this.state.isHovering ? this.renderUserVote() : '' }
                 </Label>

@@ -34,6 +34,7 @@ class LecturePageStudentView extends Component {
             <Segment>
                 <Grid columns={ 2 }>
                     <Grid.Column floated="left" width={ 4 } verticalAlign={ 'middle' }>
+                        { this.renderRatingComponent() }
                         { breadcrumbComponent() }
                     </Grid.Column>
                     <Grid.Column floated="right" width={ 3 }>
@@ -72,20 +73,26 @@ class LecturePageStudentView extends Component {
         );
     };
 
+    renderRatingComponent = () => {
+        const { t } = this.props;
+        return (
+            <RatingComponent
+                currentRating={ this.props.currentRating }
+                t={ t }
+                addRating={ this.props.addRating }
+                subject_id={ this.props.subject.subject_id }
+                userId={ this.props.user.userCredentials.uid }
+                userRating={ this.props.subject.subject_rates[this.props.user.userCredentials.uid] }
+            />
+        );
+    };
+
     render() {
         const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl } = this.props;
         const { onSelectFileClick, onSelectVideoClick, showVideo } = this.props;
 
         return (
             <>
-                <RatingComponent
-                    currentRating={ this.props.currentRating }
-                    t={ t }
-                    addRating={ this.props.addRating }
-                    subject_id={ subject.subject_id }
-                    userId={ this.props.user.userCredentials.uid }
-                    userRating={ subject.subject_rates[this.props.user.userCredentials.uid] }
-                />
                 { this.renderActionsComponent() }
 
                 <Grid columns={ 3 }>
