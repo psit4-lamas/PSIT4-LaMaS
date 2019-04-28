@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { LandingPage } from '../../main/pages/LandingPage';
 
+
 describe('LandingPage', () => {
     let renderedComponent;
 

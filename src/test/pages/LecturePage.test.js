@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { LecturePage } from '../../main/pages/LecturePage';
 import LecturePageTutorView from '../../main/LectureComponents/LecturePageTutorView';
 import LecturePageStudentView from '../../main/LectureComponents/LecturePageStudentView';
+
 
 describe('LecturePage', () => {
     let renderedComponent;

@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { BaseLayout } from '../../main/pages/BaseLayout';
+
 
 describe('BaseLayout', () => {
     let renderedComponent;

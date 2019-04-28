@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import LecturePageStudentView from '../../main/LectureComponents/LecturePageStudentView';
+
 
 describe('LecturePageStudentView', () => {
     it('renders without crashing', () => {

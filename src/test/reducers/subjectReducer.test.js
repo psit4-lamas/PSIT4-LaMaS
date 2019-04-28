@@ -189,7 +189,6 @@ describe('Subject reducer', () => {
 
         updatedSubjectState.isSubmitted = true;
         updatedSubjectState.isLoadingSubject = false;
-        updatedSubjectState.isLoadingSubject = false;
 
         expect(subjectReducer(undefined, actionSaveLectureSuccess)).toEqual(updatedSubjectState);
     });

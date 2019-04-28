@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import { LectureBodyContent } from '../../../main/LectureComponents/LectureBodyContent';
 
+
 describe('LectureBodyContent', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
