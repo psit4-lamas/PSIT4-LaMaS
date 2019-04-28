@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import LectureBodyContent from '../../../main/LectureComponents/LectureBodyContent';
-
+import { LectureBodyContent } from '../../../main/LectureComponents/LectureBodyContent';
 
 describe('LectureBodyContent', () => {
     it('renders without crashing', () => {
@@ -49,15 +48,38 @@ describe('LectureBodyContent', () => {
         comments: {},
     };
 
+    const subject = {
+        assigned_tutors: ['Patrick Baumgartner'],
+        averageRating: 3,
+        grades: {},
+        lectures: {
+            lecture_01: lecture,
+            lecture_02: lecture,
+            lecture_03: lecture,
+            lecture_04: lecture,
+        },
+        subject_id: '2D0MoB57yByiAQhLSGnK',
+        subject_name: 'MQMO',
+        subject_rates: {
+            tdPkwA4XH7aa4KSipjg07lRgEdg1: 1,
+            undefined: 5,
+        },
+    };
+
     const props = {
         lectureTitle: 'Lecture 1',
         lecture: lecture,
+        subject: subject,
+        videoUrl: '',
+        nameOnStorage: '',
+        onSelectVideoClick: jest.fn(),
+        onSelectFileClick: jest.fn(),
         t: (key) => key,
     };
 
     const lectureEmptyFiles = {
         is_public: true,
-        name: 'Lecture 1',
+        name: '',
         videos: {},
         lecture_materials: {},
         exercises: {},
@@ -66,8 +88,14 @@ describe('LectureBodyContent', () => {
     const propsEmptyFiles = {
         lectureTitle: 'Lecture 1',
         lecture: lectureEmptyFiles,
+        subject: subject,
+        videoUrl: 'http://example.com',
+        nameOnStorage: 'files/emptyAbc',
+        onSelectVideoClick: jest.fn(),
+        onSelectFileClick: jest.fn(),
         t: (key) => key,
     };
+
 
     beforeEach(() => {
         const component = <LectureBodyContent { ...props } />;
@@ -83,7 +111,7 @@ describe('LectureBodyContent', () => {
         expect(lectureContent).toMatchSnapshot();
     });
 
-    it('should render correctly with no files', () => {
+    it('should render correctly with zero files', () => {
         const component = <LectureBodyContent { ...propsEmptyFiles } />;
 
         lectureContent = shallow(component);
