@@ -18,16 +18,15 @@ describe('Top menu', () => {
             changeLanguage: (lang) => lang,
             tabs: {
                 isLoadingTabs: false,
-                activeTabs: [ 'IS', 'KI2', 'PSIT4' ],
-                subjectLinks: [
+                activeTabs: [
                     {
-                        name: 'IS',
+                        subject_name: 'IS',
                         subject_id: '01234',
                     }, {
-                        name: 'KI2',
+                        subject_name: 'KI2',
                         subject_id: '12345',
                     }, {
-                        name: 'PSIT4',
+                        subject_name: 'PSIT4',
                         subject_id: '23456',
                     },
                 ],
@@ -39,14 +38,14 @@ describe('Top menu', () => {
     });
 
     it('renders without crashing', () => {
-        const intern = i18n.default;
-        console.log(intern.language);
-        console.log(i18n.languages);
+        // const intern = i18n.default;
+        // console.log(intern.language);
+        // console.log(i18n.languages);
 
         const menu = <TopMenu { ...props } />;
         ReactDOM.render(menu, div);
 
-        console.log(i18n.language);
+        // console.log(i18n.language);
 
         ReactDOM.unmountComponentAtNode(div);
     });

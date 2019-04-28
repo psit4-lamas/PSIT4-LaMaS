@@ -14,7 +14,6 @@ const LoginGuard = (props) => {
     // redirect to the path she/he requested before being redirected to the login page.
     const { userAccessedPathname } = props.user;
     if (userAccessedPathname) {
-        props.userRedirectedToAccessedPath();
         return <Redirect to={ userAccessedPathname } />;
     }
 

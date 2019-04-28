@@ -1,6 +1,34 @@
-/* TODO: add CSS rules for LecturePage.jsx */
+@import '../../utils/colourPalettes.css';
+
 #top-menu-lecture {
     display: flex;
     justify-content: flex-end;
     align-items: baseline;
+}
+
+a.public-lecture-student.active {
+    background-color: var(--LAMAS-BACKGROUND-PUBLIC-LECTURE-STUDENT-COLOUR) !important;
+    font-weight: bold;
+}
+
+a.public-lecture-student {
+    color: var(--LAMAS-PUBLIC-LECTURE-STUDENT-COLOUR) !important;
+}
+
+a.public-lecture.active {
+    background-color: var(--LAMAS-BACKGROUND-PUBLIC-LECTURE-COLOUR) !important;
+    font-weight: bold;
+}
+
+a.public-lecture {
+    color: var(--LAMAS-PUBLIC-LECTURE-COLOUR) !important;
+}
+
+a.unpublic-lecture.active {
+    background-color: var(--LAMAS-BACKGROUND-UNPUBLIC-LECTURE-COLOUR) !important;
+    font-weight: bold;
+}
+
+a.unpublic-lecture {
+    color: var(--LAMAS-UNPUBLIC-LECTURE-COLOUR) !important; /*#666666;*/
 }

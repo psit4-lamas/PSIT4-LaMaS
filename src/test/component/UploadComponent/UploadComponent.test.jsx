@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { create } from 'react-test-renderer';
+import { shallow } from 'enzyme';
+import { Progress } from 'semantic-ui-react';
 import { UploadComponent } from '../../../main/UploadComponent/UploadComponent';
 import FileUploader from 'react-firebase-file-uploader';
-import { shallow } from 'enzyme/build';
-import { Progress } from 'semantic-ui-react';
 
 describe('upload component', () => {
     let div;

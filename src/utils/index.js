@@ -1,3 +1,4 @@
 import { withNameSpacesAndRouterAndRedux, withNameSpacesAndRedux, withRouterAndRedux, isEmptyObject } from './utils';
+import { UserRoles } from './constants';
 
-export { withNameSpacesAndRouterAndRedux, withNameSpacesAndRedux, withRouterAndRedux, isEmptyObject };
+export { UserRoles, withNameSpacesAndRouterAndRedux, withNameSpacesAndRedux, withRouterAndRedux, isEmptyObject };

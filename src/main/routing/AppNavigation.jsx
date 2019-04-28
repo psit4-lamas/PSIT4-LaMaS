@@ -3,12 +3,11 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import LoginGuard from './LoginGuard';
 import SecureGuard from './SecureGuard';
 import LoginPage from '../pages/LoginPage';
-import LecturePage from '../pages/LecturePage';
 import LandingPage from '../pages/LandingPage';
 import CreateSubjectPage from '../pages/CreateSubjectPage';
 
 
-const AppNavigation = () => (
+const AppNavigation = ({ t, user }) => (
     <Switch>
         <Route
             exact
@@ -23,6 +22,7 @@ const AppNavigation = () => (
         <Route
             path={ '/' }
             render={ () => (
+
                 <SecureGuard>
                     {/* NB: here is the top most location under className App-content */ }
                     {/*     where TopMenu Component can be placed as parent Component */ }
@@ -31,8 +31,8 @@ const AppNavigation = () => (
                     {/* TODO: replace these pathnames with the proper pathnames and their corresponding page Components */ }
 
                     <Switch>
-                        <Route path={ '/createsubject' } render={ () => <CreateSubjectPage base={ '/createsubject' }/> }/>
-                        <Route path={ '/courses/:subject_id/:subject' } render={ () => <LecturePage pathname={ window.location.pathname }/> }/>
+                        <Route path={ '/createsubject' } render={ () => <CreateSubjectPage
+                            base={ '/createsubject' } t={ t } user={ user }/> }/>
                         <Route exact path={ '/home' } render={ () => <LandingPage/> }/>
                         <Route exact path={ '/' } render={ () => <LandingPage/> }/>
                     </Switch>

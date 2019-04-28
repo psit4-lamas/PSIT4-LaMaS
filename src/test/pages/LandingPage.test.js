@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { LandingPage } from '../../main/pages/LandingPage';
 
 describe('LandingPage', () => {
@@ -8,19 +7,16 @@ describe('LandingPage', () => {
 
     const props = {
         loadSubjectHead: jest.fn(),
-        tabs : {
-            activeTabs: [
-                "MQMO",
-                "MANIT1",
-            ],
+        loadSubject: jest.fn(),
+        tabs: {
             isLoadingTabs: false,
-            subjectLinks: [
+            activeTabs: [
                 {
-                    name: "MQMO",
+                    subject_name: "MQMO",
                     subject_id: "2D0MoB57yByiAQhLSGnK",
                 },
                 {
-                    name: "MANIT1",
+                    subject_name: "MANIT1",
                     subject_id: "4phGM2c4dZxkTs5QliLQ",
                 },
             ],
