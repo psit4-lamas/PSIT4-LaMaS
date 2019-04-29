@@ -11,7 +11,7 @@ class LandingPage extends Component {
     }
 
     onBookmarkedLinkClick = (activeTab) => {
-        const pathname = `/courses/${ activeTab.subject_id }/${ activeTab.subject_name.replace(' ', '%20') }`;
+        const pathname = `/courses/${ activeTab.subject_id }/${ activeTab.subject_name.replace(/\s/g, '%20') }`;
         this.props.history.push(pathname);
     };
 
@@ -28,7 +28,7 @@ class LandingPage extends Component {
                 <ul>
                     { activeTabs.map((activeTab) => (
                         <li key={ activeTab.subject_id }>
-                            <Link to={ `/courses/${ activeTab.subject_id }/${ activeTab.subject_name.replace(' ', '%20') }` }
+                            <Link to={ `/courses/${ activeTab.subject_id }/${ activeTab.subject_name.replace(/\s/g, '%20') }` }
                                   onClick={ () => this.onBookmarkedLinkClick(activeTab) }>
                                 { activeTab.subject_name }
                             </Link>

@@ -87,7 +87,7 @@ describe('Subject reducer', () => {
 
         updatedSubjectState.isSubmitted = true;
         updatedSubjectState.currentSubject.subject_id = actionCreate.payload.subjectId;
-        updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name.replace('%20', ' ');
+        updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name.replace(/%20/g, ' ');
         updatedSubjectState.currentSubject.assigned_tutors = actionCreate.payload.assigned_tutors;
         delete updatedSubjectState.currentSubject.averageRating;
 

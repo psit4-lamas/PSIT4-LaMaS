@@ -39,7 +39,7 @@ class TopMenu extends Component {
         // then at least show an active tab for the current visited subject page
         if (activeTabs.length < 1 && !!currentName && !!currentSubjectID) {
             activeTabs.push({
-                subject_name: currentName.replace('%20', ' '),
+                subject_name: currentName.replace(/%20/g, ' '),
                 subject_id: currentSubjectID,
             });
         }
@@ -63,7 +63,7 @@ class TopMenu extends Component {
                     { activeTabs.map(activeTab => (
                           <Menu.Item
                               key={ activeTab.subject_id }
-                              name={ activeTab.subject_id + '/' + activeTab.subject_name.replace(' ', '%20') }
+                              name={ activeTab.subject_id + '/' + activeTab.subject_name.replace(/\s/g, '%20') }
                               active={ currentName === activeTab.subject_name }
                               onClick={ this.handleItemClick }
                           >

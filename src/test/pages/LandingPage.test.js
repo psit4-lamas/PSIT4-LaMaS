@@ -89,10 +89,12 @@ describe('LandingPage', () => {
                 },
             ],
         };
-        renderedComponent.find(Link).first().simulate('click');
-        expect(props.history).toHaveLength(1);
 
-        const pathname = `/courses/${ subject_id }/${ subject_name.replace(' ', '%20') }`;
-        expect(props.history[0]).toEqual(pathname);
+        renderedComponent = shallow(<LandingPage { ...propsSubjectNameWithSpace } />);
+        renderedComponent.find(Link).first().simulate('click');
+        expect(propsSubjectNameWithSpace.history).toHaveLength(1);
+
+        const pathname = `/courses/${ subject_id }/${ subject_name.replace(/\s/g, '%20') }`;
+        expect(propsSubjectNameWithSpace.history[0]).toEqual(pathname);
     });
 });

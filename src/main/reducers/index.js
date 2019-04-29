@@ -222,7 +222,7 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
             if (found === undefined) {
                 const activeTabs = state.activeTabs.slice();
                 activeTabs.push({
-                    subject_name: action.payload.name.replace('%20', ' '),
+                    subject_name: action.payload.name.replace(/%20/g, ' '),
                     subject_id: action.payload.subject_id,
                 });
 
@@ -260,7 +260,7 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 currentSubject: {
                     ...subject,
                     subject_id: action.payload.subjectId,
-                    subject_name: action.payload.subject_name.replace('%20', ' '),
+                    subject_name: action.payload.subject_name.replace(/%20/g, ' '),
                     assigned_tutors: action.payload.assigned_tutors.slice(),
                 },
             };
