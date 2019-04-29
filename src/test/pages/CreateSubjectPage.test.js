@@ -1,41 +1,49 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import CreateSubjectPage from '../../main/pages/CreateSubjectPage';
 
 
 describe('CreateSubjectPage', () => {
-    let renderedComponent;
 
-    // const user = Object.freeze({
-    //     isLoadingUser: true,
-    // });
+    it('renders without crashing', () => {
+        const div = document.createElement('div');
 
-    const props = {
-        t: jest.fn(),
+        shallow(<CreateSubjectPage { ...propsStudent } />, div);
+        ReactDOM.unmountComponentAtNode(div);
+    });
+
+    const propsNonStudent = {
+        t: (key) => key,
         user: {
             isStudent: false,
         },
     };
 
-    // it('renders without crashing', () => {
-    //     const div = document.createElement('div');
-    //
-    //     ReactDOM.render(<BaseLayout t={ (key) => key } user={ user } />, div);
-    //     ReactDOM.unmountComponentAtNode(div);
-    // });
+    const propsStudent = {
+        t: (key) => key,
+        user: {
+            isStudent: true,
+        },
+    };
 
-    beforeEach(() => {
+    it('should render correctly for a student', () => {
+        const component = shallow(<CreateSubjectPage { ...propsStudent } />);
 
-        const component = <CreateSubjectPage { ...props } />;
+        expect(component.find('#error403').get(0)).toBeTruthy();
+        expect(component.find('#create-subject').get(0)).toBeFalsy();
+        expect(component).toMatchSnapshot();
 
-        renderedComponent = shallow(component);
+        component.unmount();
     });
 
-    afterEach(() => {
-        renderedComponent.unmount();
-    });
+    it('should render correctly for a non-student', () => {
+        const component = shallow(<CreateSubjectPage { ...propsNonStudent } />);
 
-    it('should match snapshot', () => {
-        expect(renderedComponent).toMatchSnapshot();
+        expect(component.find('#error403').get(0)).toBeFalsy();
+        expect(component.find('#create-subject').get(0)).toBeTruthy();
+        expect(component).toMatchSnapshot();
+
+        component.unmount();
     });
 });
