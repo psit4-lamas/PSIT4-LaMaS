@@ -30,6 +30,8 @@ describe('CreateSubjectPage', () => {
     it('should render correctly for a student', () => {
         const component = shallow(<CreateSubjectPage { ...propsStudent } />);
 
+        expect(component.find('#error403').get(0)).toBeTruthy();
+        expect(component.find('#create-subject').get(0)).toBeFalsy();
         expect(component).toMatchSnapshot();
 
         component.unmount();
@@ -38,6 +40,8 @@ describe('CreateSubjectPage', () => {
     it('should render correctly for a non-student', () => {
         const component = shallow(<CreateSubjectPage { ...propsNonStudent } />);
 
+        expect(component.find('#error403').get(0)).toBeFalsy();
+        expect(component.find('#create-subject').get(0)).toBeTruthy();
         expect(component).toMatchSnapshot();
 
         component.unmount();
