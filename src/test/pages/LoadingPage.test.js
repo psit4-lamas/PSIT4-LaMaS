@@ -1,13 +1,34 @@
 import React from 'react';
-import { shallow } from 'enzyme/build';
-import { LoadingPage } from '../../main/pages/LoadingPage';
+import { shallow } from 'enzyme';
+import LoadingPage from '../../main/pages/LoadingPage';
+
 
 describe('LoadingPage', () => {
-    it('should render correctly', () => {
-        const component = shallow(<LoadingPage/>);
 
-        expect(component).toMatchSnapshot();
+    let renderedComponent;
 
-        component.unmount();
+    const user = Object.freeze({
+        isLoadingUser: true,
+    });
+
+    // it('renders without crashing', () => {
+    //     const div = document.createElement('div');
+    //
+    //     ReactDOM.render(<BaseLayout t={ (key) => key } user={ user } />, div);
+    //     ReactDOM.unmountComponentAtNode(div);
+    // });
+
+    beforeEach(() => {
+        const component = <LoadingPage t={ (key) => key } />;
+
+        renderedComponent = shallow(component);
+    });
+
+    afterEach(() => {
+        renderedComponent.unmount();
+    });
+
+    it('should match snapshot', () => {
+        expect(renderedComponent).toMatchSnapshot();
     });
 });

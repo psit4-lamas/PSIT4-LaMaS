@@ -28,5 +28,4 @@ class LoginPage extends Component {
 
 
 export { LoginPage };
-
 export default withNamespaces()(LoginPage);

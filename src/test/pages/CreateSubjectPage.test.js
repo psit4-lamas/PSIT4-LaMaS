@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { shallow } from 'enzyme/build';
-import { CreateSubjectPage } from '../../main/pages/CreateSubjectPage';
+import { shallow } from 'enzyme';
+import CreateSubjectPage from '../../main/pages/CreateSubjectPage';
+
 
 describe('CreateSubjectPage', () => {
+
     it('renders without crashing', () => {
         const div = document.createElement('div');
 
@@ -11,7 +12,7 @@ describe('CreateSubjectPage', () => {
         ReactDOM.unmountComponentAtNode(div);
     });
 
-    const propsNotStudent = {
+    const propsNonStudent = {
         t: (key) => key,
         user: {
             isStudent: false,
@@ -25,7 +26,7 @@ describe('CreateSubjectPage', () => {
         },
     };
 
-    it('should render correctly for student', () => {
+    it('should render correctly for a student', () => {
         const component = shallow(<CreateSubjectPage { ...propsStudent } />);
 
         expect(component).toMatchSnapshot();
@@ -33,8 +34,8 @@ describe('CreateSubjectPage', () => {
         component.unmount();
     });
 
-    it('should render correctly for not students', () => {
-        const component = shallow(<CreateSubjectPage { ...propsNotStudent } />);
+    it('should render correctly for a non-student', () => {
+        const component = shallow(<CreateSubjectPage { ...propsNonStudent } />);
 
         expect(component).toMatchSnapshot();
 

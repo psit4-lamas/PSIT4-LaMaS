@@ -41,4 +41,5 @@ UploadMediaPage.defaultProps = {
     editMode: false,
 };
 
+export { UploadMediaPage };
 export default UploadMediaPage;
