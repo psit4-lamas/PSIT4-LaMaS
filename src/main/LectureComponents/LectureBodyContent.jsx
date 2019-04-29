@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import UploadMediaPage from '../pages/UploadMediaPage';
-import './LectureBodyContent.css';
 import DisplayVideo from './DisplayVideo';
+import './LectureBodyContent.css';
 
 
 class LectureBodyContent extends Component {
@@ -37,14 +36,10 @@ class LectureBodyContent extends Component {
 }
 
 
-LectureBodyContent.propTypes = {
+LectureBodyContent.propTypes = { // NOSONAR
     lectureTitle: PropTypes.string.isRequired,
     lecture: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ( {} );
-
-const mapDispatchToProps = {};
-
 export { LectureBodyContent };
-export default connect(mapStateToProps, mapDispatchToProps)(LectureBodyContent);
+export default LectureBodyContent;
