@@ -4,6 +4,7 @@ import LoadingPage from '../../main/pages/LoadingPage';
 
 
 describe('LoadingPage', () => {
+
     let renderedComponent;
 
     const user = Object.freeze({
@@ -18,7 +19,6 @@ describe('LoadingPage', () => {
     // });
 
     beforeEach(() => {
-
         const component = <LoadingPage t={ (key) => key } />;
 
         renderedComponent = shallow(component);
