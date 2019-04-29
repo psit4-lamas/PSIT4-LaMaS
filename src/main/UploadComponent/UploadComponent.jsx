@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import fire from '../../firebase';
+import { connect } from 'react-redux';
+import withAuthorization from '../../utils/withAuthorization';
+import { UserRoles } from '../../utils';
 import FileUploader from 'react-firebase-file-uploader';
 import { Progress } from 'semantic-ui-react';
-import { withRouterAndRedux } from '../../utils';
 
 
 class UploadComponent extends Component {
+
     state = {
         progress: 0,
         isUploading: false,
@@ -19,8 +22,10 @@ class UploadComponent extends Component {
             isUploading: true,
             progress: 0,
         });
+
         obj2.metadata_.customMetadata.originalName = obj1.name;
     };
+
     handleUploadError = (error) => {
         this.setState({
             isUploading: false,
@@ -50,9 +55,10 @@ class UploadComponent extends Component {
 
     render() {
         const { isUploading, progress, errorOccurred } = this.state;
-        const { buttonLabel, fileType } = this.props;
+        const { buttonLabel, fileType, subject, lectureId } = this.props;
 
         const acceptedFileTypes = this.getAcceptedFileType();
+
         return (
             <div>
                 { isUploading ? (
@@ -78,8 +84,8 @@ class UploadComponent extends Component {
                               onUploadStart={ this.handleUploadStart }
                               metadata={ {
                                   customMetadata: {
-                                      subjectId: this.props.subject.subject_id,
-                                      lecture: this.props.lectureId.substring(this.props.lectureId.length - 2, this.props.lectureId.length),
+                                      subjectId: subject.subject_id,
+                                      lecture: lectureId.substring(lectureId.length - 2, lectureId.length),
                                       type: fileType,
                                       originalName: 'myFile',
                                   },
@@ -98,12 +104,14 @@ class UploadComponent extends Component {
 }
 
 
+const condition = (authUser) => authUser && !!authUser.roles && authUser.roles.includes(UserRoles.TUTOR);
+
 const mapStateToProps = (state) => ( {
+    user: state.user,
     lectureId: state.subject.currentLectureID,
 } );
 
 const mapDispatchToProps = {};
 
-export { UploadComponent };
-
-export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, UploadComponent);
+export { UploadComponent, condition };
+export default withAuthorization(condition)(connect(mapStateToProps, mapDispatchToProps)(UploadComponent));

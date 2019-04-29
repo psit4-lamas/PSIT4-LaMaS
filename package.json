@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test -u --coverage --no-watch",
+    "test": "react-scripts test -u --coverage --no-watch --collectCoverageFrom=src/**/*.js --collectCoverageFrom=src/**/*.jsx --collectCoverageFrom=!src/**/*.test.js --collectCoverageFrom=!src/index.js --collectCoverageFrom=!src/serviceWorker.js --collectCoverageFrom=!src/firebase/firebase-config.prod.js --collectCoverageFrom=!src/main/actions/index.js",
     "nightwatch": "node_modules/.bin/nightwatch -c src/test/nightwatch.conf.js -e chrome,firefox",
     "debug:acceptance:firefox": "node --inspect-brk node_modules/.bin/nightwatch",
     "test:resnapshot": "react-scripts test -u --no-watch",

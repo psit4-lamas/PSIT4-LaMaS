@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import i18n from '../../i18n';
 import { create } from 'react-test-renderer';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { TopMenu } from '../../main/ComponentMenu/TopMenu';
@@ -19,34 +18,34 @@ describe('Top menu', () => {
             changeLanguage: (lang) => lang,
             tabs: {
                 isLoadingTabs: false,
-                activeTabs: [ 'IS', 'KI2', 'PSIT4' ],
-
-                subjectLinks: [
+                activeTabs: [
                     {
-                        name: 'IS',
+                        subject_name: 'IS',
                         subject_id: '01234',
                     }, {
-                        name: 'KI2',
+                        subject_name: 'KI2',
                         subject_id: '12345',
                     }, {
-                        name: 'PSIT4',
+                        subject_name: 'PSIT4',
                         subject_id: '23456',
                     },
                 ],
             },
         };
 
-
         component = create(<TopMenu { ...props } />);
         rootInstance = component.root;
     });
 
-
     it('renders without crashing', () => {
-        const intern = i18n.default;
+        // const intern = i18n.default;
+        // console.log(intern.language);
+        // console.log(i18n.languages);
 
         const menu = <TopMenu { ...props } />;
         ReactDOM.render(menu, div);
+
+        // console.log(i18n.language);
 
         ReactDOM.unmountComponentAtNode(div);
     });

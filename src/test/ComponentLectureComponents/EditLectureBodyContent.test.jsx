@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import EditLectureBodyContent from '../../main/LectureComponents/EditLectureBodyContent';
 
 
@@ -8,7 +8,7 @@ describe('Edit LectureBodyContent', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
 
-        shallow(<EditLectureBodyContent t={ (key) => key } { ...props } setNewLectureTitle={ setNewLectureTitle }/>, div);
+        shallow(<EditLectureBodyContent t={ (key) => key } { ...props } setNewLectureTitle={ setNewLectureTitle } onLectureTitleChange={ onLectureTitleChange }/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 

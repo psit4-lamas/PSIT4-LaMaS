@@ -4,6 +4,7 @@ import { mount, shallow } from 'enzyme';
 import { CreateSubject } from '../../main/CreateSubject/CreateSubject';
 import { Form } from 'semantic-ui-react';
 
+
 describe('CreateSubject', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');

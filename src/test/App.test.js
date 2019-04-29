@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { App } from '../main/App';
 
+
 it('App renders without crashing', () => {
     const user = {
         isAuthenticated: false,

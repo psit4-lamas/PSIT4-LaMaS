@@ -1,4 +1,4 @@
-
+/* istanbul ignore next */
 module.exports = {
     // TODO: set application address using a global placeholder
     'Step Login with valid credentials' : function (browser) {
