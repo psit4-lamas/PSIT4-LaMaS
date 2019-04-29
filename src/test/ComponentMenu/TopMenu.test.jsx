@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { mount } from 'enzyme';
 import { create } from 'react-test-renderer';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { TopMenu } from '../../main/ComponentMenu/TopMenu';
@@ -48,6 +49,32 @@ describe('Top menu', () => {
         // console.log(i18n.language);
 
         ReactDOM.unmountComponentAtNode(div);
+    });
+
+    it('handleOnClick correctly', () => {
+        const handleItemClick = jest.fn();
+        const loadSubject = jest.fn();
+        const historyMock = { push: jest.fn() };
+
+        const component = <TopMenu { ...props } handleItemClick={ handleItemClick } history={ historyMock } loadSubject={ loadSubject } />;
+
+        const clickTopMenu = mount(component);
+
+        clickTopMenu.find('a.item').at(2).simulate('click');
+        expect(historyMock.push).toHaveBeenCalledWith('/courses/01234/IS');
+
+        // expect(handleItemClick).toHaveBeenCalled();
+    });
+
+    it('handleLogout correctly', () => {
+        const handleLogout = jest.fn();
+        const logOut = jest.fn();
+        const component = <TopMenu { ...props } handleLogout={ handleLogout } logOut={ logOut }/>;
+        const clickTopMenu = mount(component);
+
+        clickTopMenu.find('button').simulate('click');
+
+        expect(logOut).toHaveBeenCalled();
     });
 
     it('should change language when clicking on Dropdown', () => {

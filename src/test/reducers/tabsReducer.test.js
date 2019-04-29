@@ -49,7 +49,7 @@ describe('Tabs reducer', () => {
 
         it('tabs state, with new "subject%20name%20with%20space" tab', () => {
             actionInsert.payload.name = 'subject%20name%20with%20space';
-            updatedTabsState.activeTabs[0].subject_name = actionInsert.payload.name.replace('%20', ' ');
+            updatedTabsState.activeTabs[0].subject_name = actionInsert.payload.name.replace(/%20/g, ' ');
 
             expect(tabsReducer(initialTabsState, actionInsert)).toEqual(updatedTabsState);
         });
