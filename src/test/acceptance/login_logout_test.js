@@ -1,3 +1,4 @@
+/* requires setup of account dummy1@students.zhaw.ch in firebase */
 /* istanbul ignore next */
 module.exports = {
     // TODO: set application address using a global placeholder
