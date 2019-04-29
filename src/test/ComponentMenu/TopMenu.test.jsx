@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { mount } from 'enzyme';
 import { create } from 'react-test-renderer';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { TopMenu } from '../../main/ComponentMenu/TopMenu';
-import {shallow, mount} from "enzyme/build/index";
+
 
 describe('Top menu', () => {
     let div;
@@ -63,12 +64,12 @@ describe('Top menu', () => {
         expect(historyMock.push).toHaveBeenCalledWith('/courses/01234/IS');
 
         // expect(handleItemClick).toHaveBeenCalled();
-    })
+    });
 
     it('handleLogout correctly', () => {
         const handleLogout = jest.fn();
         const logOut = jest.fn();
-        const component = <TopMenu { ...props } handleLogout={ handleLogout } logOut={ logOut } />;
+        const component = <TopMenu { ...props } handleLogout={ handleLogout } logOut={ logOut }/>;
         const clickTopMenu = mount(component);
 
         clickTopMenu.find('button').simulate('click');
