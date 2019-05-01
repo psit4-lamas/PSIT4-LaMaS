@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Menu, Dropdown, Segment } from 'semantic-ui-react';
+import { Grid, Menu, Dropdown, Segment, Checkbox } from 'semantic-ui-react';
 import EditLectureBodyContent from './EditLectureBodyContent';
 import LectureBodyContent from './LectureBodyContent';
 import { LaMaSColours } from '../../utils/colourPalettes';
@@ -57,6 +57,12 @@ class LecturePageTutorView extends Component {
             },
             () => this.props.onLectureTitleUpdate(updatedSubject, value),
         );
+    };
+
+    onPublishLectureChange = (event, data) => {
+        // TODO: add business logic for what to do when lecture is published/unpublished
+        console.log({'toPublish': data.checked});
+        console.log(this.props);
     };
 
     renderOnViewModeDropdown = () => {
@@ -183,6 +189,16 @@ class LecturePageTutorView extends Component {
                                 nameOnStorage={ nameOnStorage }
                                 videoUrl={ videoUrl }
                                 showVideo={ showVideo }
+                            />
+                        ) }
+                    </Grid.Column>
+                    <Grid.Column width={ 3 }>
+                        { isEditMode && (
+                            <Checkbox
+                                toggle
+                                label={ lecture.is_public ? t('editLecture.unpublish') : t('editLecture.publish') }
+                                defaultChecked={ lecture.is_public }
+                                onChange={ this.onPublishLectureChange }
                             />
                         ) }
                     </Grid.Column>
