@@ -59,7 +59,7 @@ class LecturePageTutorView extends Component {
         );
     };
 
-    onPublishLectureChange = (event, data) => {
+    onLecturePublishChange = (event, data) => {
         // TODO: add business logic for what to do when lecture is published/unpublished
         console.log({'toPublish': data.checked});
         console.log(this.props);
@@ -198,7 +198,7 @@ class LecturePageTutorView extends Component {
                                 toggle
                                 label={ lecture.is_public ? t('editLecture.unpublish') : t('editLecture.publish') }
                                 defaultChecked={ lecture.is_public }
-                                onChange={ this.onPublishLectureChange }
+                                onChange={ this.onLecturePublishChange }
                             />
                         ) }
                     </Grid.Column>
