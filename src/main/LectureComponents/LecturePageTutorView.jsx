@@ -60,10 +60,13 @@ class LecturePageTutorView extends Component {
     };
 
     onLecturePublishChange = (event, data) => {
-        // TODO: add business logic for what to do when lecture is published/unpublished
-        const { lecture } = this.props;
-        lecture.is_public = data.checked;
-        console.log(lecture.is_public);
+        const { subject, lectureId } = this.props;
+        const updatedSubject = Object.assign({}, subject);
+        updatedSubject.lectures[lectureId].is_public = data.checked;
+
+        this.setState({},
+            () => this.props.onLecturePublishUpdate(updatedSubject, data.checked)
+        );
     };
 
     renderOnViewModeDropdown = () => {

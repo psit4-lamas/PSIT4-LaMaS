@@ -22,6 +22,7 @@ class LecturePage extends Component {
             lectureName: '',
             videoUrl: '',
             nameOnStorage: '',
+            is_public: false
         };
 
         // Load the requested subject immediately on LecturePage construction
@@ -61,6 +62,7 @@ class LecturePage extends Component {
             lectureName: currentLecture.name || '',
             videoUrl: '',
             nameOnStorage: '',
+            is_public: currentLecture.is_public
         });
 
         this.showFirstVideoOfLecture(lectureID);
@@ -82,6 +84,13 @@ class LecturePage extends Component {
         this.setState({
             subject: updatedSubject,
             lectureName: value,
+        });
+    };
+
+    onLecturePublishUpdate = (updatedSubject, value) => {
+        this.setState({
+            subject: updatedSubject,
+            is_public: value
         });
     };
 
@@ -163,6 +172,7 @@ class LecturePage extends Component {
                         <LecturePageTutorView
                             lectureName={ lectureName }
                             onLectureTitleUpdate={ this.onLectureTitleUpdate }
+                            onLecturePublishUpdate={ this.onLecturePublishUpdate }
                             saveSubject={ this.props.saveSubject }
                             handleLectureMenuClick={ this.handleLectureMenuClick }
                             breadcrumbComponent={ this.renderBreadcrumb }
