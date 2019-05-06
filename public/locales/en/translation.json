@@ -10,7 +10,8 @@
         "unpublish": "unpublish lecture",
         "actions": "actions",
         "save": "save",
-        "bookmarkSubject": "Bookmark subject"
+        "bookmarkSubject": "Bookmark subject",
+        "userRole": "Your role is:"
     },
     "login": {
         "message": "Log-in to LaMaS",

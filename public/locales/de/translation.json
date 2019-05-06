@@ -10,7 +10,8 @@
         "unpublish": "unveröffentlichen",
         "actions": "Aktion",
         "save": "speichern",
-        "bookmarkSubject": "Fach bookmarken"
+        "bookmarkSubject": "Fach bookmarken",
+        "userRole": "Ihre Rolle ist:"
     },
     "login": {
         "message": "Auf LaMaS anmelden",
