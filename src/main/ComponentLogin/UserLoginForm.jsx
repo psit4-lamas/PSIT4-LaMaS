@@ -9,6 +9,7 @@ const FormField = Form.Field;
 
 
 class UserLoginForm extends Component {
+
     constructor(props, context) {
         super(props, context);
 
@@ -42,6 +43,7 @@ class UserLoginForm extends Component {
 
                 { errorMessage && (
                     <Message
+                        id="user-not-found"
                         error
                         style={ { textAlign: 'left' } }
                         header={ t('login.errorHeader') }
