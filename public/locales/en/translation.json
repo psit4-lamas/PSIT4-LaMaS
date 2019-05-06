@@ -16,7 +16,9 @@
         "message": "Log-in to LaMaS",
         "password": "password",
         "email": "e-mail address",
-        "login": "Login"
+        "login": "Login",
+        "errorHeader": "User not found",
+        "errorMessage": "There is no user record corresponding to this identifier. The user may have been deleted."
     },
     "landingPage": {
         "title": "Bookmark"

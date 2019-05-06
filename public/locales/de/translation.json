@@ -16,7 +16,9 @@
         "message": "Auf LaMaS anmelden",
         "password": "Passwort",
         "email": "E-Mail Adresse",
-        "login": "Anmelden"
+        "login": "Anmelden",
+        "errorHeader": "Benutzer nicht gefunden",
+        "errorMessage": "Es gibt keinen Benutzerdatensatz, der diesem Identifikator entspricht. Der Benutzer wurde möglicherweise gelöscht."
     },
     "landingPage": {
         "title": "Bookmark"
