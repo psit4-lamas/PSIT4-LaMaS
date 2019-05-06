@@ -34,7 +34,7 @@ class TopMenu extends Component {
         const currentPathname = window.location.pathname;
         let [currentSubjectID, currentName] = currentPathname.replace('/courses/', '').split('/');
         const userRole = !isEmptyObject(user) && user.roles && user.roles.length ? user.roles[0] : 'STUDENT';
-        const username = !isEmptyObject(user) ? user.userCredentials.email.split('@')[0] : '-';
+        const username = !isEmptyObject(user) && user.userCredentials.username ? user.userCredentials.username : '-';
 
         // If the global state has no activeTabs (default state of reducer),
         // then at least show an active tab for the current visited subject page
