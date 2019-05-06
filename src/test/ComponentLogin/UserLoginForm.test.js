@@ -33,7 +33,7 @@ describe('UserLoginForm', () => {
     });
 
     it('calls logIn if Login button is clicked', () => {
-        const logIn = jest.fn(); //(email, password) => new Promise((resolve=resolveFN, reject=rejectFN) => { console.log('promise', resolve, reject) });
+        const logIn = jest.fn();
         const loginform = mount(<UserLoginForm t={ (key) => key } logIn={ logIn }/>);
         const emailfield = loginform.find({ name: 'email' }).at(1);
         const passwordfield = loginform.find({ name: 'password' }).at(1);
