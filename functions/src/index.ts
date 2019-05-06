@@ -46,10 +46,12 @@ exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMe
     const attachmentNumber = Object.keys(lectures[lectureName][attachmentSection]).length;
 
     const attachmentName = attachmentSection + '_' + ('0' + attachmentNumber).slice(-2);
+    const published = !(metadataFromFile.metadata.type === 'E');
     const newAttachment = {
         [attachmentName]: {
             name: metadataFromFile.metadata.originalName,
             nameOnStorage: metadataFromFile.name,
+            is_public: published,
         },
     };
 

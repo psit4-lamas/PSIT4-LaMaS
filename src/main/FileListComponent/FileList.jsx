@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { isEmptyObject } from '../../utils';
-import { Icon, Item, Table } from 'semantic-ui-react';
+import { Checkbox, Icon, Item, Table } from 'semantic-ui-react';
 import UploadComponent from '../UploadComponent/UploadComponent';
 
 
@@ -43,9 +43,13 @@ class FileList extends Component {
         this.props.onSelectFile(nameOnStorage);
     };
 
-    renderFileList(file) {
-        const { nameOnStorage, name } = file;
-        const { isDeleteImplemented } = this.props;
+    onFilePublishChange = (event, data) => {
+        this.props.onChangeFilePublish(data);
+    };
+
+    renderFileList(key, file) {
+        const { nameOnStorage, name, is_public } = file;
+        const { isDeleteImplemented, editMode, t, type } = this.props;
 
         return (
             <Table.Row key={ nameOnStorage }>
@@ -61,11 +65,10 @@ class FileList extends Component {
                     </Item.Group>
                 </Table.Cell>
 
-                { isDeleteImplemented && (
+                { ( isDeleteImplemented || editMode ) && (
                     <Table.Cell>
-                        <button style={ { display: 'none' } } className="ui icon button">
-                            <i className="trash alternate icon">X</i>
-                        </button>
+                        { type === 'E' ? <Checkbox name={ key } toggle label={ t('fileList.publish') } defaultChecked={ is_public } onChange={ this.onFilePublishChange }/> : '' }
+                        <button style={ { display: 'none' } } className="ui icon button"/>
                     </Table.Cell>
                 ) }
             </Table.Row>
@@ -82,7 +85,7 @@ class FileList extends Component {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) } </Table.HeaderCell>
-                        { isDeleteImplemented && <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell> }
+                        { ( isDeleteImplemented || editMode ) && <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell> }
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -97,7 +100,11 @@ class FileList extends Component {
 
                     { !isEmptyObject(files) ? (
                         Object.keys(files).map((index) => {
-                            return this.renderFileList(files[index]);
+                            if (files[index].is_public || editMode) {
+                                return this.renderFileList(index, files[index]);
+                            }
+
+                            return null;
                         })
                     ) : (
                           <Table.Row>

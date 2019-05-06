@@ -6,13 +6,12 @@ import './LectureBodyContent.css';
 
 
 class EditLectureBodyContent extends Component {
-
     handleChange = (e) => {
         this.props.onLectureTitleChange(e.target.value);
     };
 
     render() {
-        const { t, subject, lecture, lectureTitle, lectureName, isValid, onSelectVideoClick, onSelectFileClick } = this.props;
+        const { t, subject, lecture, lectureTitle, lectureName, isValid, onSelectVideoClick, onSelectFileClick, onChangeFilePublish } = this.props;
 
         return (
             <>
@@ -24,23 +23,18 @@ class EditLectureBodyContent extends Component {
 
                 <div style={ { marginTop: '25px' } }>
                     <FormField>
-                        { !isValid &&
+                        { !isValid && (
                             <Message negative>
                                 <Message.Header>{ t('editLecture.negativeMsgTitle') }</Message.Header>
                                 <p>{ t('editLecture.negativeMsgBox1') }</p>
                             </Message>
-                        }
+                        ) }
 
                         <label>{ t('editLecture.lectureTitle') }</label>
-                        <Input focus
-                               name="lectureTitle"
-                               value={ lectureName }
-                               placeholder={ t('editLecture.lectureTitlePlaceholder') }
-                               onChange={ this.handleChange }
-                        />
+                        <Input focus name="lectureTitle" value={ lectureName } placeholder={ t('editLecture.lectureTitlePlaceholder') } onChange={ this.handleChange }/>
                     </FormField>
 
-                    {/* TODO: wrap the 'unpublish' input component for exercise solution files */}
+                    {/* TODO: wrap the 'unpublish' input component for exercise solution files */ }
                     <UploadMediaPage
                         t={ t }
                         editMode={ true }
@@ -48,6 +42,7 @@ class EditLectureBodyContent extends Component {
                         lecture={ lecture }
                         onSelectVideoClick={ onSelectVideoClick }
                         onSelectFileClick={ onSelectFileClick }
+                        onChangeFilePublish={ onChangeFilePublish }
                     />
                 </div>
             </>

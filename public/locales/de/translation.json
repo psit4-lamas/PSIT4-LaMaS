@@ -29,7 +29,8 @@
         "E": "Übungsaufgaben",
         "L": "Zusätzliche Unterlagen",
         "action": "Aktion",
-        "noData": "Keine Datei"
+        "noData": "Keine Datei",
+        "publish": "veröffentlicht"
     },
     "createSubject": {
         "pageTitle": "Neu Fach erstellen",

@@ -59,14 +59,32 @@ class LecturePageTutorView extends Component {
         );
     };
 
+    onChangeFilePublish = (value) => {
+        const { subject, lectureId } = this.props;
+        const updatedSubject = Object.assign({}, subject);
+
+        const nodeName = value.name.split('_')[0];
+        if (nodeName === 'exercises') {
+            updatedSubject.lectures[lectureId].exercises[value.name] = {
+                ...updatedSubject.lectures[lectureId].exercises[value.name],
+                is_public: value.checked,
+            };
+
+            this.setState(
+                {
+                    isValid: value !== '',
+                },
+                () => this.props.onFilePublishUpdate(updatedSubject),
+            );
+        }
+    };
+
     onLecturePublishChange = (event, data) => {
         const { subject, lectureId } = this.props;
         const updatedSubject = Object.assign({}, subject);
         updatedSubject.lectures[lectureId].is_public = data.checked;
 
-        this.setState({},
-            () => this.props.onLecturePublishUpdate(updatedSubject, data.checked)
-        );
+        this.setState({}, () => this.props.onLecturePublishUpdate(updatedSubject, data.checked));
     };
 
     renderOnViewModeDropdown = () => {
@@ -91,7 +109,9 @@ class LecturePageTutorView extends Component {
 
         return (
             <Dropdown.Menu>
-                <Dropdown.Item name={'save'} onClick={ this.handleSaveLecture }>{ t('menu.save') }</Dropdown.Item>
+                <Dropdown.Item name={ 'save' } onClick={ this.handleSaveLecture }>
+                    { t('menu.save') }
+                </Dropdown.Item>
                 <Dropdown.Item value={ 'edit' } onClick={ this.onModeChange }>
                     { t('menu.cancel') }
                 </Dropdown.Item>
@@ -177,6 +197,7 @@ class LecturePageTutorView extends Component {
                                 onLectureTitleChange={ this.onLectureTitleChange }
                                 onSelectVideoClick={ onSelectVideoClick }
                                 onSelectFileClick={ onSelectFileClick }
+                                onChangeFilePublish={ this.onChangeFilePublish }
                             />
                         ) }
 

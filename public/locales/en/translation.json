@@ -29,7 +29,8 @@
         "E": "Exercises",
         "L": "Lecture Materials",
         "action": "Action",
-        "noData": "No files uploaded"
+        "noData": "No files uploaded",
+        "publish": "published"
     },
     "createSubject": {
         "pageTitle": "Create new subject",
