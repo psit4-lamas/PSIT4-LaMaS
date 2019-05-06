@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logIn } from '../actions';
 import { withNamespaces } from 'react-i18next';
-import { Button, Form, Input, Segment } from 'semantic-ui-react';
+import { Button, Form, Input, Message, Segment } from 'semantic-ui-react';
 
 
 const FormField = Form.Field;
@@ -15,19 +15,40 @@ class UserLoginForm extends Component {
         this.state = {
             email: '',
             password: '',
+            errorMessage: '',
         };
     }
 
     onSubmit = (email, password) => {
-        this.props.logIn(email, password);
+        const response = this.props.logIn(email, password);
+
+        if (response) {
+            response
+                .catch((err) => {
+                    console.log('USER NOT FOUND', err);
+                    this.setState({
+                        errorMessage: err.message,
+                    });
+                });
+        }
     };
 
     render() {
-        const { email, password } = this.state;
+        const { email, password, errorMessage } = this.state;
         const { t } = this.props;
 
         return (
             <div>
+
+                { errorMessage && (
+                    <Message
+                        error
+                        style={ { textAlign: 'left' } }
+                        header={ t('login.errorHeader') }
+                        content={ t('login.errorMessage') }
+                    />
+                ) }
+
                 <Form size="large" onSubmit={ () => this.onSubmit(email, password) }>
                     <Segment>
                         <FormField>
