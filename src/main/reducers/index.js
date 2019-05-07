@@ -16,7 +16,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_02: {
             is_public: false,
@@ -24,7 +24,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_03: {
             is_public: false,
@@ -32,7 +32,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_04: {
             is_public: false,
@@ -40,7 +40,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_05: {
             is_public: false,
@@ -48,7 +48,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_06: {
             is_public: false,
@@ -56,7 +56,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_07: {
             is_public: false,
@@ -64,7 +64,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_08: {
             is_public: false,
@@ -72,7 +72,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_09: {
             is_public: false,
@@ -80,7 +80,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_10: {
             is_public: false,
@@ -88,7 +88,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_11: {
             is_public: false,
@@ -96,7 +96,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_12: {
             is_public: false,
@@ -104,7 +104,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_13: {
             is_public: false,
@@ -112,7 +112,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
         lecture_14: {
             is_public: false,
@@ -120,7 +120,7 @@ const EMPTY_DEFAULT_SUBJECT = {
             videos: {},
             lecture_materials: {},
             exercises: {},
-            comments: {},
+            comments: [],
         },
     },
 };
@@ -302,6 +302,27 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                     ...action.payload.subject,
                     subject_id: action.payload.subject_id,
                     averageRating: avg,
+                },
+            };
+
+        case Actions.ADD_COMMENT:
+            let comments = [];
+            if(state.currentSubject.lectures[state.currentLectureID].comments) {
+                comments = state.currentSubject.lectures[state.currentLectureID].comments;
+            }
+            comments.push(action.payload.comment);
+            return {
+                ...state,
+                currentSubject: {
+                    ...state.currentSubject,
+                    lectures: {
+                        ...state.currentSubject.lectures,
+                        [state.currentLectureID]:
+                            {
+                                ...state.currentSubject.lectures[state.currentLectureID],
+                                comments: comments,
+                            },
+                    }
                 },
             };
 
