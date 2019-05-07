@@ -2,7 +2,7 @@
 /* istanbul ignore next */
 module.exports = {
     // TODO: set application address using a global placeholder
-    'Step Login with valid credentials' : function (browser) {
+    'Step Login with student credentials' : function (browser) {
         browser
             .url('http://localhost:3000')
             .waitForElementVisible('input[name=email]',10000)
