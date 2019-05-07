@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { selectLecture, loadSubject, saveSubject, fetchFile, addRating } from '../actions';
+import { selectLecture, loadSubject, saveSubject, fetchFile, addRating, loadComments, saveComment } from '../actions';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { Form, Breadcrumb } from 'semantic-ui-react';
 import LoadingPage from '../pages/LoadingPage';
@@ -7,9 +7,7 @@ import LecturePageStudentView from '../LectureComponents/LecturePageStudentView'
 import LecturePageTutorView from '../LectureComponents/LecturePageTutorView';
 import './LecturePage.css';
 
-
 class LecturePage extends Component {
-
     constructor(props) {
         super(props);
         const lectureID = 'lecture_01';
@@ -22,6 +20,7 @@ class LecturePage extends Component {
             lectureName: '',
             videoUrl: '',
             nameOnStorage: '',
+            commentsLoaded: false,
         };
 
         // Load the requested subject immediately on LecturePage construction
@@ -32,6 +31,13 @@ class LecturePage extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.state.videoUrl === '') {
             this.showFirstVideoOfLecture(this.state.lectureID);
+        }
+
+        if (!this.state.commentsLoaded && !this.state.isLoadingSubject) {
+            console.log('comments start');
+            const { subject_id } = prevProps.match.params;
+            this.unsubscribe = prevProps.loadComments(subject_id, this.state.lectureID);
+            this.setState({ commentsLoaded: true });
         }
     }
 
@@ -50,10 +56,12 @@ class LecturePage extends Component {
 
     handleLectureMenuClick = (e) => {
         const lectureID = e.target.id;
+        this.unsubscribe();
         this.props.selectLecture(lectureID);
 
         const { subject } = this.state;
-        const currentLecture = subject.lectures[lectureID];
+        let currentLecture = subject.lectures[lectureID];
+        currentLecture.comments = [];
 
         this.setState({
             lectureID: lectureID,
@@ -61,6 +69,7 @@ class LecturePage extends Component {
             lectureName: currentLecture.name || '',
             videoUrl: '',
             nameOnStorage: '',
+            commentsLoaded: false,
         });
 
         this.showFirstVideoOfLecture(lectureID);
@@ -88,9 +97,7 @@ class LecturePage extends Component {
     showFirstVideoOfLecture = (lectureID) => {
         const { subject } = this.state;
         const currentLecture = subject.lectures[lectureID];
-        const nameOnStorage = Object.keys(currentLecture.videos).length > 0
-                              ? currentLecture.videos.videos_00.nameOnStorage
-                              : '';
+        const nameOnStorage = Object.keys(currentLecture.videos).length > 0 ? currentLecture.videos.videos_00.nameOnStorage : '';
 
         if (nameOnStorage) {
             this.showVideo(nameOnStorage);
@@ -98,13 +105,17 @@ class LecturePage extends Component {
     };
 
     showVideo = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage)
-            .then((videoUrl) => {
-                this.setState({
-                    nameOnStorage: nameOnStorage,
-                    videoUrl: videoUrl,
-                });
+        this.props.fetchFile(nameOnStorage).then((videoUrl) => {
+            this.setState({
+                nameOnStorage: nameOnStorage,
+                videoUrl: videoUrl,
             });
+        });
+    };
+
+    saveComment = (comment) => {
+        console.log(this.props.user);
+        this.props.saveComment(this.state.subject.subject_id, this.state.lectureID, this.props.user.userCredentials.uid, comment);
     };
 
     onSelectVideoClick = (nameOnStorage) => {
@@ -112,11 +123,14 @@ class LecturePage extends Component {
     };
 
     onSelectFileClick = (nameOnStorage) => {
-        this.props.fetchFile(nameOnStorage)
-            .then((fileUrl) => {
-                window.open(fileUrl);
-            });
+        this.props.fetchFile(nameOnStorage).then((fileUrl) => {
+            window.open(fileUrl);
+        });
     };
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
 
     renderBreadcrumb = () => {
         const { subject, lectureID } = this.state;
@@ -128,10 +142,10 @@ class LecturePage extends Component {
         return (
             <Breadcrumb>
                 <Breadcrumb.Section link>Home</Breadcrumb.Section>
-                <Breadcrumb.Divider/>
-                <Breadcrumb.Section link>{ subject.subject_name }</Breadcrumb.Section>
-                <Breadcrumb.Divider/>
-                <Breadcrumb.Section active>{ currentPage }</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section link>{subject.subject_name}</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section active>{currentPage}</Breadcrumb.Section>
             </Breadcrumb>
         );
     };
@@ -141,7 +155,7 @@ class LecturePage extends Component {
         if (isLoadingSubject) {
             return (
                 <React.Fragment>
-                    <LoadingPage/>
+                    <LoadingPage />
                 </React.Fragment>
             );
         }
@@ -154,60 +168,63 @@ class LecturePage extends Component {
         currentLecture = !!currentLecture && isEmptyObject(currentLecture) ? lectures[lectureID] : currentLecture;
         let lectureTitle = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
         lectureTitle = lectureTitle.replace('-0', '').replace('-', '');
+        let comments = currentLecture.comments;
 
         return (
             <>
-                <Form onSubmit={ this.handleSubmit }>
-
-                    { !isStudent && (
+                <Form onSubmit={this.handleSubmit}>
+                    {!isStudent && (
                         <LecturePageTutorView
-                            lectureName={ lectureName }
-                            onLectureTitleUpdate={ this.onLectureTitleUpdate }
-                            saveSubject={ this.props.saveSubject }
-                            handleLectureMenuClick={ this.handleLectureMenuClick }
-                            breadcrumbComponent={ this.renderBreadcrumb }
-                            subject_id={ subject_id }
-                            key={ subject_id + '-' + lectureID }
-                            t={ t }
-                            lectureId={ lectureID }
-                            subject={ subject }
-                            lecture={ currentLecture }
-                            lectureTitle={ lectureTitle }
-                            onSelectVideoClick={ this.onSelectVideoClick }
-                            onSelectFileClick={ this.onSelectFileClick }
-                            nameOnStorage={ nameOnStorage }
-                            videoUrl={ videoUrl }
-                            showVideo={ this.showFirstVideoOfLecture }
+                            lectureName={lectureName}
+                            onLectureTitleUpdate={this.onLectureTitleUpdate}
+                            saveSubject={this.props.saveSubject}
+                            handleLectureMenuClick={this.handleLectureMenuClick}
+                            breadcrumbComponent={this.renderBreadcrumb}
+                            subject_id={subject_id}
+                            key={subject_id + '-' + lectureID}
+                            t={t}
+                            lectureId={lectureID}
+                            subject={subject}
+                            lecture={currentLecture}
+                            lectureTitle={lectureTitle}
+                            onSelectVideoClick={this.onSelectVideoClick}
+                            onSelectFileClick={this.onSelectFileClick}
+                            nameOnStorage={nameOnStorage}
+                            videoUrl={videoUrl}
+                            showVideo={this.showFirstVideoOfLecture}
+                            comments={comments}
+                            saveComment={this.saveComment}
                         />
-                    ) }
+                    )}
 
-                    { isStudent && (
+                    {isStudent && (
                         <LecturePageStudentView
-                            handleLectureMenuClick={ this.handleLectureMenuClick }
-                            breadcrumbComponent={ this.renderBreadcrumb }
-                            subject_id={ subject_id }
-                            key={ subject_id + '-' + lectureID }
-                            t={ t }
-                            lectureId={ lectureID }
-                            subject={ subject }
-                            lecture={ currentLecture }
-                            lectureTitle={ lectureTitle }
-                            onSelectVideoClick={ this.onSelectVideoClick }
-                            onSelectFileClick={ this.onSelectFileClick }
-                            nameOnStorage={ nameOnStorage }
-                            videoUrl={ videoUrl }
-                            showVideo={ this.showFirstVideoOfLecture }
+                            handleLectureMenuClick={this.handleLectureMenuClick}
+                            breadcrumbComponent={this.renderBreadcrumb}
+                            subject_id={subject_id}
+                            key={subject_id + '-' + lectureID}
+                            t={t}
+                            lectureId={lectureID}
+                            subject={subject}
+                            lecture={currentLecture}
+                            lectureTitle={lectureTitle}
+                            onSelectVideoClick={this.onSelectVideoClick}
+                            onSelectFileClick={this.onSelectFileClick}
+                            nameOnStorage={nameOnStorage}
+                            videoUrl={videoUrl}
+                            showVideo={this.showFirstVideoOfLecture}
                             addRating={this.props.addRating}
                             currentRating={this.props.currentRating}
                             user={this.props.user}
+                            comments={comments}
+                            saveComment={this.saveComment}
                         />
-                    ) }
+                    )}
                 </Form>
             </>
         );
     }
 }
-
 
 const mapStateToProps = (state) => ({
     user: state.user,
@@ -222,6 +239,8 @@ const mapDispatchToProps = {
     saveSubject,
     fetchFile,
     addRating,
+    loadComments,
+    saveComment,
 };
 
 export { LecturePage };

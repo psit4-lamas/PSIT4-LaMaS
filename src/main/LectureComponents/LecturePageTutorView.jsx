@@ -146,7 +146,7 @@ class LecturePageTutorView extends Component {
         const { isEditMode, isValid } = this.state;
 
         const { lectureName } = this.props;
-        const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl, onSelectFileClick, onSelectVideoClick, showVideo } = this.props;
+        const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl, onSelectFileClick, onSelectVideoClick, showVideo, comments } = this.props;
 
         return (
             <>
@@ -183,6 +183,8 @@ class LecturePageTutorView extends Component {
                                 nameOnStorage={ nameOnStorage }
                                 videoUrl={ videoUrl }
                                 showVideo={ showVideo }
+                                comments={comments}
+                                saveComment={this.props.saveComment}
                             />
                         ) }
                     </Grid.Column>
