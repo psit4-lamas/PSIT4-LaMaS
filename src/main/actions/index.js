@@ -27,6 +27,8 @@ const Actions = {
     SAVE_LECTURE_START: 'SAVE_LECTURE_START',
     SAVE_LECTURE_ERROR: 'SAVE_LECTURE_ERROR',
     SAVE_LECTURE_SUCCESS: 'SAVE_LECTURE_SUCCESS',
+    LOAD_COMMENTS_SUCCESS: 'LOAD_COMMENTS_SUCCESS',
+    ADD_COMMENT: 'ADD_COMMENT',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -280,7 +282,7 @@ const saveSubject = (subject) => {
 
 const addRating = (subject_id, userId, rating) => {
     return (dispatch) => {
-        const path = "subject_rates."+userId;
+        const path = 'subject_rates.' + userId;
         return firebase
             .database()
             .collection('subjects')
@@ -289,8 +291,8 @@ const addRating = (subject_id, userId, rating) => {
                 [path]: rating,
             })
             .then(function () {
-             //   dispatch({
-               //     type: Actions.SAVE_LECTURE_SUCCESS,
+                //   dispatch({
+                //     type: Actions.SAVE_LECTURE_SUCCESS,
                 //});
 
                 return { message: 'Subject successfully saved!' };
@@ -305,9 +307,57 @@ const addRating = (subject_id, userId, rating) => {
     };
 };
 
+const saveComment = (subject_id, lecture_id, user_id, comment) => {
+    let timestamp = Date.now();
+    return (dispatch) => {
+        return firebase
+            .database()
+            .collection('subjects')
+            .doc(subject_id)
+            .collection('comments')
+            .doc(lecture_id)
+            .collection('comments')
+            .add({
+                comment: comment,
+                user_id: user_id,
+                timestamp
+                ,
+            });
+    };
+};
+
+const loadComments = (subject_id, lecture_id) => {
+    return (dispatch) => {
+        return firebase
+            .database()
+            .collection('subjects')
+            .doc(subject_id)
+            .collection('comments')
+            .doc(lecture_id)
+            .collection('comments')
+            .orderBy('timestamp', 'asc')
+            .onSnapshot(function (querySnapshot) {
+                console.log('got new comment');
+                querySnapshot.docChanges().forEach(function (change) {
+                    const response = {
+                        comment: change.doc.data(),
+                    };
+
+                    if (change.type === 'added') {
+                        dispatch({
+                            type: Actions.ADD_COMMENT,
+                            payload: response,
+                        });
+                    }
+                });
+            });
+    };
+};
+
 const fetchFile = (nameOnStorage) => {
     return () => {
-        return firebase.storage()
+        return firebase
+            .storage()
             .ref(nameOnStorage)
             .getDownloadURL();
     };
@@ -328,4 +378,6 @@ export {
     saveSubject,
     fetchFile,
     addRating,
+    loadComments,
+    saveComment,
 };
