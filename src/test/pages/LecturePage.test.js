@@ -240,6 +240,8 @@ describe('LecturePage', () => {
         loadSubject,
         selectLecture: jest.fn(),
         fetchFile: jest.fn().mockResolvedValue('http://example.com'),
+        loadComments: jest.fn(),
+        saveComment: jest.fn(),
         isStudent: true,
         match: {
             params: 'SubjectIdFromParams',
@@ -251,6 +253,8 @@ describe('LecturePage', () => {
         loadSubject,
         selectLecture: jest.fn(),
         fetchFile: jest.fn().mockResolvedValue('http://example.com'),
+        loadComments: jest.fn(),
+        saveComment: jest.fn(),
         isStudent: false,
         match: {
             params: 'SubjectIdFromParams',
