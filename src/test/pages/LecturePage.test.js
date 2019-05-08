@@ -4,7 +4,6 @@ import { LecturePage } from '../../main/pages/LecturePage';
 import LecturePageTutorView from '../../main/LectureComponents/LecturePageTutorView';
 import LecturePageStudentView from '../../main/LectureComponents/LecturePageStudentView';
 
-
 describe('LecturePage', () => {
     let renderedComponent;
     const result = {
@@ -242,6 +241,9 @@ describe('LecturePage', () => {
         fetchFile: jest.fn().mockResolvedValue('http://example.com'),
         loadComments: jest.fn(),
         saveComment: jest.fn(),
+        user: {
+            userCredentials: { uid: 'userId' },
+        },
         isStudent: true,
         match: {
             params: 'SubjectIdFromParams',
@@ -255,6 +257,9 @@ describe('LecturePage', () => {
         fetchFile: jest.fn().mockResolvedValue('http://example.com'),
         loadComments: jest.fn(),
         saveComment: jest.fn(),
+        user: {
+            userCredentials: { uid: 'userId' },
+        },
         isStudent: false,
         match: {
             params: 'SubjectIdFromParams',
@@ -320,7 +325,6 @@ describe('LecturePage', () => {
         renderedComponent.find(LecturePageTutorView).prop('onSelectFileClick')(event);
 
         expect(propsNotStudent.fetchFile).toHaveBeenCalledWith(event);
-
     });
 
     it('should handle click on file correctly from studentView', () => {
@@ -353,4 +357,23 @@ describe('LecturePage', () => {
         expect(props.fetchFile).toHaveBeenCalledWith(event);
     });
 
+    it('should handle save of comment correctly from tutorView', () => {
+        const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
+
+        renderedComponent = shallow(component);
+        const comment = 'a new comment';
+        renderedComponent.find(LecturePageTutorView).prop('saveComment')(comment);
+
+        expect(propsNotStudent.saveComment).toHaveBeenCalledWith(propsNotStudent.currentSubject.subject_id, 'lecture_01', propsNotStudent.user, comment);
+    });
+
+    it('should handle save of comment correctly from studentView', () => {
+        const component = <LecturePage t={ (key) => key } { ...props } />;
+
+        renderedComponent = shallow(component);
+        const comment = 'a new comment';
+        renderedComponent.find(LecturePageStudentView).prop('saveComment')(comment);
+
+        expect(props.saveComment).toHaveBeenCalledWith(props.currentSubject.subject_id, 'lecture_01', props.user, comment);
+    });
 });
