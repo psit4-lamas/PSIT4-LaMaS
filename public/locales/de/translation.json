@@ -59,5 +59,9 @@
     },
     "rating": {
         "yourVote": "deine Bewertung:"
+    },
+    "comment": {
+        "input": "schreibe hier ...",
+        "submit": "hinzufügen"
     }
 }

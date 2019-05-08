@@ -60,5 +60,9 @@
     },
     "rating": {
         "yourVote": "Your vote:"
+    },
+    "comment": {
+        "input": "write here ...",
+        "submit": "add comment"
     }
 }

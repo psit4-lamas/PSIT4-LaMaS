@@ -257,17 +257,22 @@ const saveSubject = (subject) => {
         dispatch({
             type: Actions.SAVE_LECTURE_START,
         });
-
+        let updatedSubject = subject;
+        for (let lecture in updatedSubject.lectures){
+            updatedSubject.lectures[lecture] = {
+                ...updatedSubject.lectures[lecture],
+                    comments: []
+            }
+        }
         return firebase
             .database()
             .collection('subjects')
             .doc(subject.subject_id)
-            .update(subject)
+            .update(updatedSubject)
             .then(function () {
                 dispatch({
                     type: Actions.SAVE_LECTURE_SUCCESS,
                 });
-
                 return { message: 'Subject successfully saved!' };
             })
             .catch(function (error) {
@@ -307,7 +312,8 @@ const addRating = (subject_id, userId, rating) => {
     };
 };
 
-const saveComment = (subject_id, lecture_id, user_id, comment) => {
+const saveComment = (subject_id, lecture_id, user, comment) => {
+    console.log(user);
     let timestamp = Date.now();
     return (dispatch) => {
         return firebase
@@ -319,7 +325,8 @@ const saveComment = (subject_id, lecture_id, user_id, comment) => {
             .collection('comments')
             .add({
                 comment: comment,
-                user_id: user_id,
+                user_id: user.userCredentials.uid,
+                user_name: user.userCredentials.email,
                 timestamp
                 ,
             });

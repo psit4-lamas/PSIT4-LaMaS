@@ -141,6 +141,7 @@ const initialState = {
         isSubmitted: false,
         isLoadingSubject: true,
         currentLectureID: 'lecture_01',
+        currentComments: [],
         currentSubject: {
             ...EMPTY_DEFAULT_SUBJECT,
             averageRating: null,
@@ -149,7 +150,10 @@ const initialState = {
 };
 
 const userReducer = (state = initialState.user, action) => { // NOSONAR
-    switch (action.type) { // NOSONAR
+
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
@@ -208,8 +212,11 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
 };
 
 const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
+
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
-    switch (action.type) { // NOSONAR
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.SUBJECT_INSERT_HEAD:
             const found = state.activeTabs.find(function (tab) {
                 return !isEmptyObject(tab) && tab.subject_id === action.payload.subject_id;
@@ -250,13 +257,17 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
 };
 
 const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
-    switch (action.type) { // NOSONAR
+
+    switch (
+        action.type // NOSONAR
+        ) {
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {
                 isSubmitted: true,
                 isLoadingSubject: false,
                 currentLectureID: 'lecture_01',
+                currentComments: [],
                 currentSubject: {
                     ...subject,
                     subject_id: action.payload.subjectId,
@@ -280,6 +291,7 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 isSubmitted: true,
                 isLoadingSubject: false,
                 currentLectureID: 'lecture_01',
+                currentComments: [],
                 currentSubject: {
                     subject_id: null,
                 },
@@ -293,13 +305,24 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 total += rates[keys[i]];
             }
             avg = keys.length ? total / keys.length : 0;
-
+            let currentComments = state.currentComments;
+            if (action.payload.subject_id !== state.currentSubject.subject_id) {
+                currentComments = [];
+            }
             return {
                 ...state,
                 isSubmitted: false,
                 isLoadingSubject: false,
+                currentComments,
                 currentSubject: {
                     ...action.payload.subject,
+                    lectures: {
+                        ...state.currentSubject.lectures,
+                        [state.currentLectureID]: {
+                            ...action.payload.subject.lectures[state.currentLectureID],
+                            comments: state.currentComments,
+                        },
+                    },
                     subject_id: action.payload.subject_id,
                     averageRating: avg,
                 },
@@ -307,22 +330,22 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
 
         case Actions.ADD_COMMENT:
             let comments = [];
-            if(state.currentSubject.lectures[state.currentLectureID].comments) {
+            if (state.currentSubject.lectures[state.currentLectureID].comments) {
                 comments = state.currentSubject.lectures[state.currentLectureID].comments;
             }
             comments.push(action.payload.comment);
             return {
                 ...state,
+                currentComments: comments,
                 currentSubject: {
                     ...state.currentSubject,
                     lectures: {
                         ...state.currentSubject.lectures,
-                        [state.currentLectureID]:
-                            {
-                                ...state.currentSubject.lectures[state.currentLectureID],
-                                comments: comments,
-                            },
-                    }
+                        [state.currentLectureID]: {
+                            ...state.currentSubject.lectures[state.currentLectureID],
+                            comments: comments,
+                        },
+                    },
                 },
             };
 
@@ -348,16 +371,14 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 isLoadingSubject: false,
             };
 
-
         default:
             return {
                 ...state,
- //               isSubmitted: false,
- //               isLoadingSubject: true,
+                //               isSubmitted: false,
+                //               isLoadingSubject: true,
             };
     }
 };
-
 
 // Named exports to be called in the tests
 export { userReducer, tabsReducer, subjectReducer };
