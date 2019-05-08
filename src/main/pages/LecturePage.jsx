@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { selectLecture, loadSubject, saveSubject, fetchFile, addRating, loadComments, saveComment } from '../actions';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
-import { Form, Breadcrumb } from 'semantic-ui-react';
+import { Breadcrumb } from 'semantic-ui-react';
 import LoadingPage from '../pages/LoadingPage';
 import LecturePageStudentView from '../LectureComponents/LecturePageStudentView';
 import LecturePageTutorView from '../LectureComponents/LecturePageTutorView';
@@ -176,55 +176,53 @@ class LecturePage extends Component {
 
         return (
             <>
-                <Form onSubmit={ this.handleSubmit }>
-                    { !isStudent && (
-                        <LecturePageTutorView
-                            lectureName={ lectureName }
-                            onLectureTitleUpdate={ this.onLectureTitleUpdate }
-                            saveSubject={ this.props.saveSubject }
-                            handleLectureMenuClick={ this.handleLectureMenuClick }
-                            breadcrumbComponent={ this.renderBreadcrumb }
-                            subject_id={ subject_id }
-                            key={ subject_id + '-' + lectureID }
-                            t={ t }
-                            lectureId={ lectureID }
-                            subject={ subject }
-                            lecture={ currentLecture }
-                            lectureTitle={ lectureTitle }
-                            onSelectVideoClick={ this.onSelectVideoClick }
-                            onSelectFileClick={ this.onSelectFileClick }
-                            nameOnStorage={ nameOnStorage }
-                            videoUrl={ videoUrl }
-                            showVideo={ this.showFirstVideoOfLecture }
-                            comments={ comments }
-                            saveComment={ this.saveComment }
-                        />
-                    ) }
+                { !isStudent && (
+                    <LecturePageTutorView
+                        lectureName={ lectureName }
+                        onLectureTitleUpdate={ this.onLectureTitleUpdate }
+                        saveSubject={ this.props.saveSubject }
+                        handleLectureMenuClick={ this.handleLectureMenuClick }
+                        breadcrumbComponent={ this.renderBreadcrumb }
+                        subject_id={ subject_id }
+                        key={ subject_id + '-' + lectureID }
+                        t={ t }
+                        lectureId={ lectureID }
+                        subject={ subject }
+                        lecture={ currentLecture }
+                        lectureTitle={ lectureTitle }
+                        onSelectVideoClick={ this.onSelectVideoClick }
+                        onSelectFileClick={ this.onSelectFileClick }
+                        nameOnStorage={ nameOnStorage }
+                        videoUrl={ videoUrl }
+                        showVideo={ this.showFirstVideoOfLecture }
+                        comments={ comments }
+                        saveComment={ this.saveComment }
+                    />
+                ) }
 
-                    { isStudent && (
-                        <LecturePageStudentView
-                            handleLectureMenuClick={ this.handleLectureMenuClick }
-                            breadcrumbComponent={ this.renderBreadcrumb }
-                            subject_id={ subject_id }
-                            key={ subject_id + '-' + lectureID }
-                            t={ t }
-                            lectureId={ lectureID }
-                            subject={ subject }
-                            lecture={ currentLecture }
-                            lectureTitle={ lectureTitle }
-                            onSelectVideoClick={ this.onSelectVideoClick }
-                            onSelectFileClick={ this.onSelectFileClick }
-                            nameOnStorage={ nameOnStorage }
-                            videoUrl={ videoUrl }
-                            showVideo={ this.showFirstVideoOfLecture }
-                            addRating={ this.props.addRating }
-                            currentRating={ this.props.currentRating }
-                            user={ this.props.user }
-                            comments={ comments }
-                            saveComment={ this.saveComment }
-                        />
-                    ) }
-                </Form>
+                { isStudent && (
+                    <LecturePageStudentView
+                        handleLectureMenuClick={ this.handleLectureMenuClick }
+                        breadcrumbComponent={ this.renderBreadcrumb }
+                        subject_id={ subject_id }
+                        key={ subject_id + '-' + lectureID }
+                        t={ t }
+                        lectureId={ lectureID }
+                        subject={ subject }
+                        lecture={ currentLecture }
+                        lectureTitle={ lectureTitle }
+                        onSelectVideoClick={ this.onSelectVideoClick }
+                        onSelectFileClick={ this.onSelectFileClick }
+                        nameOnStorage={ nameOnStorage }
+                        videoUrl={ videoUrl }
+                        showVideo={ this.showFirstVideoOfLecture }
+                        addRating={ this.props.addRating }
+                        currentRating={ this.props.currentRating }
+                        user={ this.props.user }
+                        comments={ comments }
+                        saveComment={ this.saveComment }
+                    />
+                ) }
             </>
         );
     }

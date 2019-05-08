@@ -126,7 +126,7 @@ const logOut = () => {
         firebase
             .auth()
             .signOut()
-            .then((res) => {
+            .then(() => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
             .catch((err) => {
@@ -336,6 +336,9 @@ const saveComment = (subject_id, lecture_id, user, comment) => {
 
 const loadComments = (subject_id, lecture_id) => {
     return (dispatch) => {
+        dispatch({
+            type: Actions.RESET_COMMENTS,
+        });
         return firebase
             .database()
             .collection('subjects')
@@ -345,9 +348,6 @@ const loadComments = (subject_id, lecture_id) => {
             .collection('comments')
             .orderBy('timestamp', 'asc')
             .onSnapshot(function (querySnapshot) {
-                dispatch({
-                    type: Actions.RESET_COMMENTS,
-                });
                 querySnapshot.docChanges().forEach(function (change) {
                     const response = {
                         comment: change.doc.data(),
