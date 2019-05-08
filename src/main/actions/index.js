@@ -29,6 +29,7 @@ const Actions = {
     SAVE_LECTURE_SUCCESS: 'SAVE_LECTURE_SUCCESS',
     LOAD_COMMENTS_SUCCESS: 'LOAD_COMMENTS_SUCCESS',
     ADD_COMMENT: 'ADD_COMMENT',
+    RESET_COMMENTS: 'RESET_COMMENTS',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -344,7 +345,9 @@ const loadComments = (subject_id, lecture_id) => {
             .collection('comments')
             .orderBy('timestamp', 'asc')
             .onSnapshot(function (querySnapshot) {
-                console.log('got new comment');
+                dispatch({
+                    type: Actions.RESET_COMMENTS,
+                });
                 querySnapshot.docChanges().forEach(function (change) {
                     const response = {
                         comment: change.doc.data(),

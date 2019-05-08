@@ -349,6 +349,22 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 },
             };
 
+        case Actions.RESET_COMMENTS:
+            return {
+                ...state,
+                currentComments: [],
+                currentSubject: {
+                    ...state.currentSubject,
+                    lectures: {
+                        ...state.currentSubject.lectures,
+                        [state.currentLectureID]: {
+                            ...state.currentSubject.lectures[state.currentLectureID],
+                            comments: [],
+                        },
+                    },
+                },
+            };
+
         case Actions.SET_CURRENT_LECTURE:
             return {
                 ...state,
