@@ -35,6 +35,7 @@ describe('Subject reducer', () => {
             isSubmitted: false,
             isLoadingSubject: true,
             currentLectureID: 'lecture_01',
+            currentComments: [],
             currentSubject: {
                 ...EMPTY_DEFAULT_SUBJECT,
                 averageRating: null,
@@ -45,6 +46,7 @@ describe('Subject reducer', () => {
             isSubmitted: false,
             isLoadingSubject: false,
             currentLectureID: 'lecture_01',
+            currentComments: [],
             currentSubject: {
                 ...EMPTY_DEFAULT_SUBJECT,
                 averageRating: null,
