@@ -10,7 +10,7 @@ import { Comment, Grid, Segment } from 'semantic-ui-react';
 
 class LectureBodyContent extends Component {
     renderComments() {
-        let { comments } = this.props;
+        let { comments, t } = this.props;
         return (
             <Segment style={ {
                 overflow: 'auto',
@@ -23,14 +23,15 @@ class LectureBodyContent extends Component {
                                 <CommentShow
                                     key={ index }
                                     message={ comments[index].comment }
-                                    user={ comments[index].user_id }
+                                    user={ comments[index].user_name }
                                     timestamp={ new Date(comments[index].timestamp).toDateString() }
+
                                 />
                             );
                         })
                       : '' }
                 </Comment.Group>
-                <CommentAdd saveMessage={ this.props.saveComment }/>
+                <CommentAdd saveMessage={ this.props.saveComment } t={t}/>
             </Segment>
         );
     }

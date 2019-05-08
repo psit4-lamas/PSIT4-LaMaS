@@ -35,7 +35,6 @@ class LecturePage extends Component {
         }
 
         if (!this.state.commentsLoaded && !this.state.isLoadingSubject) {
-            console.log('comments start');
             const { subject_id } = prevProps.match.params;
             this.unsubscribe = prevProps.loadComments(subject_id, this.state.lectureID);
             this.setState({ commentsLoaded: true });
@@ -118,8 +117,7 @@ class LecturePage extends Component {
     };
 
     saveComment = (comment) => {
-        console.log(this.props.user);
-        this.props.saveComment(this.state.subject.subject_id, this.state.lectureID, this.props.user.userCredentials.uid, comment);
+        this.props.saveComment(this.state.subject.subject_id, this.state.lectureID, this.props.user, comment);
     };
 
     onSelectVideoClick = (nameOnStorage) => {

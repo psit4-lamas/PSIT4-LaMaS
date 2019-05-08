@@ -15,10 +15,11 @@ class CommentAdd extends Component {
     };
 
     render() {
+        const { t } = this.props;
         return (
             <Form>
-                <Input onChange={ (event) => this.setState({ value: event.target.value }) } value={ this.state.value }/>
-                <Button content="add comment" icon="chat" color="pink" fluid size="large" onClick={ this.saveMessage }/>
+                <Input onChange={ (event) => this.setState({ value: event.target.value }) } value={ this.state.value } fluid placeholder={ t('comment.input') }/>
+                <Button content={ t('comment.submit') } icon="chat" color="pink" fluid size="large" onClick={ this.saveMessage }/>
             </Form>
         );
     }
