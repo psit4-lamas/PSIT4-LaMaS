@@ -88,7 +88,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
 
     const lectures = {};
     for (let i = 1; i <= 14; i++) {
-        let lectureName = 'lecture_' + ('0' + i).slice(-2);
+        const lectureName = 'lecture_' + ('0' + i).slice(-2);
         Object.assign(lectures, {
             [lectureName]: {
                 is_public: false,

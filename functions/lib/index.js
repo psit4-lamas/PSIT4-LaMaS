@@ -69,14 +69,14 @@ exports.metadata = functions.storage.object().onFinalize(function (object) { ret
                 metadataFromFile = (_c.sent())[0];
                 dbSubject = {};
                 return [4 /*yield*/, admin
-                        .firestore()
-                        .collection('subjects')
-                        .doc(metadataFromFile.metadata.subjectId)];
+                    .firestore()
+                    .collection('subjects')
+                    .doc(metadataFromFile.metadata.subjectId)];
             case 2:
                 subjectRef = _c.sent();
                 return [4 /*yield*/, subjectRef.get().then(function (doc) {
-                        dbSubject = doc.data();
-                    })];
+                    dbSubject = doc.data();
+                })];
             case 3:
                 _c.sent();
                 lectureName = 'lecture_' + ('0' + metadataFromFile.metadata.lecture).slice(-2);
@@ -94,8 +94,8 @@ exports.metadata = functions.storage.object().onFinalize(function (object) { ret
                 updatePath = 'lectures.' + lectureName + '.' + attachmentSection;
                 attachments = Object.assign(existingAttachments, newAttachment);
                 return [4 /*yield*/, subjectRef.update((_b = {},
-                        _b[updatePath] = attachments,
-                        _b))];
+                    _b[updatePath] = attachments,
+                    _b))];
             case 4:
                 _c.sent();
                 return [2 /*return*/];
@@ -112,6 +112,7 @@ exports.addSubject = functions.https.onCall(function (data, context) {
     }
     if (typeof data === 'undefined' ||
         typeof data.subject_name === 'undefined' ||
+        typeof data.subject_full_name === 'undefined' ||
         typeof data.assigned_tutors === 'undefined' ||
         !Array.isArray(data.assigned_tutors) ||
         data.assigned_tutors.length === 0) {
@@ -136,22 +137,28 @@ exports.addSubject = functions.https.onCall(function (data, context) {
             },
             _a));
     }
-    var savable = {
+    var saveable = {
         subject_name: data.subject_name,
+        subject_full_name: data.subject_full_name,
         assigned_tutors: data.assigned_tutors,
+        grant_access_classes: [],
+        overview: {
+            topics: '',
+            labs: '',
+            exam: ''
+        },
         lectures: lectures,
         grades: grades,
-        subject_rates: []
+        subject_rates: {}
     };
     return admin
         .firestore()
         .collection('subjects')
-        .add(savable)
+        .add(saveable)
         .then(function (docRef) {
-        return { subjectId: docRef.id };
-    })["catch"](function (error) {
+            return { subjectId: docRef.id };
+        })["catch"](function (error) {
         // Re-throwing the error as an HttpsError so that the client gets the error details.
         throw new functions.https.HttpsError('unknown', error.message, error);
     });
 });
-//# sourceMappingURL=index.js.map
