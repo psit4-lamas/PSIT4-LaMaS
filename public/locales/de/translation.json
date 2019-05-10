@@ -41,8 +41,10 @@
         "negativeMsgBox1": "Fach mit Name ",
         "negativeMsgBox2": " und Dozenten ",
         "negativeMsgBox3": " konnte nicht erstellt werden.",
-        "subjectFieldLbl": "Name des Faches",
-        "subjectFieldPlaceholder": "Fachname...",
+        "subjectFieldLbl": "Kürzel des Faches",
+        "subjectFieldPlaceholder": "Fachkürzel...",
+        "subjectFullNameFieldLbl": "Ganze Name des Faches",
+        "subjectFullNameFieldPlaceholder": "Ganze Fachname...",
         "tutorFieldLbl": "Dozenten zuweisen",
         "tutorFieldPlaceholder": "Dozenten...",
         "saveBtn": "Speichern"

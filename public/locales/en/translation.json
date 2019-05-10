@@ -41,8 +41,10 @@
         "negativeMsgBox1": "Cannot create subject with name ",
         "negativeMsgBox2": " and assigned tutors ",
         "negativeMsgBox3": ".",
-        "subjectFieldLbl": "Subject Name",
-        "subjectFieldPlaceholder": "Subject Name...",
+        "subjectFieldLbl": "Subject Identifier",
+        "subjectFieldPlaceholder": "Subject Identifier...",
+        "subjectFullNameFieldLbl": "Subject Full Name",
+        "subjectFullNameFieldPlaceholder": "Subject Full Name...",
         "tutorFieldLbl": "Assign Tutors",
         "tutorFieldPlaceholder": "Tutors...",
         "saveBtn": "Save"
