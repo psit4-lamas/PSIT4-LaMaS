@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { loadSubject, logOut } from '../actions';
-import { Button, Dropdown, Icon, Menu } from 'semantic-ui-react';
+import { Button, Dropdown, Icon, Image, Menu } from 'semantic-ui-react';
+import logo_round from '../../images/lama_round_draft.png';
 import { LaMaSColours } from '../../utils/colourPalettes';
 import './TopMenu.css';
 
@@ -52,7 +53,7 @@ class TopMenu extends Component {
             <div>
                 <Menu pointing id="top-menu">
                     <Menu.Item name="/home" onClick={ this.handleItemClick }>
-                        Home
+                        <Image src={ logo_round } width={ 30 }/>&nbsp;&nbsp;Home
                     </Menu.Item>
                     { !isStudent && <Menu.Item name="/createsubject" active={ currentName === 'createsubject' }
                                                onClick={ this.handleItemClick }
