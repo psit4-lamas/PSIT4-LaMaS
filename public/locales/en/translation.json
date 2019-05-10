@@ -18,7 +18,7 @@
         "password": "password",
         "email": "e-mail address",
         "login": "Login",
-        "errorHeader": "User not found",
+        "errorHeader": "invalid credentials",
         "errorMessage": "There is no user record corresponding to this identifier. The user may have been deleted."
     },
     "landingPage": {

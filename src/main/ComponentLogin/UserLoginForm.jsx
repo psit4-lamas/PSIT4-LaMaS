@@ -26,7 +26,6 @@ class UserLoginForm extends Component {
         if (response) {
             response
                 .catch((err) => {
-                    console.log('USER NOT FOUND', err);
                     this.setState({
                         errorMessage: err.message,
                     });

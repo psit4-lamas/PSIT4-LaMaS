@@ -18,7 +18,7 @@
         "password": "Passwort",
         "email": "E-Mail Adresse",
         "login": "Anmelden",
-        "errorHeader": "Benutzer nicht gefunden",
+        "errorHeader": "Benutzer/Passwort nicht gültig",
         "errorMessage": "Es gibt keinen Benutzerdatensatz, der diesem Identifikator entspricht. Der Benutzer wurde möglicherweise gelöscht."
     },
     "landingPage": {
