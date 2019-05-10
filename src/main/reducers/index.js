@@ -167,14 +167,20 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
                 userAccessedPathname: '',
             };
         case Actions.USER_AUTHENTICATED:
+            const userCredentials = Object.assign({}, action.payload);
+            const username = userCredentials.user.email ? userCredentials.user.email.split('@')[0] : '-';
+            userCredentials.username = username;
             return {
                 ...state,
-                userCredentials: Object.assign({}, action.payload),
+                userCredentials: userCredentials,
                 isAuthenticated: !!action.payload,
                 isLoadingUser: false,
             };
         case Actions.LOG_IN_SUCCESS:
             const userRoles = action.payload.roles;
+            const user_credentials = Object.assign({}, action.payload.userCredentials);
+            const user_name = user_credentials.email ? user_credentials.email.split('@')[0] : '-';
+            user_credentials.username = user_name;
 
             return {
                 ...state,
@@ -182,6 +188,7 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
                 isAuthenticated: !!action.payload,
                 isLoadingUser: false,
                 isStudent: !!userRoles && userRoles.includes(UserRoles.STUDENT),
+                userCredentials: user_credentials,
             };
         case Actions.LOG_OUT_SUCCESS:
             const user = Object.assign({}, state);
