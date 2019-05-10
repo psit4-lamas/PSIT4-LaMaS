@@ -132,19 +132,27 @@ const logOut = () => {
     };
 };
 
-const createSubject = (submittedSubject, submittedTutors) => {
+const createSubject = (submittedSubject, submittedSubjectFullName, submittedTutors) => {
     return (dispatch) => {
         firebase
             .functions()
             .httpsCallable('addSubject')({
                 subject_name: submittedSubject,
+                subject_full_name: submittedSubjectFullName,
                 assigned_tutors: submittedTutors,
             })
             .then((res) => {
                 const data = {
                     subjectId: res.data.subjectId,
                     subject_name: submittedSubject,
+                    subject_full_name: submittedSubjectFullName,
                     assigned_tutors: submittedTutors.slice(),
+                    grant_access_classes: [],
+                    overview: {
+                        topics: '',
+                        labs: '',
+                        exam: '',
+                    },
                 };
 
                 dispatch({
