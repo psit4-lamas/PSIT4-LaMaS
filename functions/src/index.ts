@@ -73,6 +73,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
     if (
         typeof data === 'undefined' ||
         typeof data.subject_name === 'undefined' ||
+        typeof data.subject_full_name === 'undefined' ||
         typeof data.assigned_tutors === 'undefined' ||
         !Array.isArray(data.assigned_tutors) ||
         data.assigned_tutors.length === 0
@@ -100,9 +101,16 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
         });
     }
 
-    const savable = {
+    const saveable = {
         subject_name: data.subject_name,
+        subject_full_name: data.subject_full_name,
         assigned_tutors: data.assigned_tutors,
+        grant_access_classes: [],
+        overview: {
+            topics: '',
+            labs: '',
+            exam: '',
+        },
         lectures,
         grades,
         subject_rates: {},
@@ -111,7 +119,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
     return admin
         .firestore()
         .collection('subjects')
-        .add(savable)
+        .add(saveable)
         .then((docRef: any) => {
             return { subjectId: docRef.id };
         })
