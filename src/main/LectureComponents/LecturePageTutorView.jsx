@@ -203,6 +203,7 @@ class LecturePageTutorView extends Component {
 
                         { !isEditMode && (
                             <LectureBodyContent
+                                isStudent={ false }
                                 key={ subject_id + '-' + lectureId }
                                 t={ t }
                                 lectureId={ lectureId }

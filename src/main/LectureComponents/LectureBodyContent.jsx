@@ -8,7 +8,7 @@ import './LectureBodyContent.css';
 class LectureBodyContent extends Component {
     render() {
         const { t, subject, lecture, lectureTitle, onSelectVideoClick, onSelectFileClick } = this.props;
-        let { nameOnStorage, videoUrl } = this.props;
+        let { nameOnStorage, videoUrl, isStudent } = this.props;
 
         return (
             <>
@@ -22,6 +22,7 @@ class LectureBodyContent extends Component {
                     { videoUrl ? <DisplayVideo key={ videoUrl } nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> : '' }
 
                     <UploadMediaPage
+                        isStudent={ isStudent }
                         t={ t }
                         editMode={ false }
                         subject={ subject }
