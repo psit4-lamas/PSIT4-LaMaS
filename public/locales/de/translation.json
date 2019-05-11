@@ -7,6 +7,7 @@
         "logout": "Ausloggen",
         "editLecture": "editieren Vorlesung",
         "cancel": "abbrechen",
+        "publish": "veröffentlichen",
         "unpublish": "unveröffentlichen",
         "actions": "Aktion",
         "save": "speichern",
@@ -34,7 +35,7 @@
         "action": "Aktion",
         "noData": "Keine Datei",
         "publish": "veröffentlicht",
-        "unpublish": "nicht veröffentlicht"
+        "unpublish": "unveröffentlicht"
     },
     "createSubject": {
         "pageTitle": "Neu Fach erstellen",
