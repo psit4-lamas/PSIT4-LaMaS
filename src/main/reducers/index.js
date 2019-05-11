@@ -273,7 +273,7 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                     ...subject,
                     subject_id: action.payload.subjectId,
                     subject_name: action.payload.subject_name.replace(/%20/g, ' '),
-                    subject_full_name: action.payload.subject_full_name.replace(/%20/g, ' '),
+                    subject_full_name: action.payload.subject_full_name ? action.payload.subject_full_name.replace(/%20/g, ' ') : '',
                     assigned_tutors: action.payload.assigned_tutors.slice(),
                     grant_access_classes: action.payload.grant_access_classes.slice(),
                     overview: Object.assign({}, action.payload.overview),

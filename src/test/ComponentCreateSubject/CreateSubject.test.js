@@ -117,11 +117,6 @@ describe('CreateSubject', () => {
                 text: 'Hans Doran',
                 value: 'Hans Doran',
             },
-            {
-                key: 'Renate Kummer',
-                text: 'Renate Kummer',
-                value: 'Renate Kummer',
-            },
         ];
         const responseSubject = {};
 

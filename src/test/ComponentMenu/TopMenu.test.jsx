@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import { create } from 'react-test-renderer';
-import { Dropdown, Menu } from 'semantic-ui-react';
+import { Dropdown, Image, Menu } from 'semantic-ui-react';
 import { TopMenu } from '../../main/ComponentMenu/TopMenu';
 
 
@@ -89,8 +89,9 @@ describe('Top menu', () => {
 
     it('should render Menu items Home, Upload and all active tabs', () => {
         const menuItems = rootInstance.findAllByType(Menu.Item);
+        const homeButton = [<Image as="img" src="lama_round_draft.png" ui={true} width={30} />, "  Home"];
 
-        expect(menuItems[0].children[0].props.children).toEqual('Home');
+        expect(menuItems[0].children[0].props.children).toEqual(homeButton);
         expect(menuItems[0].props.name).toEqual('/home');
         expect(menuItems[1].children[0].props.children).toEqual('Create Subject');
         expect(menuItems[1].props.name).toEqual('/createsubject');
