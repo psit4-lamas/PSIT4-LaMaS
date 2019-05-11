@@ -324,7 +324,7 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                 currentSubject: {
                     ...action.payload.subject,
                     lectures: {
-                        ...state.currentSubject.lectures,
+                        ...action.payload.subject.lectures,
                         [state.currentLectureID]: {
                             ...action.payload.subject.lectures[state.currentLectureID],
                             comments: state.currentComments,
