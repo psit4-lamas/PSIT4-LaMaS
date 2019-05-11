@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Menu, Dropdown, Segment } from 'semantic-ui-react';
+import EditOverviewContent from './EditOverviewContent';
+import OverviewContent from './OverviewContent';
 import EditLectureBodyContent from './EditLectureBodyContent';
 import LectureBodyContent from './LectureBodyContent';
 import { LaMaSColours } from '../../utils/colourPalettes';
@@ -8,6 +10,7 @@ import '../pages/LecturePage.css';
 
 
 class LecturePageTutorView extends Component {
+
     constructor(props) {
         super(props);
 
@@ -18,21 +21,120 @@ class LecturePageTutorView extends Component {
         };
     }
 
+    componentWillMount() {
+        const { subject, lectureName } = this.props;
+
+        this.setState({
+            // updatedSubject: this.cloneSubject(subject),
+            updatedOverview: this.cloneOverview(subject),
+            updatedLecture: this.cloneLecture(subject),
+            lectureNameUpdate: lectureName,
+        });
+    }
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     const { subject, lectureName } = this.props;
+    //
+    //     this.setState({
+    //         updatedSubject: this.cloneSubject(subject),
+    //         lectureNameUpdate: lectureName,
+    //     });
+    // }
+
+    cloneOverview = (originalSubject) => {
+        const { updatedOverview } = this.state;
+        let clonedOverview;
+
+        if (updatedOverview && updatedOverview.subject_id === originalSubject.subject_id) {
+            clonedOverview = { ...updatedOverview };
+        } else {
+            clonedOverview = {
+                ...originalSubject.overview,
+                subject_id: originalSubject.subject_id,
+            }
+        }
+
+        return clonedOverview;
+    };
+
+    cloneLecture = (originalSubject) => {
+        const { lectureId } = this.props;
+        let clonedLecture = {
+            is_public: false,
+            name: '',
+            videos: {},
+            lecture_materials: {},
+            exercises: {},
+            comments: {},
+        };
+
+        if (lectureId !== "0") {
+            const copiedLecture = originalSubject.lectures[lectureId];
+            clonedLecture = {
+                is_public: copiedLecture.is_public,
+                name: copiedLecture.name,
+                videos: { ...copiedLecture.videos },
+                lecture_materials: { ...copiedLecture.lecture_materials },
+                exercises: { ...copiedLecture.exercises },
+                comments: { ...copiedLecture.comments },
+            };
+        }
+
+        return clonedLecture;
+    };
+
+    cloneSubject = (originalSubject) => {
+        const { lectureId } = this.props;
+        const cloneSubject = {
+            ...originalSubject,
+            overview: { ...originalSubject.overview },
+        };
+
+        if (lectureId !== "0") {
+            const cloneLecture = originalSubject.lectures[lectureId];
+            cloneSubject.lectures[lectureId] = {
+                is_public: cloneLecture.is_public,
+                name: cloneLecture.name,
+                videos: { ...cloneLecture.videos },
+                lecture_materials: { ...cloneLecture.lecture_materials },
+                exercises: { ...cloneLecture.exercises },
+                comments: { ...cloneLecture.comments },
+            };
+        }
+
+        return cloneSubject;
+    };
+
     handlePublishLecture = (e) => {
         // TODO: add action to POST a request to publish this lecture
         console.log('Not yet implemented!', e.target.value);
     };
 
-    handleSaveLecture = () => {
-        const { subject } = this.props;
+    handleSave = () => {
+        // const { updatedSubject } = this.state;
+        const updatedSubject = this.prepareUpdatedSubjectToBeSubmitted();
 
-        this.props.saveSubject(subject).then((response) => {
+        this.props.saveSubject(updatedSubject).then((response) => {
             if (response.message && response.message.includes('success')) {
                 this.setState({
                     isEditMode: false,
                     mode: 'view',
                 });
             }
+        });
+    };
+
+    handleCancel = (e) => {
+        e.preventDefault();
+        const { subject, lectureName } = this.props;
+
+        this.setState({
+            // updatedSubject: this.cloneSubject(subject),
+            updatedOverview: this.cloneOverview(subject),
+            updatedLecture: this.cloneLecture(subject),
+            lectureNameUpdate: lectureName,
+            isEditMode: false,
+            mode: 'view',
         });
     };
 
@@ -46,17 +148,96 @@ class LecturePageTutorView extends Component {
         });
     };
 
-    onLectureTitleChange = (value) => {
+    prepareUpdatedSubjectToBeSubmitted = () => {
         const { subject, lectureId } = this.props;
-        const updatedSubject = Object.assign({}, subject);
-        updatedSubject.lectures[lectureId].name = value;
+        const { updatedOverview, updatedLecture } = this.state;
+        const subjectToBeSubmitted = this.cloneSubject(subject);
 
-        this.setState(
-            {
-                isValid: value !== '',
-            },
-            () => this.props.onLectureTitleUpdate(updatedSubject, value),
-        );
+        if (lectureId === "0") {
+            subjectToBeSubmitted.overview = {
+                topics: updatedOverview.topics,
+                labs: updatedOverview.labs,
+                exam: updatedOverview.exam,
+            };
+        } else {
+            subjectToBeSubmitted.lectures[lectureId] = { ...updatedLecture };
+        }
+
+        return subjectToBeSubmitted;
+    };
+
+    onOverviewTopicsChange = (value) => {
+        // const { updatedSubject } = this.state;
+        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
+        // subjectToBeUpdated.overview.topics = value;
+        //
+        // this.setState({
+        //     updatedSubject: subjectToBeUpdated,
+        // });
+        const { updatedOverview } = this.state;
+        const overviewToBeUpdated = Object.assign({}, updatedOverview);
+        overviewToBeUpdated.topics = value;
+
+        this.setState({
+            updatedOverview: overviewToBeUpdated,
+        });
+    };
+
+    onOverviewLabsChange = (value) => {
+        // const { updatedSubject } = this.state;
+        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
+        // subjectToBeUpdated.overview.labs = value;
+        //
+        // this.setState({
+        //     updatedSubject: subjectToBeUpdated,
+        // });
+        const { updatedOverview } = this.state;
+        const overviewToBeUpdated = Object.assign({}, updatedOverview);
+        overviewToBeUpdated.labs = value;
+
+        this.setState({
+            updatedOverview: overviewToBeUpdated,
+        });
+    };
+
+    onOverviewExamChange = (value) => {
+        // const { updatedSubject } = this.state;
+        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
+        // subjectToBeUpdated.overview.exam = value;
+        //
+        //
+        // this.setState({
+        //     updatedSubject: subjectToBeUpdated,
+        // });
+        const { updatedOverview } = this.state;
+        const overviewToBeUpdated = Object.assign({}, updatedOverview);
+        overviewToBeUpdated.exam = value;
+
+        this.setState({
+            updatedOverview: overviewToBeUpdated,
+        });
+    };
+
+    onLectureTitleChange = (value) => {
+        // const { lectureId } = this.props;
+        // const { updatedSubject } = this.state;
+        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
+        // subjectToBeUpdated.lectures[lectureId].name = value;
+        //
+        // this.setState({
+        //     updatedSubject: updatedSubject,
+        //     isValid: value !== '',
+        //     lectureNameUpdate: value,
+        // });
+        const { updatedLecture } = this.state;
+        const lectureToBeUpdated = Object.assign({}, updatedLecture);
+        lectureToBeUpdated.name = value;
+
+        this.setState({
+            updatedLecture: lectureToBeUpdated,
+            isValid: value !== '',
+            lectureNameUpdate: value,
+        });
     };
 
     renderOnViewModeDropdown = () => {
@@ -81,10 +262,8 @@ class LecturePageTutorView extends Component {
 
         return (
             <Dropdown.Menu>
-                <Dropdown.Item name={'save'} onClick={ this.handleSaveLecture }>{ t('menu.save') }</Dropdown.Item>
-                <Dropdown.Item value={ 'edit' } onClick={ this.onModeChange }>
-                    { t('menu.cancel') }
-                </Dropdown.Item>
+                <Dropdown.Item name={ 'save' } onClick={ this.handleSave }>{ t('menu.save') }</Dropdown.Item>
+                <Dropdown.Item value={ 'edit' } onClick={ this.handleCancel }>{ t('menu.cancel') }</Dropdown.Item>
             </Dropdown.Menu>
         );
     };
@@ -122,11 +301,20 @@ class LecturePageTutorView extends Component {
     };
 
     renderLecturesMenu = () => {
-        const { t, subject, lectureId, handleLectureMenuClick } = this.props;
+        const { t, subject, lectureId, handleOverviewMenuClick, handleLectureMenuClick } = this.props;
         const { lectures } = subject;
 
         return (
             <Menu fluid vertical tabular>
+                <Menu.Item
+                    color={ LaMaSColours['public-lecture-active'] }
+                    className={ 'public-lecture' }
+                    name={ t('baseLayout.overview') }
+                    id={ 0 }
+                    key={ 0 }
+                    active={ lectureId === "0" }
+                    onClick={ handleOverviewMenuClick }
+                />
                 { Object.keys(lectures).map((index, key) => (
                     <Menu.Item
                         color={ lectures[index].is_public ? LaMaSColours['public-lecture-active'] : LaMaSColours['unpublic-lecture-active'] }
@@ -142,11 +330,76 @@ class LecturePageTutorView extends Component {
         );
     };
 
-    render() {
-        const { isEditMode, isValid } = this.state;
+    renderOverviewContent = () => {
+        const { isEditMode, updatedOverview } = this.state;
+        const { t, subject, subject_full_name, subject_id, lectureId } = this.props;
 
-        const { lectureName } = this.props;
+        return (
+            <Grid.Column width={ 10 }>
+                { isEditMode && (
+                    <EditOverviewContent
+                        t={ t }
+                        subject_full_name={ subject_full_name }
+                        overview={ updatedOverview }
+                        onOverviewTopicsChange={ this.onOverviewTopicsChange }
+                        onOverviewLabsChange={ this.onOverviewLabsChange }
+                        onOverviewExamChange={ this.onOverviewExamChange }
+                    />
+                ) }
+
+                { !isEditMode && (
+                    <OverviewContent
+                        key={ subject_id + '-' + lectureId }
+                        t={ t }
+                        subject_full_name={ subject_full_name }
+                        overview={ subject.overview }
+                    />
+                ) }
+            </Grid.Column>
+        );
+    };
+
+    renderLectureContent = () => {
+        const { isEditMode, isValid, updatedLecture, lectureNameUpdate } = this.state;
         const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl, onSelectFileClick, onSelectVideoClick, showVideo } = this.props;
+
+        return (
+            <Grid.Column width={ 10 }>
+                { isEditMode && (
+                    <EditLectureBodyContent
+                        t={ t }
+                        subject={ subject }
+                        lecture={ updatedLecture }
+                        lectureTitle={ lectureTitle }
+                        lectureName={ lectureNameUpdate }
+                        isValid={ isValid }
+                        onLectureTitleChange={ this.onLectureTitleChange }
+                        onSelectVideoClick={ onSelectVideoClick }
+                        onSelectFileClick={ onSelectFileClick }
+                    />
+                ) }
+
+                { !isEditMode && (
+                    <LectureBodyContent
+                        key={ subject_id + '-' + lectureId }
+                        t={ t }
+                        lectureId={ lectureId }
+                        subject={ subject }
+                        lecture={ lecture }
+                        lectureTitle={ lectureTitle }
+                        onSelectVideoClick={ onSelectVideoClick }
+                        onSelectFileClick={ onSelectFileClick }
+                        nameOnStorage={ nameOnStorage }
+                        videoUrl={ videoUrl }
+                        showVideo={ showVideo }
+                    />
+                ) }
+            </Grid.Column>
+        );
+    };
+
+    render() {
+        const { lectureId } = this.props;
 
         return (
             <>
@@ -154,38 +407,8 @@ class LecturePageTutorView extends Component {
 
                 <Grid columns={ 3 }>
                     <Grid.Column width={ 3 }>{ this.renderLecturesMenu() }</Grid.Column>
-
-                    <Grid.Column width={ 10 }>
-                        { isEditMode && (
-                            <EditLectureBodyContent
-                                t={ t }
-                                subject={ subject }
-                                lecture={ lecture }
-                                lectureTitle={ lectureTitle }
-                                lectureName={ lectureName }
-                                isValid={ isValid }
-                                onLectureTitleChange={ this.onLectureTitleChange }
-                                onSelectVideoClick={ onSelectVideoClick }
-                                onSelectFileClick={ onSelectFileClick }
-                            />
-                        ) }
-
-                        { !isEditMode && (
-                            <LectureBodyContent
-                                key={ subject_id + '-' + lectureId }
-                                t={ t }
-                                lectureId={ lectureId }
-                                subject={ subject }
-                                lecture={ lecture }
-                                lectureTitle={ lectureTitle }
-                                onSelectVideoClick={ onSelectVideoClick }
-                                onSelectFileClick={ onSelectFileClick }
-                                nameOnStorage={ nameOnStorage }
-                                videoUrl={ videoUrl }
-                                showVideo={ showVideo }
-                            />
-                        ) }
-                    </Grid.Column>
+                    { lectureId === "0" && this.renderOverviewContent() }
+                    { lectureId !== "0" && this.renderLectureContent() }
                 </Grid>
             </>
         );

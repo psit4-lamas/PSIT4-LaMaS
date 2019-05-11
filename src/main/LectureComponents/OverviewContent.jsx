@@ -5,12 +5,12 @@ import './LectureBodyContent.css';
 
 class OverviewContent extends Component {
     render() {
-        const { t, subject, overview } = this.props;
+        const { t, subject_full_name, overview } = this.props;
 
         return (
             <>
                 <h1>
-                    <em>{ subject.subject_full_name }</em> { ` - ${ t('subjectOverview.suffixTitle') }` }
+                    <em>{ subject_full_name }</em> { ` - ${ t('subjectOverview.suffixTitle') }` }
                 </h1>
 
                 <div style={ { marginTop: '25px' } }>

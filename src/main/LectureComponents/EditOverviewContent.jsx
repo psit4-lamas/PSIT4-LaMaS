@@ -19,14 +19,13 @@ class EditOverviewContent extends Component {
     };
 
     render() {
-        const { t, subject } = this.props;
-        const { overview } = subject;
+        const { t, subject_full_name, overview } = this.props;
 
         return (
             <>
                 <h1>
                     <strong>{ t('subjectOverview.editTitleLabel') }</strong>:
-                    <em> { subject.subject_full_name }</em> { ` - ${ t('subjectOverview.suffixTitle') }` }
+                    <em> { subject_full_name }</em> { ` - ${ t('subjectOverview.suffixTitle') }` }
                 </h1>
 
                 <div style={ { marginTop: '25px' } }>
@@ -71,7 +70,6 @@ class EditOverviewContent extends Component {
 
 
 EditOverviewContent.propTypes = {
-    subject: PropTypes.object.isRequired,
     onOverviewTopicsChange: PropTypes.func.isRequired,
     onOverviewLabsChange: PropTypes.func.isRequired,
     onOverviewExamChange: PropTypes.func.isRequired,
