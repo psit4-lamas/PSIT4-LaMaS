@@ -258,6 +258,11 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
 
 const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
     switch (action.type) { // NOSONAR
+        case Actions.LOADING_SUBJECT:
+            return {
+                ...state,
+                isLoadingSubject: true,
+            };
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {

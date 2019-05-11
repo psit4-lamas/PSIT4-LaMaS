@@ -12,6 +12,7 @@ const Actions = {
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
 
+    LOADING_SUBJECT: 'LOADING_SUBJECT',
     CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
     CREATE_SUBJECT_FAIL: 'CREATE_SUBJECT_FAIL',
     LEAVE_CREATE_SUBJECT: 'LEAVE_CREATE_SUBJECT',
@@ -188,6 +189,11 @@ const leaveCreateSubject = () => {
  */
 const loadSubject = (subject_id) => {
     return (dispatch) => {
+
+        dispatch({
+            type: Actions.LOADING_SUBJECT,
+        });
+
         return firebase
             .database()
             .collection('subjects')
