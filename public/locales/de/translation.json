@@ -7,16 +7,20 @@
         "logout": "Ausloggen",
         "editLecture": "editieren Vorlesung",
         "cancel": "abbrechen",
+        "publish": "veröffentlichen",
         "unpublish": "unveröffentlichen",
         "actions": "Aktion",
         "save": "speichern",
-        "bookmarkSubject": "Fach bookmarken"
+        "bookmarkSubject": "Fach bookmarken",
+        "userRole": "Ihre Rolle ist:"
     },
     "login": {
         "message": "Auf LaMaS anmelden",
         "password": "Passwort",
         "email": "E-Mail Adresse",
-        "login": "Anmelden"
+        "login": "Anmelden",
+        "errorHeader": "Benutzer/Passwort nicht gültig",
+        "errorMessage": "Es gibt keinen Benutzerdatensatz, der diesem Identifikator entspricht. Der Benutzer wurde möglicherweise gelöscht."
     },
     "landingPage": {
         "title": "Bookmark"
@@ -29,7 +33,9 @@
         "E": "Übungsaufgaben",
         "L": "Zusätzliche Unterlagen",
         "action": "Aktion",
-        "noData": "Keine Datei"
+        "noData": "Keine Datei",
+        "publish": "veröffentlicht",
+        "unpublish": "unveröffentlicht"
     },
     "createSubject": {
         "pageTitle": "Neues Fach erstellen",
@@ -55,7 +61,9 @@
         "lectureTitle": "Titel der Vorlesung:",
         "lectureTitlePlaceholder": "Vorlesung Titel...",
         "negativeMsgTitle": "ungültiger Name für Vorlesung",
-        "negativeMsgBox1": "Der Name der Vorlesung darf nicht leer sein."
+        "negativeMsgBox1": "Der Name der Vorlesung darf nicht leer sein.",
+        "publish": "Vorlesung veröffentlichen",
+        "unpublish": "Vorlesung unveröffentlichen"
     },
     "rating": {
         "yourVote": "deine Bewertung:"

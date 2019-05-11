@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withNameSpacesAndRouterAndRedux } from '../../utils';
+import { withRouterAndRedux } from '../../utils';
 import { loadSubject, loadSubjectHead } from '../actions';
 import './LandingPage.css';
 
 
 class LandingPage extends Component {
+
     componentDidMount() {
         this.props.loadSubjectHead();
     }
@@ -51,4 +52,4 @@ const mapDispatchToProps = {
 };
 
 export { LandingPage };
-export default withNameSpacesAndRouterAndRedux(mapStateToProps, mapDispatchToProps, LandingPage);
+export default withRouterAndRedux(mapStateToProps, mapDispatchToProps, LandingPage);

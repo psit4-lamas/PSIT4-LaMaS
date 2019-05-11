@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { isEmptyObject } from '../../utils';
-import { Icon, Item, Table } from 'semantic-ui-react';
+import { Checkbox, Icon, Item, Table } from 'semantic-ui-react';
 import UploadComponent from '../UploadComponent/UploadComponent';
 
 
@@ -43,13 +43,60 @@ class FileList extends Component {
         this.props.onSelectFile(nameOnStorage);
     };
 
-    renderFileList(file) {
-        const { nameOnStorage, name } = file;
-        const { isDeleteImplemented } = this.props;
+    onFilePublishChange = (event, data) => {
+        this.props.onChangeFilePublish(data);
+    };
+
+    isAnyPublic = (files) => {
+        const { type, isStudent } = this.props;
+        if (!isStudent || (type === 'V') || (type === 'L')) {
+            return true;
+        }
+
+        // Check if all 'exercise' files are publish, in order to show 'No data' or just the published files
+        let showNoData = false;
+        for (let index in files) {
+            showNoData = showNoData || (index && !!files[index].is_public);
+        }
+
+        return showNoData;
+    };
+
+    renderExerciseRightCell = (key, is_public) => {
+        const { isDeleteImplemented, editMode, t, isStudent } = this.props;
+        let renderCell;
+
+        if (isStudent) {
+            renderCell = ('');
+        } else if (editMode) {
+            renderCell = (
+                <>
+                    { <Checkbox name={ key } toggle label={ t('fileList.publish') } defaultChecked={ is_public } onChange={ this.onFilePublishChange }/> }
+                    { isDeleteImplemented && <button style={ { display: 'none' } } className="ui icon button"/> }
+                </>
+            );
+        } else {
+            renderCell = (
+                <>
+                    { is_public ? <span>{ t('fileList.publish') }</span> : <span>{ t('fileList.unpublish') }</span> }
+                </>
+            );
+        }
+
+        return renderCell;
+    };
+
+    renderFileList(key, file) {
+        const { nameOnStorage, name, is_public } = file;
+        const { isDeleteImplemented, type, isStudent } = this.props;
+
+        if ((type === 'E' && !file.is_public) && isStudent) {
+            return '';
+        }
 
         return (
             <Table.Row key={ nameOnStorage }>
-                <Table.Cell width={ 14 }>
+                <Table.Cell width={ 10 }>
                     <Item.Group>
                         <Item>
                             <Item.Content verticalAlign="middle">
@@ -61,11 +108,9 @@ class FileList extends Component {
                     </Item.Group>
                 </Table.Cell>
 
-                { isDeleteImplemented && (
+                { ( isDeleteImplemented || !isStudent ) && (
                     <Table.Cell>
-                        <button style={ { display: 'none' } } className="ui icon button">
-                            <i className="trash alternate icon">X</i>
-                        </button>
+                        { (type !== 'V') && (type !== 'L') && this.renderExerciseRightCell(key, is_public) }
                     </Table.Cell>
                 ) }
             </Table.Row>
@@ -73,7 +118,7 @@ class FileList extends Component {
     }
 
     render() {
-        const { t, type, editMode, subject, lecture } = this.props;
+        const { t, type, editMode, subject, lecture, isStudent } = this.props;
         const files = !isEmptyObject(lecture) ? this.filesForStructure(type) : {};
         const { isDeleteImplemented } = this.props;
 
@@ -81,8 +126,8 @@ class FileList extends Component {
             <Table color={ this.colorForStructure(type) } key={ this.colorForStructure(type) }>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell width={ 14 }>{ t('fileList.' + type) } </Table.HeaderCell>
-                        { isDeleteImplemented && <Table.HeaderCell width={ 2 }>{ t('fileList.action') }</Table.HeaderCell> }
+                        <Table.HeaderCell width={ 10 }>{ t('fileList.' + type) } </Table.HeaderCell>
+                        { ( isDeleteImplemented || !isStudent ) && <Table.HeaderCell width={ 2 }>{ editMode ? t('fileList.action') : '' }</Table.HeaderCell> }
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -95,9 +140,9 @@ class FileList extends Component {
                         </Table.Row>
                     ) }
 
-                    { !isEmptyObject(files) ? (
+                    { !isEmptyObject(files) && this.isAnyPublic(files) ? (
                         Object.keys(files).map((index) => {
-                            return this.renderFileList(files[index]);
+                            return this.renderFileList(index, files[index]);
                         })
                     ) : (
                           <Table.Row>

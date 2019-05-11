@@ -9,6 +9,7 @@ import './LecturePage.css';
 
 
 class LecturePage extends Component {
+
     constructor(props) {
         super(props);
         const lectureID = 'lecture_01';
@@ -21,6 +22,7 @@ class LecturePage extends Component {
             lectureName: '',
             videoUrl: '',
             nameOnStorage: '',
+            is_public: false,
             commentsLoaded: false,
         };
 
@@ -72,6 +74,7 @@ class LecturePage extends Component {
             lectureName: currentLecture.name || '',
             videoUrl: '',
             nameOnStorage: '',
+            is_public: currentLecture.is_public,
             commentsLoaded: false,
         });
 
@@ -97,10 +100,25 @@ class LecturePage extends Component {
         });
     };
 
+    onFilePublishUpdate = (updatedSubject) => {
+        this.setState({
+            subject: updatedSubject,
+        });
+    };
+
+    onLecturePublishUpdate = (updatedSubject, value) => {
+        this.setState({
+            subject: updatedSubject,
+            is_public: value,
+        });
+    };
+
     showFirstVideoOfLecture = (lectureID) => {
         const { subject } = this.state;
         const currentLecture = subject.lectures[lectureID];
-        const nameOnStorage = Object.keys(currentLecture.videos).length > 0 ? currentLecture.videos.videos_00.nameOnStorage : '';
+        const nameOnStorage = Object.keys(currentLecture.videos).length > 0
+                              ? currentLecture.videos.videos_00.nameOnStorage
+                              : '';
 
         if (nameOnStorage) {
             this.showVideo(nameOnStorage);
@@ -146,10 +164,10 @@ class LecturePage extends Component {
         return (
             <Breadcrumb>
                 <Breadcrumb.Section link>Home</Breadcrumb.Section>
-                <Breadcrumb.Divider/>
-                <Breadcrumb.Section link>{ subject.subject_name }</Breadcrumb.Section>
-                <Breadcrumb.Divider/>
-                <Breadcrumb.Section active>{ currentPage }</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section link>{subject.subject_name}</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section active>{currentPage}</Breadcrumb.Section>
             </Breadcrumb>
         );
     };
@@ -159,7 +177,7 @@ class LecturePage extends Component {
         if (isLoadingSubject) {
             return (
                 <React.Fragment>
-                    <LoadingPage/>
+                    <LoadingPage />
                 </React.Fragment>
             );
         }
@@ -180,6 +198,7 @@ class LecturePage extends Component {
                     <LecturePageTutorView
                         lectureName={ lectureName }
                         onLectureTitleUpdate={ this.onLectureTitleUpdate }
+                        onLecturePublishUpdate={ this.onLecturePublishUpdate }
                         saveSubject={ this.props.saveSubject }
                         handleLectureMenuClick={ this.handleLectureMenuClick }
                         breadcrumbComponent={ this.renderBreadcrumb }
@@ -195,6 +214,7 @@ class LecturePage extends Component {
                         nameOnStorage={ nameOnStorage }
                         videoUrl={ videoUrl }
                         showVideo={ this.showFirstVideoOfLecture }
+                        onFilePublishUpdate={ this.onFilePublishUpdate }
                         comments={ comments }
                         saveComment={ this.saveComment }
                     />

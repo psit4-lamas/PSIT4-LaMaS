@@ -38,7 +38,7 @@ class LectureBodyContent extends Component {
 
     render() {
         const { t, subject, lecture, lectureTitle, onSelectVideoClick, onSelectFileClick } = this.props;
-        let { nameOnStorage, videoUrl } = this.props;
+        let { nameOnStorage, videoUrl, isStudent } = this.props;
 
         return (
             <>
@@ -50,11 +50,29 @@ class LectureBodyContent extends Component {
 
                 <div style={ { marginTop: '25px' } }>
                     <Grid divided="vertically">
-                        <Grid.Column width={ 9 }>{ videoUrl ? <DisplayVideo key={ videoUrl } nameOnStorage={ nameOnStorage } videoUrl={ videoUrl }/> : '' }</Grid.Column>
-                        <Grid.Column width={ 7 }>{ this.renderComments() }</Grid.Column>
+                        <Grid.Column width={ 9 }>
+                            { videoUrl ? (
+                                <DisplayVideo
+                                    key={ videoUrl }
+                                    nameOnStorage={ nameOnStorage }
+                                    videoUrl={ videoUrl }
+                                />) : '' }
+                        </Grid.Column>
+
+                        <Grid.Column width={ 7 }>
+                            { this.renderComments() }
+                        </Grid.Column>
                     </Grid>
-                    <UploadMediaPage t={ t } editMode={ false } subject={ subject } lecture={ lecture } onSelectVideoClick={ onSelectVideoClick }
-                                     onSelectFileClick={ onSelectFileClick }/>
+
+                    <UploadMediaPage
+                        isStudent={ isStudent }
+                        t={ t }
+                        editMode={ false }
+                        subject={ subject }
+                        lecture={ lecture }
+                        onSelectVideoClick={ onSelectVideoClick }
+                        onSelectFileClick={ onSelectFileClick }
+                    />
                 </div>
             </>
         );
@@ -63,8 +81,6 @@ class LectureBodyContent extends Component {
 
 
 LectureBodyContent.propTypes = { // NOSONAR
-
-
     lectureTitle: PropTypes.string.isRequired,
     lecture: PropTypes.object.isRequired,
 };

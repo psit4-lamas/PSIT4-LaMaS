@@ -106,18 +106,19 @@ const subscribeToAuthStateChanged = () => {
 const logIn = (email, password) => {
     return (dispatch) => {
         // Connect to Firebase to perform a user login
-        firebase
+        const response = firebase
             .auth()
-            .signInWithEmailAndPassword(email, password)
+            .signInWithEmailAndPassword(email, password);
+
+        response
             .then((userCredentials) => {
                 dispatch({
                     type: Actions.USER_AUTHENTICATED,
                     payload: userCredentials,
                 });
-            })
-            .catch((err) => {
-                console.log(err);
             });
+
+        return response;
     };
 };
 

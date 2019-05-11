@@ -100,6 +100,7 @@ class LecturePageStudentView extends Component {
 
                     <Grid.Column width={ 10 }>
                         <LectureBodyContent
+                            isStudent={ true }
                             key={ subject_id + '-' + lectureId }
                             t={ t }
                             lectureId={ lectureId }

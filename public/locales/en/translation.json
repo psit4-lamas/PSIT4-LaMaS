@@ -7,16 +7,20 @@
         "logout": "Logout",
         "editLecture": "edit lecture",
         "cancel": "cancel",
+        "publish": "publish lecture",
         "unpublish": "unpublish lecture",
         "actions": "actions",
         "save": "save",
-        "bookmarkSubject": "Bookmark subject"
+        "bookmarkSubject": "Bookmark subject",
+        "userRole": "Your role is:"
     },
     "login": {
         "message": "Log-in to LaMaS",
         "password": "password",
         "email": "e-mail address",
-        "login": "Login"
+        "login": "Login",
+        "errorHeader": "invalid credentials",
+        "errorMessage": "There is no user record corresponding to this identifier. The user may have been deleted."
     },
     "landingPage": {
         "title": "Bookmark"
@@ -29,7 +33,9 @@
         "E": "Exercises",
         "L": "Lecture Materials",
         "action": "Action",
-        "noData": "No files uploaded"
+        "noData": "No files uploaded",
+        "publish": "published",
+        "unpublish": "unpublished"
     },
     "createSubject": {
         "pageTitle": "Create new subject",
@@ -56,7 +62,9 @@
         "lectureTitle": "Lecture title:",
         "lectureTitlePlaceholder": "Lecture title...",
         "negativeMsgTitle": "invalid name for lecture",
-        "negativeMsgBox1": "Name of lecture can not be empty."
+        "negativeMsgBox1": "Name of lecture can not be empty.",
+        "publish": "Publish lecture",
+        "unpublish": "Unpublish lecture"
     },
     "rating": {
         "yourVote": "Your vote:"
