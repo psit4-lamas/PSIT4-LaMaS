@@ -10,8 +10,7 @@ class DisplayVideo extends Component {
         if (videoUrl) {
             return (
                 <>
-                    { }
-                    <video width="640" height="100%" controls src={ videoUrl }>
+                    <video id="video-component" height="100%" controls src={ videoUrl }>
                         Your browser does not support the video tag.
                     </video>
                     <br/>

@@ -13,9 +13,9 @@ class LectureBodyContent extends Component {
     renderComments() {
         let { comments, t } = this.props;
         return (
-            <Segment style={ {
+            <Segment id="comment-segment" style={ {
                 overflow: 'auto',
-                maxHeight: 500,
+                maxHeight: 450,
             } }>
                 <Comment.Group>
                     { comments
@@ -51,7 +51,7 @@ class LectureBodyContent extends Component {
 
                 <div style={ { marginTop: '25px' } }>
                     <Grid divided="vertically">
-                        <Grid.Column width={ 9 }>
+                        <Grid.Column floated='left' width={ 10 }>
                             { videoUrl ? (
                                 <DisplayVideo
                                     key={ videoUrl }
@@ -60,7 +60,7 @@ class LectureBodyContent extends Component {
                                 />) : '' }
                         </Grid.Column>
 
-                        <Grid.Column width={ 7 }>
+                        <Grid.Column floated='right' width={ 6 }>
                             { this.renderComments() }
                         </Grid.Column>
                     </Grid>
