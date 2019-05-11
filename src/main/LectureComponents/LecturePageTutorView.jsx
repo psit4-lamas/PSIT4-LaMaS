@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Menu, Dropdown, Segment } from 'semantic-ui-react';
+import { Grid, Menu, Dropdown, Segment, Checkbox } from 'semantic-ui-react';
 import EditLectureBodyContent from './EditLectureBodyContent';
 import LectureBodyContent from './LectureBodyContent';
 import { LaMaSColours } from '../../utils/colourPalettes';
@@ -18,9 +18,12 @@ class LecturePageTutorView extends Component {
         };
     }
 
-    handlePublishLecture = (e) => {
-        // TODO: add action to POST a request to publish this lecture
-        console.log('Not yet implemented!', e.target.value);
+    handlePublishLecture = (e, { value }) => {
+        const { subject, lectureId } = this.props;
+        const updatedSubject = Object.assign({}, subject);
+        updatedSubject.lectures[lectureId].is_public = !value;
+
+        this.props.saveSubject(updatedSubject);
     };
 
     handleSaveLecture = () => {
@@ -59,17 +62,45 @@ class LecturePageTutorView extends Component {
         );
     };
 
+    onChangeFilePublish = (value) => {
+        const { subject, lectureId } = this.props;
+        const updatedSubject = Object.assign({}, subject);
+
+        const nodeName = value.name.split('_')[0];
+        if (nodeName === 'exercises') {
+            updatedSubject.lectures[lectureId].exercises[value.name] = {
+                ...updatedSubject.lectures[lectureId].exercises[value.name],
+                is_public: value.checked,
+            };
+
+            this.setState(
+                {
+                    isValid: value !== '',
+                },
+                () => this.props.onFilePublishUpdate(updatedSubject),
+            );
+        }
+    };
+
+    onLecturePublishChange = (event, data) => {
+        const { subject, lectureId } = this.props;
+        const updatedSubject = Object.assign({}, subject);
+        updatedSubject.lectures[lectureId].is_public = data.checked;
+
+        this.setState({}, () => this.props.onLecturePublishUpdate(updatedSubject, data.checked));
+    };
+
     renderOnViewModeDropdown = () => {
         // TODO: add check for the current lecture is_published: true | false
-        const { t, lectureId } = this.props;
+        const { t, lecture } = this.props;
 
         return (
             <Dropdown.Menu>
                 <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
                     { t('menu.editLecture') }
                 </Dropdown.Item>
-                <Dropdown.Item value={ lectureId } onClick={ this.handlePublishLecture } disabled>
-                    { t('menu.unpublish') }
+                <Dropdown.Item value={ lecture.is_public } onClick={ this.handlePublishLecture }>
+                    { lecture.is_public ? t('menu.unpublish') : t('menu.publish') }
                 </Dropdown.Item>
             </Dropdown.Menu>
         );
@@ -81,7 +112,9 @@ class LecturePageTutorView extends Component {
 
         return (
             <Dropdown.Menu>
-                <Dropdown.Item name={'save'} onClick={ this.handleSaveLecture }>{ t('menu.save') }</Dropdown.Item>
+                <Dropdown.Item name={ 'save' } onClick={ this.handleSaveLecture }>
+                    { t('menu.save') }
+                </Dropdown.Item>
                 <Dropdown.Item value={ 'edit' } onClick={ this.onModeChange }>
                     { t('menu.cancel') }
                 </Dropdown.Item>
@@ -167,11 +200,13 @@ class LecturePageTutorView extends Component {
                                 onLectureTitleChange={ this.onLectureTitleChange }
                                 onSelectVideoClick={ onSelectVideoClick }
                                 onSelectFileClick={ onSelectFileClick }
+                                onChangeFilePublish={ this.onChangeFilePublish }
                             />
                         ) }
 
                         { !isEditMode && (
                             <LectureBodyContent
+                                isStudent={ false }
                                 key={ subject_id + '-' + lectureId }
                                 t={ t }
                                 lectureId={ lectureId }
@@ -183,6 +218,16 @@ class LecturePageTutorView extends Component {
                                 nameOnStorage={ nameOnStorage }
                                 videoUrl={ videoUrl }
                                 showVideo={ showVideo }
+                            />
+                        ) }
+                    </Grid.Column>
+                    <Grid.Column width={ 3 }>
+                        { isEditMode && (
+                            <Checkbox
+                                toggle
+                                label={ lecture.is_public ? t('editLecture.unpublish') : t('editLecture.publish') }
+                                defaultChecked={ lecture.is_public }
+                                onChange={ this.onLecturePublishChange }
                             />
                         ) }
                     </Grid.Column>

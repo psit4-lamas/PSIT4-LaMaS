@@ -7,6 +7,7 @@
         "logout": "Ausloggen",
         "editLecture": "editieren Vorlesung",
         "cancel": "abbrechen",
+        "publish": "veröffentlichen",
         "unpublish": "unveröffentlichen",
         "actions": "Aktion",
         "save": "speichern",
@@ -32,7 +33,9 @@
         "E": "Übungsaufgaben",
         "L": "Zusätzliche Unterlagen",
         "action": "Aktion",
-        "noData": "Keine Datei"
+        "noData": "Keine Datei",
+        "publish": "veröffentlicht",
+        "unpublish": "unveröffentlicht"
     },
     "createSubject": {
         "pageTitle": "Neu Fach erstellen",
@@ -58,7 +61,9 @@
         "lectureTitle": "Titel der Vorlesung:",
         "lectureTitlePlaceholder": "Vorlesung Titel...",
         "negativeMsgTitle": "ungültiger Name für Vorlesung",
-        "negativeMsgBox1": "Der Name der Vorlesung darf nicht leer sein."
+        "negativeMsgBox1": "Der Name der Vorlesung darf nicht leer sein.",
+        "publish": "Vorlesung veröffentlichen",
+        "unpublish": "Vorlesung unveröffentlichen"
     },
     "rating": {
         "yourVote": "deine Bewertung:"

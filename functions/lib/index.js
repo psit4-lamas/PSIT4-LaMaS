@@ -58,7 +58,7 @@ var nodeNameForType = function (type) {
     }
 };
 exports.metadata = functions.storage.object().onFinalize(function (object) { return __awaiter(_this, void 0, void 0, function () {
-    var _a, _b, filePath, bucket, metadataFromFile, dbSubject, subjectRef, lectureName, attachmentSection, lectures, attachmentNumber, attachmentName, newAttachment, existingAttachments, updatePath, attachments;
+    var _a, _b, filePath, bucket, metadataFromFile, dbSubject, subjectRef, lectureName, attachmentSection, lectures, attachmentNumber, attachmentName, published, newAttachment, existingAttachments, updatePath, attachments;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -69,14 +69,14 @@ exports.metadata = functions.storage.object().onFinalize(function (object) { ret
                 metadataFromFile = (_c.sent())[0];
                 dbSubject = {};
                 return [4 /*yield*/, admin
-                        .firestore()
-                        .collection('subjects')
-                        .doc(metadataFromFile.metadata.subjectId)];
+                    .firestore()
+                    .collection('subjects')
+                    .doc(metadataFromFile.metadata.subjectId)];
             case 2:
                 subjectRef = _c.sent();
                 return [4 /*yield*/, subjectRef.get().then(function (doc) {
-                        dbSubject = doc.data();
-                    })];
+                    dbSubject = doc.data();
+                })];
             case 3:
                 _c.sent();
                 lectureName = 'lecture_' + ('0' + metadataFromFile.metadata.lecture).slice(-2);
@@ -84,18 +84,20 @@ exports.metadata = functions.storage.object().onFinalize(function (object) { ret
                 lectures = dbSubject['lectures'];
                 attachmentNumber = Object.keys(lectures[lectureName][attachmentSection]).length;
                 attachmentName = attachmentSection + '_' + ('0' + attachmentNumber).slice(-2);
+                published = !(metadataFromFile.metadata.type === 'E');
                 newAttachment = (_a = {},
                     _a[attachmentName] = {
                         name: metadataFromFile.metadata.originalName,
-                        nameOnStorage: metadataFromFile.name
+                        nameOnStorage: metadataFromFile.name,
+                        is_public: published
                     },
                     _a);
                 existingAttachments = dbSubject.lectures[lectureName][attachmentSection];
                 updatePath = 'lectures.' + lectureName + '.' + attachmentSection;
                 attachments = Object.assign(existingAttachments, newAttachment);
                 return [4 /*yield*/, subjectRef.update((_b = {},
-                        _b[updatePath] = attachments,
-                        _b))];
+                    _b[updatePath] = attachments,
+                    _b))];
             case 4:
                 _c.sent();
                 return [2 /*return*/];
@@ -141,17 +143,16 @@ exports.addSubject = functions.https.onCall(function (data, context) {
         assigned_tutors: data.assigned_tutors,
         lectures: lectures,
         grades: grades,
-        subject_rates: []
+        subject_rates: {}
     };
     return admin
         .firestore()
         .collection('subjects')
         .add(savable)
         .then(function (docRef) {
-        return { subjectId: docRef.id };
-    })["catch"](function (error) {
+            return { subjectId: docRef.id };
+        })["catch"](function (error) {
         // Re-throwing the error as an HttpsError so that the client gets the error details.
         throw new functions.https.HttpsError('unknown', error.message, error);
     });
 });
-//# sourceMappingURL=index.js.map
