@@ -18,9 +18,12 @@ class LecturePageTutorView extends Component {
         };
     }
 
-    handlePublishLecture = (e) => {
-        // TODO: add action to POST a request to publish this lecture
-        console.log('Not yet implemented!', e.target.value);
+    handlePublishLecture = (e, { value }) => {
+        const { subject, lectureId } = this.props;
+        const updatedSubject = Object.assign({}, subject);
+        updatedSubject.lectures[lectureId].is_public = !value;
+
+        this.props.saveSubject(updatedSubject);
     };
 
     handleSaveLecture = () => {
@@ -89,15 +92,15 @@ class LecturePageTutorView extends Component {
 
     renderOnViewModeDropdown = () => {
         // TODO: add check for the current lecture is_published: true | false
-        const { t, lectureId } = this.props;
+        const { t, lecture } = this.props;
 
         return (
             <Dropdown.Menu>
                 <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
                     { t('menu.editLecture') }
                 </Dropdown.Item>
-                <Dropdown.Item value={ lectureId } onClick={ this.handlePublishLecture } disabled>
-                    { t('menu.unpublish') }
+                <Dropdown.Item value={ lecture.is_public } onClick={ this.handlePublishLecture }>
+                    { lecture.is_public ? t('menu.unpublish') : t('menu.publish') }
                 </Dropdown.Item>
             </Dropdown.Menu>
         );
