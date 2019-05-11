@@ -181,6 +181,7 @@ class LecturePage extends Component {
                             key={ subject_id + '-' + lectureID }
                             t={ t }
                             lectureId={ lectureID }
+                            subject_full_name={ currentSubject.subject_full_name }
                             subject={ currentSubject }
                             lecture={ currentLecture }
                             lectureTitle={ lectureTitle }
