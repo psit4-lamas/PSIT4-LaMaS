@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Message, FormField, Input } from 'semantic-ui-react';
+import { Message, FormField, Input, Form } from 'semantic-ui-react';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import './LectureBodyContent.css';
 
@@ -22,6 +22,7 @@ class EditLectureBodyContent extends Component {
                 </h1>
 
                 <div style={ { marginTop: '25px' } }>
+                    <Form>
                     <FormField>
                         { !isValid && (
                             <Message negative>
@@ -44,6 +45,7 @@ class EditLectureBodyContent extends Component {
                         onSelectFileClick={ onSelectFileClick }
                         onChangeFilePublish={ onChangeFilePublish }
                     />
+                    </Form>
                 </div>
             </>
         );

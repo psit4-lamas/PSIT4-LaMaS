@@ -1,0 +1,8 @@
+/* TODO: add CSS rules for LectureBodyContent.jsx */
+#add-comment {
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 0;
+    margin: 0;
+    background: #fff;
+}

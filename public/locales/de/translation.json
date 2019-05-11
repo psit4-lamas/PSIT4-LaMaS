@@ -38,7 +38,7 @@
         "unpublish": "unveröffentlicht"
     },
     "createSubject": {
-        "pageTitle": "Neu Fach erstellen",
+        "pageTitle": "Neues Fach erstellen",
         "successMsgTitle": "Fach wurde erstellt",
         "successMsgBox1": "Neu Fach mit Name ",
         "successMsgBox2": " und Dozenten ",
@@ -67,5 +67,9 @@
     },
     "rating": {
         "yourVote": "deine Bewertung:"
+    },
+    "comment": {
+        "input": "schreibe hier ...",
+        "submit": "hinzufügen"
     }
 }
