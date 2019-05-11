@@ -50,7 +50,18 @@
         "saveBtn": "Speichern"
     },
     "baseLayout": {
-        "lecture": "Vorlesung "
+        "lecture": "Vorlesung ",
+        "overview": "Überblick"
+    },
+    "subjectOverview": {
+        "suffixTitle": "Überblick",
+        "topics": "Themen",
+        "labs": "Labs",
+        "exam": "Bewertungen und Semesterendprüfung",
+        "editTitleLabel": "Editieren",
+        "overviewTopicsPlaceholder": "Detail zu den behandelten Themen dieses Fach...",
+        "overviewLabsPlaceholder": "Details zu den Labs und Übungen und deren Bewertungen...",
+        "overviewExamPlaceholder": "Detail über die Semesterendprüfung und wie die Studenten bewertet werden...."
     },
     "editLecture": {
         "editLecture": "Editieren: Vorlesung ",

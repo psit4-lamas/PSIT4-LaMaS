@@ -50,9 +50,19 @@
         "saveBtn": "Save"
     },
     "baseLayout": {
-        "lecture": "Lecture "
+        "lecture": "Lecture ",
+        "overview": "Overview"
     },
-
+    "subjectOverview": {
+        "suffixTitle": "Overview",
+        "topics": "Topics",
+        "labs": "Labs",
+        "exam": "Grades and Final Exam",
+        "editTitleLabel": "Edit",
+        "overviewTopicsPlaceholder": "Detail about the covered topics of this subject...",
+        "overviewLabsPlaceholder": "Detail about the labs and exercises and their evaluations...",
+        "overviewExamPlaceholder": "Detail about the final exam and how the students will be graded..."
+    },
     "editLecture": {
         "editLecture": "Edit: Lecture ",
         "lectureTitle": "Lecture title:",
