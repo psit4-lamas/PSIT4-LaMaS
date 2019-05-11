@@ -33,7 +33,7 @@ class EditOverviewContent extends Component {
                     <FormField>
                         <label>{ t('subjectOverview.topics') }</label>
                         <TextArea
-                            focus
+                            focus="true"
                             name="topics"
                             value={ overview.topics }
                             placeholder={ t('subjectOverview.overviewTopicsPlaceholder') }
