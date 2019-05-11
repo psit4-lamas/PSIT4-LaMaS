@@ -9,9 +9,9 @@ import './TopMenu.css';
 
 class TopMenu extends Component {
 
-    state = {
-        activeItem: window.location.pathname.replace('/courses/', '')
-    };
+    // state = {
+    //     activeItem: window.location.pathname.replace('/courses/', '')
+    // };
 
     handleItemClick = (e, { name }) => {
         const pathname = name === '/home' || name === '/createsubject' ? `${ name }` : `/courses/${ name }`;
@@ -20,7 +20,7 @@ class TopMenu extends Component {
             this.props.loadSubject(name.split('/')[0]);
         }
 
-        this.setState({ activeItem: name });
+        // this.setState({ activeItem: name });
 
         this.props.history.push(pathname);
     };
