@@ -10,13 +10,16 @@
         "unpublish": "unpublish lecture",
         "actions": "actions",
         "save": "save",
-        "bookmarkSubject": "Bookmark subject"
+        "bookmarkSubject": "Bookmark subject",
+        "userRole": "Your role is:"
     },
     "login": {
         "message": "Log-in to LaMaS",
         "password": "password",
         "email": "e-mail address",
-        "login": "Login"
+        "login": "Login",
+        "errorHeader": "invalid credentials",
+        "errorMessage": "There is no user record corresponding to this identifier. The user may have been deleted."
     },
     "landingPage": {
         "title": "Bookmark"

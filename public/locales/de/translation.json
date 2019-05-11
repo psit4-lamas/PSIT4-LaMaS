@@ -10,13 +10,16 @@
         "unpublish": "unveröffentlichen",
         "actions": "Aktion",
         "save": "speichern",
-        "bookmarkSubject": "Fach bookmarken"
+        "bookmarkSubject": "Fach bookmarken",
+        "userRole": "Ihre Rolle ist:"
     },
     "login": {
         "message": "Auf LaMaS anmelden",
         "password": "Passwort",
         "email": "E-Mail Adresse",
-        "login": "Anmelden"
+        "login": "Anmelden",
+        "errorHeader": "Benutzer/Passwort nicht gültig",
+        "errorMessage": "Es gibt keinen Benutzerdatensatz, der diesem Identifikator entspricht. Der Benutzer wurde möglicherweise gelöscht."
     },
     "landingPage": {
         "title": "Bookmark"
