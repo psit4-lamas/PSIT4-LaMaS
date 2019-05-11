@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Comment, Grid, Segment } from 'semantic-ui-react';
+import CommentShow from '../Comment/CommentShow';
+import CommentAdd from '../Comment/CommentAdd';
 import UploadMediaPage from '../pages/UploadMediaPage';
 import DisplayVideo from './DisplayVideo';
 import './LectureBodyContent.css';
-import CommentShow from '../Comment/CommentShow';
-import CommentAdd from '../Comment/CommentAdd';
-import { Comment, Grid, Segment } from 'semantic-ui-react';
 
 
 class LectureBodyContent extends Component {
+
     renderComments() {
         let { comments, t } = this.props;
         return (
@@ -30,8 +31,8 @@ class LectureBodyContent extends Component {
                             );
                         })
                       : '' }
+                <CommentAdd saveMessage={ this.props.saveComment } t={ t }/>
                 </Comment.Group>
-                <CommentAdd saveMessage={ this.props.saveComment } t={t}/>
             </Segment>
         );
     }
