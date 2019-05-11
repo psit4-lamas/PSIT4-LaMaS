@@ -33,7 +33,8 @@
         "L": "Lecture Materials",
         "action": "Action",
         "noData": "No files uploaded",
-        "publish": "published"
+        "publish": "published",
+        "unpublish": "unpublished"
     },
     "createSubject": {
         "pageTitle": "Create new subject",

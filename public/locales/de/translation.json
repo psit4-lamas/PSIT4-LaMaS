@@ -33,7 +33,8 @@
         "L": "Zusätzliche Unterlagen",
         "action": "Aktion",
         "noData": "Keine Datei",
-        "publish": "veröffentlicht"
+        "publish": "veröffentlicht",
+        "unpublish": "nicht veröffentlicht"
     },
     "createSubject": {
         "pageTitle": "Neu Fach erstellen",
