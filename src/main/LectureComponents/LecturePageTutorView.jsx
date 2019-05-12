@@ -10,26 +10,47 @@ import '../pages/LecturePage.css';
 
 
 class LecturePageTutorView extends Component {
-
     constructor(props) {
         super(props);
-
+        const { subject, lectureName } = props;
         this.state = {
             isEditMode: false,
             mode: 'view',
             isValid: true,
-        };
-    }
-
-    componentWillMount() {
-        const { subject, lectureName } = this.props;
-
-        this.setState({
-            // updatedSubject: this.cloneSubject(subject),
             updatedOverview: this.cloneOverview(subject),
             updatedLecture: this.cloneLecture(subject),
             lectureNameUpdate: lectureName,
-        });
+        };
+    }
+
+    //replace videos etc. in the cloned lecture
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let lectureNameUpdate;
+        if (!prevState.lectureNameUpdate) {
+            lectureNameUpdate = nextProps.lectureName;
+        } else {
+            lectureNameUpdate = nextProps.lectureNameUpdate;
+        }
+
+        if (nextProps.lectureId !== '0') {
+            return {
+                updatedLecture: {
+                    ...prevState.updatedLecture,
+                    videos: {
+                        ...nextProps.subject.lectures[nextProps.lectureId].videos,
+                    },
+                    exercises: {
+                        ...nextProps.subject.lectures[nextProps.lectureId].exercises,
+                    },
+                    lecture_materials: {
+                        ...nextProps.subject.lectures[nextProps.lectureId].lecture_materials,
+                    },
+                    lectureNameUpdate,
+                },
+            };
+        } else {
+            return null;
+        }
     }
 
     // componentDidUpdate(prevProps, prevState) {
@@ -42,17 +63,12 @@ class LecturePageTutorView extends Component {
     // }
 
     cloneOverview = (originalSubject, isCancel = false) => {
-        const { updatedOverview } = this.state;
         let clonedOverview;
 
-        if (!isCancel && updatedOverview && updatedOverview.subject_id === originalSubject.subject_id) {
-            clonedOverview = { ...updatedOverview };
-        } else {
-            clonedOverview = {
-                ...originalSubject.overview,
-                subject_id: originalSubject.subject_id,
-            }
-        }
+        clonedOverview = {
+            ...originalSubject.overview,
+            subject_id: originalSubject.subject_id,
+        };
 
         return clonedOverview;
     };
@@ -68,7 +84,7 @@ class LecturePageTutorView extends Component {
             comments: {},
         };
 
-        if (lectureId !== "0") {
+        if (lectureId !== '0') {
             const copiedLecture = originalSubject.lectures[lectureId];
             clonedLecture = {
                 is_public: copiedLecture.is_public,
@@ -90,7 +106,7 @@ class LecturePageTutorView extends Component {
             overview: { ...originalSubject.overview },
         };
 
-        if (lectureId !== "0") {
+        if (lectureId !== '0') {
             const cloneLecture = originalSubject.lectures[lectureId];
             cloneSubject.lectures[lectureId] = {
                 is_public: cloneLecture.is_public,
@@ -156,13 +172,14 @@ class LecturePageTutorView extends Component {
         const { updatedOverview, updatedLecture } = this.state;
         const subjectToBeSubmitted = this.cloneSubject(subject);
 
-        if (lectureId === "0") {
+        if (lectureId === '0') {
             subjectToBeSubmitted.overview = {
                 topics: updatedOverview.topics,
                 labs: updatedOverview.labs,
                 exam: updatedOverview.exam,
             };
         } else {
+            updatedLecture.lectureNameUpdate = null;
             subjectToBeSubmitted.lectures[lectureId] = { ...updatedLecture };
         }
 
@@ -280,9 +297,11 @@ class LecturePageTutorView extends Component {
                 <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
                     { t('menu.editLecture') }
                 </Dropdown.Item>
-                { lectureId !== "0" && <Dropdown.Item value={ lecture.is_public } onClick={ this.handlePublishLecture }>
-                    { lecture.is_public ? t('menu.unpublish') : t('menu.publish') }
-                </Dropdown.Item> }
+                { lectureId !== '0' && (
+                    <Dropdown.Item value={ lecture.is_public } onClick={ this.handlePublishLecture }>
+                        { lecture.is_public ? t('menu.unpublish') : t('menu.publish') }
+                    </Dropdown.Item>
+                ) }
             </Dropdown.Menu>
         );
     };
@@ -293,8 +312,12 @@ class LecturePageTutorView extends Component {
 
         return (
             <Dropdown.Menu>
-                <Dropdown.Item name={ 'save' } onClick={ this.handleSave }>{ t('menu.save') }</Dropdown.Item>
-                <Dropdown.Item value={ 'edit' } onClick={ this.handleCancel }>{ t('menu.cancel') }</Dropdown.Item>
+                <Dropdown.Item name={ 'save' } onClick={ this.handleSave }>
+                    { t('menu.save') }
+                </Dropdown.Item>
+                <Dropdown.Item value={ 'edit' } onClick={ this.handleCancel }>
+                    { t('menu.cancel') }
+                </Dropdown.Item>
             </Dropdown.Menu>
         );
     };
@@ -343,7 +366,7 @@ class LecturePageTutorView extends Component {
                     name={ t('baseLayout.overview') }
                     id={ 0 }
                     key={ 0 }
-                    active={ lectureId === "0" }
+                    active={ lectureId === '0' }
                     onClick={ handleOverviewMenuClick }
                 />
                 { Object.keys(lectures).map((index, key) => (
@@ -378,14 +401,7 @@ class LecturePageTutorView extends Component {
                     />
                 ) }
 
-                { !isEditMode && (
-                    <OverviewContent
-                        key={ subject_id + '-' + lectureId }
-                        t={ t }
-                        subject_full_name={ subject_full_name }
-                        overview={ subject.overview }
-                    />
-                ) }
+                { !isEditMode && <OverviewContent key={ subject_id + '-' + lectureId } t={ t } subject_full_name={ subject_full_name } overview={ subject.overview }/> }
             </Grid.Column>
         );
     };
@@ -455,8 +471,8 @@ class LecturePageTutorView extends Component {
 
                 <Grid columns={ 3 }>
                     <Grid.Column width={ 3 }>{ this.renderLecturesMenu() }</Grid.Column>
-                    { lectureId === "0" && this.renderOverviewContent() }
-                    { lectureId !== "0" && this.renderLectureContent() }
+                    { lectureId === '0' && this.renderOverviewContent() }
+                    { lectureId !== '0' && this.renderLectureContent() }
                 </Grid>
             </>
         );

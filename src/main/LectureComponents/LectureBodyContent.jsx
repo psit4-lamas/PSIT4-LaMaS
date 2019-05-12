@@ -49,7 +49,6 @@ class LectureBodyContent extends Component {
                     { lectureTitle }
                     { !!lecture.name ? ` - ${ lecture.name }` : '' }
                 </h1>
-
                 <div style={ { marginTop: '25px' } }>
                     <Grid divided="vertically">
                         <Grid.Column floated='left' width={ 10 }>
