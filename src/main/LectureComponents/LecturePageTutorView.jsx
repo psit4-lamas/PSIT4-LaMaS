@@ -10,6 +10,7 @@ import '../pages/LecturePage.css';
 
 
 class LecturePageTutorView extends Component {
+
     constructor(props) {
         super(props);
         const { subject, lectureName } = props;
@@ -23,29 +24,22 @@ class LecturePageTutorView extends Component {
         };
     }
 
-    //replace videos etc. in the cloned lecture
+    // Replace videos etc. in the cloned lecture
     static getDerivedStateFromProps(nextProps, prevState) {
-        let lectureNameUpdate;
-        if (!prevState.lectureNameUpdate) {
-            lectureNameUpdate = nextProps.lectureName;
-        } else {
-            lectureNameUpdate = nextProps.lectureNameUpdate;
-        }
+        const lectureNameUpdate = !prevState.lectureNameUpdate ? nextProps.lectureName : prevState.lectureNameUpdate;
 
         if (nextProps.lectureId !== '0') {
+            const currentLecture = prevState.updatedLecture;
+            const propsLecture = nextProps.subject.lectures[nextProps.lectureId];
+
             return {
                 updatedLecture: {
-                    ...prevState.updatedLecture,
-                    videos: {
-                        ...nextProps.subject.lectures[nextProps.lectureId].videos,
-                    },
-                    exercises: {
-                        ...nextProps.subject.lectures[nextProps.lectureId].exercises,
-                    },
-                    lecture_materials: {
-                        ...nextProps.subject.lectures[nextProps.lectureId].lecture_materials,
-                    },
-                    lectureNameUpdate,
+                    ...currentLecture,
+                    videos: { ...propsLecture.videos },
+                    exercises: { ...propsLecture.exercises },
+                    lecture_materials: { ...propsLecture.lecture_materials },
+                    name: lectureNameUpdate,
+                    is_public: propsLecture.is_public,
                 },
             };
         } else {
@@ -62,8 +56,17 @@ class LecturePageTutorView extends Component {
     //     });
     // }
 
-    cloneOverview = (originalSubject, isCancel = false) => {
+    cloneOverview = (originalSubject, stateSubject = {}, isCancel = false) => {
         let clonedOverview;
+
+        // if (!isCancel && !isEmptyObject(stateSubject) && stateSubject.subject_id === originalSubject.subject_id) {
+        //     clonedOverview = { ...stateSubject };
+        // } else {
+        //     clonedOverview = {
+        //         ...originalSubject.overview,
+        //         subject_id: originalSubject.subject_id,
+        //     };
+        // }
 
         clonedOverview = {
             ...originalSubject.overview,
@@ -130,7 +133,6 @@ class LecturePageTutorView extends Component {
     };
 
     handleSave = () => {
-        // const { updatedSubject } = this.state;
         const updatedSubject = this.prepareUpdatedSubjectToBeSubmitted();
 
         this.props.saveSubject(updatedSubject).then((response) => {
@@ -148,8 +150,7 @@ class LecturePageTutorView extends Component {
         const { subject, lectureName } = this.props;
 
         this.setState({
-            // updatedSubject: this.cloneSubject(subject),
-            updatedOverview: this.cloneOverview(subject, true),
+            updatedOverview: this.cloneOverview(subject, this.state.updatedOverview, true),
             updatedLecture: this.cloneLecture(subject),
             lectureNameUpdate: lectureName,
             isEditMode: false,
@@ -179,7 +180,6 @@ class LecturePageTutorView extends Component {
                 exam: updatedOverview.exam,
             };
         } else {
-            updatedLecture.lectureNameUpdate = null;
             subjectToBeSubmitted.lectures[lectureId] = { ...updatedLecture };
         }
 
@@ -261,35 +261,33 @@ class LecturePageTutorView extends Component {
     };
 
     onChangeFilePublish = (value) => {
-        const { subject, lectureId } = this.props;
-        const updatedSubject = Object.assign({}, subject);
+        const { updatedLecture } = this.state;
+        const lectureToBeUpdated = Object.assign({}, updatedLecture);
 
-        const nodeName = value.name.split('_')[0];
-        if (nodeName === 'exercises') {
-            updatedSubject.lectures[lectureId].exercises[value.name] = {
-                ...updatedSubject.lectures[lectureId].exercises[value.name],
+        if (value.name.split('_')[0] === 'exercises') {
+            lectureToBeUpdated.exercises[value.name] = {
+                ...lectureToBeUpdated.exercises[value.name],
                 is_public: value.checked,
             };
 
-            this.setState(
-                {
-                    isValid: value !== '',
-                },
-                () => this.props.onFilePublishUpdate(updatedSubject),
-            );
+            this.setState({
+                updatedLecture: lectureToBeUpdated,
+                isValid: value !== '',
+            });
         }
     };
 
     onLecturePublishChange = (event, data) => {
-        const { subject, lectureId } = this.props;
-        const updatedSubject = Object.assign({}, subject);
-        updatedSubject.lectures[lectureId].is_public = data.checked;
+        const { updatedLecture } = this.state;
+        const lectureToBeUpdated = Object.assign({}, updatedLecture);
+        lectureToBeUpdated.is_public = data.checked;
 
-        this.setState({}, () => this.props.onLecturePublishUpdate(updatedSubject, data.checked));
+        this.setState({
+            updatedLecture: lectureToBeUpdated,
+        });
     };
 
     renderOnViewModeDropdown = () => {
-        // TODO: add check for the current lecture is_published: true | false
         const { t, lecture, lectureId } = this.props;
 
         return (
@@ -307,7 +305,6 @@ class LecturePageTutorView extends Component {
     };
 
     renderOnEditModeDropdown = () => {
-        // TODO: check how to retrieve the form data to be submitted
         const { t } = this.props;
 
         return (
@@ -401,7 +398,14 @@ class LecturePageTutorView extends Component {
                     />
                 ) }
 
-                { !isEditMode && <OverviewContent key={ subject_id + '-' + lectureId } t={ t } subject_full_name={ subject_full_name } overview={ subject.overview }/> }
+                { !isEditMode && (
+                    <OverviewContent
+                        key={ subject_id + '-' + lectureId }
+                        t={ t }
+                        subject_full_name={ subject_full_name }
+                        overview={ subject.overview }
+                    />
+                ) }
             </Grid.Column>
         );
     };
