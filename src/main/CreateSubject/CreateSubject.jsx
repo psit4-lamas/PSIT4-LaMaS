@@ -69,7 +69,7 @@ class CreateSubject extends Component {
         const { subject, subjectFullName, selectedTutors } = this.state;
 
         // Prevent admin from accidentally submitting a form without subject name or tutors
-        if (subject !== '' && selectedTutors.length > 0) {
+        if (subject !== '' && subjectFullName !== '' && selectedTutors.length > 0) {
             this.props.createSubject(subject, subjectFullName, selectedTutors);
 
             this.setState({

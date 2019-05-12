@@ -89,9 +89,12 @@ describe('Top menu', () => {
 
     it('should render Menu items Home, Upload and all active tabs', () => {
         const menuItems = rootInstance.findAllByType(Menu.Item);
-        const homeButton = [<Image as="img" src="lama_round_draft.png" ui={true} width={30} />, "  Home"];
 
-        expect(menuItems[0].children[0].props.children).toEqual(homeButton);
+        expect(menuItems[0].children[0].props.children[0].props.as).toEqual("img");
+        expect(menuItems[0].children[0].props.children[0].props.src).toEqual("lama_round_draft.png");
+        expect(menuItems[0].children[0].props.children[0].props.ui).toEqual(true);
+        expect(menuItems[0].children[0].props.children[0].props.width).toEqual(30);
+        expect(menuItems[0].children[0].props.children[1]).toEqual("  Home");
         expect(menuItems[0].props.name).toEqual('/home');
         expect(menuItems[1].children[0].props.children).toEqual('Create Subject');
         expect(menuItems[1].props.name).toEqual('/createsubject');
