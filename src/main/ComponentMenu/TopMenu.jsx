@@ -20,6 +20,7 @@ class TopMenu extends Component {
         }
 
         this.setState({ activeItem: name });
+
         this.props.history.push(pathname);
     };
 
@@ -33,12 +34,13 @@ class TopMenu extends Component {
         const currentPathname = window.location.pathname;
         let [currentSubjectID, currentName] = currentPathname.replace('/courses/', '').split('/');
         const userRole = !isEmptyObject(user) && user.roles && user.roles.length ? user.roles[0] : 'STUDENT';
+        const username = !isEmptyObject(user) && user.userCredentials.username ? user.userCredentials.username : '-';
 
         // If the global state has no activeTabs (default state of reducer),
         // then at least show an active tab for the current visited subject page
         if (activeTabs.length < 1 && !!currentName && !!currentSubjectID) {
             activeTabs.push({
-                subject_name: currentName.replace('%20', ' '),
+                subject_name: currentName.replace(/%20/g, ' '),
                 subject_id: currentSubjectID,
             });
         }
@@ -62,7 +64,7 @@ class TopMenu extends Component {
                     { activeTabs.map(activeTab => (
                           <Menu.Item
                               key={ activeTab.subject_id }
-                              name={ activeTab.subject_id + '/' + activeTab.subject_name.replace(' ', '%20') }
+                              name={ activeTab.subject_id + '/' + activeTab.subject_name.replace(/\s/g, '%20') }
                               active={ currentName === activeTab.subject_name }
                               onClick={ this.handleItemClick }
                           >
@@ -89,7 +91,13 @@ class TopMenu extends Component {
 
                     <Menu.Menu id="top-menu-dropdown-language" position="right">
                         <Menu.Item>
-                            <Icon circular inverted color={ LaMaSColours.dominant } name='user' />  { userRole }
+                            <Icon
+                                circular
+                                inverted
+                                color={ LaMaSColours.dominant }
+                                name='user'
+                                aria-label={ `${ t('menu.userRole') } ${ userRole }` }
+                            />  { username }
                         </Menu.Item>
                     </Menu.Menu>
 

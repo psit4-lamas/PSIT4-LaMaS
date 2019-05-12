@@ -4,14 +4,16 @@ import Error403 from '../Error403';
 
 
 class CreateSubjectPage extends Component {
-
     render() {
         const { t, user } = this.props;
 
         if (user.isStudent) {
             return (
                 <>
-                    <Error403 location={ { pathname: '/createsubject', pageName: 'Create Subject' } }/>
+                    <Error403 id="error403" location={ {
+                        pathname: '/createsubject',
+                        pageName: 'Create Subject',
+                    } }/>
                 </>
             );
         }
@@ -22,10 +24,12 @@ class CreateSubjectPage extends Component {
                 <h1>{ t('createSubject.pageTitle') }</h1>
                 <br/>
 
-                <CreateSubject t={ t }/>
+                <CreateSubject id="create-subject" t={ t }/>
             </>
         );
     }
 }
 
+
+export { CreateSubjectPage };
 export default CreateSubjectPage;

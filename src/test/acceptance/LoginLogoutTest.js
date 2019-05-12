@@ -21,9 +21,8 @@ module.exports = {
             .setValue('input[name=password]', 'someone')
             .click('button[type=submit]')
             .pause(10000)
-            // TODO: define Login Error Flow
-            // assume Login was correct if topMenu Logout Button is not present
-            .verify.elementNotPresent('#top-menu-logout')
+            // assume behavior was correct if user not found
+            .verify.elementPresent('#user-not-found')
             .end();
     },
 

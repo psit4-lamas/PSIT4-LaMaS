@@ -1,7 +1,6 @@
 import { subjectReducer } from '../../main/reducers';
 import { Actions } from '../../main/actions';
 
-
 describe('Subject reducer', () => {
     const EMPTY_DEFAULT_SUBJECT = {
         subject_id: '',
@@ -10,20 +9,118 @@ describe('Subject reducer', () => {
         assigned_tutors: [],
         grades: {},
         lectures: {
-            lecture_01: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_02: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_03: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_04: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_05: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_06: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_07: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_08: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_09: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_10: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_11: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_12: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_13: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
-            lecture_14: { is_public: false, name: '', videos: {}, lecture_materials: {}, exercises: {}, comments: {} },
+            lecture_01: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_02: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_03: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_04: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_05: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_06: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_07: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_08: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_09: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_10: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_11: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_12: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_13: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
+            lecture_14: {
+                is_public: false,
+                name: '',
+                videos: {},
+                lecture_materials: {},
+                exercises: {},
+                comments: [],
+            },
         },
     };
 
@@ -35,6 +132,7 @@ describe('Subject reducer', () => {
             isSubmitted: false,
             isLoadingSubject: true,
             currentLectureID: 'lecture_01',
+            currentComments: [],
             currentSubject: {
                 ...EMPTY_DEFAULT_SUBJECT,
                 averageRating: null,
@@ -45,6 +143,7 @@ describe('Subject reducer', () => {
             isSubmitted: false,
             isLoadingSubject: false,
             currentLectureID: 'lecture_01',
+            currentComments: [],
             currentSubject: {
                 ...EMPTY_DEFAULT_SUBJECT,
                 averageRating: null,
@@ -87,7 +186,7 @@ describe('Subject reducer', () => {
 
         updatedSubjectState.isSubmitted = true;
         updatedSubjectState.currentSubject.subject_id = actionCreate.payload.subjectId;
-        updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name.replace('%20', ' ');
+        updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name.replace(/%20/g, ' ');
         updatedSubjectState.currentSubject.assigned_tutors = actionCreate.payload.assigned_tutors;
         delete updatedSubjectState.currentSubject.averageRating;
 
@@ -134,7 +233,10 @@ describe('Subject reducer', () => {
             },
         };
         const rates = actionLoadSuccess.payload.subject.subject_rates;
-        const avg = rates.reduce((total, current) => { return total + current }, 0) / rates.length;
+        const avg =
+            rates.reduce((total, current) => {
+                return total + current;
+            }, 0) / rates.length;
 
         updatedSubjectState.isLoadingSubject = false;
         updatedSubjectState.currentSubject.subject_rates = actionLoadSuccess.payload.subject.subject_rates;
@@ -191,5 +293,26 @@ describe('Subject reducer', () => {
         updatedSubjectState.isLoadingSubject = false;
 
         expect(subjectReducer(undefined, actionSaveLectureSuccess)).toEqual(updatedSubjectState);
+    });
+
+    it('on ADD_COMMENT, should update subject state', () => {
+        const comment = {
+            comment: '1a2b3c4d5e',
+            user_id: 'userIdentity',
+            user_name: 'markus',
+            timestamp: 11225566332,
+        };
+        const actionAddComment = {
+            type: Actions.ADD_COMMENT,
+            payload: {
+                comment,
+            },
+        };
+
+        updatedSubjectState.currentComments.push(comment);
+        updatedSubjectState.isLoadingSubject = true;
+        updatedSubjectState.currentSubject.lectures[updatedSubjectState.currentLectureID].comments.push(comment);
+
+        expect(subjectReducer(undefined, actionAddComment)).toEqual(updatedSubjectState);
     });
 });

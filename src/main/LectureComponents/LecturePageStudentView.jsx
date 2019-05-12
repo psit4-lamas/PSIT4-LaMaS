@@ -89,7 +89,7 @@ class LecturePageStudentView extends Component {
 
     render() {
         const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl } = this.props;
-        const { onSelectFileClick, onSelectVideoClick, showVideo } = this.props;
+        const { onSelectFileClick, onSelectVideoClick, showVideo, comments } = this.props;
 
         return (
             <>
@@ -100,6 +100,7 @@ class LecturePageStudentView extends Component {
 
                     <Grid.Column width={ 10 }>
                         <LectureBodyContent
+                            isStudent={ true }
                             key={ subject_id + '-' + lectureId }
                             t={ t }
                             lectureId={ lectureId }
@@ -111,6 +112,8 @@ class LecturePageStudentView extends Component {
                             nameOnStorage={ nameOnStorage }
                             videoUrl={ videoUrl }
                             showVideo={ showVideo }
+                            comments={ comments }
+                            saveComment={ this.props.saveComment }
                         />
                     </Grid.Column>
                 </Grid>

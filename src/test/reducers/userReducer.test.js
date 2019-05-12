@@ -38,7 +38,7 @@ describe('User reducer', () => {
     });
 
     it('should authenticate user', () => {
-        const userCredentials = { username: 'testUser' };
+        const userCredentials = { user: { email: 'testUser@test.com' }, username: 'testUser' };
         const action = {
             type: Actions.USER_AUTHENTICATED,
             payload: userCredentials,
@@ -58,7 +58,7 @@ describe('User reducer', () => {
             action = {
                 type: Actions.LOG_IN_SUCCESS,
                 payload: {
-                    userCredentials: { username: 'testUser' },
+                    userCredentials: { email: 'testUser@test.com', username: 'testUser' },
                     roles: ['STUDENT'],
                 },
             };

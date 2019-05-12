@@ -33,8 +33,8 @@ const AppNavigation = ({ t, user }) => (
                     <Switch>
                         <Route path={ '/createsubject' } render={ () => <CreateSubjectPage
                             base={ '/createsubject' } t={ t } user={ user }/> }/>
-                        <Route exact path={ '/home' } render={ () => <LandingPage/> }/>
-                        <Route exact path={ '/' } render={ () => <LandingPage/> }/>
+                        <Route exact path={ '/home' } render={ () => <LandingPage t={ t }/> }/>
+                        <Route exact path={ '/' } render={ () => <LandingPage t={ t }/> }/>
                     </Switch>
                 </SecureGuard>
             ) }

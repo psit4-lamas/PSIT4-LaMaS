@@ -47,6 +47,19 @@ describe('UserLoginForm', () => {
         loginform.unmount();
     });
 
+    it('calls logIn with invalid credentials', () => {
+        const logIn = jest.fn();
+        const loginform = mount(<UserLoginForm t={ (key) => key } logIn={ logIn }/>);
+        expect(loginform.find({ id: 'user-not-found' }).length).toEqual(0);
+
+        // Simulate setting errorMessage state attribute for invalid login case
+        loginform.setState({ errorMessage: 'error' });
+        expect(loginform.find({ id: 'user-not-found' }).length).not.toEqual(0);
+        expect(loginform.find({ id: 'user-not-found' })).toBeTruthy();
+
+        loginform.unmount();
+    });
+
     it('should render correctly', () => {
         const component = shallow(<UserLoginForm t={ (key) => key }/>);
 

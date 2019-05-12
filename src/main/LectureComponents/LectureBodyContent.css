@@ -1,1 +1,20 @@
 /* TODO: add CSS rules for LectureBodyContent.jsx */
+#video-component {
+    min-width: 550px;
+}
+
+@media (min-width:1440px) {
+    #video-component {
+        max-width: 550px;
+    }
+}
+
+@media (min-width:1920px) {
+    #video-component {
+        max-width: 750px;
+    }
+
+    #comment-segment {
+        max-width: 100%;
+    }
+}

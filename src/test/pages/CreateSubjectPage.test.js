@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import CreateSubjectPage from '../../main/pages/CreateSubjectPage';
 
@@ -6,36 +7,58 @@ import CreateSubjectPage from '../../main/pages/CreateSubjectPage';
 describe('CreateSubjectPage', () => {
     let renderedComponent;
 
-    // const user = Object.freeze({
-    //     isLoadingUser: true,
-    // });
+    const propsIsStudent = {
+        t: jest.fn(),
+        user: {
+            isStudent: true,
+        },
+    };
 
-    const props = {
+    const propsIsNotStudent = {
         t: jest.fn(),
         user: {
             isStudent: false,
         },
     };
 
-    // it('renders without crashing', () => {
-    //     const div = document.createElement('div');
-    //
-    //     ReactDOM.render(<BaseLayout t={ (key) => key } user={ user } />, div);
-    //     ReactDOM.unmountComponentAtNode(div);
-    // });
+    it('renders student view without crashing', () => {
+        const div = document.createElement('div');
 
-    beforeEach(() => {
-
-        const component = <CreateSubjectPage { ...props } />;
-
-        renderedComponent = shallow(component);
+        shallow(<CreateSubjectPage { ...propsIsStudent } />, div);
+        ReactDOM.unmountComponentAtNode(div);
     });
 
-    afterEach(() => {
-        renderedComponent.unmount();
+    it('renders non-student view without crashing', () => {
+        const div = document.createElement('div');
+
+        shallow(<CreateSubjectPage { ...propsIsNotStudent } />, div);
+        ReactDOM.unmountComponentAtNode(div);
     });
 
-    it('should match snapshot', () => {
-        expect(renderedComponent).toMatchSnapshot();
+    describe('should match snapshot', () => {
+
+        afterEach(() => {
+            renderedComponent.unmount();
+        });
+
+        it('for a student', () => {
+            const component = <CreateSubjectPage { ...propsIsStudent } />;
+
+            renderedComponent = shallow(component);
+
+            expect(renderedComponent.find('#error403').get(0)).toBeTruthy();
+            expect(renderedComponent.find('#create-subject').get(0)).toBeFalsy();
+            expect(renderedComponent).toMatchSnapshot();
+        });
+
+        it('for a non-student', () => {
+            const component = <CreateSubjectPage { ...propsIsNotStudent } />;
+
+            renderedComponent = shallow(component);
+
+            expect(renderedComponent.find('#error403').get(0)).toBeFalsy();
+            expect(renderedComponent.find('#create-subject').get(0)).toBeTruthy();
+            expect(renderedComponent).toMatchSnapshot();
+        });
     });
 });
