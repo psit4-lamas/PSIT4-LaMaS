@@ -30,12 +30,12 @@ class LecturePage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { lectureID } = this.state;
-        if (this.state.videoUrl === '') {
+        const { lectureID, videoUrl, commentsLoaded, isLoadingSubject } = this.state;
+        if (lectureID!== "0" && videoUrl === '') {
             this.showFirstVideoOfLecture(lectureID);
         }
 
-        if (lectureID !== "0" && !this.state.commentsLoaded && !this.state.isLoadingSubject) {
+        if (lectureID !== "0" && !commentsLoaded && !isLoadingSubject) {
             const { subject_id } = prevProps.match.params;
             this.unsubscribe = prevProps.loadComments(subject_id, lectureID);
             this.setState({ commentsLoaded: true });
