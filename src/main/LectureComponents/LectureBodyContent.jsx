@@ -20,12 +20,13 @@ class LectureBodyContent extends Component {
                 <Comment.Group>
                     { comments
                       ? Object.keys(comments).map((index) => {
+                          const datetime = new Date(comments[index].timestamp);
                             return (
                                 <CommentShow
                                     key={ index }
                                     message={ comments[index].comment }
                                     user={ comments[index].user_name }
-                                    timestamp={ new Date(comments[index].timestamp).toDateString() }
+                                    timestamp={ `${ datetime.toDateString() }, ${ datetime.toLocaleTimeString() }` }
 
                                 />
                             );
