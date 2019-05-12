@@ -80,7 +80,7 @@ class LecturePage extends Component {
             videos: { ...copiedLecture.videos },
             lecture_materials: { ...copiedLecture.lecture_materials },
             exercises: { ...copiedLecture.exercises },
-            comments: (copiedLecture.comments && copiedLecture.comments.slice()) || [],
+            comments: copiedLecture.comments || [],
         };
         //currentLecture.comments = [];
 
