@@ -196,6 +196,7 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
                 isAuthenticated: !!action.payload,
                 isLoadingUser: false,
                 isStudent: !!userRoles && userRoles.includes(UserRoles.STUDENT),
+                isAdmin: !!userRoles && userRoles.includes(UserRoles.ADMIN),
                 userCredentials: user_credentials,
             };
         case Actions.LOG_OUT_SUCCESS:
