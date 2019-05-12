@@ -273,16 +273,16 @@ class LecturePageTutorView extends Component {
 
     renderOnViewModeDropdown = () => {
         // TODO: add check for the current lecture is_published: true | false
-        const { t, lecture } = this.props;
+        const { t, lecture, lectureId } = this.props;
 
         return (
             <Dropdown.Menu>
                 <Dropdown.Item value={ 'view' } onClick={ this.onModeChange }>
                     { t('menu.editLecture') }
                 </Dropdown.Item>
-                <Dropdown.Item value={ lecture.is_public } onClick={ this.handlePublishLecture }>
+                { lectureId !== "0" && <Dropdown.Item value={ lecture.is_public } onClick={ this.handlePublishLecture }>
                     { lecture.is_public ? t('menu.unpublish') : t('menu.publish') }
-                </Dropdown.Item>
+                </Dropdown.Item> }
             </Dropdown.Menu>
         );
     };
