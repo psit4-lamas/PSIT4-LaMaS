@@ -1,0 +1,31 @@
+{"users": [
+{
+  "localId": "7YJCkmeImNRpZsH3QMsFVdaPKYC2",
+  "email": "tutor1@students.zhaw.ch",
+  "emailVerified": false,
+  "passwordHash": "q9mSUhtd5cs2dVv7VdSJ8sK4QqPIg71tGw6PNjqkWwyfWu40J2v6SLiVH72tmUiLO0P7S5UfXQSAgSX6VIVzTQ==",
+  "salt": "OpJwCXbN1kiTAQ==",
+  "lastSignedInAt": "1557248335485",
+  "createdAt": "1556529767376",
+  "providerUserInfo": []
+},
+{
+  "localId": "UL17Q0lXHzbLpAkjlz8JnP57iD53",
+  "email": "dummy1@students.zhaw.ch",
+  "emailVerified": false,
+  "passwordHash": "be89eib/pzzo7vjqwxt2cvhS6RY9p5Beme8cvX1JkaWiLzrlxYg0pvU1JfIMDTOI9U4M62mEhc3FcwXxAC56fA==",
+  "salt": "rjXRncZvbBLqNA==",
+  "lastSignedInAt": "1557340802708",
+  "createdAt": "1552649174554",
+  "providerUserInfo": []
+},
+{
+  "localId": "tdPkwA4XH7aa4KSipjg07lRgEdg1",
+  "email": "student@students.zhaw.ch",
+  "emailVerified": false,
+  "passwordHash": "n1jvmw+LYEEvXLsDY3vOxxNYV1RmjiRUopYC4flcX4vllNalp06ya292Bt7qBzMixdtoBXK/v4fHniWxIJLCCw==",
+  "salt": "fM+0RU4HyvVrgw==",
+  "lastSignedInAt": "1557341212772",
+  "createdAt": "1556377066788",
+  "providerUserInfo": []
+}]}
