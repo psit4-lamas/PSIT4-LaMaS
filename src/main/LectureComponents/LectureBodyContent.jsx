@@ -11,7 +11,7 @@ import './LectureBodyContent.css';
 class LectureBodyContent extends Component {
 
     renderComments() {
-        let { comments, t } = this.props;
+        let { comments, t, subject } = this.props;
         return (
             <Segment id="comment-segment" style={ {
                 overflow: 'auto',
@@ -32,7 +32,7 @@ class LectureBodyContent extends Component {
                             );
                         })
                       : '' }
-                <CommentAdd saveMessage={ this.props.saveComment } t={ t }/>
+                <CommentAdd onCommentSubmit={ this.props.onCommentSubmit } t={ t } subject_id={ subject.subject_id }/>
                 </Comment.Group>
             </Segment>
         );

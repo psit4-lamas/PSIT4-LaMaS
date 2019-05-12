@@ -133,7 +133,7 @@ class LecturePageStudentView extends Component {
                     videoUrl={ videoUrl }
                     showVideo={ showVideo }
                     comments={ comments }
-                    saveComment={ this.props.saveComment }
+                    onCommentSubmit={ this.props.onCommentSubmit }
                 />
             </Grid.Column>
         );

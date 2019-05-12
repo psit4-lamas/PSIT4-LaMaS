@@ -30,13 +30,14 @@ class LecturePage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const { lectureID } = this.state;
         if (this.state.videoUrl === '') {
-            this.showFirstVideoOfLecture(this.state.lectureID);
+            this.showFirstVideoOfLecture(lectureID);
         }
 
-        if (!this.state.commentsLoaded && !this.state.isLoadingSubject) {
+        if (lectureID !== "0" && !this.state.commentsLoaded && !this.state.isLoadingSubject) {
             const { subject_id } = prevProps.match.params;
-            this.unsubscribe = prevProps.loadComments(subject_id, this.state.lectureID);
+            this.unsubscribe = prevProps.loadComments(subject_id, lectureID);
             this.setState({ commentsLoaded: true });
         }
     }
@@ -142,8 +143,10 @@ class LecturePage extends Component {
         });
     };
 
-    saveComment = (comment) => {
-        this.props.saveComment(this.state.subject.subject_id, this.state.lectureID, this.props.user, comment);
+    onCommentSubmit = (comment, subject_id) => {
+        const { lectureID } = this.state;
+        const { user } = this.props;
+        this.props.saveComment(subject_id, lectureID, user, comment);
     };
 
     onSelectVideoClick = (nameOnStorage) => {
@@ -227,7 +230,7 @@ class LecturePage extends Component {
                         showVideo={ this.showFirstVideoOfLecture }
                         onFilePublishUpdate={ this.onFilePublishUpdate }
                         comments={ comments }
-                        saveComment={ this.saveComment }
+                        onCommentSubmit={ this.onCommentSubmit }
                     />
                 ) }
 
@@ -253,7 +256,7 @@ class LecturePage extends Component {
                         currentRating={ this.props.currentRating }
                         user={ this.props.user }
                         comments={ comments }
-                        saveComment={ this.saveComment }
+                        onCommentSubmit={ this.onCommentSubmit }
                     />
                 ) }
             </>
