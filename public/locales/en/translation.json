@@ -7,6 +7,7 @@
         "logout": "Logout",
         "editLecture": "edit lecture",
         "cancel": "cancel",
+        "publish": "publish lecture",
         "unpublish": "unpublish lecture",
         "actions": "actions",
         "save": "save",
@@ -32,7 +33,9 @@
         "E": "Exercises",
         "L": "Lecture Materials",
         "action": "Action",
-        "noData": "No files uploaded"
+        "noData": "No files uploaded",
+        "publish": "published",
+        "unpublish": "unpublished"
     },
     "createSubject": {
         "pageTitle": "Create new subject",
@@ -71,9 +74,15 @@
         "lectureTitle": "Lecture title:",
         "lectureTitlePlaceholder": "Lecture title...",
         "negativeMsgTitle": "invalid name for lecture",
-        "negativeMsgBox1": "Name of lecture can not be empty."
+        "negativeMsgBox1": "Name of lecture can not be empty.",
+        "publish": "Publish lecture",
+        "unpublish": "Unpublish lecture"
     },
     "rating": {
         "yourVote": "Your vote:"
+    },
+    "comment": {
+        "input": "write here ...",
+        "submit": "add comment"
     }
 }

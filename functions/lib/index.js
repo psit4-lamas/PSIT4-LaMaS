@@ -58,7 +58,7 @@ var nodeNameForType = function (type) {
     }
 };
 exports.metadata = functions.storage.object().onFinalize(function (object) { return __awaiter(_this, void 0, void 0, function () {
-    var _a, _b, filePath, bucket, metadataFromFile, dbSubject, subjectRef, lectureName, attachmentSection, lectures, attachmentNumber, attachmentName, newAttachment, existingAttachments, updatePath, attachments;
+    var _a, _b, filePath, bucket, metadataFromFile, dbSubject, subjectRef, lectureName, attachmentSection, lectures, attachmentNumber, attachmentName, published, newAttachment, existingAttachments, updatePath, attachments;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -84,10 +84,12 @@ exports.metadata = functions.storage.object().onFinalize(function (object) { ret
                 lectures = dbSubject['lectures'];
                 attachmentNumber = Object.keys(lectures[lectureName][attachmentSection]).length;
                 attachmentName = attachmentSection + '_' + ('0' + attachmentNumber).slice(-2);
+                published = !(metadataFromFile.metadata.type === 'E');
                 newAttachment = (_a = {},
                     _a[attachmentName] = {
                         name: metadataFromFile.metadata.originalName,
-                        nameOnStorage: metadataFromFile.name
+                        nameOnStorage: metadataFromFile.name,
+                        is_public: published
                     },
                     _a);
                 existingAttachments = dbSubject.lectures[lectureName][attachmentSection];

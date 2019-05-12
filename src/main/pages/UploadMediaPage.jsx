@@ -8,23 +8,26 @@ import './UploadMediaPage.css';
 class UploadMediaPage extends Component {
 
     render() {
-        const { t, editMode, subject, lecture, onSelectVideoClick, onSelectFileClick } = this.props;
+        const { t, isStudent, editMode, subject, lecture, onSelectVideoClick, onSelectFileClick, onChangeFilePublish } = this.props;
 
         return (
             <>
                 <FileList editMode={ editMode } firebase={ fire } type={ 'V' } t={ t }
-                          subject={ subject } lecture={ lecture }
+                          subject={ subject } lecture={ lecture } isStudent={ isStudent }
                           onSelectFile={ onSelectVideoClick }
+                          onChangeFilePublish={onChangeFilePublish}
                 />
 
                 <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t }
-                          subject={ subject } lecture={ lecture }
+                          subject={ subject } lecture={ lecture } isStudent={ isStudent }
                           onSelectFile={ onSelectFileClick }
+                          onChangeFilePublish={onChangeFilePublish}
                 />
 
                 <FileList editMode={ editMode } firebase={ fire } type={ 'E' } t={ t }
-                          subject={ subject } lecture={ lecture }
+                          subject={ subject } lecture={ lecture } isStudent={ isStudent }
                           onSelectFile={ onSelectFileClick }
+                          onChangeFilePublish={onChangeFilePublish}
                 />
             </>
         );

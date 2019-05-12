@@ -28,6 +28,9 @@ const Actions = {
     SAVE_LECTURE_START: 'SAVE_LECTURE_START',
     SAVE_LECTURE_ERROR: 'SAVE_LECTURE_ERROR',
     SAVE_LECTURE_SUCCESS: 'SAVE_LECTURE_SUCCESS',
+    LOAD_COMMENTS_SUCCESS: 'LOAD_COMMENTS_SUCCESS',
+    ADD_COMMENT: 'ADD_COMMENT',
+    RESET_COMMENTS: 'RESET_COMMENTS',
 };
 
 // When fetching the current user, keep track of which pathname she/he tried to access,
@@ -125,7 +128,7 @@ const logOut = () => {
         firebase
             .auth()
             .signOut()
-            .then((res) => {
+            .then(() => {
                 dispatch({ type: Actions.LOG_OUT_SUCCESS });
             })
             .catch((err) => {
@@ -270,17 +273,22 @@ const saveSubject = (subject) => {
         dispatch({
             type: Actions.SAVE_LECTURE_START,
         });
-
+        let updatedSubject = subject;
+        for (let lecture in updatedSubject.lectures){
+            updatedSubject.lectures[lecture] = {
+                ...updatedSubject.lectures[lecture],
+                    comments: []
+            }
+        }
         return firebase
             .database()
             .collection('subjects')
             .doc(subject.subject_id)
-            .update(subject)
+            .update(updatedSubject)
             .then(function () {
                 dispatch({
                     type: Actions.SAVE_LECTURE_SUCCESS,
                 });
-
                 return { message: 'Subject successfully saved!' };
             })
             .catch(function (error) {
@@ -295,7 +303,7 @@ const saveSubject = (subject) => {
 
 const addRating = (subject_id, userId, rating) => {
     return (dispatch) => {
-        const path = "subject_rates."+userId;
+        const path = 'subject_rates.' + userId;
         return firebase
             .database()
             .collection('subjects')
@@ -304,8 +312,8 @@ const addRating = (subject_id, userId, rating) => {
                 [path]: rating,
             })
             .then(function () {
-             //   dispatch({
-               //     type: Actions.SAVE_LECTURE_SUCCESS,
+                //   dispatch({
+                //     type: Actions.SAVE_LECTURE_SUCCESS,
                 //});
 
                 return { message: 'Subject successfully saved!' };
@@ -320,9 +328,61 @@ const addRating = (subject_id, userId, rating) => {
     };
 };
 
+const saveComment = (subject_id, lecture_id, user, comment) => {
+    console.log(user);
+    let timestamp = Date.now();
+    return (dispatch) => {
+        return firebase
+            .database()
+            .collection('subjects')
+            .doc(subject_id)
+            .collection('comments')
+            .doc(lecture_id)
+            .collection('comments')
+            .add({
+                comment: comment,
+                user_id: user.userCredentials.uid,
+                user_name: user.userCredentials.email,
+                timestamp
+                ,
+            });
+    };
+};
+
+const loadComments = (subject_id, lecture_id) => {
+    return (dispatch) => {
+        dispatch({
+            type: Actions.RESET_COMMENTS,
+        });
+        return firebase
+            .database()
+            .collection('subjects')
+            .doc(subject_id)
+            .collection('comments')
+            .doc(lecture_id)
+            .collection('comments')
+            .orderBy('timestamp', 'asc')
+            .onSnapshot(function (querySnapshot) {
+                querySnapshot.docChanges().forEach(function (change) {
+                    const response = {
+                        comment: change.doc.data(),
+                    };
+
+                    if (change.type === 'added') {
+                        dispatch({
+                            type: Actions.ADD_COMMENT,
+                            payload: response,
+                        });
+                    }
+                });
+            });
+    };
+};
+
 const fetchFile = (nameOnStorage) => {
     return () => {
-        return firebase.storage()
+        return firebase
+            .storage()
             .ref(nameOnStorage)
             .getDownloadURL();
     };
@@ -343,4 +403,6 @@ export {
     saveSubject,
     fetchFile,
     addRating,
+    loadComments,
+    saveComment,
 };
