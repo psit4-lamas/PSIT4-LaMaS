@@ -47,15 +47,6 @@ class LecturePageTutorView extends Component {
         }
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     const { subject, lectureName } = this.props;
-    //
-    //     this.setState({
-    //         updatedSubject: this.cloneSubject(subject),
-    //         lectureNameUpdate: lectureName,
-    //     });
-    // }
-
     cloneOverview = (originalSubject, stateSubject = {}, isCancel = false) => {
         let clonedOverview;
 
@@ -187,13 +178,6 @@ class LecturePageTutorView extends Component {
     };
 
     onOverviewTopicsChange = (value) => {
-        // const { updatedSubject } = this.state;
-        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
-        // subjectToBeUpdated.overview.topics = value;
-        //
-        // this.setState({
-        //     updatedSubject: subjectToBeUpdated,
-        // });
         const { updatedOverview } = this.state;
         const overviewToBeUpdated = Object.assign({}, updatedOverview);
         overviewToBeUpdated.topics = value;
@@ -204,13 +188,6 @@ class LecturePageTutorView extends Component {
     };
 
     onOverviewLabsChange = (value) => {
-        // const { updatedSubject } = this.state;
-        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
-        // subjectToBeUpdated.overview.labs = value;
-        //
-        // this.setState({
-        //     updatedSubject: subjectToBeUpdated,
-        // });
         const { updatedOverview } = this.state;
         const overviewToBeUpdated = Object.assign({}, updatedOverview);
         overviewToBeUpdated.labs = value;
@@ -221,14 +198,6 @@ class LecturePageTutorView extends Component {
     };
 
     onOverviewExamChange = (value) => {
-        // const { updatedSubject } = this.state;
-        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
-        // subjectToBeUpdated.overview.exam = value;
-        //
-        //
-        // this.setState({
-        //     updatedSubject: subjectToBeUpdated,
-        // });
         const { updatedOverview } = this.state;
         const overviewToBeUpdated = Object.assign({}, updatedOverview);
         overviewToBeUpdated.exam = value;
@@ -239,16 +208,6 @@ class LecturePageTutorView extends Component {
     };
 
     onLectureTitleChange = (value) => {
-        // const { lectureId } = this.props;
-        // const { updatedSubject } = this.state;
-        // const subjectToBeUpdated = Object.assign({}, updatedSubject);
-        // subjectToBeUpdated.lectures[lectureId].name = value;
-        //
-        // this.setState({
-        //     updatedSubject: updatedSubject,
-        //     isValid: value !== '',
-        //     lectureNameUpdate: value,
-        // });
         const { updatedLecture } = this.state;
         const lectureToBeUpdated = Object.assign({}, updatedLecture);
         lectureToBeUpdated.name = value;

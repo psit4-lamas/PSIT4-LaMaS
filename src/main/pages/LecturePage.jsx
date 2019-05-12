@@ -20,7 +20,6 @@ class LecturePage extends Component {
             lectureName: '',
             videoUrl: '',
             nameOnStorage: '',
-            is_public: false,
             commentsLoaded: false,
         };
 
@@ -82,7 +81,6 @@ class LecturePage extends Component {
             exercises: { ...copiedLecture.exercises },
             comments: copiedLecture.comments || [],
         };
-        //currentLecture.comments = [];
 
         this.setState({
             lectureID: lectureID,
@@ -90,36 +88,10 @@ class LecturePage extends Component {
             lectureName: currentLecture.name || '',
             videoUrl: '',
             nameOnStorage: '',
-            is_public: currentLecture.is_public,
             commentsLoaded: false,
         });
 
         this.showFirstVideoOfLecture(lectureID);
-    };
-
-    // handleSaveLecture = () => {
-    //     this.props.saveSubject(this.state.subject)
-    //         .then((response) => {
-    //             if (response.message && response.message.includes('success')) {
-    //                 this.setState({
-    //                     isEditMode: false,
-    //                     mode: 'view',
-    //                 });
-    //             }
-    //         });
-    // };
-
-    onFilePublishUpdate = (updatedSubject) => {
-        this.setState({
-            subject: updatedSubject,
-        });
-    };
-
-    onLecturePublishUpdate = (updatedSubject, value) => {
-        this.setState({
-            subject: updatedSubject,
-            is_public: value,
-        });
     };
 
     showFirstVideoOfLecture = (lectureID) => {
@@ -210,7 +182,6 @@ class LecturePage extends Component {
                 { !isStudent && (
                     <LecturePageTutorView
                         lectureName={ lectureName }
-                        onLecturePublishUpdate={ this.onLecturePublishUpdate }
                         saveSubject={ this.props.saveSubject }
                         handleOverviewMenuClick={ this.handleOverviewMenuClick }
                         handleLectureMenuClick={ this.handleLectureMenuClick }
@@ -228,7 +199,6 @@ class LecturePage extends Component {
                         nameOnStorage={ nameOnStorage }
                         videoUrl={ videoUrl }
                         showVideo={ this.showFirstVideoOfLecture }
-                        onFilePublishUpdate={ this.onFilePublishUpdate }
                         comments={ comments }
                         onCommentSubmit={ this.onCommentSubmit }
                     />
@@ -236,6 +206,9 @@ class LecturePage extends Component {
 
                 { isStudent && (
                     <LecturePageStudentView
+                        addRating={ this.props.addRating }
+                        currentRating={ this.props.currentRating }
+                        user={ this.props.user }
                         handleOverviewMenuClick={ this.handleOverviewMenuClick }
                         handleLectureMenuClick={ this.handleLectureMenuClick }
                         breadcrumbComponent={ this.renderBreadcrumb }
@@ -252,9 +225,6 @@ class LecturePage extends Component {
                         nameOnStorage={ nameOnStorage }
                         videoUrl={ videoUrl }
                         showVideo={ this.showFirstVideoOfLecture }
-                        addRating={ this.props.addRating }
-                        currentRating={ this.props.currentRating }
-                        user={ this.props.user }
                         comments={ comments }
                         onCommentSubmit={ this.onCommentSubmit }
                     />
