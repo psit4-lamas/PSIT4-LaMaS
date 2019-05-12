@@ -19,7 +19,7 @@ module.exports = {
             .pause(10000)
             .useXpath()     // every selector now must be XPath
             .click("//a[text()='PSIT3']")
-            .verify.elementPresent("//main/form/div/div/div/div/a[text()='PSIT3']")
+            .verify.elementPresent("//main/div/div/div/div/a[text()='PSIT3']")
             .end();
     },
 
