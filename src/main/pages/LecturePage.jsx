@@ -108,13 +108,6 @@ class LecturePage extends Component {
     //         });
     // };
 
-    onLectureTitleUpdate = (updatedSubject, value) => {
-        this.setState({
-            subject: updatedSubject,
-            lectureName: value,
-        });
-    };
-
     onFilePublishUpdate = (updatedSubject) => {
         this.setState({
             subject: updatedSubject,
@@ -214,7 +207,6 @@ class LecturePage extends Component {
                 { !isStudent && (
                     <LecturePageTutorView
                         lectureName={ lectureName }
-                        onLectureTitleUpdate={ this.onLectureTitleUpdate }
                         onLecturePublishUpdate={ this.onLecturePublishUpdate }
                         saveSubject={ this.props.saveSubject }
                         handleOverviewMenuClick={ this.handleOverviewMenuClick }
