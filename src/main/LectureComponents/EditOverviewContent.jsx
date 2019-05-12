@@ -30,36 +30,39 @@ class EditOverviewContent extends Component {
 
                 <div style={ { marginTop: '25px' } }>
                     <FormField>
-                        <label>{ t('subjectOverview.topics') }</label>
+                        <label className="edit-form-label">{ t('subjectOverview.topics') }</label>
                         <TextArea
                             focus="true"
+                            className="edit-form-textarea"
                             name="topics"
                             value={ overview.topics }
                             placeholder={ t('subjectOverview.overviewTopicsPlaceholder') }
                             onChange={ this.handleTopicsChange }
-                            style={{ minHeight: 100 }}
+                            style={ { minHeight: 100 } }
                         />
                     </FormField>
 
                     <FormField>
-                        <label>{ t('subjectOverview.labs') }</label>
+                        <label className="edit-form-label">{ t('subjectOverview.labs') }</label>
                         <TextArea
+                            className="edit-form-textarea"
                             name="labs"
                             value={ overview.labs }
                             placeholder={ t('subjectOverview.overviewLabsPlaceholder') }
                             onChange={ this.handleLabsChange }
-                            style={{ minHeight: 100 }}
+                            style={ { minHeight: 100 } }
                         />
                     </FormField>
 
                     <FormField>
-                        <label>{ t('subjectOverview.exam') }</label>
+                        <label className="edit-form-label">{ t('subjectOverview.exam') }</label>
                         <TextArea
+                            className="edit-form-textarea"
                             name="exam"
                             value={ overview.exam }
                             placeholder={ t('subjectOverview.overviewExamPlaceholder') }
                             onChange={ this.handleExamChange }
-                            style={{ minHeight: 100 }}
+                            style={ { minHeight: 100 } }
                         />
                     </FormField>
                 </div>
