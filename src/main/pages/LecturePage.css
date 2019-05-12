@@ -1,5 +1,9 @@
 @import '../../utils/colourPalettes.css';
 
+#top-segment > .ui.grid [class*="left floated"].column {
+    margin-right: 0 !important;
+}
+
 #top-menu-lecture {
     display: flex;
     justify-content: flex-end;

@@ -32,10 +32,12 @@ class LecturePageStudentView extends Component {
         const { breadcrumbComponent } = this.props;
 
         return (
-            <Segment>
+            <Segment id="top-segment">
                 <Grid columns={ 2 }>
-                    <Grid.Column floated="left" width={ 4 } verticalAlign={ 'middle' }>
+                    <Grid.Column floated="left" width={ 1 } verticalAlign={ 'middle' }>
                         { this.renderRatingComponent() }
+                    </Grid.Column>
+                    <Grid.Column floated="left" width={ 3 } verticalAlign={ 'middle' }>
                         { breadcrumbComponent() }
                     </Grid.Column>
                     <Grid.Column floated="right" width={ 3 }>
