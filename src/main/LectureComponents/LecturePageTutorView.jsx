@@ -41,11 +41,11 @@ class LecturePageTutorView extends Component {
     //     });
     // }
 
-    cloneOverview = (originalSubject) => {
+    cloneOverview = (originalSubject, isCancel = false) => {
         const { updatedOverview } = this.state;
         let clonedOverview;
 
-        if (updatedOverview && updatedOverview.subject_id === originalSubject.subject_id) {
+        if (!isCancel && updatedOverview && updatedOverview.subject_id === originalSubject.subject_id) {
             clonedOverview = { ...updatedOverview };
         } else {
             clonedOverview = {
@@ -133,7 +133,7 @@ class LecturePageTutorView extends Component {
 
         this.setState({
             // updatedSubject: this.cloneSubject(subject),
-            updatedOverview: this.cloneOverview(subject),
+            updatedOverview: this.cloneOverview(subject, true),
             updatedLecture: this.cloneLecture(subject),
             lectureNameUpdate: lectureName,
             isEditMode: false,
