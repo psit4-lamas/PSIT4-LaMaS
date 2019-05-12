@@ -37,6 +37,10 @@
         "publish": "veröffentlicht",
         "unpublish": "unveröffentlicht"
     },
+    "error403": {
+        "attemptAccess": "Sie versuchen auf die Seite zuzugreifen ",
+        "unauthorised": ". Sie sind nicht berechtigt, diese Seite zu besuchen."
+    },
     "createSubject": {
         "pageTitle": "Neues Fach erstellen",
         "successMsgTitle": "Fach wurde erstellt",

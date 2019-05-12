@@ -37,6 +37,10 @@
         "publish": "published",
         "unpublish": "unpublished"
     },
+    "error403": {
+        "attemptAccess": "You are attempting to access ",
+        "unauthorised": ", but you are not authorised to view this page."
+    },
     "createSubject": {
         "pageTitle": "Create new subject",
         "successMsgTitle": "Subject created",
