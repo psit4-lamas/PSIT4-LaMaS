@@ -15,7 +15,7 @@
     margin: 0;
     outline: 0;
     -webkit-appearance: none;
-    tap-highlight-color: rgba(255,255,255,0);
+    /*tap-highlight-color: rgba(255,255,255,0);*/
     line-height: 1.21428571em;
     padding: .67857143em 1em;
     font-size: 1em;
