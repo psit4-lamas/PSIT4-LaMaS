@@ -30,7 +30,7 @@ class TopMenu extends Component {
     };
 
     render() {
-        const { t, changeLanguage, user, isStudent, tabs } = this.props;
+        const { t, changeLanguage, user, isAdmin, tabs } = this.props;
         const { activeTabs } = tabs;
         const currentPathname = window.location.pathname;
         let [currentSubjectID, currentName] = currentPathname.replace('/courses/', '').split('/');
@@ -56,7 +56,7 @@ class TopMenu extends Component {
                     <Menu.Item name="/home" onClick={ this.handleItemClick }>
                         <Image src={ logo_round } width={ 30 }/>&nbsp;&nbsp;Home
                     </Menu.Item>
-                    { !isStudent && <Menu.Item name="/createsubject" active={ currentName === 'createsubject' }
+                    { isAdmin && <Menu.Item name="/createsubject" active={ currentName === 'createsubject' }
                                                onClick={ this.handleItemClick }
                     >
                         Create Subject
