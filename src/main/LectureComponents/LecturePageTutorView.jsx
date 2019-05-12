@@ -32,16 +32,30 @@ class LecturePageTutorView extends Component {
             const currentLecture = prevState.updatedLecture;
             const propsLecture = nextProps.subject.lectures[nextProps.lectureId];
 
-            return {
+            const result =  {
                 updatedLecture: {
                     ...currentLecture,
                     videos: { ...propsLecture.videos },
                     exercises: { ...propsLecture.exercises },
                     lecture_materials: { ...propsLecture.lecture_materials },
                     name: lectureNameUpdate,
-                    is_public: propsLecture.is_public,
+                    // Properly update the cloned Lecture with the correct lecture is_public value
+                    is_public: propsLecture.is_public !== currentLecture.is_public ? currentLecture.is_public : propsLecture.is_public,
                 },
             };
+
+            if (Object.keys(propsLecture.exercises).length !== Object.keys(currentLecture.exercises).length) {
+                return result;
+            }
+
+            // Properly update the cloned Lecture with the correct exercise files is_public values
+            for (let index in currentLecture.exercises) {
+                if (propsLecture.exercises[index].is_public !== currentLecture.exercises[index].is_public) {
+                    result.updatedLecture.exercises[index].is_public = currentLecture.exercises[index].is_public;
+                }
+            }
+
+            return result;
         } else {
             return null;
         }
