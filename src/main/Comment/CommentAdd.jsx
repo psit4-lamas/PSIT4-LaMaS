@@ -11,20 +11,20 @@ class CommentAdd extends Component {
         this.state = { value: '' };
     }
 
-    saveMessage = () => {
-        this.props.saveMessage(this.state.value);
-        console.log(this.state.value);
+    saveMessage = (comment, subject_id) => {
+        this.props.onCommentSubmit(comment, subject_id);
         this.setState({ value: '' });
     };
 
     render() {
-        const { t } = this.props;
+        const { value } = this.state;
+        const { t, subject_id } = this.props;
         return (
-            <Form id="add-comment">
+            <Form id="add-comment" onSubmit={ () => this.saveMessage(value, subject_id) }>
                 <Input
                     onChange={ (event) => this.setState({ value: event.target.value }) }
                     name="comment"
-                    value={ this.state.value }
+                    value={ value }
                     fluid
                     placeholder={ t('comment.input') }
                 />
@@ -36,7 +36,6 @@ class CommentAdd extends Component {
                     name="save"
                     fluid
                     size="large"
-                    onClick={ this.saveMessage }
                 />
             </Form>
         );

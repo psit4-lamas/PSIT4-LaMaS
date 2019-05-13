@@ -6,6 +6,7 @@ import UploadComponent from '../UploadComponent/UploadComponent';
 
 
 class FileList extends Component {
+
     constructor(props) {
         super(props);
 
@@ -108,9 +109,9 @@ class FileList extends Component {
                     </Item.Group>
                 </Table.Cell>
 
-                { ( isDeleteImplemented || !isStudent ) && (
+                { ( isDeleteImplemented || !isStudent ) && (type !== 'V') && (type !== 'L') && (
                     <Table.Cell>
-                        { (type !== 'V') && (type !== 'L') && this.renderExerciseRightCell(key, is_public) }
+                        { this.renderExerciseRightCell(key, is_public) }
                     </Table.Cell>
                 ) }
             </Table.Row>
@@ -127,14 +128,19 @@ class FileList extends Component {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell width={ 10 }>{ t('fileList.' + type) } </Table.HeaderCell>
-                        { ( isDeleteImplemented || !isStudent ) && <Table.HeaderCell width={ 2 }>{ editMode ? t('fileList.action') : '' }</Table.HeaderCell> }
+                        { ( isDeleteImplemented || !isStudent ) && (type !== 'V') && (type !== 'L') &&
+                            <Table.HeaderCell width={ 2 }>{ editMode ? t('fileList.action') : '' }</Table.HeaderCell> }
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     { editMode && (
                         <Table.Row>
                             <Table.Cell collapsing>
-                                <UploadComponent subject={ subject } fileType={ type } buttonLabel={ t('uploadComponent.add') }/>
+                                <UploadComponent
+                                    subject={ subject }
+                                    fileType={ type }
+                                    buttonLabel={ t('uploadComponent.add') }
+                                />
                             </Table.Cell>
                             { isDeleteImplemented && <Table.Cell/> }
                         </Table.Row>

@@ -1,10 +1,12 @@
 import React from 'react';
-import CommentAdd from '../../main/Comment/CommentAdd';
 import { shallow } from 'enzyme';
+import CommentAdd from '../../main/Comment/CommentAdd';
+import { Form } from 'semantic-ui-react';
 
 describe('Component CommentAdd', () => {
     const props = {
-        saveMessage: jest.fn(),
+        onCommentSubmit: jest.fn(),
+        subject_id: '1a2b3c4d5e',
         t: (key) => key,
     };
 
@@ -16,17 +18,17 @@ describe('Component CommentAdd', () => {
         component.unmount();
     });
 
-    it('should call saveMessage on button click', () => {
+    it('should call onCommentSubmit on button click', () => {
         const component = shallow(<CommentAdd { ...props } />);
         const comment = 'new comment for that lecture';
         const event = {
-            target: { value: comment },
+            target: { name: 'comment', value: comment },
         };
 
-        component.find({ name: 'comment' }).prop('onChange')(event);
-        component.find({ name: 'save' }).simulate('click');
+        component.find({ name: 'comment' }).simulate('change', event);
+        component.find(Form).simulate('submit');
 
-        expect(props.saveMessage).toHaveBeenCalledWith(comment);
+        expect(props.onCommentSubmit).toHaveBeenCalledWith(comment, props.subject_id);
 
         component.unmount();
     });

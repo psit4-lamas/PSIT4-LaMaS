@@ -73,6 +73,7 @@ describe('User reducer', () => {
 
         it('STUDENT user state', () => {
             authenticatedUserState.roles = action.payload.roles;
+            authenticatedUserState.isAdmin = false;
             authenticatedUserState.isStudent = true;
 
             expect(userReducer(undefined, action)).toEqual(authenticatedUserState);
@@ -81,6 +82,7 @@ describe('User reducer', () => {
         it('TUTOR user state', () => {
             action.payload.roles = ['TUTOR'];
             authenticatedUserState.roles = action.payload.roles;
+            authenticatedUserState.isAdmin = false;
             authenticatedUserState.isStudent = false;
 
             expect(userReducer(undefined, action)).toEqual(authenticatedUserState);
@@ -89,6 +91,7 @@ describe('User reducer', () => {
         it('ADMIN user state', () => {
             action.payload.roles = ['ADMIN'];
             authenticatedUserState.roles = action.payload.roles;
+            authenticatedUserState.isAdmin = true;
             authenticatedUserState.isStudent = false;
 
             expect(userReducer(undefined, action)).toEqual(authenticatedUserState);

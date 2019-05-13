@@ -17,11 +17,6 @@ const availableTutors = [
         text: 'Hans Doran',
         value: 'Hans Doran',
     },
-    {
-        key: 'Renate Kummer',
-        text: 'Renate Kummer',
-        value: 'Renate Kummer',
-    },
 ];
 
 
@@ -32,8 +27,10 @@ class CreateSubject extends Component {
 
         this.state = {
             subject: '',
+            subjectFullName: '',
             selectedTutors: [],
             submittedSubject: '',
+            submittedSubjectFullName: '',
             submittedTutors: [],
             availableTutors: availableTutors.slice(),
         };
@@ -58,28 +55,38 @@ class CreateSubject extends Component {
         });
     };
 
+    handleSubjectFullNameChange = (e) => {
+        this.setState({
+            subjectFullName: e.target.value,
+        });
+    };
+
     handleDropdownChange = (e, { value }) => {
         this.setState({ selectedTutors: value });
     };
 
     handleSubmit = () => {
-        const { subject, selectedTutors } = this.state;
+        const { subject, subjectFullName, selectedTutors } = this.state;
 
         // Prevent admin from accidentally submitting a form without subject name or tutors
-        if (subject !== '' && selectedTutors.length > 0) {
-            this.props.createSubject(subject, selectedTutors);
+        if (subject !== '' && subjectFullName !== '' && selectedTutors.length > 0) {
+            this.props.createSubject(subject, subjectFullName, selectedTutors);
 
             this.setState({
                 submittedSubject: subject,
+                submittedSubjectFullName: subjectFullName,
                 submittedTutors: selectedTutors,
                 subject: '',
+                subjectFullName: '',
                 selectedTutors: [],
             });
         }
     };
 
     render() {
-        const { availableTutors, subject, selectedTutors, submittedSubject, submittedTutors } = this.state;
+        const {
+            availableTutors, subject, subjectFullName, selectedTutors,
+            submittedSubject, submittedSubjectFullName, submittedTutors } = this.state;
         const { t, responseSubject } = this.props;
 
         return (
@@ -95,6 +102,7 @@ class CreateSubject extends Component {
                         t={ t }
                         responseSubject={ responseSubject }
                         submittedSubject={ submittedSubject }
+                        submittedSubjectFullName={ submittedSubjectFullName }
                         submittedTutors={ submittedTutors }
                     />
                 }
@@ -107,6 +115,14 @@ class CreateSubject extends Component {
                             name="subject"
                             value={ subject }
                             onChange={ (e) => this.handleSubjectChange(e) }
+                        />
+
+                        <label>{ t('createSubject.subjectFullNameFieldLbl') }</label>
+                        <Form.Input
+                            placeholder={ t('createSubject.subjectFullNameFieldPlaceholder') }
+                            name="subject-full-name"
+                            value={ subjectFullName }
+                            onChange={ (e) => this.handleSubjectFullNameChange(e) }
                         />
 
                         <label>{ t('createSubject.tutorFieldLbl') }</label>

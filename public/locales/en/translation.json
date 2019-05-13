@@ -37,6 +37,10 @@
         "publish": "published",
         "unpublish": "unpublished"
     },
+    "error403": {
+        "attemptAccess": "You are attempting to access ",
+        "unauthorised": ", but you are not authorised to view this page."
+    },
     "createSubject": {
         "pageTitle": "Create new subject",
         "successMsgTitle": "Subject created",
@@ -47,16 +51,28 @@
         "negativeMsgBox1": "Cannot create subject with name ",
         "negativeMsgBox2": " and assigned tutors ",
         "negativeMsgBox3": ".",
-        "subjectFieldLbl": "Subject Name",
-        "subjectFieldPlaceholder": "Subject Name...",
+        "subjectFieldLbl": "Subject Identifier",
+        "subjectFieldPlaceholder": "Subject Identifier...",
+        "subjectFullNameFieldLbl": "Subject Full Name",
+        "subjectFullNameFieldPlaceholder": "Subject Full Name...",
         "tutorFieldLbl": "Assign Tutors",
         "tutorFieldPlaceholder": "Tutors...",
         "saveBtn": "Save"
     },
     "baseLayout": {
-        "lecture": "Lecture "
+        "lecture": "Lecture ",
+        "overview": "Overview"
     },
-
+    "subjectOverview": {
+        "suffixTitle": "Overview",
+        "topics": "Topics",
+        "labs": "Labs",
+        "exam": "Grades and Final Exam",
+        "editTitleLabel": "Edit",
+        "overviewTopicsPlaceholder": "Detail about the covered topics of this subject...",
+        "overviewLabsPlaceholder": "Detail about the labs and exercises and their evaluations...",
+        "overviewExamPlaceholder": "Detail about the final exam and how the students will be graded..."
+    },
     "editLecture": {
         "editLecture": "Edit: Lecture ",
         "lectureTitle": "Lecture title:",

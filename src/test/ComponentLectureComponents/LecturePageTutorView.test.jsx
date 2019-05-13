@@ -237,6 +237,7 @@ describe('LecturePagTutorView', () => {
                     videos: {},
                 },
             },
+            overview: {},
             subject_id: '2D0MoB57yByiAQhLSGnK',
             subject_name: 'MQMO',
             subject_rates: {
@@ -244,7 +245,6 @@ describe('LecturePagTutorView', () => {
                 undefined: 5,
             },
         },
-
         subject_id: 'test123',
         lecture: {
             comments: {},
@@ -309,7 +309,7 @@ describe('LecturePagTutorView', () => {
         onSelectVideoClick: jest.fn(),
         showVideo: jest.fn(),
         addRating: jest.fn(),
-        onLectureTitleUpdate: jest.fn(),
+        // onLectureTitleUpdate: jest.fn(),
         currentRating: 5,
         breadcrumbComponent: jest.fn(),
         user: {
@@ -356,7 +356,7 @@ describe('LecturePagTutorView', () => {
 
     const propsEditMode = {
         isEditMode: false,
-        onLectureTitleUpdate: jest.fn(),
+        // onLectureTitleUpdate: jest.fn(),
         saveSubject,
         t: (key) => key,
         subject: {
@@ -578,6 +578,7 @@ describe('LecturePagTutorView', () => {
                     videos: {},
                 },
             },
+            overview: {},
             subject_id: '2D0MoB57yByiAQhLSGnK',
             subject_name: 'MQMO',
             subject_rates: {
@@ -585,7 +586,6 @@ describe('LecturePagTutorView', () => {
                 undefined: 5,
             },
         },
-
         subject_id: 'test123',
         lecture: {
             comments: {},
@@ -745,7 +745,7 @@ describe('LecturePagTutorView', () => {
 
         lecturePageTutorViewComponent.find(EditLectureBodyContent).prop('onLectureTitleChange')('newLectureTitle');
 
-        expect(propsEditMode.onLectureTitleUpdate).toHaveBeenCalledWith(updatedSubject, 'newLectureTitle');
+        // expect(propsEditMode.onLectureTitleUpdate).toHaveBeenCalledWith(updatedSubject, 'newLectureTitle');
         expect(lecturePageTutorViewComponent.state('isValid')).toBeTruthy();
     });
 

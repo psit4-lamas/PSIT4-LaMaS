@@ -12,6 +12,7 @@ const Actions = {
     // TODO: add actual fetching user's bookmarked subjects from backend
     SUBJECTS_SELECTED: 'SUBJECTS_SELECTED',
 
+    LOADING_SUBJECT: 'LOADING_SUBJECT',
     CREATE_SUBJECT_SUCCESS: 'CREATE_SUBJECT_SUCCESS',
     CREATE_SUBJECT_FAIL: 'CREATE_SUBJECT_FAIL',
     LEAVE_CREATE_SUBJECT: 'LEAVE_CREATE_SUBJECT',
@@ -136,19 +137,27 @@ const logOut = () => {
     };
 };
 
-const createSubject = (submittedSubject, submittedTutors) => {
+const createSubject = (submittedSubject, submittedSubjectFullName, submittedTutors) => {
     return (dispatch) => {
         firebase
             .functions()
             .httpsCallable('addSubject')({
                 subject_name: submittedSubject,
+                subject_full_name: submittedSubjectFullName,
                 assigned_tutors: submittedTutors,
             })
             .then((res) => {
                 const data = {
                     subjectId: res.data.subjectId,
                     subject_name: submittedSubject,
+                    subject_full_name: submittedSubjectFullName,
                     assigned_tutors: submittedTutors.slice(),
+                    grant_access_classes: [],
+                    overview: {
+                        topics: '',
+                        labs: '',
+                        exam: '',
+                    },
                 };
 
                 dispatch({
@@ -184,6 +193,11 @@ const leaveCreateSubject = () => {
  */
 const loadSubject = (subject_id) => {
     return (dispatch) => {
+
+        dispatch({
+            type: Actions.LOADING_SUBJECT,
+        });
+
         return firebase
             .database()
             .collection('subjects')

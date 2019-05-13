@@ -37,6 +37,10 @@
         "publish": "veröffentlicht",
         "unpublish": "unveröffentlicht"
     },
+    "error403": {
+        "attemptAccess": "Sie versuchen auf die Seite zuzugreifen ",
+        "unauthorised": ". Sie sind nicht berechtigt, diese Seite zu besuchen."
+    },
     "createSubject": {
         "pageTitle": "Neues Fach erstellen",
         "successMsgTitle": "Fach wurde erstellt",
@@ -47,14 +51,27 @@
         "negativeMsgBox1": "Fach mit Name ",
         "negativeMsgBox2": " und Dozenten ",
         "negativeMsgBox3": " konnte nicht erstellt werden.",
-        "subjectFieldLbl": "Name des Faches",
-        "subjectFieldPlaceholder": "Fachname...",
+        "subjectFieldLbl": "Kürzel des Faches",
+        "subjectFieldPlaceholder": "Fachkürzel...",
+        "subjectFullNameFieldLbl": "Ganze Name des Faches",
+        "subjectFullNameFieldPlaceholder": "Ganze Fachname...",
         "tutorFieldLbl": "Dozenten zuweisen",
         "tutorFieldPlaceholder": "Dozenten...",
         "saveBtn": "Speichern"
     },
     "baseLayout": {
-        "lecture": "Vorlesung "
+        "lecture": "Vorlesung ",
+        "overview": "Überblick"
+    },
+    "subjectOverview": {
+        "suffixTitle": "Überblick",
+        "topics": "Themen",
+        "labs": "Labs",
+        "exam": "Bewertungen und Semesterendprüfung",
+        "editTitleLabel": "Editieren",
+        "overviewTopicsPlaceholder": "Detail zu den behandelten Themen dieses Fach...",
+        "overviewLabsPlaceholder": "Details zu den Labs und Übungen und deren Bewertungen...",
+        "overviewExamPlaceholder": "Detail über die Semesterendprüfung und wie die Studenten bewertet werden...."
     },
     "editLecture": {
         "editLecture": "Editieren: Vorlesung ",

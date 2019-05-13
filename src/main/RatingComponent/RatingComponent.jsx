@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Label, Rating } from 'semantic-ui-react';
 import { LaMaSColours } from '../../utils/colourPalettes';
+import './RatingComponent.css';
 
 
 class RatingComponent extends Component {
@@ -50,7 +51,7 @@ class RatingComponent extends Component {
 
         return (
             <div onMouseEnter={ this.handleMouseHover } onMouseLeave={ this.handleMouseLeave }>
-                <Label basic color={ LaMaSColours.dominant } ribbon>
+                <Label id="rating-component" basic color={ LaMaSColours.dominant } ribbon>
                     <Rating
                         key={ valueToDisplay }
                         name={ 'currentRating' }
