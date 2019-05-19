@@ -11,7 +11,7 @@ import './LectureBodyContent.css';
 class LectureBodyContent extends Component {
 
     renderComments() {
-        let { comments, t } = this.props;
+        let { comments, t, subject } = this.props;
         return (
             <Segment id="comment-segment" style={ {
                 overflow: 'auto',
@@ -20,18 +20,19 @@ class LectureBodyContent extends Component {
                 <Comment.Group>
                     { comments
                       ? Object.keys(comments).map((index) => {
+                          const datetime = new Date(comments[index].timestamp);
                             return (
                                 <CommentShow
                                     key={ index }
                                     message={ comments[index].comment }
                                     user={ comments[index].user_name }
-                                    timestamp={ new Date(comments[index].timestamp).toDateString() }
+                                    timestamp={ `${ datetime.toDateString() }, ${ datetime.toLocaleTimeString() }` }
 
                                 />
                             );
                         })
                       : '' }
-                <CommentAdd saveMessage={ this.props.saveComment } t={ t }/>
+                <CommentAdd onCommentSubmit={ this.props.onCommentSubmit } t={ t } subject_id={ subject.subject_id }/>
                 </Comment.Group>
             </Segment>
         );
@@ -48,7 +49,6 @@ class LectureBodyContent extends Component {
                     { lectureTitle }
                     { !!lecture.name ? ` - ${ lecture.name }` : '' }
                 </h1>
-
                 <div style={ { marginTop: '25px' } }>
                     <Grid divided="vertically">
                         <Grid.Column floated='left' width={ 10 }>

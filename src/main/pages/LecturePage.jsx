@@ -12,17 +12,14 @@ class LecturePage extends Component {
 
     constructor(props) {
         super(props);
-        const lectureID = 'lecture_01';
+        const lectureID = '0';
 
         this.state = {
-            isLoadingSubject: true,
-            subject: {},
             lectureID: lectureID,
             currentLecture: {},
             lectureName: '',
             videoUrl: '',
             nameOnStorage: '',
-            is_public: false,
             commentsLoaded: false,
         };
 
@@ -32,29 +29,39 @@ class LecturePage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.videoUrl === '') {
-            this.showFirstVideoOfLecture(this.state.lectureID);
+        const { lectureID, videoUrl, commentsLoaded, isLoadingSubject } = this.state;
+        if (lectureID!== "0" && videoUrl === '') {
+            this.showFirstVideoOfLecture(lectureID);
         }
 
-        if (!this.state.commentsLoaded && !this.state.isLoadingSubject) {
+        if (lectureID !== "0" && !commentsLoaded && !isLoadingSubject) {
             const { subject_id } = prevProps.match.params;
-            this.unsubscribe = prevProps.loadComments(subject_id, this.state.lectureID);
+            this.unsubscribe = prevProps.loadComments(subject_id, lectureID);
             this.setState({ commentsLoaded: true });
         }
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        const lectureID = prevState.lectureID;
+        const prevLectureID = prevState.lectureID;
+        const lectureID = prevLectureID !== "0" ? prevLectureID : 'lecture_01';
         const currentLecture = nextProps.currentSubject.lectures[lectureID];
         const lectureName = currentLecture.name;
 
         return {
-            isLoadingSubject: false,
-            subject: nextProps.currentSubject,
             currentLecture: currentLecture,
             lectureName,
         };
     }
+
+    handleOverviewMenuClick = (e) => {
+        const lectureID = e.target.id;
+        const { currentSubject } = this.props;
+
+        this.setState({
+            lectureID: lectureID,
+            currentLecture: currentSubject.overview,
+        });
+    };
 
     handleLectureMenuClick = (e) => {
         const lectureID = e.target.id;
@@ -64,9 +71,16 @@ class LecturePage extends Component {
 
         this.props.selectLecture(lectureID);
 
-        const { subject } = this.state;
-        let currentLecture = subject.lectures[lectureID];
-        currentLecture.comments = [];
+        const { currentSubject } = this.props;
+        const copiedLecture = Object.assign({}, currentSubject.lectures[lectureID]);
+        const currentLecture = {
+            name: copiedLecture.name,
+            is_public: copiedLecture.is_public,
+            videos: { ...copiedLecture.videos },
+            lecture_materials: { ...copiedLecture.lecture_materials },
+            exercises: { ...copiedLecture.exercises },
+            comments: copiedLecture.comments || [],
+        };
 
         this.setState({
             lectureID: lectureID,
@@ -74,49 +88,16 @@ class LecturePage extends Component {
             lectureName: currentLecture.name || '',
             videoUrl: '',
             nameOnStorage: '',
-            is_public: currentLecture.is_public,
             commentsLoaded: false,
         });
 
         this.showFirstVideoOfLecture(lectureID);
     };
 
-    // handleSaveLecture = () => {
-    //     this.props.saveSubject(this.state.subject)
-    //         .then((response) => {
-    //             if (response.message && response.message.includes('success')) {
-    //                 this.setState({
-    //                     isEditMode: false,
-    //                     mode: 'view',
-    //                 });
-    //             }
-    //         });
-    // };
-
-    onLectureTitleUpdate = (updatedSubject, value) => {
-        this.setState({
-            subject: updatedSubject,
-            lectureName: value,
-        });
-    };
-
-    onFilePublishUpdate = (updatedSubject) => {
-        this.setState({
-            subject: updatedSubject,
-        });
-    };
-
-    onLecturePublishUpdate = (updatedSubject, value) => {
-        this.setState({
-            subject: updatedSubject,
-            is_public: value,
-        });
-    };
-
     showFirstVideoOfLecture = (lectureID) => {
-        const { subject } = this.state;
-        const currentLecture = subject.lectures[lectureID];
-        const nameOnStorage = Object.keys(currentLecture.videos).length > 0
+        const { currentSubject } = this.props;
+        const currentLecture = currentSubject.lectures[lectureID];
+        const nameOnStorage = !isEmptyObject(currentLecture) && Object.keys(currentLecture.videos).length > 0
                               ? currentLecture.videos.videos_00.nameOnStorage
                               : '';
 
@@ -134,12 +115,16 @@ class LecturePage extends Component {
         });
     };
 
-    saveComment = (comment) => {
-        this.props.saveComment(this.state.subject.subject_id, this.state.lectureID, this.props.user, comment);
+    onCommentSubmit = (comment, subject_id) => {
+        const { lectureID } = this.state;
+        const { user } = this.props;
+        this.props.saveComment(subject_id, lectureID, user, comment);
     };
 
     onSelectVideoClick = (nameOnStorage) => {
-        this.showVideo(nameOnStorage);
+        if (nameOnStorage) {
+            this.showVideo(nameOnStorage);
+        }
     };
 
     onSelectFileClick = (nameOnStorage) => {
@@ -155,26 +140,26 @@ class LecturePage extends Component {
     }
 
     renderBreadcrumb = () => {
-        const { subject, lectureID } = this.state;
-        const { t } = this.props;
+        const { lectureID } = this.state;
+        const { t, currentSubject } = this.props;
         let lectureEnum = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
         lectureEnum = lectureEnum.replace('-0', '').replace('-', '');
-        const currentPage = t('baseLayout.lecture') + lectureEnum;
+        const currentPage = lectureID !== "0" ? t('baseLayout.lecture') + lectureEnum : t('baseLayout.overview');
 
         return (
             <Breadcrumb>
                 <Breadcrumb.Section link>Home</Breadcrumb.Section>
-                <Breadcrumb.Divider />
-                <Breadcrumb.Section link>{subject.subject_name}</Breadcrumb.Section>
-                <Breadcrumb.Divider />
-                <Breadcrumb.Section active>{currentPage}</Breadcrumb.Section>
+                <Breadcrumb.Divider/>
+                <Breadcrumb.Section link>{ currentSubject.subject_name }</Breadcrumb.Section>
+                <Breadcrumb.Divider/>
+                <Breadcrumb.Section active>{ currentPage }</Breadcrumb.Section>
             </Breadcrumb>
         );
     };
 
     render() {
-        const { isLoadingSubject, subject } = this.state;
-        if (isLoadingSubject) {
+        const { isLoadingSubject, currentSubject } = this.props;
+        if (isLoadingSubject || (currentSubject.assigned_tutors && currentSubject.assigned_tutors.length === 0)) {
             return (
                 <React.Fragment>
                     <LoadingPage />
@@ -186,7 +171,7 @@ class LecturePage extends Component {
         let { currentLecture } = this.state;
 
         const { t, subject_id, isStudent } = this.props;
-        const { lectures } = subject;
+        const { lectures } = currentSubject;
         currentLecture = !!currentLecture && isEmptyObject(currentLecture) ? lectures[lectureID] : currentLecture;
         let lectureTitle = '-' + lectureID.substring(lectureID.length - 2, lectureID.length);
         lectureTitle = lectureTitle.replace('-0', '').replace('-', '');
@@ -197,16 +182,16 @@ class LecturePage extends Component {
                 { !isStudent && (
                     <LecturePageTutorView
                         lectureName={ lectureName }
-                        onLectureTitleUpdate={ this.onLectureTitleUpdate }
-                        onLecturePublishUpdate={ this.onLecturePublishUpdate }
                         saveSubject={ this.props.saveSubject }
+                        handleOverviewMenuClick={ this.handleOverviewMenuClick }
                         handleLectureMenuClick={ this.handleLectureMenuClick }
                         breadcrumbComponent={ this.renderBreadcrumb }
                         subject_id={ subject_id }
                         key={ subject_id + '-' + lectureID }
                         t={ t }
                         lectureId={ lectureID }
-                        subject={ subject }
+                        subject_full_name={ currentSubject.subject_full_name }
+                        subject={ currentSubject }
                         lecture={ currentLecture }
                         lectureTitle={ lectureTitle }
                         onSelectVideoClick={ this.onSelectVideoClick }
@@ -214,21 +199,25 @@ class LecturePage extends Component {
                         nameOnStorage={ nameOnStorage }
                         videoUrl={ videoUrl }
                         showVideo={ this.showFirstVideoOfLecture }
-                        onFilePublishUpdate={ this.onFilePublishUpdate }
                         comments={ comments }
-                        saveComment={ this.saveComment }
+                        onCommentSubmit={ this.onCommentSubmit }
                     />
                 ) }
 
                 { isStudent && (
                     <LecturePageStudentView
+                        addRating={ this.props.addRating }
+                        currentRating={ this.props.currentRating }
+                        user={ this.props.user }
+                        handleOverviewMenuClick={ this.handleOverviewMenuClick }
                         handleLectureMenuClick={ this.handleLectureMenuClick }
                         breadcrumbComponent={ this.renderBreadcrumb }
                         subject_id={ subject_id }
                         key={ subject_id + '-' + lectureID }
                         t={ t }
                         lectureId={ lectureID }
-                        subject={ subject }
+                        subject_full_name={ currentSubject.subject_full_name }
+                        subject={ currentSubject }
                         lecture={ currentLecture }
                         lectureTitle={ lectureTitle }
                         onSelectVideoClick={ this.onSelectVideoClick }
@@ -236,11 +225,8 @@ class LecturePage extends Component {
                         nameOnStorage={ nameOnStorage }
                         videoUrl={ videoUrl }
                         showVideo={ this.showFirstVideoOfLecture }
-                        addRating={ this.props.addRating }
-                        currentRating={ this.props.currentRating }
-                        user={ this.props.user }
                         comments={ comments }
-                        saveComment={ this.saveComment }
+                        onCommentSubmit={ this.onCommentSubmit }
                     />
                 ) }
             </>
@@ -249,12 +235,12 @@ class LecturePage extends Component {
 }
 
 
-const mapStateToProps = (state) => ( {
+const mapStateToProps = (state) => ({
     user: state.user,
     currentSubject: state.subject.currentSubject,
     subject_id: state.subject.subject_id,
-    currentRating: state.subject.currentSubject.averageRating,
-} );
+    currentRating: state.subject.currentSubject && state.subject.currentSubject.averageRating,
+});
 
 const mapDispatchToProps = {
     selectLecture,

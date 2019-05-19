@@ -114,6 +114,7 @@ exports.addSubject = functions.https.onCall(function (data, context) {
     }
     if (typeof data === 'undefined' ||
         typeof data.subject_name === 'undefined' ||
+        typeof data.subject_full_name === 'undefined' ||
         typeof data.assigned_tutors === 'undefined' ||
         !Array.isArray(data.assigned_tutors) ||
         data.assigned_tutors.length === 0) {
@@ -138,9 +139,16 @@ exports.addSubject = functions.https.onCall(function (data, context) {
             },
             _a));
     }
-    var savable = {
+    var saveable = {
         subject_name: data.subject_name,
+        subject_full_name: data.subject_full_name,
         assigned_tutors: data.assigned_tutors,
+        grant_access_classes: [],
+        overview: {
+            topics: '',
+            labs: '',
+            exam: ''
+        },
         lectures: lectures,
         grades: grades,
         subject_rates: {}
@@ -148,7 +156,7 @@ exports.addSubject = functions.https.onCall(function (data, context) {
     return admin
         .firestore()
         .collection('subjects')
-        .add(savable)
+        .add(saveable)
         .then(function (docRef) {
             return { subjectId: docRef.id };
         })["catch"](function (error) {

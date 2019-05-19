@@ -10,28 +10,45 @@ describe('CreateSubjectPage', () => {
     const propsIsStudent = {
         t: jest.fn(),
         user: {
+            isAdmin: false,
             isStudent: true,
         },
     };
 
-    const propsIsNotStudent = {
+    const propsIsTutor = {
         t: jest.fn(),
         user: {
+            isAdmin: false,
             isStudent: false,
         },
     };
 
-    it('renders student view without crashing', () => {
+    const propsIsAdmin = {
+        t: jest.fn(),
+        user: {
+            isAdmin: true,
+            isStudent: false,
+        },
+    };
+
+    it('renders STUDENT view without crashing', () => {
         const div = document.createElement('div');
 
         shallow(<CreateSubjectPage { ...propsIsStudent } />, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
-    it('renders non-student view without crashing', () => {
+    it('renders TUTOR view without crashing', () => {
         const div = document.createElement('div');
 
-        shallow(<CreateSubjectPage { ...propsIsNotStudent } />, div);
+        shallow(<CreateSubjectPage { ...propsIsTutor } />, div);
+        ReactDOM.unmountComponentAtNode(div);
+    });
+
+    it('renders ADMIN view without crashing', () => {
+        const div = document.createElement('div');
+
+        shallow(<CreateSubjectPage { ...propsIsAdmin } />, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
@@ -41,7 +58,7 @@ describe('CreateSubjectPage', () => {
             renderedComponent.unmount();
         });
 
-        it('for a student', () => {
+        it('for a STUDENT', () => {
             const component = <CreateSubjectPage { ...propsIsStudent } />;
 
             renderedComponent = shallow(component);
@@ -51,8 +68,18 @@ describe('CreateSubjectPage', () => {
             expect(renderedComponent).toMatchSnapshot();
         });
 
-        it('for a non-student', () => {
-            const component = <CreateSubjectPage { ...propsIsNotStudent } />;
+        it('for a TUTOR', () => {
+            const component = <CreateSubjectPage { ...propsIsTutor } />;
+
+            renderedComponent = shallow(component);
+
+            expect(renderedComponent.find('#error403').get(0)).toBeTruthy();
+            expect(renderedComponent.find('#create-subject').get(0)).toBeFalsy();
+            expect(renderedComponent).toMatchSnapshot();
+        });
+
+        it('for an ADMIN', () => {
+            const component = <CreateSubjectPage { ...propsIsAdmin } />;
 
             renderedComponent = shallow(component);
 

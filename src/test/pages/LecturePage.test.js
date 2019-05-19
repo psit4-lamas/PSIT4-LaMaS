@@ -359,20 +359,36 @@ describe('LecturePage', () => {
 
     it('should handle save of comment correctly from tutorView', () => {
         const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
-
         renderedComponent = shallow(component);
+
+        // Switch to a lecture page to be able to add a comment
+        const event = {
+            target: {
+                id: 'lecture_01',
+            },
+        };
+        renderedComponent.find(LecturePageTutorView).prop('handleLectureMenuClick')(event);
+
         const comment = 'a new comment';
-        renderedComponent.find(LecturePageTutorView).prop('saveComment')(comment);
+        renderedComponent.find(LecturePageTutorView).prop('onCommentSubmit')(comment, propsNotStudent.currentSubject.subject_id);
 
         expect(propsNotStudent.saveComment).toHaveBeenCalledWith(propsNotStudent.currentSubject.subject_id, 'lecture_01', propsNotStudent.user, comment);
     });
 
     it('should handle save of comment correctly from studentView', () => {
         const component = <LecturePage t={ (key) => key } { ...props } />;
-
         renderedComponent = shallow(component);
+
+        // Switch to a lecture page to be able to add a comment
+        const event = {
+            target: {
+                id: 'lecture_01',
+            },
+        };
+        renderedComponent.find(LecturePageStudentView).prop('handleLectureMenuClick')(event);
+
         const comment = 'a new comment';
-        renderedComponent.find(LecturePageStudentView).prop('saveComment')(comment);
+        renderedComponent.find(LecturePageStudentView).prop('onCommentSubmit')(comment, props.currentSubject.subject_id);
 
         expect(props.saveComment).toHaveBeenCalledWith(props.currentSubject.subject_id, 'lecture_01', props.user, comment);
     });

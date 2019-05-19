@@ -3,6 +3,8 @@
     position: sticky;
     position: -webkit-sticky;
     bottom: 0;
-    margin: 0;
+    margin: 0 0 1px 0;
+    padding-top: 10px;
+    padding-bottom: 1.1em;
     background: #fff;
 }

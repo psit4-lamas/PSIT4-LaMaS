@@ -33,7 +33,7 @@ class BaseLayout extends Component {
                     {/* TODO: fix this TopMenu */ }
                     { user.isLoadingUser || !user.isAuthenticated
                       ? (<TopMenuUnauthenticated t={ t } changeLanguage={ this.changeLanguage }/>)
-                      : (<TopMenu t={ t } changeLanguage={ this.changeLanguage } user={ user } isStudent={ user.isStudent }/>)
+                      : (<TopMenu t={ t } changeLanguage={ this.changeLanguage } user={ user } isAdmin={ user.isAdmin }/>)
                     }
                 </header>
 

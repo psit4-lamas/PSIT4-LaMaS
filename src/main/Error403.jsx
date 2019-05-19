@@ -1,11 +1,10 @@
 import React from 'react';
 
-const Error403 = ({ location }) => (
+const Error403 = ({ t, location }) => (
     <div>
         <h2>Error 403 - Forbidden</h2>
         <p>
-            You are attempting to access <code>{ location.pageName }</code>,
-            but you are not authorised to view this page.
+            { t('error403.attemptAccess') }<code>{ location.pageName }</code>{ t('error403.unauthorised') }
         </p>
     </div>
 );

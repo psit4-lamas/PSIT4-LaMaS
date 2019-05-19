@@ -9,7 +9,7 @@ it('Error403 renders without crashing', () => {
         pageName: 'Create Subject',
     };
 
-    const component = shallow(<Error403 location={ location }/>);
+    const component = shallow(<Error403 t={ jest.fn() } location={ location }/>);
 
     expect(component).toMatchSnapshot();
 

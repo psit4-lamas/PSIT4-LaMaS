@@ -15,13 +15,11 @@ class UploadMediaPage extends Component {
                 <FileList editMode={ editMode } firebase={ fire } type={ 'V' } t={ t }
                           subject={ subject } lecture={ lecture } isStudent={ isStudent }
                           onSelectFile={ onSelectVideoClick }
-                          onChangeFilePublish={onChangeFilePublish}
                 />
 
                 <FileList editMode={ editMode } firebase={ fire } type={ 'L' } t={ t }
                           subject={ subject } lecture={ lecture } isStudent={ isStudent }
                           onSelectFile={ onSelectFileClick }
-                          onChangeFilePublish={onChangeFilePublish}
                 />
 
                 <FileList editMode={ editMode } firebase={ fire } type={ 'E' } t={ t }

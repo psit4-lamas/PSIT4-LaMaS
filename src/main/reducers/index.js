@@ -6,8 +6,15 @@ import { UserRoles } from '../../utils';
 const EMPTY_DEFAULT_SUBJECT = {
     subject_id: '',
     subject_name: '',
+    subject_full_name: '',
     subject_rates: [],
     assigned_tutors: [],
+    grant_access_classes: [],
+    overview: {
+        topics: '',
+        labs: '',
+        exam: '',
+    },
     grades: {},
     lectures: {
         lecture_01: {
@@ -150,10 +157,7 @@ const initialState = {
 };
 
 const userReducer = (state = initialState.user, action) => { // NOSONAR
-
-    switch (
-        action.type // NOSONAR
-        ) {
+    switch (action.type) { // NOSONAR
         case Actions.LOAD_USER:
             // Started fetching user from firebase:
             // save the requested pathname and render LoadingPage
@@ -192,6 +196,7 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
                 isAuthenticated: !!action.payload,
                 isLoadingUser: false,
                 isStudent: !!userRoles && userRoles.includes(UserRoles.STUDENT),
+                isAdmin: !!userRoles && userRoles.includes(UserRoles.ADMIN),
                 userCredentials: user_credentials,
             };
         case Actions.LOG_OUT_SUCCESS:
@@ -219,11 +224,8 @@ const userReducer = (state = initialState.user, action) => { // NOSONAR
 };
 
 const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
-
     // TODO: add more reducer case according to the success fetch user's bookmarked subjects action
-    switch (
-        action.type // NOSONAR
-        ) {
+    switch (action.type) { // NOSONAR
         case Actions.SUBJECT_INSERT_HEAD:
             const found = state.activeTabs.find(function (tab) {
                 return !isEmptyObject(tab) && tab.subject_id === action.payload.subject_id;
@@ -264,10 +266,12 @@ const tabsReducer = (state = initialState.tabs, action) => { // NOSONAR
 };
 
 const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
-
-    switch (
-        action.type // NOSONAR
-        ) {
+    switch (action.type) { // NOSONAR
+        case Actions.LOADING_SUBJECT:
+            return {
+                ...state,
+                isLoadingSubject: true,
+            };
         case Actions.CREATE_SUBJECT_SUCCESS:
             const subject = Object.assign({}, EMPTY_DEFAULT_SUBJECT);
             return {
@@ -279,7 +283,10 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
                     ...subject,
                     subject_id: action.payload.subjectId,
                     subject_name: action.payload.subject_name.replace(/%20/g, ' '),
+                    subject_full_name: action.payload.subject_full_name ? action.payload.subject_full_name.replace(/%20/g, ' ') : '',
                     assigned_tutors: action.payload.assigned_tutors.slice(),
+                    grant_access_classes: action.payload.grant_access_classes.slice(),
+                    overview: Object.assign({}, action.payload.overview),
                 },
             };
 
@@ -397,11 +404,12 @@ const subjectReducer = (state = initialState.subject, action) => { // NOSONAR
         default:
             return {
                 ...state,
-                //               isSubmitted: false,
-                //               isLoadingSubject: true,
+ //               isSubmitted: false,
+ //               isLoadingSubject: true,
             };
     }
 };
+
 
 // Named exports to be called in the tests
 export { userReducer, tabsReducer, subjectReducer };

@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { withRouterAndRedux, isEmptyObject } from '../../utils';
 import { loadSubject, logOut } from '../actions';
-import { Button, Dropdown, Icon, Menu } from 'semantic-ui-react';
+import { Button, Dropdown, Icon, Image, Menu } from 'semantic-ui-react';
+import logo_round from '../../images/lama_round_draft.png';
 import { LaMaSColours } from '../../utils/colourPalettes';
 import './TopMenu.css';
 
 
 class TopMenu extends Component {
 
-    state = {
-        activeItem: window.location.pathname.replace('/courses/', '')
-    };
+    // state = {
+    //     activeItem: window.location.pathname.replace('/courses/', '')
+    // };
 
     handleItemClick = (e, { name }) => {
         const pathname = name === '/home' || name === '/createsubject' ? `${ name }` : `/courses/${ name }`;
@@ -19,7 +20,7 @@ class TopMenu extends Component {
             this.props.loadSubject(name.split('/')[0]);
         }
 
-        this.setState({ activeItem: name });
+        // this.setState({ activeItem: name });
 
         this.props.history.push(pathname);
     };
@@ -29,7 +30,7 @@ class TopMenu extends Component {
     };
 
     render() {
-        const { t, changeLanguage, user, isStudent, tabs } = this.props;
+        const { t, changeLanguage, user, isAdmin, tabs } = this.props;
         const { activeTabs } = tabs;
         const currentPathname = window.location.pathname;
         let [currentSubjectID, currentName] = currentPathname.replace('/courses/', '').split('/');
@@ -53,9 +54,9 @@ class TopMenu extends Component {
             <div>
                 <Menu pointing id="top-menu">
                     <Menu.Item name="/home" onClick={ this.handleItemClick }>
-                        Home
+                        <Image src={ logo_round } width={ 30 }/>&nbsp;&nbsp;Home
                     </Menu.Item>
-                    { !isStudent && <Menu.Item name="/createsubject" active={ currentName === 'createsubject' }
+                    { isAdmin && <Menu.Item name="/createsubject" active={ currentName === 'createsubject' }
                                                onClick={ this.handleItemClick }
                     >
                         Create Subject

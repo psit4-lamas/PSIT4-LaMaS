@@ -7,10 +7,10 @@ class CreateSubjectPage extends Component {
     render() {
         const { t, user } = this.props;
 
-        if (user.isStudent) {
+        if (!user.isAdmin) {
             return (
                 <>
-                    <Error403 id="error403" location={ {
+                    <Error403 id="error403" t={ t } location={ {
                         pathname: '/createsubject',
                         pageName: 'Create Subject',
                     } }/>

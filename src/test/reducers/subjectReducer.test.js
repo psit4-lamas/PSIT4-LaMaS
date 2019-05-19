@@ -5,9 +5,16 @@ describe('Subject reducer', () => {
     const EMPTY_DEFAULT_SUBJECT = {
         subject_id: '',
         subject_name: '',
+        subject_full_name: '',
         subject_rates: [],
         assigned_tutors: [],
+        grant_access_classes: [],
         grades: {},
+        overview: {
+            topics: '',
+            labs: '',
+            exam: '',
+        },
         lectures: {
             lecture_01: {
                 is_public: false,
@@ -161,13 +168,21 @@ describe('Subject reducer', () => {
             payload: {
                 subjectId: '1a2b3c4d5e',
                 subject_name: 'PSIT4',
+                subject_full_name: 'Projektschiene 4',
                 assigned_tutors: ['Tutor1', 'Tutor2'],
+                grant_access_classes: [],
+                overview: {
+                    topics: '',
+                    labs: '',
+                    exam: '',
+                },
             },
         };
 
         updatedSubjectState.isSubmitted = true;
         updatedSubjectState.currentSubject.subject_id = actionCreate.payload.subjectId;
         updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name;
+        updatedSubjectState.currentSubject.subject_full_name = actionCreate.payload.subject_full_name;
         updatedSubjectState.currentSubject.assigned_tutors = actionCreate.payload.assigned_tutors;
         delete updatedSubjectState.currentSubject.averageRating;
 
@@ -180,13 +195,21 @@ describe('Subject reducer', () => {
             payload: {
                 subjectId: '1a2b3c4d5e',
                 subject_name: 'subject%20name%20with%20space',
+                subject_full_name: 'Subject name with space',
                 assigned_tutors: ['Tutor1', 'Tutor2'],
+                grant_access_classes: [],
+                overview: {
+                    topics: '',
+                    labs: '',
+                    exam: '',
+                },
             },
         };
 
         updatedSubjectState.isSubmitted = true;
         updatedSubjectState.currentSubject.subject_id = actionCreate.payload.subjectId;
         updatedSubjectState.currentSubject.subject_name = actionCreate.payload.subject_name.replace(/%20/g, ' ');
+        updatedSubjectState.currentSubject.subject_full_name = actionCreate.payload.subject_full_name.replace(/%20/g, ' ');
         updatedSubjectState.currentSubject.assigned_tutors = actionCreate.payload.assigned_tutors;
         delete updatedSubjectState.currentSubject.averageRating;
 

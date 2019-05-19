@@ -18,12 +18,15 @@ class UploadComponent extends Component {
     };
 
     handleUploadStart = (obj1, obj2) => {
+        const filename = obj1.name;
+
         this.setState({
             isUploading: true,
             progress: 0,
+            filename: filename,
         });
 
-        obj2.metadata_.customMetadata.originalName = obj1.name;
+        obj2.metadata_.customMetadata.originalName = filename;
     };
 
     handleUploadError = (error) => {
@@ -54,7 +57,7 @@ class UploadComponent extends Component {
     handleProgress = (progress) => this.setState({ progress });
 
     render() {
-        const { isUploading, progress, errorOccurred } = this.state;
+        const { isUploading, progress, errorOccurred, error } = this.state;
         const { buttonLabel, fileType, subject, lectureId } = this.props;
 
         const acceptedFileTypes = this.getAcceptedFileType();
@@ -97,7 +100,7 @@ class UploadComponent extends Component {
                       </label>
                   ) }
 
-                { errorOccurred ? 'Error happened' : '' }
+                { errorOccurred && error }
             </div>
         );
     }

@@ -46,7 +46,7 @@ exports.metadata = functions.storage.object().onFinalize(async (object: ObjectMe
     const attachmentNumber = Object.keys(lectures[lectureName][attachmentSection]).length;
 
     const attachmentName = attachmentSection + '_' + ('0' + attachmentNumber).slice(-2);
-    const published = !(metadataFromFile.metadata.type === 'E');
+    const published = metadataFromFile.metadata.type !== 'E';
     const newAttachment = {
         [attachmentName]: {
             name: metadataFromFile.metadata.originalName,
@@ -75,6 +75,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
     if (
         typeof data === 'undefined' ||
         typeof data.subject_name === 'undefined' ||
+        typeof data.subject_full_name === 'undefined' ||
         typeof data.assigned_tutors === 'undefined' ||
         !Array.isArray(data.assigned_tutors) ||
         data.assigned_tutors.length === 0
@@ -89,7 +90,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
 
     const lectures = {};
     for (let i = 1; i <= 14; i++) {
-        let lectureName = 'lecture_' + ('0' + i).slice(-2);
+        const lectureName = 'lecture_' + ('0' + i).slice(-2);
         Object.assign(lectures, {
             [lectureName]: {
                 is_public: false,
@@ -102,9 +103,16 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
         });
     }
 
-    const savable = {
+    const saveable = {
         subject_name: data.subject_name,
+        subject_full_name: data.subject_full_name,
         assigned_tutors: data.assigned_tutors,
+        grant_access_classes: [],
+        overview: {
+            topics: '',
+            labs: '',
+            exam: '',
+        },
         lectures,
         grades,
         subject_rates: {},
@@ -113,7 +121,7 @@ exports.addSubject = functions.https.onCall((data: any, context: CallableContext
     return admin
         .firestore()
         .collection('subjects')
-        .add(savable)
+        .add(saveable)
         .then((docRef: any) => {
             return { subjectId: docRef.id };
         })

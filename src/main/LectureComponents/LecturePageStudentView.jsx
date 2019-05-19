@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Grid, Segment, Menu, Dropdown } from 'semantic-ui-react';
+import RatingComponent from '../RatingComponent/RatingComponent';
+import OverviewContent from './OverviewContent';
 import LectureBodyContent from './LectureBodyContent';
 import { LaMaSColours } from '../../utils/colourPalettes';
 import '../pages/LecturePage.css';
-import RatingComponent from '../RatingComponent/RatingComponent';
 
 
 class LecturePageStudentView extends Component {
@@ -31,10 +32,12 @@ class LecturePageStudentView extends Component {
         const { breadcrumbComponent } = this.props;
 
         return (
-            <Segment>
+            <Segment id="top-segment">
                 <Grid columns={ 2 }>
-                    <Grid.Column floated="left" width={ 4 } verticalAlign={ 'middle' }>
+                    <Grid.Column floated="left" width={ 1 } verticalAlign={ 'middle' }>
                         { this.renderRatingComponent() }
+                    </Grid.Column>
+                    <Grid.Column floated="left" width={ 3 } verticalAlign={ 'middle' }>
                         { breadcrumbComponent() }
                     </Grid.Column>
                     <Grid.Column floated="right" width={ 3 }>
@@ -48,11 +51,20 @@ class LecturePageStudentView extends Component {
     };
 
     renderLecturesMenu = () => {
-        const { t, subject, lectureId, handleLectureMenuClick } = this.props;
+        const { t, subject, lectureId, handleOverviewMenuClick, handleLectureMenuClick } = this.props;
         const { lectures } = subject;
 
         return (
             <Menu fluid vertical tabular>
+                <Menu.Item
+                    color={ LaMaSColours['public-lecture-active-student'] }
+                    className={ 'public-lecture-student' }
+                    name={ t('baseLayout.overview') }
+                    id={ 0 }
+                    key={ 0 }
+                    active={ lectureId === "0" }
+                    onClick={ handleOverviewMenuClick }
+                />
                 { Object.keys(lectures).map((index, key) => {
                     const is_public = lectures[index].is_public;
                     return is_public ? (
@@ -87,9 +99,48 @@ class LecturePageStudentView extends Component {
         );
     };
 
+    renderOverviewContent = () => {
+        const { t, subject, subject_full_name, subject_id, lectureId } = this.props;
+
+        return (
+            <Grid.Column width={ 10 }>
+                <OverviewContent
+                    key={ subject_id + '-' + lectureId }
+                    t={ t }
+                    subject_full_name={ subject_full_name }
+                    overview={ subject.overview }
+                />
+            </Grid.Column>
+        );
+    };
+
+    renderLectureContent = () => {
+        const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl, onSelectFileClick, onSelectVideoClick, showVideo, comments } = this.props;
+
+        return (
+            <Grid.Column width={ 10 }>
+                <LectureBodyContent
+                    isStudent={ true }
+                    key={ subject_id + '-' + lectureId }
+                    t={ t }
+                    lectureId={ lectureId }
+                    subject={ subject }
+                    lecture={ lecture }
+                    lectureTitle={ lectureTitle }
+                    onSelectVideoClick={ onSelectVideoClick }
+                    onSelectFileClick={ onSelectFileClick }
+                    nameOnStorage={ nameOnStorage }
+                    videoUrl={ videoUrl }
+                    showVideo={ showVideo }
+                    comments={ comments }
+                    onCommentSubmit={ this.props.onCommentSubmit }
+                />
+            </Grid.Column>
+        );
+    };
+
     render() {
-        const { t, subject, subject_id, lecture, lectureId, lectureTitle, nameOnStorage, videoUrl } = this.props;
-        const { onSelectFileClick, onSelectVideoClick, showVideo, comments } = this.props;
+        const { lectureId } = this.props;
 
         return (
             <>
@@ -97,25 +148,8 @@ class LecturePageStudentView extends Component {
 
                 <Grid columns={ 3 }>
                     <Grid.Column width={ 3 }>{ this.renderLecturesMenu() }</Grid.Column>
-
-                    <Grid.Column width={ 10 }>
-                        <LectureBodyContent
-                            isStudent={ true }
-                            key={ subject_id + '-' + lectureId }
-                            t={ t }
-                            lectureId={ lectureId }
-                            subject={ subject }
-                            lecture={ lecture }
-                            lectureTitle={ lectureTitle }
-                            onSelectVideoClick={ onSelectVideoClick }
-                            onSelectFileClick={ onSelectFileClick }
-                            nameOnStorage={ nameOnStorage }
-                            videoUrl={ videoUrl }
-                            showVideo={ showVideo }
-                            comments={ comments }
-                            saveComment={ this.props.saveComment }
-                        />
-                    </Grid.Column>
+                    { lectureId === "0" && this.renderOverviewContent() }
+                    { lectureId !== "0" && this.renderLectureContent() }
                 </Grid>
             </>
         );
