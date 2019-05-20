@@ -162,6 +162,16 @@ describe('Subject reducer', () => {
         expect(subjectReducer(undefined, {})).toEqual(initialState);
     });
 
+    it('on LOADING_SUBJECT, should update subject state', () => {
+        const actionCreate = {
+            type: Actions.LOADING_SUBJECT,
+        };
+
+        updatedSubjectState.isLoadingSubject = true;
+
+        expect(subjectReducer(undefined, actionCreate)).toEqual(updatedSubjectState);
+    });
+
     it('on CREATE_SUBJECT_SUCCESS, should update subject state', () => {
         const actionCreate = {
             type: Actions.CREATE_SUBJECT_SUCCESS,

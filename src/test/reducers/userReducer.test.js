@@ -50,6 +50,19 @@ describe('User reducer', () => {
         expect(userReducer(undefined, action)).toEqual(updatedState);
     });
 
+    it('should authenticate user, without email', () => {
+        const userCredentials = { user: { email: '' }, username: '-' };
+        const action = {
+            type: Actions.USER_AUTHENTICATED,
+            payload: userCredentials,
+        };
+        updatedState.isAuthenticated = true;
+        updatedState.isLoadingUser = false;
+        updatedState.userCredentials = userCredentials;
+
+        expect(userReducer(undefined, action)).toEqual(updatedState);
+    });
+
     describe('on login success, should update', () => {
         let action;
         let authenticatedUserState;
@@ -69,6 +82,28 @@ describe('User reducer', () => {
                 userAccessedPathname: '',
                 userCredentials: action.payload.userCredentials,
             };
+        });
+
+        it('STUDENT user state, without email', () => {
+            action = {
+                type: Actions.LOG_IN_SUCCESS,
+                payload: {
+                    userCredentials: { email: '', username: '-' },
+                    roles: ['STUDENT'],
+                },
+            };
+
+            authenticatedUserState = {
+                isAuthenticated: true,
+                isLoadingUser: false,
+                userAccessedPathname: '',
+                userCredentials: action.payload.userCredentials,
+            };
+            authenticatedUserState.roles = action.payload.roles;
+            authenticatedUserState.isAdmin = false;
+            authenticatedUserState.isStudent = true;
+
+            expect(userReducer(undefined, action)).toEqual(authenticatedUserState);
         });
 
         it('STUDENT user state', () => {
