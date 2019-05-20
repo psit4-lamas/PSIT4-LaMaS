@@ -18,6 +18,12 @@ describe('Top menu', () => {
             div = document.createElement('div');
             props = {
                 t: (key) => key,
+                user: {
+                    roles: ['TUTOR'],
+                    userCredentials: {
+                        username: 'tutor1',
+                    },
+                },
                 isAdmin: false,
                 changeLanguage: (lang) => lang,
                 tabs: {
@@ -105,6 +111,13 @@ describe('Top menu', () => {
             expect(menuItems[2].props.name).toEqual('12345/KI2');
             expect(menuItems[3].children[0].props.children).toEqual('PSIT4');
             expect(menuItems[3].props.name).toEqual('23456/PSIT4');
+            expect(menuItems[4].children[0].props.children[0].props.as).toEqual("i");
+            expect(menuItems[4].children[0].props.children[0].props.color).toEqual("pink");
+            expect(menuItems[4].children[0].props.children[0].props.name).toEqual("user");
+            expect(menuItems[4].children[0].props.children[0].props.inverted).toBeTruthy();
+            expect(menuItems[4].children[0].props.children[0].props.circular).toBeTruthy();
+            expect(menuItems[4].children[0].props.children[1]).toEqual('  ');
+            expect(menuItems[4].children[0].props.children[2]).toEqual('tutor1');
         });
     });
 
@@ -116,6 +129,12 @@ describe('Top menu', () => {
                 t: (key) => key,
                 changeLanguage: (lang) => lang,
                 isAdmin: true,
+                user: {
+                    roles: ['ADMIN'],
+                    userCredentials: {
+                        username: 'admin1',
+                    },
+                },
                 tabs: {
                     isLoadingTabs: false,
                     activeTabs: [
@@ -154,6 +173,13 @@ describe('Top menu', () => {
             expect(menuItems[3].props.name).toEqual('12345/KI2');
             expect(menuItems[4].children[0].props.children).toEqual('PSIT4');
             expect(menuItems[4].props.name).toEqual('23456/PSIT4');
+            expect(menuItems[5].children[0].props.children[0].props.as).toEqual("i");
+            expect(menuItems[5].children[0].props.children[0].props.color).toEqual("pink");
+            expect(menuItems[5].children[0].props.children[0].props.name).toEqual("user");
+            expect(menuItems[5].children[0].props.children[0].props.inverted).toBeTruthy();
+            expect(menuItems[5].children[0].props.children[0].props.circular).toBeTruthy();
+            expect(menuItems[5].children[0].props.children[1]).toEqual('  ');
+            expect(menuItems[5].children[0].props.children[2]).toEqual('admin1');
         });
     });
 });
