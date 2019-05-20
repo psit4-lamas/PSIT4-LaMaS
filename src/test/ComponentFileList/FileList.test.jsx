@@ -19,6 +19,7 @@ describe('FileList', () => {
     let onSelectFile;
 
     const propsVideos = {
+        isStudent: false,
         type: 'V',
         editMode: false,
         t: (key) => key,
@@ -37,6 +38,7 @@ describe('FileList', () => {
     };
 
     const propsLectureMaterials = {
+        isStudent: false,
         type: 'L',
         editMode: false,
         t: (key) => key,
@@ -55,6 +57,7 @@ describe('FileList', () => {
     };
 
     const propsExercises = {
+        isStudent: false,
         type: 'E',
         editMode: false,
         t: (key) => key,
@@ -74,7 +77,29 @@ describe('FileList', () => {
         },
     };
 
+    const propsExercisesStudent = {
+        isStudent: true,
+        type: 'E',
+        editMode: false,
+        t: (key) => key,
+        lecture: {
+            exercises: {
+                exercises_01: {
+                    nameOnStorage: 'files/11195222-367b-4c21-b395-0bcbae435d2f.mox',
+                    name: 'modell3333.css',
+                    is_public: false
+                },
+                exercises_02: {
+                    nameOnStorage: 'files/22295111-367b-4c21-b395-0eeee435d2f.mox',
+                    name: 'modell23322.css',
+                    is_public: false
+                },
+            },
+        },
+    };
+
     const propsEmpty = {
+        isStudent: false,
         type: 'E',
         editMode: false,
         t: (key) => key,
@@ -82,6 +107,7 @@ describe('FileList', () => {
     };
 
     const propsEmptyAndDelete = {
+        isStudent: false,
         type: 'E',
         isDeleteImplemented: true,
         editMode: false,
@@ -90,6 +116,7 @@ describe('FileList', () => {
     };
 
     const propsWithDelete = {
+        isStudent: false,
         type: 'E',
         editMode: false,
         t: (key) => key,
@@ -177,6 +204,14 @@ describe('FileList', () => {
 
     it('should render correctly exercises', () => {
         const component = <FileList { ...propsExercises } onSelectFile={ onSelectFile }/>;
+
+        fileListComponent = shallow(component);
+
+        expect(fileListComponent).toMatchSnapshot();
+    });
+
+    it('should render correctly exercises for student view', () => {
+        const component = <FileList { ...propsExercisesStudent } onSelectFile={ onSelectFile }/>;
 
         fileListComponent = shallow(component);
 

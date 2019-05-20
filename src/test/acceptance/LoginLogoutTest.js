@@ -1,3 +1,4 @@
+/* requires setup of account dummy1@students.zhaw.ch in firebase */
 /* istanbul ignore next */
 module.exports = {
     // TODO: set application address using a global placeholder
@@ -20,9 +21,8 @@ module.exports = {
             .setValue('input[name=password]', 'someone')
             .click('button[type=submit]')
             .pause(10000)
-            // TODO: define Login Error Flow
-            // assume Login was correct if topMenu Logout Button is not present
-            .verify.elementNotPresent('#top-menu-logout')
+            // assume behavior was correct if user not found
+            .verify.elementPresent('#user-not-found')
             .end();
     },
 

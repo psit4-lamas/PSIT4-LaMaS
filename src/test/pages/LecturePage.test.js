@@ -293,9 +293,13 @@ describe('LecturePage', () => {
         const component = <LecturePage t={ (key) => key } { ...propsNotStudent } />;
 
         renderedComponent = shallow(component);
-        renderedComponent.find(LecturePageTutorView).prop('breadcrumbComponent')();
+        const breadcrumb = renderedComponent.find(LecturePageTutorView).prop('breadcrumbComponent')();
 
         expect(renderedComponent).toMatchSnapshot();
+        expect(renderedComponent.state('lectureID')).toEqual('0');
+        expect(breadcrumb.props.children[0].props.children).toEqual('Home');
+        expect(breadcrumb.props.children[2].props.children).toEqual('MQMO');
+        expect(breadcrumb.props.children[4].props.children).toEqual('baseLayout.overview');
     });
 
     it('should handle lecture menu click correctly', () => {
@@ -315,6 +319,11 @@ describe('LecturePage', () => {
         expect(renderedComponent.state('videoUrl')).toEqual('');
         expect(renderedComponent.state('nameOnStorage')).toEqual('');
         expect(propsNotStudent.selectLecture).toHaveBeenCalledWith('lecture_02');
+
+        const breadcrumb = renderedComponent.find(LecturePageTutorView).prop('breadcrumbComponent')();
+        expect(breadcrumb.props.children[0].props.children).toEqual('Home');
+        expect(breadcrumb.props.children[2].props.children).toEqual('MQMO');
+        expect(breadcrumb.props.children[4].props.children).toEqual('baseLayout.lecture' + '2');
     });
 
     it('should handle click on file correctly from tutorView', () => {

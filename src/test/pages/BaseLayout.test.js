@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { BaseLayout } from '../../main/pages/BaseLayout';
+import { LecturePage } from '../../main/pages/LecturePage';
 
 
 describe('BaseLayout', () => {
@@ -41,6 +42,21 @@ describe('BaseLayout', () => {
         renderedComponent = shallow(component);
 
         expect(renderedComponent).toMatchSnapshot();
+        expect(renderedComponent.find(<LecturePage/>).get(0)).toBeFalsy();
+    });
+
+    it('should match snapshot rendering LecturePage', () => {
+        const matchSubject = {
+            params: {
+                subject_id: '012345',
+                subject: 'PSIT4',
+            },
+        };
+        const component = <BaseLayout t={ (key) => key } user={ userReady } match={ matchSubject }/>;
+        renderedComponent = shallow(component);
+
+        expect(renderedComponent).toMatchSnapshot();
+        expect(renderedComponent.find(<LecturePage/>)).toBeTruthy();
     });
 
     it('handles change of language correctly', () => {
@@ -50,5 +66,6 @@ describe('BaseLayout', () => {
         renderedComponent.instance().changeLanguage('de');
 
         expect(renderedComponent).toMatchSnapshot();
+        expect(renderedComponent.find(<LecturePage/>).get(0)).toBeFalsy();
     });
 });
