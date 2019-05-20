@@ -763,4 +763,12 @@ describe('LecturePagTutorView', () => {
 
         expect(propsEditMode.saveSubject).toHaveBeenCalledWith(updatedSubject);
     });
+
+    it('sets publish lecture state correctly', () => {
+        const component = <LecturePageTutorView { ...propsEditMode } />;
+
+        lecturePageTutorViewComponent = shallow(component);
+        lecturePageTutorViewComponent.instance().onLecturePublishChange(null, { checked: true });
+        expect(lecturePageTutorViewComponent.state('updatedLecture')).toBeTruthy();
+    });
 });
