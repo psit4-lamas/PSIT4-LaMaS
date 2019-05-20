@@ -764,6 +764,28 @@ describe('LecturePagTutorView', () => {
         expect(propsEditMode.saveSubject).toHaveBeenCalledWith(updatedSubject);
     });
 
+    it('handles saving publish lecture correctly', () => {
+        const component = <LecturePageTutorView { ...propsEditMode } />;
+        const data = { value: false };
+
+        lecturePageTutorViewComponent = shallow(component);
+        lecturePageTutorViewComponent.instance().handlePublishLecture(null, data);
+        const updatedSubject = Object.assign({}, propsEditMode.subject);
+        updatedSubject.lectures['lecture_01'].is_public = !data.value;
+        expect(propsEditMode.saveSubject).toHaveBeenCalledWith(updatedSubject);
+    });
+
+    it('handles saving unpublish lecture correctly', () => {
+        const component = <LecturePageTutorView { ...propsEditMode } />;
+        const data = { value: true };
+
+        lecturePageTutorViewComponent = shallow(component);
+        lecturePageTutorViewComponent.instance().handlePublishLecture(null, data);
+        const updatedSubject = Object.assign({}, propsEditMode.subject);
+        updatedSubject.lectures['lecture_01'].is_public = !data.value;
+        expect(propsEditMode.saveSubject).toHaveBeenCalledWith(updatedSubject);
+    });
+
     it('sets publish lecture state correctly', () => {
         const component = <LecturePageTutorView { ...propsEditMode } />;
 
